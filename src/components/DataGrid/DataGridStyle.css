@@ -1,0 +1,229 @@
+.datagrid-component {
+  font-size: 14px;
+}
+.datagrid-component .grid-height {
+  min-height: 400px;
+}
+.datagrid-component .datetime-input {
+  border: none;
+}
+.datagrid-component .form-select:focus {
+  box-shadow: none;
+}
+.datagrid-component .form-control,
+.datagrid-component .btn {
+  box-shadow: none;
+  /* Remove the box shadow */
+}
+.datagrid-component .tbody-img {
+  display: inline;
+  width: 35px;
+  /* max-width: 100%; */
+  height: 35px;
+  border-radius: 50%;
+}
+.datagrid-component .table-datagrid tr {
+  border-color: whitesmoke;
+}
+.datagrid-component .table-datagrid thead tr th {
+  border-color: #A1E2D9 !important;
+}
+.datagrid-component hr {
+  color: #A1E2D9;
+}
+.datagrid-component .pagination-component .paging {
+  padding-top: 10px;
+}
+.datagrid-component .pagination-component .paging .text-item {
+  font-size: 11px;
+}
+.datagrid-component .pagination-component .paging .page-link {
+  border: none;
+}
+.datagrid-component .pagination-component .paging .flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.datagrid-component .pagination-component .paging .flex-right {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+.datagrid-component .pagination-component .paging .flex-left {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+.datagrid-component .form-control {
+  font-size: 14px;
+}
+.datagrid-component .flex-right {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+.datagrid-component .flex-left {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+.datagrid-component .select-component {
+  padding: 10px 10px;
+}
+.datagrid-component .select-component .form-select {
+  max-width: 90%;
+  display: inline;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 0px 10px;
+}
+.datagrid-component .search-component {
+  padding: 10px 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.datagrid-component .search-component .btn-search {
+  border: 1px solid #eee;
+}
+.datagrid-component .search-component .btn-search i {
+  color: #A1E2D9;
+}
+.datagrid-component .search-component .btn-search i:hover {
+  color: green;
+}
+.datagrid-component .search-component .header-search .btn-outline-success {
+  background-color: whitesmoke;
+  max-width: 100px;
+}
+.datagrid-component .search-component .btn-outline-success {
+  background-color: whitesmoke;
+  max-width: 100px;
+}
+.datagrid-component .search-component .flex-right {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+.datagrid-component .search-component .flex-left {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+.datagrid-component .select-pagination {
+  margin-right: 15px;
+}
+.datagrid-component table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: -moz-max-content;
+  width: max-content;
+  border: 1px solid #ddd;
+  min-width: 100%;
+  overflow: scroll;
+  border: none;
+}
+.datagrid-component .div-table-responsive {
+  overflow-x: auto;
+  overflow-y: auto;
+}
+.datagrid-component td {
+  padding: 7px !important;
+}
+.datagrid-component th,
+.datagrid-component td {
+  position: relative;
+}
+.datagrid-component tbody td i {
+  padding-left: 10px;
+}
+.datagrid-component a {
+  text-decoration: none;
+  color: inherit;
+}
+.datagrid-component .sort-i {
+  float: right;
+}
+.datagrid-component .calendar-close {
+  position: absolute;
+  top: 13px;
+  right: 70%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 11px;
+}
+.datagrid-component .tr-thead {
+  left: 0px;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+.datagrid-component .tr-thead {
+  position: relative;
+}
+.datagrid-component .tr-thead input {
+  width: 80%;
+  padding: 5px !important;
+  height: 25px;
+  font-size: 12px !important;
+}
+.datagrid-component .header-column-resize {
+  content: "";
+  width: 0px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: transparent;
+  border: 3px solid;
+}
+.datagrid-component .header-column-resize:hover {
+  color: slategray;
+  cursor: ew-resize;
+}
+.datagrid-component .header-column-resize:active {
+  color: slategray;
+  cursor: ew-resize;
+  height: 100vh;
+  z-index: 300;
+}
+.datagrid-component .tr-theadCopy {
+  padding: 7px 0px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 7px;
+  border: 1px solid gray;
+}
+.datagrid-component .tr-theadCopy:hover {
+  position: absolute;
+  top: 0;
+  cursor: all-scroll;
+  z-index: 300;
+}
+.datagrid-component .tr-theadCopy:active {
+  position: absolute;
+  top: 0;
+  cursor: all-scroll;
+  z-index: 300;
+}
+.datagrid-component .fa {
+  padding: 0 5px;
+}
+.datagrid-component .parentforresize {
+  position: relative;
+}
+.datagrid-component .intoTable {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.datagrid-component .plus-Grid {
+  border: 1px solid whitesmoke;
+  padding: 10px;
+  margin: 0 5px;
+  border-radius: 5px;
+}/*# sourceMappingURL=DataGridStyle.css.map */

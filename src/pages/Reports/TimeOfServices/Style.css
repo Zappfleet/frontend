@@ -1,0 +1,64 @@
+.report-component {
+  font-size: 14px;
+}
+.report-component .form-select:focus {
+  box-shadow: none;
+}
+.report-component .form-control,
+.report-component .btn {
+  box-shadow: none;
+  /* Remove the box shadow */
+}
+.report-component .datetime-input {
+  font-size: 14px;
+}
+.report-component .datagrid {
+  background-color: white;
+  padding: 15px;
+}
+.report-component .filter-items {
+  padding: 15px 0px;
+}
+.report-component .filter-items input {
+  margin-top: 5px;
+}
+.report-component .filter-items .btn-search {
+  width: 100%;
+  margin-top: 5px;
+  border: 1px solid #eee;
+  color: gray;
+  font-size: 14px;
+}
+.report-component .filter-items .btn-search i {
+  color: gray;
+}
+.report-component .filter-items .btn-search:hover {
+  color: #A1E2D9;
+}
+.report-component .filter-items .btn-search:hover i {
+  color: #A1E2D9;
+}
+.report-component .page-title {
+  color: black;
+  margin-bottom: 30px;
+  letter-spacing: -1px;
+  margin-top: 20px;
+  margin-right: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  width: -moz-fit-content;
+  width: fit-content;
+  position: relative;
+}
+.report-component .page-title i::before {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  /* Adjust this value to control the distance between the text and the line */
+  left: 0;
+  width: 100%;
+  height: 1px;
+  /* Adjust this value to control the thickness of the line */
+  background-color: #A1E2D9;
+  /* Adjust this value to change the color of the line */
+}/*# sourceMappingURL=Style.css.map */

@@ -1,0 +1,132 @@
+.inactive-page {
+  background-color: white;
+  padding: 10px;
+  padding-right: 30px;
+  /* CSS for tick and dash icons */
+}
+.inactive-page .right {
+  padding-left: 20px;
+}
+.inactive-page .listofitems:hover {
+  background-color: whitesmoke;
+}
+.inactive-page .listofitems {
+  position: relative;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.inactive-page .listofitems i:hover {
+  color: blue;
+  cursor: pointer;
+}
+.inactive-page .listofitems .i1 {
+  position: absolute;
+  left: 60px;
+}
+.inactive-page .listofitems .i2 {
+  position: absolute;
+  left: 30px;
+}
+.inactive-page .tree {
+  margin-top: 30px;
+}
+.inactive-page .tree-node {
+  margin-left: 20px;
+}
+.inactive-page .tree-node-label {
+  display: flex;
+  align-items: center;
+}
+.inactive-page .tree-node-toggle {
+  position: absolute;
+  right: -20px;
+  margin-left: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+}
+.inactive-page .tree-node-checkbox {
+  margin-left: 5px;
+}
+.inactive-page .tree-node-children {
+  margin-right: 20px;
+  padding-right: 15px;
+}
+.inactive-page .checkbox-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.inactive-page .checkbox-icon-check {
+  display: none;
+  /* Initially hide */
+}
+.inactive-page .checkbox-icon-minus {
+  display: none;
+  /* Initially hide */
+}
+.inactive-page .tree-node {
+  margin-left: 20px;
+}
+.inactive-page .tree-node-label {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.inactive-page .tree-node-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  margin-right: 5px;
+}
+.inactive-page .checkbox-container {
+  position: relative;
+  display: inline-block;
+}
+.inactive-page .tree-node-checkbox {
+  position: relative;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+}
+.inactive-page .tree-node-checkbox:checked {
+  background-color: #2196f3;
+}
+.inactive-page .tree-node-checkbox.indeterminate {
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+.inactive-page .tree-node-checkbox.indeterminate::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 2px;
+  background-color: #2196f3;
+  transform: translate(-50%, -50%);
+}
+.inactive-page .checkmark {
+  display: none;
+}
+.inactive-page .tree-node-checkbox:checked::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: translate(-50%, -50%) rotate(45deg);
+}/*# sourceMappingURL=InActiveStyle.css.map */

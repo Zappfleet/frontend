@@ -1,0 +1,355 @@
+import { useEffect, useRef, useState } from 'react';
+import MapContainer, { MapRefType } from '../../widgets/map/MapContainer';
+import LoaderButton from '../../components/LoaderButton';
+
+import MarkerRed from '../../images/map/marker-red.png';
+import BottomSheetModal from '../../components/BottomSheetModal';
+
+import { RiArrowUpDoubleFill } from 'react-icons/ri';
+import TripMissionDetails from './TripMissionDetails';
+import LocationSearch from '../../widgets/LocationSearch';
+import { BsPin, BsX } from 'react-icons/bs';
+import { SmallLoader } from '../../common/Loader';
+import classNames from 'classnames';
+import useNeshanApi from '../../hooks/data/useNeshanApi';
+import { MAP_COLOR_PRIMARY, NONE_KEY } from '../../lib/constants';
+import { BiCheck, BiCheckCircle } from 'react-icons/bi';
+import useAuthentication from '../../hooks/data/useAuthentication';
+import { ModularInput } from '../../components/ModularInput';
+import { readFormInputs } from '../../lib/form';
+import useVehicleBasicData from '../../hooks/data/useVehicleBasicData';
+import { serviceUnits } from '../../lib/string';
+import { getApiClient } from '../../apis/client';
+import { NotificationController } from '../../lib/notificationController';
+import renderUi from '../../lib/renderUi';
+import ModularForm from '../../widgets/ModularForm';
+
+export const MODE_USER_ONLY = 'user-only';
+export const MODE_ADMIN_ONLY = 'admin-only';
+
+const PassengerServiceRequest = (props: any = {}) => {
+  const { mode: componentMode = MODE_USER_ONLY } = props;
+  const internalState = useState<any>(props.initialValues || {});
+  const internalUserInput = useState<any>({
+    locations: [],
+  });
+
+  const [formState, setFormState] =
+    props?.externalState != null ? props.externalState : internalState;
+  const [userInput, setUserInput] =
+    props?.externalUserInput != null
+      ? props.externalUserInput
+      : internalUserInput;
+
+  const { searchState, reverseGeocoding } = useNeshanApi();
+
+  const { data: vehicleData }: any = useVehicleBasicData({
+    include_inactive: false,
+  });
+
+  const { authInfo } = useAuthentication();
+
+  const mapRef = useRef<MapRefType>();
+  const bottomSheet = useRef<any>();
+
+  const mapLayers = useRef<any>({
+    polyline: null,
+  });
+
+  const [uiState, setUiState] = useState<any>({
+    readyForSubmit: false,
+  });
+
+  useEffect(() => {
+    updateInbetweenLines(userInput.locations);
+  }, [userInput]);
+
+  useEffect(() => {
+    if (props.initialLocations == null) return;
+    const locations = props.initialLocations.map(
+      ({ address, lat, lng }: any) => {
+        return {
+          address,
+          lat,
+          lng,
+          marker: mapRef.current?.addMarker(lng, lat, true),
+        };
+      }
+    );
+    setUserInput({ ...userInput, locations });
+    setUiState({
+      ...uiState,
+      readyForSubmit: locations.length > 1,
+    });
+  }, []);
+
+  const updateInbetweenLines = (newLocations: any) => {
+    if (searchState.inProgress || mapRef.current == null) return;
+
+    if (mapLayers.current.polyline != null) {
+      mapRef.current.remove(mapLayers.current.polyline.polyline);
+      mapLayers.current.polyline = null;
+    }
+    if ((newLocations || userInput.locations).length > 1) {
+      const addPolylineResult = mapRef.current.addPolyline(
+        (newLocations || userInput.locations).map((m: any) => {
+          return [m.lng, m.lat];
+        }),
+        true,
+        MAP_COLOR_PRIMARY
+      );
+      if (addPolylineResult == null) return;
+
+      mapLayers.current.polyline = addPolylineResult;
+    }
+
+    setUiState({
+      ...uiState,
+      readyForSubmit: newLocations.length > 1,
+    });
+  };
+
+  const handle_clickPin = () => {
+    if (searchState.inProgress || mapRef.current == null) return;
+
+    const addMarkerResult = mapRef.current.addMarkerToCenter();
+    if (addMarkerResult == null) return;
+
+    const [lng, lat] = addMarkerResult.coordinates;
+    reverseGeocoding(lat, lng)
+      .then((result) => {
+        setUserInput({
+          ...userInput,
+          locations: [
+            {
+              address: result.formatted_address,
+              lng,
+              lat,
+              marker: addMarkerResult.marker,
+            },
+            ...userInput.locations,
+          ],
+        });
+      })
+      .catch((e) => {
+        mapRef.current?.remove(addMarkerResult.marker);
+      });
+  };
+
+  const handle_deleteLocation = (index: number) => {
+    const itemToRemove = userInput.locations[index];
+    mapRef.current?.remove(itemToRemove.marker);
+
+    userInput.locations.splice(index, 1);
+    const newLocations = [...userInput.locations];
+    setUserInput({
+      ...userInput,
+      locations: newLocations,
+    });
+  };
+
+  const onBottomSheetCreate = (ui: any) => {
+    bottomSheet.current = ui;
+  };
+
+  const handle_showBottomSheet = () => {
+    bottomSheet.current.show();
+  };
+  const handle_hideBottomSheet = () => {
+    bottomSheet.current.hide();
+  };
+
+  const clearMapMarkers = () => {
+    userInput.locations.map(({ marker }: any) => {
+      mapRef.current?.remove(marker);
+    });
+    setUserInput({
+      ...userInput,
+      locations: [],
+    });
+    updateInbetweenLines([]);
+  };
+
+  const handle_submitRequest = (e: any) => {
+    e.preventDefault();
+
+    const body = buildRequestBody(formState, userInput);
+
+    if (props.overrideOnSubmit != null) {
+      props.overrideOnSubmit(body, formState._id);
+      handle_hideBottomSheet();
+      return;
+    }
+
+    const method = formState._id == null ? 'submitRequest' : 'updateRequest';
+    getApiClient()
+      [method](body, formState._id)
+      .then(({ data }) => {
+        NotificationController.showSuccess('اطلاعات با موفقیت ذخیره شد');
+        setFormState({});
+        clearMapMarkers();
+        handle_hideBottomSheet();
+        if (props.submitCallback != null) props.submitCallback(data);
+      })
+      .catch((e) => {
+        NotificationController.showError(e.message);
+      });
+  };
+
+  const handle_onInputChanged = (e: any) => {
+    setFormState({ ...formState, [e.target.name]: e.target.value });
+  };
+
+  return (
+    <div
+      className={classNames(
+        'absolute bottom-0 left-0 right-0 top-18',
+        props.className
+      )}
+    >
+      <MapContainer mapRef={mapRef as { current: MapRefType }} />
+
+      <img
+        className="absolute bottom-2/4 left-2/4 z-999999 w-8 -translate-x-2/4"
+        src={MarkerRed}
+      />
+
+      <LocationSearch
+        mapRef={mapRef}
+        className="absolute left-0 right-0 top-0 z-999999 m-2 flex "
+      />
+
+      <div className="absolute bottom-0 right-0 z-999999 p-1">
+        {userInput.locations.map((item: any, index: number) => {
+          return (
+            <div>
+              <span
+                key={`${item.lat}${item.lng}`}
+                className="relative mx-2 my-1 inline-block rounded-2xl bg-white py-2 pl-4 text-xs text-black shadow"
+              >
+                <BsX
+                  onClick={() => handle_deleteLocation(index)}
+                  size={20}
+                  className={
+                    'absolute -right-3 top-1/2 flex h-7 w-7 -translate-y-1/2 cursor-pointer rounded-full bg-danger text-white '
+                  }
+                />
+                <span className="inline-block pr-6">{item.address}</span>
+              </span>
+            </div>
+          );
+        })}
+
+        <span className="flex">
+          <button
+            onClick={handle_clickPin}
+            className="m-2 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-primary p-3 text-primary text-white shadow active:saturate-50"
+          >
+            <BsPin
+              className={classNames('absolute p-0.5 text-white duration-200', {
+                'scale-0': searchState.inProgress,
+                'scale-100': !searchState.inProgress,
+              })}
+              size={30}
+            />
+            <SmallLoader
+              className={classNames('absolute duration-200', {
+                'scale-0': !searchState.inProgress,
+                'scale-100': searchState.inProgress,
+              })}
+              color={'white'}
+            />
+          </button>
+
+          <button
+            onClick={handle_showBottomSheet}
+            className={classNames(
+              'm-2 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-success p-3 text-primary text-white shadow duration-300 active:saturate-50',
+              {
+                'scale-100': uiState.readyForSubmit,
+                'scale-0': !uiState.readyForSubmit,
+              }
+            )}
+          >
+            <BiCheck
+              className={classNames('absolute p-0.5 text-white duration-200')}
+              size={40}
+            />
+          </button>
+        </span>
+      </div>
+
+      <BottomSheetModal onCreate={onBottomSheetCreate}>
+        <div>
+          <form>
+            <div className="mb-2">
+              <label className="inline-block py-2">{'سرویس'}</label>
+              <select
+                value={formState['service'] || NONE_KEY}
+                onChange={handle_onInputChanged}
+                name="service"
+                className="select-box w-full flex-1"
+              >
+                <option
+                  disabled
+                  key={NONE_KEY}
+                  value={NONE_KEY}
+                >{`--- سرویس مورد نظر را انتخاب کنید ---`}</option>
+                {vehicleData?.services?.map((item: any) => {
+                  return (
+                    <option
+                      key={item.key}
+                      value={item.key}
+                    >{`${item.title}`}</option>
+                  );
+                })}
+              </select>
+            </div>
+            <ModularForm
+              formState={formState}
+              fields={authInfo?.org?.additionalRequestFields}
+              onInputChange={handle_onInputChanged}
+              mode={componentMode}
+            />
+          </form>
+          <LoaderButton
+            onClick={handle_submitRequest}
+            className={'my-3 w-full'}
+          >
+            {props.overrideOnSubmit != null ? 'تایید' : 'ثبت درخواست'}
+          </LoaderButton>
+        </div>
+      </BottomSheetModal>
+    </div>
+  );
+};
+
+export function buildRequestBody(formState: any, userInput: any) {
+  const body: any = {};
+
+  const { service, datetime, ...rest } = formState;
+
+  if (datetime != null) {
+    body.gmt_for_date = !Array.isArray(datetime)
+      ? [datetime]
+      : datetime.map((v: any) => {
+          if (typeof v === 'string' || v instanceof String) return v;
+          return v.toDate().toISOString();
+        });
+  }
+  body.details = rest;
+  body.service = service;
+  body.locations = userInput.locations.map((loc: any) => {
+    const { lng, lat, ...rest } = loc;
+    delete rest.marker;
+    return {
+      coordinates: [lat, lng],
+      wait: 0,
+      meta: rest,
+    };
+  });
+
+  return body;
+}
+
+export default PassengerServiceRequest;

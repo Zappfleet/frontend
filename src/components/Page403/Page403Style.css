@@ -1,0 +1,15 @@
+.page403-component {
+  margin-top: 100px;
+}
+.page403-component .flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.page403-component .codeError {
+  color: #facf5a;
+  text-align: center;
+  font-family: "Raleway";
+  font-size: 90px;
+  font-weight: 800;
+}/*# sourceMappingURL=Page403Style.css.map */

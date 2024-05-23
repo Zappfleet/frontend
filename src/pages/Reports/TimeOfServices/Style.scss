@@ -1,0 +1,82 @@
+.report-component {
+
+    font-size: 14px;
+
+    .form-select:focus {
+        box-shadow: none;
+    }
+
+    .form-control,
+    .btn {
+        box-shadow: none;
+        /* Remove the box shadow */
+    }
+
+    .datetime-input {
+        font-size: 14px;
+    }
+
+    .datagrid {
+        background-color: white;
+        padding: 15px;
+    }
+
+    .filter-items {
+        padding: 15px 0px;
+
+        input {
+            margin-top: 5px;
+        }
+
+        .btn-search {
+            width: 100%;
+            margin-top: 5px;
+            border: 1px solid #eee;
+            color: gray;
+            font-size: 14px;
+
+            i {
+                color: gray;
+            }
+
+
+        }
+
+        .btn-search:hover {
+            color: #A1E2D9;
+
+            i {
+                color: #A1E2D9;
+            }
+        }
+    }
+
+
+    .page-title {
+        color: black;
+        margin-bottom: 30px;
+        letter-spacing: -1px;
+        margin-top: 20px;
+        margin-right: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        width: fit-content;
+        position: relative;
+    }
+
+    .page-title i::before {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        /* Adjust this value to control the distance between the text and the line */
+        left: 0;
+        width: 100%;
+        height: 1px;
+        /* Adjust this value to control the thickness of the line */
+        background-color: #A1E2D9;
+        ;
+        /* Adjust this value to change the color of the line */
+    }
+
+
+}
