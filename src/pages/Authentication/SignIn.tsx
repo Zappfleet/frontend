@@ -43,6 +43,7 @@ const SignIn = () => {
     const formData = readFormInputs(signinFormRef);
 
     const isInvalid = validate(formData);
+console.log(500,isInvalid);
 
     if (isInvalid) return;
 
