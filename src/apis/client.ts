@@ -12,6 +12,7 @@ class ApiClient {
       baseURL: import.meta.env.VITE_BASE_URL || props?.baseUrl,
     });
 
+    
     this.axiosInstance.interceptors.request.use(
       function (config) {
         const accessToken = localStorage.getItem('bearer_token');
