@@ -195,10 +195,10 @@ export default function useNavigationMenu() {
       //     icon: <BsFillCarFrontFill />,
       // },
       {
-        key: 'menu-passenger',
+        key: 'menu.driver',
         label: 'منو راننده',
         is_title: true,
-        isPermitted: hasPermitFor([PERMIT_DRIVER]),
+        isPermitted: hasPermitGroup([PERMIT_DRIVER]),
       },
       {
         key: 'menu.driver.current',
@@ -206,7 +206,7 @@ export default function useNavigationMenu() {
         is_title: false,
         href: '/driver/active',
         icon: <BsFillCarFrontFill />,
-        isPermitted: hasPermitFor([PERMIT_DRIVER]),
+        isPermitted: hasPermitGroup([PERMIT_DRIVER]),
       },
       {
         key: 'menu.driver.history',
@@ -214,7 +214,7 @@ export default function useNavigationMenu() {
         is_title: false,
         href: '/driver/history',
         icon: <BsFillCarFrontFill />,
-        isPermitted: hasPermitFor([PERMIT_DRIVER]),
+        isPermitted: hasPermitGroup([PERMIT_DRIVER]),
       },
     ];
     setNavigationMenu(
