@@ -1,0 +1,14 @@
+.TabLayout-component {
+  padding: 25px 0px;
+}
+.TabLayout-component .tab {
+  padding-right: 15px;
+  cursor: pointer;
+}
+.TabLayout-component .active-tab {
+  color: #0d6efd;
+  border-bottom: 1px solid #0d6efd;
+}
+.TabLayout-component .no-active {
+  color: gray;
+}/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,12 @@
+.tripmission-component {
+  position: relative;
+  padding: 10px 15px;
+}
+.tripmission-component .plus {
+  margin-right: 10px;
+  font-size: 8px;
+  font-weight: normal;
+  border-radius: 50%;
+  border: 1px solid white;
+  padding: 3px;
+}/*# sourceMappingURL=style.css.map */

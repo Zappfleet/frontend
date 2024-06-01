@@ -1,0 +1,40 @@
+.DropdownUser-component{
+    position: relative;
+
+    .userTitle{
+        color: whitesmoke;
+        display: inline;
+    }
+
+    .user-img{
+        border-radius: 50%;
+        background-color: whitesmoke;
+        padding: 10px;
+        font-size: 20px;
+        margin: 0px 3px;
+    }
+
+    .fa-angle-down{
+        color: whitesmoke;
+        font-size: 14px;
+    }
+
+    .profile-div{
+        padding: 30px 30px;
+        position: absolute;
+        background-color: whitesmoke;
+        z-index: 5;
+        left: 10px;
+        top: 40px;
+        ul{
+            li{
+                margin-top: 15px;
+                i{
+                    display: inline;
+                    padding-left: 20px;
+                   
+                }
+            }
+        }
+    }
+}

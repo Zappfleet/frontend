@@ -8,7 +8,7 @@ import persian_fa from 'react-date-object/locales/persian_fa';
 import jMoment from 'jalali-moment'
 import moment from 'moment'
 
-import useInactiveSystem from '../../../hooks/data/useInactiveSystem.js';
+import useInactiveSystem from '../../../hooks/data/Restrictions/useInactiveSystem.js';
 
 import {
     persianDateToGregorian,
@@ -25,7 +25,7 @@ import TreeView from '../../../components/TreeView.js';
 import usePermissions from '../../../hooks/data/usePermissions';
 import TreeNode from './TreeNode.js';
 
-const InActiveSystem = () => {
+const InActiveSystem: React.FC = () => {
 
 
     const [fromDateDatePicker, setFromDateDatePicker] = useState<any>(moment(new Date()).format('jYYYY/jMM/jDD'));
@@ -34,11 +34,14 @@ const InActiveSystem = () => {
     const [fromDate, setFromDate] = useState<any>(jMoment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSSZ'));
     const [toDate, setToDate] = useState<any>(jMoment(new Date()).format('YYYY-MM-DDTHH:mm:ss.SSSZ'));
 
+    const [fromDatechanded, setFromDatechanged] = useState<any>(false);
+    const [toDatechanded, setToDatechanged] = useState<any>(false);
+
     const { data } = usePermissions();
 
     useEffect(() => {
-        console.log('From Date:', fromDate);
-        console.log('To Date:', toDate);
+        console.log('fromDateDatePicker:', fromDateDatePicker);
+        //  console.log('To Date:', toDate);
     }, [fromDate, toDate, fromDateDatePicker, toDateDatePicker]);
 
     const [items, setItems] = useState<any>(null)
@@ -50,11 +53,9 @@ const InActiveSystem = () => {
     const [checked, setChecked] = useState<any>([]);
 
     useEffect(() => {
-        console.log(8, missionList);
-
         if (missionList) {
             if (missionList.status === 200) {
-                console.log(4444, missionList.data);
+                //  console.log(4444, missionList.data);
                 setItems(missionList.data.data)
             }
             if (missionList.status === 403) {
@@ -68,16 +69,18 @@ const InActiveSystem = () => {
         setFromDateDatePicker(date);
         const gregorianDate = convertToJalali(date.year, date.month.number, date.day)
         setFromDate(gregorianDate);
+        setFromDatechanged(true)
     };
 
     const handleChangeDatePickerTodate = (date: any) => {
         setToDateDatePicker(date);
         const gregorianDate = convertToJalali(date.year, date.month.number, date.day)
         setToDate(gregorianDate)
+        setToDatechanged(true)
     };
 
     useEffect(() => {
-        console.log(42, fromDate,);
+        //   console.log(42, fromDate,);
     }, [fromDate, toDate])
 
 
@@ -136,19 +139,26 @@ const InActiveSystem = () => {
                 end_date: toDate,
                 inactive_permissions: checked
             }
+            console.log(1, ite);
+
             setItem(ite)
         }
 
         if (action_name === 'update') {
-            let ite = {}
+            let ite: any
             ite = {
                 _id: updateid,
                 title: title,
                 status: "ACTIVE",
-                start_date: fromDate,
-                end_date: toDate,
                 inactive_permissions: checked
             }
+            if (fromDatechanded === true) {
+                ite.start_date = fromDate;
+            }
+            if (toDatechanded === true) {
+                ite.end_date = toDate;
+            }
+
             setItem(ite)
         }
 
@@ -160,7 +170,7 @@ const InActiveSystem = () => {
     const [PermissionSet, setPermissionSet] = useState<any>(null)
 
     useEffect(() => {
-        console.log(200, data.permissions);
+        // console.log(200, data.permissions);
         setPermissionSet(data.permissions)
     }, [data])
 
@@ -180,8 +190,8 @@ const InActiveSystem = () => {
                 : prevChecked.filter((item: any) => item !== path)
         );
 
-        console.log(122,checked);
-        
+        //  console.log(122, checked);
+
     };
 
 
@@ -194,12 +204,14 @@ const InActiveSystem = () => {
     })
 
     const clear = () => {
-        console.log(9);
+        // console.log(9);
 
         setFromDateDatePicker(moment(new Date()).format('jYYYY/jMM/jDD'))
         setToDateDatePicker(moment(new Date()).format('jYYYY/jMM/jDD'));
         setFromDate(moment(new Date()).format('jYYYY/jMM/jDD'));
         setToDate(moment(new Date()).format('jYYYY/jMM/jDD'));
+        setFromDatechanged(false)
+        setToDatechanged(false)
         setAction_name('insert')
         setTitle('')
         setItem(null)
@@ -260,6 +272,7 @@ const InActiveSystem = () => {
                                         </div>
                                     </div>
                                     <TreeNode
+                                        hideLabel={true}
                                         node={PermissionSet}
                                         path={null}
                                         checked={checked}

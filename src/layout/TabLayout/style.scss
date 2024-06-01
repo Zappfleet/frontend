@@ -1,0 +1,20 @@
+@import '../../variable';
+
+.TabLayout-component {
+    padding: 25px 0px;
+
+    .tab {
+        padding-right: 15px;
+        cursor: pointer;
+    }
+
+    .active-tab {
+        color: $color-base ;
+        border-bottom: 1px solid $color-base;
+    }
+
+    .no-active {
+        color: gray;
+    }
+
+}

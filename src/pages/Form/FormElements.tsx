@@ -1,4 +1,4 @@
-import Breadcrumb from '../../components/Breadcrumb';
+import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import CheckboxFive from '../../components/CheckboxFive';
 import CheckboxFour from '../../components/CheckboxFour';
 import CheckboxOne from '../../components/CheckboxOne';

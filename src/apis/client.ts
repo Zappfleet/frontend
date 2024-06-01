@@ -7,12 +7,24 @@ interface ApiClientConfig {
 class ApiClient {
   axiosInstance;
 
+
+
   constructor(props?: ApiClientConfig) {
+    const environmentName = import.meta.env.VITE_ENVIRONMENT_NAME; // assuming VITE_ENVIRONMENT_NAME holds your environment name
+
+    let baseUrl;
+    if (environmentName === "local") {
+      baseUrl = import.meta.env.VITE_BASE_URL;
+    } else if (environmentName === "server") {
+      baseUrl = import.meta.env.VITE_BASE_URL_SERVER;
+    } else {
+      baseUrl = props?.baseUrl; // Fallback to props if environment variables are not set
+    }
     this.axiosInstance = axios.create({
-      baseURL: import.meta.env.VITE_BASE_URL || props?.baseUrl,
+      baseURL: baseUrl,
     });
 
-    
+
     this.axiosInstance.interceptors.request.use(
       function (config) {
         const accessToken = localStorage.getItem('bearer_token');
@@ -58,8 +70,8 @@ class ApiClient {
   }
 
   async login(body: any) {
-    console.log(1000,"/api/v2/users/sign-in");
-    
+    console.log(1000, "/api/v2/users/sign-in");
+
     return this.axiosInstance.post(`/api/v2/users/sign-in`, body);
   }
 
@@ -196,6 +208,7 @@ class ApiClient {
   }
 
 
+
   async getCountOfServices(status: string, fromDate: any, toDate: any) {
     //console.log(77, status);
 
@@ -211,6 +224,14 @@ class ApiClient {
     );
   }
 
+  async getMissions_by_StatusAndDriverID(
+    status: string,
+    driverID: any
+  ) {
+    return await this.axiosInstance.get(`/api/v2/services/missions/getMissions_by_StatusAndDriverID`, {
+      params: createParams(status, driverID),
+    });
+  }
 
 
   async insert_InactiveSystem(body: any) {
@@ -238,6 +259,8 @@ class ApiClient {
 
 
   async select_InactiveSystem() {
+    //console.log(8989);
+
     try {
       return this.axiosInstance.get(
         `/api/v2/restrict/select_InactiveSystem`
@@ -400,6 +423,9 @@ class ApiClient {
     });
   }
 
+
+
+
   async getListOfConcerningMissionsAsDriver(status: string, dateFilter: any) {
     return await this.axiosInstance.get(`/api/v2/services/missions/driver`, {
       params: createParams(status, dateFilter),
@@ -425,6 +451,43 @@ class ApiClient {
     );
   }
 
+  async insertRestrictionShowRequests(key: number, count: any) {
+    let body = {
+      key: key,
+      count: count
+    }
+    return await this.axiosInstance.post(`/api/v2/restrict/insertRestrictionShowRequests`, body
+    );
+  }
+
+  async selectRestrictionShowRequests(key: number, count: any) {
+    const params = {
+      key: key,
+      count: count
+    }
+    return await this.axiosInstance.get(`/api/v2/restrict/selectRestrictionShowRequests`, { params });
+  }
+
+
+  async insertSetWorkingWeek(key: number, item: any) {
+    console.log(88);
+    
+    let body = {
+      key: key,
+      item: item
+    }
+    return await this.axiosInstance.post(`/api/v2/restrict/insertSetWorkingWeek`, body
+    );
+  }
+
+  async selectSetWorkingWeek(key: number, item: any) {
+    const params = {
+      key: key,
+      item: item
+    }
+    return await this.axiosInstance.get(`/api/v2/restrict/selectSetWorkingWeek`, { params });
+  }
+
   async submitDeligationOn(
     other_user_id: string,
     add_permits: string[],
@@ -439,10 +502,6 @@ class ApiClient {
       }
     );
   }
-
-
-
-
 }
 
 function createParams(status?: string, dateFilter?: any) {

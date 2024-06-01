@@ -14,7 +14,7 @@ export default function useReportTimeOfServices(status: string, fromdate: any, t
         setState({ ...state, in_progress: true })
         getApiClient().getReportTimeOfServices(status, fromdate, todate)
             .then(resp => {
-                console.log(6000, resp);
+             //   console.log(6000, resp);
                 setMissionList(resp.data);
             })
             .catch(error => {

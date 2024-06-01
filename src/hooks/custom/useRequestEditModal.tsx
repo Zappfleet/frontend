@@ -1,6 +1,6 @@
 import PassengerServiceRequest, {
   MODE_USER_ONLY,
-} from '../../pages/Passenger/PassengerServiceRequest';
+} from '../../pages/Passenger/PassengerServiceRequest/PassengerServiceRequest';
 import useFullScreenModal from '../useFullScreenModal';
 
 export default function useRequestEditModal() {
@@ -26,7 +26,7 @@ export default function useRequestEditModal() {
         };
       });
       return (
-        <div className="relative h-full">
+        <div>
           <h2 className="p-2 text-primary">ویرایش درخواست کاربر</h2>
           <PassengerServiceRequest
             mode={MODE_USER_ONLY}

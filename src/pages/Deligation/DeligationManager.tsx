@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import TransferList from '../../components/TransferList';
 
 import useAuthentication from '../../hooks/data/useAuthentication';
-import UsersSuggestionInput from '../../widgets/UsersSuggestionInput';
+import UsersSuggestionInput from '../../widgets/UsersSuggestionInput/UsersSuggestionInput';
 import renderUi from '../../lib/renderUi';
 import SimpleButton from '../../components/SimpleButton';
 import useDeligation from '../../hooks/data/useDeligation';

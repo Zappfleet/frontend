@@ -1,5 +1,5 @@
 import DatePicker from 'react-multi-date-picker';
-import UsersSuggestionInput from '../../../widgets/UsersSuggestionInput';
+import UsersSuggestionInput from '../../../widgets/UsersSuggestionInput/UsersSuggestionInput';
 import { useState } from 'react';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';

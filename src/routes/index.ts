@@ -11,7 +11,7 @@ const Alerts = lazy(() => import('../pages/UiElements/Alerts'));
 const Buttons = lazy(() => import('../pages/UiElements/Buttons'));
 const TripMission = lazy(() => import('../pages/TripMission/TripMission'));
 const PassengerNewServiceRequest = lazy(
-  () => import('../pages/Passenger/PassengerServiceRequest')
+  () => import('../pages/Passenger/PassengerServiceRequest/PassengerServiceRequest')
 );
 const PassengerMissionDetails = lazy(
   () => import('../pages/Passenger/PassengerMissionDetails')
@@ -40,6 +40,8 @@ const DriverList_By_LastServiceAdnDistanse = lazy(() => import('../pages/Reports
 const RestOfDriverBetweenServises = lazy(() => import('../pages/Reports/RestOfDriverBetweenServises/RestOfDriverBetweenServises'));
 
 const InActiveSystem = lazy(() => import('../pages/Restrictions/InActiveSystem/InActiveSystem'));
+const RestrictionShowRequests = lazy(() => import('../pages/Restrictions/RestrictionShowRequests/RestrictionShowRequests'));
+const SetWorkingWeek = lazy(() => import('../pages/Restrictions/SetWorkingWeek/SetWorkingWeek'));
 
 
 const DeligationManager = lazy(
@@ -182,6 +184,17 @@ const coreRoutes = [
     title: 'InActiveSystem',
     component: InActiveSystem,
   },
+  {
+    path: '/RestrictionShowRequests',
+    title: 'RestrictionShowRequests',
+    component: RestrictionShowRequests,
+  },
+  {
+    path: '/SetWorkingWeek',
+    title: 'SetWorkingWeek',
+    component: SetWorkingWeek,
+  },
+  
 ];
 
 const routes = [...coreRoutes];

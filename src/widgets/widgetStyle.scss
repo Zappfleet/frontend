@@ -1,0 +1,11 @@
+@import '../variable';
+
+.widgets {
+    .RequestHistory {
+        .pencil {
+            color: $color-base;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+    }
+}

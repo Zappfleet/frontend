@@ -190,7 +190,7 @@ export default function MapContainer(props: MapContainerProps) {
         if (props.onMapInit != null) props.onMapInit()
     }
 
-    return <div className="absolute top-0 left-0 bottom-0 right-0 rounded overflow-hidden shadow-md">
+    return <div>
         <NeshanMap
             style={{ height: "100%", width: "100%", pointerEvents: props.freeze ? "none" : 'all' }}
             center={{ latitude: 29.882589, longitude: 52.808064 }}

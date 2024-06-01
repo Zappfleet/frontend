@@ -1,0 +1,35 @@
+.SetWorkingWeek {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-right: 30px;
+    background-color: white;
+
+    .days-div {
+       padding-left: 30px;
+    }
+
+    .days {
+        width: fit-content;
+        text-align: right;
+    }
+
+    .btn-search {
+        width: 80%;
+        max-width: 250px;
+        margin-top: 5px;
+        border: 1px solid #eee;
+        color: gray;
+        font-size: 14px;
+
+        i {
+            color: gray;
+        }
+
+
+    }
+
+    .count {
+        width: 150px;
+    }
+
+}

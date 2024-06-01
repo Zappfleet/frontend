@@ -18,6 +18,7 @@ import {
   PERMIT_USERS_EDIT,
   PERMIT_USERS_LIST,
   PERMIT_VEHICLES_CREATE,
+  PERMIT_RESTRICTION
 } from '../lib/constants';
 
 export type NavigationMenuItem = {
@@ -156,6 +157,22 @@ export default function useNavigationMenu() {
         href: '/InActiveSystem',
         icon: <BiShapePolygon />,
         isPermitted: hasPermitGroup([PERMIT_ONLYADMIN]),
+      },
+      {
+        key: 'menu.reports',
+        label: 'محدودیت نمایش درخواست ها',
+        is_title: false,
+        href: '/RestrictionShowRequests',
+        icon: <BiShapePolygon />,
+        isPermitted: hasPermitGroup([PERMIT_RESTRICTION]),
+      },
+      {
+        key: 'menu.reports',
+        label: 'تنظیم هفته کاری',
+        is_title: false,
+        href: '/SetWorkingWeek',
+        icon: <BiShapePolygon />,
+        isPermitted: hasPermitGroup([PERMIT_RESTRICTION]),
       },
       {
         key: 'menu.passenger',

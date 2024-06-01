@@ -1,0 +1,15 @@
+@import '../../../../variable';
+
+.VehicleItem-component {
+    padding: 10px 5px;
+    border-radius: 5px;
+
+    .name {
+        color: $color-base;
+    }
+}
+
+.VehicleItem-component:hover {
+    cursor: pointer;
+    background-color: rgb(239 244 251);
+}

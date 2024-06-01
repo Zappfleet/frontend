@@ -1,6 +1,6 @@
 'use client';
 
-import ModalLayout from '../components/ModalLayout';
+import ModalLayout from '../components/ModalLayout/ModalLayout';
 import useModal from './useModal';
 
 const useFullScreenModal = (props: any) => {

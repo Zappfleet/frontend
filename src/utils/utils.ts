@@ -105,6 +105,8 @@ function translateAction(key: string) {
       return 'تعاریف';
     case 'REPORTS':
       return 'گزارش ها';
+    case 'RESTRICTION':
+      return 'محدودیت ها';
     case 'RULES':
       return 'قوانین سیستم';
     case 'DELEGATION':
@@ -180,6 +182,11 @@ const convertGregorianToJalali = (gregorianDateStr: any) => {
   return jalaliDate;
 };
 
+const getDayName = (date:any) => {
+  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  return daysOfWeek[date.getDay()];
+};
+
 export {
   convertToJalaliDateTiem,
   secondsToHMS,
@@ -188,5 +195,6 @@ export {
   translateAction,
   convertToJalali,
   convertJalaliToGregorian,
-  convertGregorianToJalali
+  convertGregorianToJalali,
+  getDayName
 }

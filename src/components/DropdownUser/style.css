@@ -1,0 +1,33 @@
+.DropdownUser-component {
+  position: relative;
+}
+.DropdownUser-component .userTitle {
+  color: whitesmoke;
+  display: inline;
+}
+.DropdownUser-component .user-img {
+  border-radius: 50%;
+  background-color: whitesmoke;
+  padding: 10px;
+  font-size: 20px;
+  margin: 0px 3px;
+}
+.DropdownUser-component .fa-angle-down {
+  color: whitesmoke;
+  font-size: 14px;
+}
+.DropdownUser-component .profile-div {
+  padding: 30px 30px;
+  position: absolute;
+  background-color: whitesmoke;
+  z-index: 5;
+  left: 10px;
+  top: 40px;
+}
+.DropdownUser-component .profile-div ul li {
+  margin-top: 15px;
+}
+.DropdownUser-component .profile-div ul li i {
+  display: inline;
+  padding-left: 20px;
+}/*# sourceMappingURL=style.css.map */

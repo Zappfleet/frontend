@@ -96,7 +96,7 @@ const CountOfServicesOfDrivers: React.FC = () => {
 
     const fetchData = () => {
         let k: any = []
-        console.log(111, missionList.data);
+       // console.log(111, missionList.data);
         missionList.data && missionList.data.map((item: any) => {
             let record = {}
             const date1: any = new Date(item.mission_end)

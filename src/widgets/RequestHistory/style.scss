@@ -1,0 +1,34 @@
+@import '../../variable';
+
+.RequestHistory-component {
+
+    .expand {
+        transition-duration: 300ms;
+    }
+
+    .pencil {
+        color: $color-base;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .name {
+        color: $color-base;
+        padding-left: 15px;
+    }
+
+    .table {
+
+        background-color: white;
+
+        thead {
+            background-color: $color-base;
+            color: white;
+
+            tr {
+                border-radius: 5px !important;
+            }
+
+        }
+    }
+}

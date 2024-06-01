@@ -1,0 +1,23 @@
+.header-component {
+  background-color: #0d6efd;
+  padding: 0px 15px;
+
+}
+.header-component .header-div {
+  min-height: 70px;
+}
+.header-component .titlepage {
+  color: white;
+  font-size: 16px;
+}
+.header-component .usersgh {
+  z-index: 2;
+}
+.header-component .search {
+  position: relative;
+  width: 80%;
+}
+.header-component .search i {
+  position: absolute;
+  left: 10px;
+}/*# sourceMappingURL=HeaderStyle.css.map */

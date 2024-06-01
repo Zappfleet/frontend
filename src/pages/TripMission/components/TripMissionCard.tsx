@@ -6,7 +6,7 @@ import { FaCar } from "react-icons/fa";
 import { MISSION_API_PUBLISH, MISSION_STATUS_PUBLISHED, TAB_SERVICES } from './constants';
 import useMissions from '../../../hooks/data/useMissions';
 import renderUi from '../../../lib/renderUi';
-import { VehicleItem } from './VehicleItem';
+import { VehicleItem } from './VehicleItem/VehicleItem';
 import useVehicleBasicData from '../../../hooks/data/useVehicleBasicData';
 import { getLocationIndexTitle } from '../../../lib/string';
 import DatePicker from 'react-multi-date-picker';

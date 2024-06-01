@@ -128,6 +128,7 @@
 .datagrid-component .div-table-responsive {
   overflow-x: auto;
   overflow-y: auto;
+  overflow: visible !important;
 }
 .datagrid-component td {
   padding: 7px !important;

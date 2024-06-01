@@ -5,7 +5,7 @@
         min-height: 400px;
     }
 
-   .datetime-input {
+    .datetime-input {
         border: none;
     }
 
@@ -180,6 +180,8 @@
         overflow-y: auto;
         // border: 1px solid #ddd;
         // max-height: 450px;
+        overflow: visible !important;
+
     }
 
     td {

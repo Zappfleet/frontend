@@ -1,0 +1,20 @@
+.RestrictionShowRequests {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-right: 30px;
+  background-color: white;
+}
+.RestrictionShowRequests .btn-search {
+  width: 80%;
+  max-width: 250px;
+  margin-top: 5px;
+  border: 1px solid #eee;
+  color: gray;
+  font-size: 14px;
+}
+.RestrictionShowRequests .btn-search i {
+  color: gray;
+}
+.RestrictionShowRequests .count {
+  width: 150px;
+}/*# sourceMappingURL=style.css.map */

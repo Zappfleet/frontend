@@ -1,0 +1,29 @@
+.ServiceRequestCard-component {
+  margin-top: 30px;
+  background-color: white;
+  padding: 15px 20px;
+  border-radius: 5px;
+}
+.ServiceRequestCard-component .selected-border {
+  background-color: rgb(245, 242, 255);
+  border: solid 1px rgb(220, 209, 255);
+}
+.ServiceRequestCard-component .location-div {
+  margin-top: 30px;
+}
+.ServiceRequestCard-component .title1 {
+  color: #0d6efd;
+  margin-bottom: 10px;
+}
+.ServiceRequestCard-component .loc {
+  margin-bottom: 10px;
+}
+.ServiceRequestCard-component .loc .loc-title {
+  color: #0d6efd;
+}
+.ServiceRequestCard-component .buttons {
+  margin-top: 30px;
+}
+.ServiceRequestCard-component .buttons button {
+  margin-right: 10px;
+}/*# sourceMappingURL=style.css.map */

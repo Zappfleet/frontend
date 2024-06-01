@@ -11,21 +11,22 @@ import DatePicker from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
 import AnalogTimePicker from 'react-multi-date-picker/plugins/analog_time_picker';
-import UsersSuggestionInput from '../widgets/UsersSuggestionInput';
+import UsersSuggestionInput from '../widgets/UsersSuggestionInput/UsersSuggestionInput';
 
 export function ModularInput(props: any) {
+  //console.log(400,props);
+
   return (
     <div>
-      <label className="inline-block py-2">{props.title}</label>
+      <label>{props.title}</label>
       {renderUi(
         <input
           {...props}
-          className="w-full rounded border border-gray-4 p-2 outline-none"
           name={props.inputKey}
         />
       ).if(props.type == INPUT_TYPE_TEXT || props.type == INPUT_TYPE_NUMBER)}
       {renderUi(
-        <select {...props} className="select-box w-full" name={props.inputKey}>
+        <select {...props} name={props.inputKey}>
           {props.options?.map((option: any) => {
             return (
               <option key={option.key} value={option.key}>

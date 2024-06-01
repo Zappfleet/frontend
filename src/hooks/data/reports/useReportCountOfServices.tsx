@@ -14,7 +14,7 @@ export default function useReportCountOfServices(status: string, fromdate: any, 
         setState({ ...state, in_progress: true })
         getApiClient().getCountOfServices(status, fromdate, todate)
             .then(resp => {
-                console.log(6000, resp);
+            //    console.log(6000, resp);
                 setMissionList(resp.data);
             })
             .catch(error => {

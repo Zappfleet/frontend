@@ -7,7 +7,7 @@ import BottomSheetModal from '../../components/BottomSheetModal';
 
 import { RiArrowUpDoubleFill } from 'react-icons/ri';
 import TripMissionDetails from './TripMissionDetails';
-import LocationSearch from '../../widgets/LocationSearch';
+import LocationSearch from '../../widgets/LocationSearch/LocationSearch';
 import { BsCarFront, BsPin, BsX } from 'react-icons/bs';
 import { SmallLoader } from '../../common/Loader';
 import classNames from 'classnames';

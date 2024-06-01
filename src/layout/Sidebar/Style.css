@@ -1,0 +1,22 @@
+.sidebar-component {
+  padding: 10px;
+  background-color: white;
+  border: 3px solid #eee;
+  border-radius: 5px;
+}
+.sidebar-component ul {
+  padding-right: 20px;
+}
+.sidebar-component ul h3 {
+  padding-top: 30px;
+  color: blue;
+}
+.sidebar-component ul li {
+  padding: 6px 5px;
+}
+.sidebar-component ul li span {
+  padding-right: 5px;
+}
+.sidebar-component ul svg {
+  display: inline;
+}/*# sourceMappingURL=Style.css.map */

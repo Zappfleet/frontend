@@ -1,0 +1,18 @@
+@import '../../../../variable';
+
+.RequestManagment-component{
+
+    .link {
+        padding-right: 15px;
+        cursor: pointer;
+    }
+
+    .active-tab {
+        color: $color-base ;
+        border-bottom: 1px solid $color-base;
+    }
+
+    .no-active {
+        color: gray;
+    }
+}

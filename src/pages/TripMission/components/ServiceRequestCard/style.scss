@@ -1,0 +1,38 @@
+@import '../../../../variable';
+
+.ServiceRequestCard-component {
+    margin-top: 30px;
+    background-color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+
+
+    .selected-border {
+        background-color: rgb(245, 242, 255);
+        border: solid 1px rgb(220, 209, 255);
+    }
+
+    .location-div {
+        margin-top: 30px;
+    }
+
+    .title1 {
+        color: $color-base;
+        margin-bottom: 10px;
+    }
+
+    .loc {
+        margin-bottom: 10px;
+
+        .loc-title {
+            color: $color-base;
+        }
+    }
+
+    .buttons {
+        margin-top: 30px;
+        button{
+            margin-right: 10px;
+        }
+    }
+}

@@ -1,12 +1,18 @@
 import useAuthentication from './data/useAuthentication';
-import useInactiveSystem from './data/useInactiveSystem';
+import useInactiveSystem from './data/Restrictions/useInactiveSystem';
+import useSetWorkingWeek from './data/Restrictions/useSetWorkingWeek';
 import { useEffect, useState } from 'react';
+import { NotificationController } from '../lib/notificationController';
+import { getDayName } from '../utils/utils';
 
 export default function useCurrentUserPermissions() {
   const { authInfo } = useAuthentication();
   const { missionList } = useInactiveSystem('select', null)
+  const { result: resultSetWorkingWeek } = useSetWorkingWeek('select', 5, null)
+
   const [permits, setPermits] = useState<any>();
   const [permits_systeminactive, setPermits_systeminactive] = useState<any>();
+  const [type, setType] = useState<any>();
 
   useEffect(() => {
     const permits =
@@ -42,36 +48,68 @@ export default function useCurrentUserPermissions() {
   }
 
 
+
+
+  function Is_WorkingWeek() {
+    let result = true
+    const dayName = getDayName(new Date());
+    if (resultSetWorkingWeek?.data?.[0]) {
+      if (resultSetWorkingWeek.data[0].value[dayName] === false) {
+        result = false
+      }
+    }
+    return result
+  }
+
+
   function Is_SystemInActive(checkPermit: string[]) {
     //check system is inactive
-
-
     let result = false
     permits_systeminactive && permits_systeminactive.data.data && permits_systeminactive.data.data.map((item: any) => {
-      console.log(400, permits_systeminactive.data.data, checkPermit);
+      // console.log(400, permits_systeminactive.data.data, checkPermit);
       const startDate = item.start_date
       const endDate = item.end_date
       const currentDate = new Date();
 
       if (currentDate >= new Date(startDate) && currentDate <= new Date(endDate)) {
-        console.log(700, checkPermit.every((ite) => item.inactive_permissions?.includes(ite)));
+        //   console.log(700, checkPermit.every((ite) => item.inactive_permissions?.includes(ite)));
         if (checkPermit.every((ite) => item.inactive_permissions?.includes(ite))) {
           result = true
         }
       }
+
     })
     return result
   }
 
+
+  let showNotification_SystemInActive = true
+  let showNotification_WorkingWeek = true
+
   function hasPermitFor(checkPermit: string[]) {
-    const result = Is_SystemInActive(checkPermit)
-    if (result === true) {
+    const result_Is_SystemInActive = Is_SystemInActive(checkPermit)
+    const result_Is_WorkingWeek = Is_WorkingWeek()
+
+    if (result_Is_SystemInActive === true) {
+      setType('SystemInActive')
       return false
     }
-    else {
-      return checkPermit.every((item) => permits?.includes(item));
+
+    let checkworkingweek = false
+    checkPermit.map((item: any) => {
+      if (item === "SERVICE.ORG.DIRECT_SUBMIT" || item === 'SERVICE.PERSONAL.SUBMIT') {
+        checkworkingweek = true
+      }
+    })
+
+    if (result_Is_WorkingWeek === false && checkworkingweek) {
+      setType('No_WorkingWeek')
+      return false
     }
+
+    return checkPermit.every((item) => permits?.includes(item));
   }
+
 
   return {
     hasPermitGroup,
@@ -79,5 +117,6 @@ export default function useCurrentUserPermissions() {
     hasAdminRank,
     permits,
     authInfo,
+    type
   };
 }

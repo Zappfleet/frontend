@@ -1,0 +1,36 @@
+
+@import '../../variable';
+
+.header-component {
+    // display: flex;
+    // justify-content: center;
+    background-color: $color-base;
+    padding: 0px 15px;
+
+    .header-div{
+         min-height: 70px;   
+    }
+
+
+    .titlepage {
+        color: white;
+        font-size: 16px;
+    }
+
+    .usersgh {
+        z-index: 2;
+    }
+
+    .search {
+        position: relative;
+        width: 80%;
+
+        i {
+            position: absolute;
+            left: 10px;
+        }
+    }
+
+
+    /*# sourceMappingURL=stylePublic.css.map */
+}

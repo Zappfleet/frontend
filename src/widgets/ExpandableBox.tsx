@@ -7,8 +7,8 @@ export default function ExpandableBox({ children, expanded }: any) {
             paddingTop: expanded ? 5 : 0,
             paddingBottom: expanded ? 5 : 0,
         }}
-        className={"px-2 duration-300 overflow-hidden"}>
-        <div className="border-b border-gray-4 ">
+        className={`duration-300 overflow-hidden`}>
+        <div>
             {children}
         </div>
 

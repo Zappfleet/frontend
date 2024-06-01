@@ -1,7 +1,7 @@
 'use client';
 
 import classNames from 'classnames';
-import ModalLayout from '../components/ModalLayout';
+import ModalLayout from '../components/ModalLayout/ModalLayout';
 import useModal from './useModal';
 
 const useContentModal = (props?: any) => {

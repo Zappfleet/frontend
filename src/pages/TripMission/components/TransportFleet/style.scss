@@ -1,0 +1,21 @@
+@import '../../../../variable';
+
+.TransportFleet-component {
+    background-color: white;
+    margin-top: 30px;
+    padding-right: 15px;
+    border-radius: 5px;
+
+    .search {
+        margin: 5px 0px;
+        border: 1px solid whitesmoke;
+        padding: 5px;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    .driver-list {
+        margin-top: 15px;
+    }
+
+}

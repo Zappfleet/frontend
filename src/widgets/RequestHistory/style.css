@@ -1,0 +1,22 @@
+.RequestHistory-component .expand {
+  transition-duration: 300ms;
+}
+.RequestHistory-component .pencil {
+  color: #0d6efd;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.RequestHistory-component .name {
+  color: #0d6efd;
+  padding-left: 15px;
+}
+.RequestHistory-component .table {
+  background-color: white;
+}
+.RequestHistory-component .table thead {
+  background-color: #0d6efd;
+  color: white;
+}
+.RequestHistory-component .table thead tr {
+  border-radius: 5px !important;
+}/*# sourceMappingURL=style.css.map */

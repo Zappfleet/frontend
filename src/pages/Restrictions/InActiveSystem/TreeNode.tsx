@@ -6,7 +6,6 @@ import {
   convertPersianToEnglishDigits,
   translateAction,
   convertToJalali, convertGregorianToJalali
-
 } from '../../../utils/utils.js';
 
 // Define the props for TreeNode
@@ -15,11 +14,11 @@ interface TreeNodeProps {
   path: string | null;
   checked: string[];
   onChange: (path: string, isChecked: boolean) => void;
+  hideLabel?: boolean; // New prop to hide label
 }
 
-
 // TreeNode Component
-const TreeNode: React.FC<TreeNodeProps> = ({ node, path, checked, onChange }) => {
+const TreeNode: React.FC<TreeNodeProps> = ({ node, path, checked, onChange, hideLabel }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,29 +74,31 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, path, checked, onChange }) =>
 
   return (
     <div className="tree-node">
-      <div className="tree-node-label">
-        {hasChildren && (
-          <button onClick={handleToggle} className="tree-node-toggle">
-            {isExpanded ? '-' : '+'}
-          </button>
-        )}
-        <label className="checkbox-container">
-          <input
-            type="checkbox"
-            className={`tree-node-checkbox ${checkboxState}`}
-            checked={checkboxState === 'checked'}
-            onChange={handleChange}
-            ref={(el) => {
-              if (el) {
-                el.indeterminate = checkboxState === 'indeterminate';
-              }
-            }}
-          />
-          <span className="checkmark" />
-        </label>
-        <span>{keyLabel}</span>
-      </div>
-      {isExpanded && hasChildren && (
+      {!hideLabel && (
+        <div className="tree-node-label">
+          {hasChildren && (
+            <button onClick={handleToggle} className="tree-node-toggle">
+              {isExpanded ? '-' : '+'}
+            </button>
+          )}
+          <label className="checkbox-container">
+            <input
+              type="checkbox"
+              className={`tree-node-checkbox ${checkboxState}`}
+              checked={checkboxState === 'checked'}
+              onChange={handleChange}
+              ref={(el) => {
+                if (el) {
+                  el.indeterminate = checkboxState === 'indeterminate';
+                }
+              }}
+            />
+            <span className="checkmark" />
+          </label>
+          <span>{keyLabel}</span>
+        </div>
+      )}
+      {((isExpanded && hasChildren) || (hideLabel===true && hasChildren)) && (
         <div className="tree-node-children">
           {Object.keys(node).map((key) => (
             <TreeNode
@@ -106,6 +107,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, path, checked, onChange }) =>
               path={`${effectivePath}.${key}`}
               checked={checked}
               onChange={onChange}
+              hideLabel={false} // Pass false to ensure children labels are shown
             />
           ))}
         </div>

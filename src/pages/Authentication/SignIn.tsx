@@ -64,7 +64,6 @@ console.log(500,isInvalid);
 
   return (
     <>
-    {console.log(200)}
       <div className="flex h-screen items-center justify-center rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-center">
           <div className="hidden w-full xl:block xl:w-1/2">

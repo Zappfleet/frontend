@@ -1,0 +1,16 @@
+.TransportFleet-component {
+  background-color: white;
+  margin-top: 30px;
+  padding-right: 15px;
+  border-radius: 5px;
+}
+.TransportFleet-component .search {
+  margin: 5px 0px;
+  border: 1px solid whitesmoke;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100%;
+}
+.TransportFleet-component .driver-list {
+  margin-top: 15px;
+}/*# sourceMappingURL=style.css.map */
