@@ -35,7 +35,7 @@ const ServiceRequestCard = (props: any) => {
     const [count, setCount] = useState<any>(100) // Number of days to filter
     //sgh
     useEffect(() => {
-        result && result.data && setCount(parseInt(result.data[0].value))
+        result && result.data && result.data[0] && setCount(parseInt(result.data[0].value))
     }, [result])
 
     useEffect(() => {
