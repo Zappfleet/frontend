@@ -1,7 +1,7 @@
 "use client";
-
-import ModalLayout from "../components/ModalLayout/ModalLayout";
-import useModal from "./useModal";
+import './style.scss'
+import ModalLayout from "../../components/ModalLayout/ModalLayout";
+import useModal from "../useModal";
 
 const useConfirmModal = () => {
 
@@ -12,15 +12,15 @@ const useConfirmModal = () => {
         mode="center"
         renderContent={(data: any) => {
             if (!data) return "";
-            return <div>
+            return <div className="useConfirmModal-component">
                 <label>{data.title}</label>
                 <p>{data.desc}</p>
                 <div>
-                    <button onClick={(e) => {
+                    <button className='my-btn' onClick={(e) => {
                         data.onConfirm(e);
                         modal.handle_close();
                     }}>{data.label_confirm}</button>
-                    <button onClick={modal.handle_close}>{data.label_cancel}</button>
+                    <button className='my-btn' onClick={modal.handle_close}>{data.label_cancel}</button>
                 </div>
             </div>
         }}

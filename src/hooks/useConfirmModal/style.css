@@ -1,0 +1,17 @@
+.useConfirmModal-component {
+  position: fixed;
+  right: 50%;
+  top: 150px;
+  z-index: 55;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 30px;
+  background-color: white;
+  border: 1px solid #eee;
+  border-radius: 5px;
+}
+.useConfirmModal-component .my-btn {
+  margin-right: 15px;
+  margin-top: 30px;
+  cursor: pointer;
+}/*# sourceMappingURL=style.css.map */

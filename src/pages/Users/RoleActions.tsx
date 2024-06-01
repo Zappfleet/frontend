@@ -6,7 +6,7 @@ import CheckboxFive from '../../components/CheckboxFive';
 import { BiCheck, BiCheckCircle } from 'react-icons/bi';
 import { getApiClient } from '../../apis/client';
 import { NotificationController } from '../../lib/notificationController';
-import useConfirmModal from '../../hooks/useConfirmModal';
+import useConfirmModal from '../../hooks/useConfirmModal/useConfirmModal';
 import classNames from 'classnames';
 import { translateAction } from '../../utils/utils';
 

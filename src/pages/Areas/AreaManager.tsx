@@ -17,7 +17,7 @@ import Chips from '../../components/Chips';
 import { getApiClient } from '../../apis/client';
 import { NotificationController } from '../../lib/notificationController';
 import useRegions from '../../hooks/data/useRegions';
-import useConfirmModal from '../../hooks/useConfirmModal';
+import useConfirmModal from '../../hooks/useConfirmModal/useConfirmModal';
 
 import useCurrentUserPermissions from '../../hooks/useCurrentUserPermissions';
 import {

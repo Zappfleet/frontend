@@ -39,7 +39,7 @@ import {
 } from '../constants';
 import { getApiClient } from '../../../../apis/client';
 import { VehicleItem } from '../VehicleItem/VehicleItem';
-import useConfirmModal from '../../../../hooks/useConfirmModal';
+import useConfirmModal from '../../../../hooks/useConfirmModal/useConfirmModal';
 import VehicleItemEmpty from '../VehicleItemEmpty';
 
 const ACTIVITY_SELECT_VEHICLE_FOR_MISSION = 'select-vehicle-for-mission';

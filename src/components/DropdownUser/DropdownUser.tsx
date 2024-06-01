@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './style.scss'
 import UserOne from '../images/user/user-01.png';
-import useConfirmModal from '../../hooks/useConfirmModal';
+import useConfirmModal from '../../hooks/useConfirmModal/useConfirmModal';
 import { storeTokens } from '../../pages/Authentication/utils';
 import { LOGIN_PAGE } from '../../lib/constants';
 import useAuthentication from '../../hooks/data/useAuthentication';

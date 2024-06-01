@@ -6,7 +6,7 @@ import useAuthentication from '../../../../hooks/data/useAuthentication';
 import { getLocalDatetime, getLocationIndexTitle, requestStatus, translateDetailKey } from '../../../../lib/string';
 import { getApiClient } from '../../../../apis/client';
 import { NotificationController } from '../../../../lib/notificationController';
-import useConfirmModal from '../../../../hooks/useConfirmModal';
+import useConfirmModal from '../../../../hooks/useConfirmModal/useConfirmModal';
 import classNames from 'classnames';
 
 import useRequestEditModal from '../../../../hooks/custom/useRequestEditModal';
