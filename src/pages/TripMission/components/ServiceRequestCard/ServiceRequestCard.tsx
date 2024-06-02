@@ -39,15 +39,12 @@ const ServiceRequestCard = (props: any) => {
     }, [result])
 
     useEffect(() => {
-        console.log(count + 6);
+        console.log(122,count);
     }, [count])
 
     const currentDate = new Date();
     const endDate = new Date();
     endDate.setDate(currentDate.getDate() + count);
-
-
-
 
 
     const { hasPermitGroup, hasPermitFor, hasAdminRank, permits } = useCurrentUserPermissions();
@@ -118,6 +115,10 @@ const ServiceRequestCard = (props: any) => {
             {requests?.docs?.map((item: any) => {
                 //sgh filter request based restriction show reaquest
                 let date = new Date(item.gmt_for_date);
+
+                console.log(7,date,currentDate,endDate);
+                
+
                 if (!(date >= currentDate && date <= endDate)) {
                     return null
                 }

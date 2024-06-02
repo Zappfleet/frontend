@@ -21,6 +21,7 @@ export default function UsersSuggestionInput(props: any) {
     search_all
   } = props;
 
+    
   const { refreshData: fetchUserData }: any = usePermittedUsers({
     permissions,
     include_external_base,
@@ -83,7 +84,7 @@ export default function UsersSuggestionInput(props: any) {
   return (
     <div className='UsersSuggestionInput-component'>
       <div className="search-users">
-        {freeInput && (
+        {freeInput===true && (
           <MdAdd
             onClick={suggestionTextInputRef.current?.triggerConfirm}
             className={

@@ -107,6 +107,8 @@ export default function useCurrentUserPermissions() {
       return false
     }
 
+    console.log(700,checkPermit,permits);
+    
     return checkPermit.every((item) => permits?.includes(item));
   }
 

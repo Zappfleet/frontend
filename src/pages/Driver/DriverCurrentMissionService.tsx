@@ -60,6 +60,7 @@ const DriverCurrentMissionService = () => {
         if (mission == null) NotificationController.showError("خطا در شروع سفر");
         if (mission != null) NotificationController.showSuccess("سفر شروع شد");
     }
+    
     const handle_ServiceItemProgress = async (serviceItem: any) => {
         if (serviceItem.status == STATUS_PENDING) {
             initMissionRequest(serviceItem.request);

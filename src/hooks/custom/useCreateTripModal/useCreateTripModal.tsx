@@ -6,7 +6,7 @@ import PassengerServiceRequest, {
 } from '../../../pages/Passenger/PassengerServiceRequest/PassengerServiceRequest';
 import useFullScreenModal from '../../useFullScreenModal';
 import { MdMenu } from 'react-icons/md';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SimpleButton from '../../../components/SimpleButton';
 import { BiPlus, BiPlusCircle } from 'react-icons/bi';
 import UsersSuggestionInput, {
@@ -25,8 +25,29 @@ import TitledSparator from '../../../components/TitledSparator';
 import TransportFleet from '../../../pages/TripMission/components/TransportFleet/TransportFleet';
 import useFleet from '../../data/useFleet';
 import renderUi from '../../../lib/renderUi';
+import useCurrentUserPermissions from '../../useCurrentUserPermissions';
+
+import {
+  PERMIT_SERVICE_ORG_DIRECT_SUBMIT,
+} from '../../../lib/constants'
 
 export default function useCreateTripModal() {
+
+  //sgh
+  const [IsDispature, setIsDispature] = useState<boolean>(false)
+  const { hasPermitFor } = useCurrentUserPermissions();
+
+  useEffect(() => {
+    console.log(300,hasPermitFor);
+    
+    setIsDispature(hasPermitFor([PERMIT_SERVICE_ORG_DIRECT_SUBMIT]))
+  }, [hasPermitFor])
+
+  useEffect(() => {
+console.log(12);
+
+  }, [IsDispature])
+
   const [state, setSate] = useState<any>({
     activeUser: null,
   });
@@ -218,6 +239,7 @@ export default function useCreateTripModal() {
           <div>
             <div>
               <UsersSuggestionInput
+                freeInput={IsDispature === true ? true : false}
                 hideChips={true}
                 showListOnTop={false}
                 externalState={[selectedUsersState, setSelectedUsersState]}

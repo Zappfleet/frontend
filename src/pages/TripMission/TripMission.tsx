@@ -60,8 +60,7 @@ function TripMission() {
     setPermission_SUBMIT(hasPermitFor([PERMIT_SERVICE_ORG_DIRECT_SUBMIT, PERMIT_SERVICE_PERSONAL_SUBMIT]))
     setPermission_EDIT(hasPermitFor([PERMIT_SERVICE_ORG_DIRECT_EDIT, PERMIT_SERVICE_PERSONAL_EDIT]))
 
-    setLoading(true)
-
+    setLoading(true)   
 
   }, [hasPermitFor])
 
@@ -94,7 +93,7 @@ function TripMission() {
                 }
                 {permission_SUBMIT === false &&
                   <>
-                    <button disabled={true} className='my-btn NoPermission' onClick={show_createNewTripModal}>
+                    <button disabled={true} className='my-btn NoPermission'>
                       <span>{'ایجاد سفر'}</span>
                       <i className='fa fa-warning info-icon'></i>
                       <div className='info-message alert alert-warning'>
