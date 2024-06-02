@@ -12,14 +12,18 @@ class ApiClient {
   constructor(props?: ApiClientConfig) {
     const environmentName = import.meta.env.VITE_ENVIRONMENT_NAME; // assuming VITE_ENVIRONMENT_NAME holds your environment name
 
+    //console.log(800,environmentName);
+    
     let baseUrl;
-    if (environmentName === "local") {
+    if (environmentName === 'local') {
       baseUrl = import.meta.env.VITE_BASE_URL;
-    } else if (environmentName === "server") {
+    } else if (environmentName === 'server') {
       baseUrl = import.meta.env.VITE_BASE_URL_SERVER;
     } else {
       baseUrl = props?.baseUrl; // Fallback to props if environment variables are not set
     }
+   // console.log(900,baseUrl);
+    
     this.axiosInstance = axios.create({
       baseURL: baseUrl,
     });
@@ -439,6 +443,8 @@ class ApiClient {
   }
 
   async submitFullMission(fullBody: any) {
+    console.log(88);
+    
     return await this.axiosInstance.post(
       `/api/v2/services/missions/full`,
       fullBody

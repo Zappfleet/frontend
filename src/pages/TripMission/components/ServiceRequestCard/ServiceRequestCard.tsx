@@ -39,7 +39,7 @@ const ServiceRequestCard = (props: any) => {
     }, [result])
 
     useEffect(() => {
-        console.log(122,count);
+       // console.log(122,count);
     }, [count])
 
     const currentDate = new Date();

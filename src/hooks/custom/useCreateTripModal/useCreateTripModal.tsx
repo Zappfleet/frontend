@@ -33,18 +33,18 @@ import {
 
 export default function useCreateTripModal() {
 
-  //sgh
+  //sgh IsDispature
   const [IsDispature, setIsDispature] = useState<boolean>(false)
   const { hasPermitFor } = useCurrentUserPermissions();
 
   useEffect(() => {
-    console.log(300,hasPermitFor);
-    
+    // console.log(300,hasPermitFor);
+
     setIsDispature(hasPermitFor([PERMIT_SERVICE_ORG_DIRECT_SUBMIT]))
   }, [hasPermitFor])
 
   useEffect(() => {
-console.log(12);
+    console.log(12, IsDispature);
 
   }, [IsDispature])
 
@@ -63,6 +63,8 @@ console.log(12);
 
   const handle_onFinalInputChanged = (e: any) => {
     setFinalState({ ...finalState, [e.target.name]: e.target.value });
+    console.log(51,finalState);
+    
   };
 
   const clearStates = () => {
@@ -75,31 +77,41 @@ console.log(12);
   };
 
   const handle_submitTrip = () => {
-    console.log(3000);
+    console.log(3000, selectedUsersState);
 
     const requestBodies = selectedUsersState.map((user: any, index: number) => {
-      const body = buildRequestBody(
-        requestListState[selectedUsersState[index]._id],
+      const body = buildRequestBody(finalState,
+        //requestListState[selectedUsersState[index]._id],
         requestsListUserInput[selectedUsersState[index]._id], '', ''
       );
       body.submitted_for = user;
       return body;
     });
 
+    console.log(441, requestBodies);
+
+
     const fullBody = {
       extra: { ...finalState },
       data: requestBodies,
       vehicle_id: selectedVehicle?._id,
     };
+
+    console.log(71,fullBody);
+    
     getApiClient()
       .submitFullMission(fullBody)
       .then(({ data }) => {
+        console.log(8);
+
         NotificationController.showSuccess('سرویس با موفقیت ثبت شد');
         clearStates();
         hideFinalModal();
         closeFullScreenModal();
       })
       .catch((e) => {
+        console.log(7);
+
         NotificationController.showError(e.message);
       });
   };
@@ -144,10 +156,12 @@ console.log(12);
     zIndex: 9000000,
     renderContent: (
       <div>
+
         <ModularForm
           formState={finalState}
           fields={authInfo?.org?.additionalTripFields}
           onInputChange={handle_onFinalInputChanged}
+          
         />
         <TitledSparator title={'انتخاب خودرو'} />
         <div onClick={triggerVehicleSelection}>

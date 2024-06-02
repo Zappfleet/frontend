@@ -40,7 +40,7 @@ const SetWorkingWeek = () => {
             [name]: checked,
         }));
 
-        console.log(700, checkedDays);
+      //  console.log(700, checkedDays);
 
     };
 

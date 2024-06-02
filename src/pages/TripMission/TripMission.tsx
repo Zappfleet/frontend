@@ -53,7 +53,7 @@ function TripMission() {
   const [permission_EDIT, setPermission_EDIT] = useState<boolean>(false)
 
   useEffect(() => {
-    console.log(111, type, permission_SUBMIT);
+   // console.log(111, type, permission_SUBMIT);
   }, [permission_SUBMIT])
 
   useEffect(() => {

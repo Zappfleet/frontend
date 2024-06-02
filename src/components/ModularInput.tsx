@@ -66,7 +66,7 @@ export function ModularInput(props: any) {
           <UsersSuggestionInput
             {...props}
             name={props.inputKey}
-            freeInput={true}
+            freeInput={false}
             permissions={['SERVICE.PERSONAL.SUBMIT']}
             include_external_base={true}
           />

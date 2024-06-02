@@ -359,6 +359,8 @@ export function buildRequestBody(formState: any, userInput: any, type: any, subm
 
   const { service, datetime, ...rest } = formState;
 
+  console.log(414141, service, formState);
+
   if (datetime != null) {
     body.gmt_for_date = !Array.isArray(datetime)
       ? [datetime]
