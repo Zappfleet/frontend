@@ -37,26 +37,33 @@ const SignIn = () => {
   };
 
   function handle_login(e: any) {
-     console.log(1200);
-     
+    console.log(1200);
+
     e.preventDefault();
 
     const formData = readFormInputs(signinFormRef);
+console.log(7000);
 
     const isInvalid = validate(formData);
-console.log(500,isInvalid);
+    console.log(500, isInvalid);
 
     if (isInvalid) return;
 
+    console.log(8);
+    
     setUi({ isLoading: true });
     getApiClient()
       .login(formData)
-      .then(({ data }) => {             
+      .then(({ data }) => {
+        console.log(99);
+        
         storeTokens(data);
         NotificationController.showSuccess(data.message);
         window.location.href = '/';
       })
       .catch((e) => {
+        console.log(100);
+        
         NotificationController.showError(e.response?.data?.error || e.message);
         setLoading(false);
       });
