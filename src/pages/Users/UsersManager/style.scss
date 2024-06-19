@@ -1,0 +1,41 @@
+@import '../../../variable';
+
+.UsersManager-component {
+    background-color: white;
+
+    .left {
+        padding: 15px;
+        max-height: 200px;
+        overflow: scroll;
+    }
+
+    .right {
+        position: relative;
+        padding: 15px;
+
+        .div-li {
+            margin-bottom: 20px;
+
+        }
+
+        .have-icon {
+            position: relative;
+
+            input {
+                padding-right: 25px;
+            }
+
+            .icon {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                color: $color-base;
+            }
+        }
+    }
+
+   table{
+    width: max-content;
+    overflow: scroll;
+   }
+}

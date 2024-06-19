@@ -9,7 +9,7 @@ import {
   ACCESS_REQUEST_HISTORY,
 } from '../../lib/accessKeys';
 import RequestManagment from './components/RequestManagment/RequestManagment';
-import MissionHistory from '../../widgets/MissionHistory';
+import MissionHistory from '../../widgets/MissionHistory/MissionHistory';
 import { MODE_AREAL } from '../../lib/constants';
 import RequestHistory from '../../widgets/RequestHistory/RequestHistory';
 import SimpleButton from '../../components/SimpleButton';

@@ -1,0 +1,80 @@
+@import '../../variable';
+
+.MissionHistory-component {
+
+    margin-top: 30px;
+
+    .expand {
+        transition-duration: 300ms;
+    }
+
+    .request-mycomment {
+        margin-top: 30px;
+
+        .com0 {}
+
+        .title {
+            color: #0d6efd;
+        }
+
+        .com1 {
+
+            i {
+                margin-left: 10px;
+            }
+        }
+
+        .com3 {
+            span {
+                display: inline-flex;
+                width: max-content;
+                padding: 2px 5px;
+                margin-left: 5px;
+                margin-top: 3px;
+                border-radius: 5px;
+                color: white;
+                font-size: 12px;
+            }
+
+            .good {
+                background-color: green;
+            }
+
+            .bad {
+                background-color: red;
+            }
+        }
+    }
+
+    .pencil {
+        color: $color-base;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .name {
+        color: $color-base;
+        padding-left: 15px;
+    }
+
+    .have-table {
+        overflow: auto;
+    }
+
+    .table {
+
+        background-color: white;
+        width: max-content;
+        overflow: scroll;
+
+        thead {
+            background-color: $color-base;
+            color: white;
+
+            tr {
+                border-radius: 5px !important;
+            }
+
+        }
+    }
+}

@@ -30,6 +30,7 @@ import useCurrentUserPermissions from '../../useCurrentUserPermissions';
 import {
   PERMIT_SERVICE_ORG_DIRECT_SUBMIT,
 } from '../../../lib/constants'
+import DriverOnMap from '../../../components/DriverOnMap/DriverOnMap';
 
 export default function useCreateTripModal() {
 
@@ -63,8 +64,8 @@ export default function useCreateTripModal() {
 
   const handle_onFinalInputChanged = (e: any) => {
     setFinalState({ ...finalState, [e.target.name]: e.target.value });
-    console.log(51,finalState);
-    
+    console.log(51, finalState);
+
   };
 
   const clearStates = () => {
@@ -97,8 +98,8 @@ export default function useCreateTripModal() {
       vehicle_id: selectedVehicle?._id,
     };
 
-    console.log(71,fullBody);
-    
+    console.log(71, fullBody);
+
     getApiClient()
       .submitFullMission(fullBody)
       .then(({ data }) => {
@@ -153,7 +154,7 @@ export default function useCreateTripModal() {
     hide: hideFinalModal,
   } = useContentModal({
     title: 'اطلاعات تکمیلی',
-    zIndex: 9000000,
+    zIndex: 4,
     renderContent: (
       <div>
 
@@ -161,7 +162,7 @@ export default function useCreateTripModal() {
           formState={finalState}
           fields={authInfo?.org?.additionalTripFields}
           onInputChange={handle_onFinalInputChanged}
-          
+
         />
         <TitledSparator title={'انتخاب خودرو'} />
         <div onClick={triggerVehicleSelection}>
@@ -249,6 +250,7 @@ export default function useCreateTripModal() {
     renderContent: ({ }: any) => {
       return (
 
+        
         <div className='useCreateTripModal-component'>
           <div>
             <div>
@@ -264,6 +266,15 @@ export default function useCreateTripModal() {
             </div>
           </div>
           <div>
+            <div>
+              <UserSelectionRender
+                highlights={state.activeUser ? [state.activeUser] : []}
+                smallChips={true}
+                list={selectedUsersState}
+                onChipsItemClick={handle_onUserChipsItemClick}
+                handleRemove={handle_onUserChipsItemRemoved}
+              />
+            </div>
             <div>
               {renderUi(
                 <div className='search-default-text'>
@@ -292,15 +303,6 @@ export default function useCreateTripModal() {
                     />
                   );
               })}
-            </div>
-            <div>
-              <UserSelectionRender
-                highlights={state.activeUser ? [state.activeUser] : []}
-                smallChips={true}
-                list={selectedUsersState}
-                onChipsItemClick={handle_onUserChipsItemClick}
-                handleRemove={handle_onUserChipsItemRemoved}
-              />
             </div>
           </div>
           <div>

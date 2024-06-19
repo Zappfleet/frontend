@@ -327,7 +327,7 @@ const DataGrid = (props: any) => {
 
                 <div className="row">
                     <div className="col-12">
-                        <div className='div-table-responsive table-datagrid grid-height'>
+                        <div className='table-datagrid grid-height'>
                             <table className='pdf_DataGrid table table-hover table-striped'>
                                 <thead>
                                     <tr>

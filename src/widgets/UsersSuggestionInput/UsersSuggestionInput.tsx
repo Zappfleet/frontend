@@ -9,7 +9,7 @@ import { MdAdd } from 'react-icons/md';
 import classNames from 'classnames';
 import { render } from 'react-dom';
 import renderUi from '../../lib/renderUi';
-import SuggestionTextInput from '../SuggestionTextInput';
+import SuggestionTextInput from '../SuggestionTextInput/SuggestionTextInput';
 
 export default function UsersSuggestionInput(props: any) {
   const {
@@ -84,7 +84,7 @@ export default function UsersSuggestionInput(props: any) {
   return (
     <div className='UsersSuggestionInput-component'>
       <div className="search-users">
-        {freeInput===true && (
+        {/* {freeInput===true && (
           <MdAdd
             onClick={suggestionTextInputRef.current?.triggerConfirm}
             className={
@@ -92,7 +92,7 @@ export default function UsersSuggestionInput(props: any) {
             }
             size={36}
           />
-        )}
+        )} */}
 
         <SuggestionTextInput
           componentRef={suggestionTextInputRef}

@@ -1,0 +1,141 @@
+@import '../../../variable';
+
+.PassengerFavoriteLocation-component {
+    margin-top: 30px;
+
+    .LocationSearch-component {
+        position: absolute;
+        width: 100%;
+        z-index: 3;
+    }
+
+    .select {
+        margin-bottom: 30px;
+
+        .favorite-name {
+            position: relative;
+            background-color: white;
+            border-radius: 15px;
+            padding: 5px 15px;
+            padding-left: 70px;
+            width: max-content;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 5px;
+            margin-right: 5px;
+
+            .remove-icon {
+                position: absolute;
+                color: $color-base;
+                left: 15px;
+                font-size: 12px;
+                cursor: pointer;
+            }
+
+            .edit-icon {
+                position: absolute;
+                color: $color-base;
+                left: 30px;
+                font-size: 12px;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .favorite-form {
+        z-index: 3;
+        position: absolute;
+        bottom: 0;
+        right: 10px;
+        background-color: white;
+        border-radius: 10px;
+        padding: 15px 15px;
+
+        .icon-back {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            cursor: pointer;
+            color: $color-base;
+
+        }
+
+        .name {
+            margin-top: 30px;
+        }
+
+        .des {
+            margin-top: 10px;
+        }
+
+        .my-btn {
+            margin-top: 30px;
+        }
+
+    }
+
+    .location-div {
+        position: relative;
+        min-height: 350px;
+
+        ._map_1yxt5_2 {
+            position: absolute;
+        }
+
+        .marker-div {
+            z-index: 3;
+            position: absolute;
+            border-radius: 10px;
+            padding: 3px 5px;
+            top: 50%;
+            right: 50%;
+            background-color: white;
+            color: black;
+
+            span {
+                margin-left: 15px;
+            }
+
+            .marker-icon {
+                position: absolute;
+                top: 5px;
+                left: 5px;
+                color: red;
+                font-size: 16px;
+            }
+        }
+
+        .marker-div::after {
+            position: absolute;
+            color: black;
+            width: 2px;
+            height: 10px;
+            border: 1px solid black;
+            content: "";
+            bottom: -10px;
+            right: 50%;
+        }
+
+
+
+        .loc-search {
+            z-index: 3;
+            position: absolute;
+            top: 30px;
+            right: 15px;
+        }
+
+        .check-icon {
+            z-index: 3;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            border-radius: 50%;
+            padding: 8px;
+            color: white;
+            background-color: $color-base ;
+            cursor: pointer;
+        }
+    }
+}

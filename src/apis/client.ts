@@ -13,7 +13,7 @@ class ApiClient {
     const environmentName = import.meta.env.VITE_ENVIRONMENT_NAME; // assuming VITE_ENVIRONMENT_NAME holds your environment name
 
     //console.log(800,environmentName);
-    
+
     let baseUrl;
     if (environmentName === 'local') {
       baseUrl = import.meta.env.VITE_BASE_URL;
@@ -22,8 +22,8 @@ class ApiClient {
     } else {
       baseUrl = props?.baseUrl; // Fallback to props if environment variables are not set
     }
-   // console.log(900,baseUrl);
-    
+    // console.log(900,baseUrl);
+
     this.axiosInstance = axios.create({
       baseURL: baseUrl,
     });
@@ -302,7 +302,7 @@ class ApiClient {
   }
 
   async getDriverList_By_LastServiceAdnDistanse(status: string) {
-    console.log(7722222, status);
+    //console.log(7722222, status);
 
     const params = {
       status: status,
@@ -396,6 +396,27 @@ class ApiClient {
     );
   }
 
+  async saveMissionComment(mission_id: string, comment: any) {
+    let body = {
+      mission_id: mission_id,
+      comment: comment
+    }
+    return await this.axiosInstance.post(`/api/v2/services/missions/saveMissionComment`, body
+    );
+  }
+
+  async getMissionComment(mission_id: string) {
+    let params = {
+      mission_id: mission_id,
+    }
+    return await this.axiosInstance.get(`/api/v2/services/missions/getMissionComment`, {
+      params
+    }
+    );
+  }
+  
+
+
   async setMissionRequestOnRoute(mission_id: string, request_id: string) {
     return await this.axiosInstance.patch(
       `/api/v2/services/missions/${mission_id}/${request_id}/on-route`
@@ -444,7 +465,7 @@ class ApiClient {
 
   async submitFullMission(fullBody: any) {
     console.log(88);
-    
+
     return await this.axiosInstance.post(
       `/api/v2/services/missions/full`,
       fullBody
@@ -455,6 +476,32 @@ class ApiClient {
     return await this.axiosInstance.get(
       `/api/v2/roles/permissions/deligate/${user_id}`
     );
+  }
+
+
+  async select_FavoriteLocation() {
+    // const params = {
+    //   item:item
+    // }
+    return await this.axiosInstance.get(`/api/v2/favoriteLocations/select_FavoriteLocation`)//, { params });
+  }
+
+  async insert_FavoriteLocation(item: any) {
+    let body = {
+      item:item
+    }
+    console.log(111,item);
+    
+    return await this.axiosInstance.post(`/api/v2/favoriteLocations/insert_FavoriteLocation`, body
+    );
+  }
+
+  async update_FavoriteLocation(item: any) {
+    return this.axiosInstance.put(`/api/v2/favoriteLocations/update_FavoriteLocation`, item);
+  }
+
+  async delete_FavoriteLocation(_id: string) {
+    return this.axiosInstance.delete(`/api/v2/favoriteLocations/delete_FavoriteLocation/${_id}`);
   }
 
   async insertRestrictionShowRequests(key: number, count: any) {
@@ -477,7 +524,7 @@ class ApiClient {
 
   async insertSetWorkingWeek(key: number, item: any) {
     console.log(88);
-    
+
     let body = {
       key: key,
       item: item
@@ -517,6 +564,9 @@ function createParams(status?: string, dateFilter?: any) {
     gmt_to: dateFilter?.gmt_to,
   };
 }
+
+
+
 
 export function getApiClient(config?: ApiClientConfig) {
   return new ApiClient(config);

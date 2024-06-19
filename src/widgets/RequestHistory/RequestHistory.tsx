@@ -10,11 +10,43 @@ import { useNavigate } from 'react-router-dom';
 //sgh
 import { NavLink, useLocation } from 'react-router-dom';
 import useMissions_by_StatusAndDriverID from '../../hooks/useMissions_by_StatusAndDriverID';
+import { emoji as emojiLib } from '../../lib/comments';
+import Comments from '../../components/Comments/Comments';
+import useAuthentication from '../../hooks/data/useAuthentication';
+import useComments from '../../hooks/data/Comments/useComments';
+import { NotificationController } from '../../lib/notificationController';
+
 
 
 
 export default function RequestHistory(props: any = {}) {
 
+    const [showBtnRegistComment, setShowBtnRegistComment] = useState<any>(false)
+    const [showCommentComponent, setShowCommentComponent] = useState<any>(false)
+    const [role, setRole] = useState<any>(null)
+    const [ID, setID] = useState<any>(null)
+
+    const [actionType, setActionType] = useState<any>('')
+    const [userComment, setUserComment] = useState<any>(null)
+    const [refreshHook, setRefreshHook] = useState<any>(false)
+    const [mission_id, setMissionID] = useState<any>(null)
+
+    const { authInfo } = useAuthentication();
+    const { result: resultComment, refreshData: refreshDataComment } = useComments(refreshHook, actionType, mission_id, userComment)
+
+    useEffect(() => {
+        if (authInfo) {
+            if (authInfo.auth.roles[0].title === 'راننده') {
+                setRole('driver')
+                setID(authInfo.auth._id)
+            }
+            if (authInfo.auth.roles[0].title === 'مسافر') {
+                setRole('passenger')
+                setID(authInfo.auth._id)
+            }
+
+        }
+    }, [authInfo])
 
     const navigate = useNavigate();
     const { mode } = props;
@@ -26,6 +58,8 @@ export default function RequestHistory(props: any = {}) {
     } = useItemSetToggle({ onlyOne: true });
 
     const { missionList } = useMissions_by_StatusAndDriverID("DRAFT", null);
+    const { missionList: missionListDONEStatus } = useMissions_by_StatusAndDriverID("DONE", null);
+
 
 
     // return <div>
@@ -89,9 +123,98 @@ export default function RequestHistory(props: any = {}) {
         return false
     }
 
+    const saveComment = (comment: any) => {
+        setShowCommentComponent(false)
+        setUserComment(comment)
+        setActionType('insert')
+        setRefreshHook(true)
+    }
+
+
+    useEffect(() => {
+        console.log(7, resultComment);
+
+        if (resultComment) {
+            if (actionType === 'insert') {
+                if (resultComment.status === 200) {
+                    NotificationController.showSuccess('نظرات ثبت شد');
+                    setShowBtnRegistComment(false)
+                }
+                else {
+                    NotificationController.showError('اطلاعات ثبت نشد');
+                }
+            }
+            if (actionType === 'select') {
+                console.log(23, resultComment.data);
+
+                let registedCommentbefore = true
+                resultComment?.data?.data?.map((item: any) => {
+                    console.log(5, item.registerID, ID);
+                    if (item.registerID === ID) {
+                        registedCommentbefore = false
+                    }
+                })
+                setShowBtnRegistComment(registedCommentbefore)
+            }
+            setRefreshHook(false)
+        }
+    }, [resultComment])
+
+    const showComment = (request_id: any) => {
+
+        const myMissions = missionListDONEStatus?.filter((item: any) =>
+            item.service_requests && item.service_requests[0]?.request_id === request_id
+        );
+
+        const myComments = myMissions && myMissions[0]?.extra?.comments ? myMissions[0].extra.comments : undefined;
+      
+        const result = myComments?.map((item: any) => {
+            return <>
+                <div className='com0'>
+                    <span className='title'>{`نظر ${item.role === 'driver' ? 'راننده' : 'مسافر'}`}</span>
+                </div>
+                <div className='com1'>
+                    <i style={{ color: emojiLib.find(ite => ite.key === item.emojiID)?.color }}
+                        className={emojiLib.find(ite => ite.key === item.emojiID)?.icon}></i>
+                    <span>{(emojiLib.find(ite => ite.key === item.emojiID))?.value}</span>
+                </div>
+                <div className='com2'>
+                    <p>{item.customComment}</p>
+                </div>
+                <div className='com3'>
+                    {item.comments?.map((ite: any) => {
+                        return <span className={ite.type}>{ite.value}</span>
+                    })}
+                </div>
+            </>
+        }) 
+        
+        // setShowBtnRegistComment(true)
+
+        
+        return result ? <div className='request-mycomment'>
+            <div className="row">
+                <div className="col-2 title">
+                    {'نظرات'}
+                </div>
+                <div className="col-10">
+                    {result}
+                </div>
+            </div>
+        </div>
+            :
+            null
+
+    }
+
+    const handleClickBtnComment = (missionID: any) => {
+        setMissionID(missionID)
+        setShowCommentComponent(true)
+    }
+
     return <div className="RequestHistory-component">
         <div className="row">
-            <div className="col-12">
+            <div className="col-12 have-table">
                 <table className='table table-hover'>
                     <thead>
                         <tr>
@@ -109,6 +232,22 @@ export default function RequestHistory(props: any = {}) {
                                 request.status === 'PENDING' || request.status === 'CONFIRM' ? true :
                                     request.status === 'ASSIGNED_TO_MISSION' ? handleIsEditPossible(request._id) : false
 
+                            const myMissions = missionListDONEStatus?.filter((item: any) =>
+                                item.service_requests && item.service_requests[0]?.request_id === request._id
+                            );
+
+                            const myComments = myMissions && myMissions[0]?.extra?.comments ? myMissions[0].extra.comments : undefined;
+
+                            let x = true
+                            console.log(50, myComments, ID);
+
+                            myComments?.map((ite: any) => {
+                                if (ite.registerID === ID) {
+                                    x = false
+                                }
+                            })
+
+
                             const isExpanded = expandedRows.includes(request._id);
                             return <React.Fragment key={request._id}>
                                 <tr>
@@ -116,6 +255,15 @@ export default function RequestHistory(props: any = {}) {
                                         {isEditPossible === true &&
                                             <i onClick={() => handleNavigation(request)} className="fa fa-pencil pencil "></i>
                                         }
+                                        {x === true &&
+                                            <i onClick={() => handleClickBtnComment(myMissions[0]._id)} className="fa fa-comment pencil "></i>}
+
+                                        {showCommentComponent &&
+                                            <div className="div-comments">
+                                                <i onClick={() => setShowCommentComponent(false)} className='close-icon fa fa-remove'></i>
+                                                <Comments registerID={ID} registerRole={role} saveComment={saveComment} />
+                                            </div>}
+
                                     </td>
                                     <td>{request.submitted_by?.full_name || request.submitted_by?.username}</td>
                                     <td>{request.confirmed_by?.full_name || request.confirmed_by?.username}</td>
@@ -132,6 +280,7 @@ export default function RequestHistory(props: any = {}) {
                                             className='expand'>
                                             <div>
                                                 <RequestDetailsBox request={request} />
+                                                {showComment(request._id)}
                                             </div>
                                         </div>
                                     </td>

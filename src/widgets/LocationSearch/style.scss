@@ -1,8 +1,12 @@
+.LocationSearch-component {
 
-.LocationSearch-component{
-   
+    .loc-search-result {
+        z-index: 1000;
+        height: 80%;
+        overflow: scroll;
+    }
 
-    .map-btn{
+    .map-btn {
         position: absolute;
         padding: 5px;
         width: 95%;

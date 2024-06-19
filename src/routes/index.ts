@@ -14,24 +14,28 @@ const PassengerNewServiceRequest = lazy(
   () => import('../pages/Passenger/PassengerServiceRequest/PassengerServiceRequest')
 );
 const PassengerMissionDetails = lazy(
-  () => import('../pages/Passenger/PassengerMissionDetails')
+  () => import('../pages/Passenger/PassengerMissionDetails/PassengerMissionDetails')
 );
 const DriverCurrentMissionService = lazy(
-  () => import('../pages/Driver/DriverCurrentMissionService')
+  () => import('../pages/Driver/DriverCurrentMissionService/DriverCurrentMissionService')
 );
-const RoleActions = lazy(() => import('../pages/Users/RoleActions'));
-const UsersManager = lazy(() => import('../pages/Users/UsersManager'));
+const RoleActions = lazy(() => import('../pages/Users/RoleActions/RoleActions'));
+const UsersManager = lazy(() => import('../pages/Users/UsersManager/UsersManager'));
 const AreaManager = lazy(() => import('../pages/Areas/AreaManager'));
 const DefinitionsManager = lazy(
   () => import('../pages/definitions/DefinitionsManager')
 );
 const VehicleManager = lazy(() => import('../pages/Vehicles/VehicleManager'));
 const DriverMissionHistory = lazy(
-  () => import('../pages/Driver/DriverMissionHistory')
+  () => import('../pages/Driver/DriverMissionHistory/DriverMissionHistory')
 );
 const PassengerRequestHistory = lazy(
-  () => import('../pages/Passenger/PassengerRequestHistory')
+  () => import('../pages/Passenger/PassengerRequestHistory/PassengerRequestHistory')
 );
+const PassengerFavoriteLocation = lazy(
+  () => import('../pages/Passenger/PassengerFavoriteLocation/PassengerFavoriteLocation')
+);
+
 
 const Reports = lazy(() => import('../pages/Reports/Reports'));
 const TimeOfServices = lazy(() => import('../pages/Reports/TimeOfServices/TimeOfServices'));
@@ -42,7 +46,7 @@ const RestOfDriverBetweenServises = lazy(() => import('../pages/Reports/RestOfDr
 const InActiveSystem = lazy(() => import('../pages/Restrictions/InActiveSystem/InActiveSystem'));
 const RestrictionShowRequests = lazy(() => import('../pages/Restrictions/RestrictionShowRequests/RestrictionShowRequests'));
 const SetWorkingWeek = lazy(() => import('../pages/Restrictions/SetWorkingWeek/SetWorkingWeek'));
-
+const Comments = lazy(() => import('../pages/Comments/Comments'));
 
 const DeligationManager = lazy(
   () => import('../pages/Deligation/DeligationManager')
@@ -155,6 +159,11 @@ const coreRoutes = [
     component: PassengerRequestHistory,
   },
   {
+    path: '/passenger/favoriteLocation',
+    title: 'Passenger favorite Location',
+    component: PassengerFavoriteLocation,
+  },
+  {
     path: '/reports',
     title: 'Reports',
     component: Reports,
@@ -193,6 +202,11 @@ const coreRoutes = [
     path: '/SetWorkingWeek',
     title: 'SetWorkingWeek',
     component: SetWorkingWeek,
+  },
+  {
+    path: '/Comments',
+    title: 'Comments',
+    component: Comments,
   },
   
 ];

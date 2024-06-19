@@ -1,0 +1,31 @@
+.VehicleManager-component {
+  background-color: white;
+}
+.VehicleManager-component .right {
+  position: relative;
+}
+.VehicleManager-component .left {
+  padding: 25px 10px;
+  position: relative;
+  width: 100%;
+  overflow: auto;
+  max-height: 300px;
+}
+.VehicleManager-component table {
+  width: -moz-max-content;
+  width: max-content;
+  overflow: scroll;
+}
+.VehicleManager-component .close-icon {
+  position: absolute;
+  background-color: #0d6efd;
+  top: 5px;
+  left: 0px;
+  padding: 8px;
+  border-radius: 50%;
+  color: white;
+}
+.VehicleManager-component .close-icon:hover {
+  color: whitesmoke;
+  cursor: pointer;
+}/*# sourceMappingURL=style.css.map */

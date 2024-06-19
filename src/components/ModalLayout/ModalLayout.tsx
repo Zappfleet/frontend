@@ -8,6 +8,7 @@ interface ModalLayoutInterface {
   mode?: 'center' | 'fullscreen' | 'none';
   zIndex?: number;
   noScroll?: boolean;
+  className?: String;
   renderContent: (data: any) => ReactElement | string;
 }
 
@@ -24,7 +25,7 @@ const ModalLayout = (
   return (
     <>
       {props.open &&
-        <div className='ModalLayout-component'>
+        <div className={props.className ? props.className : `ModalLayout-component`} style={{ zIndex: props.zIndex }}>
           <div className="modal-content">
             <div>
               <i onClick={props.handle_close} className='fa fa-close close-icon'></i>

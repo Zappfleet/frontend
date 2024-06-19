@@ -1,0 +1,30 @@
+.SuggestionTextInput-component {
+    position: relative;
+
+    .search-close {
+        display: block;
+        position: absolute;
+        top: 5px;
+        left: 10px;
+
+    }
+
+    .ul-user {
+        top: 30px;
+        position: absolute;
+        background-color: white;
+        z-index: 2;
+        max-height: 200px;
+        overflow: scroll;
+        width: fit-content;
+        min-width: 80%;
+        padding: 10px;
+        border: 2px solid #eee;
+    }
+
+    .search {
+        margin-top: 20px;
+        width: 80%;
+    }
+
+}

@@ -1,0 +1,30 @@
+.PassengerMissionDetails-component {
+  position: relative;
+  width: 100%;
+  min-height: 450px;
+}
+.PassengerMissionDetails-component .ol-viewport {
+  z-index: 2;
+}
+.PassengerMissionDetails-component .location-div {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.PassengerMissionDetails-component .car-icon {
+  padding: 15px;
+  color: white;
+  background-color: #0d6efd;
+  border-radius: 50%;
+  font-size: 25px;
+}
+.PassengerMissionDetails-component .div-details {
+  position: absolute;
+}
+.PassengerMissionDetails-component .div-details .close-icon {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  color: #0d6efd;
+  z-index: 3;
+}/*# sourceMappingURL=style.css.map */

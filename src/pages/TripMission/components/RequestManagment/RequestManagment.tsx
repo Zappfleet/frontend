@@ -1,6 +1,6 @@
 import './style.scss'
 import { useState, useEffect, useRef } from 'react';
-import FloatingButtonWithModal from '../../../../widgets/FloatingButtonWithModal';
+import FloatingButtonWithModal from '../../../../widgets/FloatingButtonWithModal/FloatingButtonWithModal';
 import SearchInputWithFilter from '../../../../widgets/SearchInputWithFilter';
 import ServiceRequestCard from '../ServiceRequestCard/ServiceRequestCard';
 import classNames from 'classnames';
@@ -59,7 +59,7 @@ const RequestManagment = () => {
 
   const [activity, setActivity] = useState<any>({});
 
-  const { show: showConfirm, ui: ConfirmModalUi } = useConfirmModal();
+  const { show: showConfirm, ui: ConfirmModalUi } = useConfirmModal('');
 
   const fleetGpsUpdate = (payload: any) => {
     if (fleetData?.data?.vehicles?.docs == null) return;
@@ -79,19 +79,35 @@ const RequestManagment = () => {
     },
   });
 
-  useEffect(() => {
-    console.log('GPS UPDATE');
-  }, [fleetGps]);
+  // useEffect(() => {
+  //   console.log(7500, socket);
 
-  useEffect(() => {
-    if (socket.current == null) return;
-    const interval = setInterval(() => {
-      socket.current.emit(EVENT_FLEET_GPS_REQUEST);
-    }, 5000);
-    return () => {
-      clearInterval(interval);
-    };
-  });
+  //   if (socket.current == null) return;
+
+  //   const handleFleetGpsUpdate = (data: any) => {
+  //     console.log('Fleet GPS update:', data);
+  //     // Update your frontend state with the new data
+  //   };
+
+  //   socket.current.on(EVENT_FLEET_GPS_UPDATE, handleFleetGpsUpdate);
+
+  //   return () => {
+  //     socket.current.off(EVENT_FLEET_GPS_UPDATE, handleFleetGpsUpdate);
+  //   };
+  // }, [socket]);
+
+  // useEffect(() => {
+  //   console.log(321654, socket.current);
+
+  //   if (socket.current === null) return;
+  //   const interval = setInterval(() => {
+  //     socket.current.emit(EVENT_FLEET_GPS_REQUEST);
+  //     console.log(2525, socket.current);
+  //   }, 500000);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, []);
 
   const { data: vehicleBasicData }: any = useVehicleBasicData();
 
@@ -242,10 +258,10 @@ const RequestManagment = () => {
       {FullScreenModalUi}
 
       <div className="row">
-        <div className="col-8">
+        <div className="col-12 col-md-8">
           <SearchInputWithFilter />
         </div>
-        <div className="col-4">
+        <div className="col-12 col-md-4">
 
           <button onClick={() => handle_switchTab(TAB_REQUESTS)}
             className={`link ${state.visible_tab == TAB_REQUESTS ? 'active-tab' : 'no-active'}`}>
@@ -267,43 +283,40 @@ const RequestManagment = () => {
 
       <div className="row">
         <div className="col-12">
-            {renderUi(
-              <ServiceRequestCard
-                editCallback={handle_editCallback}
-                requests={requestsData}
-                draftMission={draftMission}
-                handle_assignRequestToDraft={handle_assignRequestToDraft}
-              />
-            ).if(state.visible_tab == TAB_REQUESTS)}
-            {renderUi(
-              <TripMissionCard
-                prompt_onMissionReady={prompt_onMissionReady}
-                triggerVehicleAssignment={triggerVehicleAssignment}
-              />
-            ).if(state.visible_tab == TAB_SERVICES)}
-            {renderUi(
-              <div style={{ height: '62vh' }}>
-                <TransportFleet
-                  handle_onVehicleClick={handle_onVehicleClick}
-                  fleetData={fleetData}
-                />
-              </div>
-            ).if(state.visible_tab == TAB_FLEET)}
+          {renderUi(
+            <ServiceRequestCard
+              editCallback={handle_editCallback}
+              requests={requestsData}
+              draftMission={draftMission}
+              handle_assignRequestToDraft={handle_assignRequestToDraft}
+            />
+          ).if(state.visible_tab == TAB_REQUESTS)}
+          {renderUi(
+            <TripMissionCard
+              prompt_onMissionReady={prompt_onMissionReady}
+              triggerVehicleAssignment={triggerVehicleAssignment}
+            />
+          ).if(state.visible_tab == TAB_SERVICES)}
+          {renderUi(
+            <TransportFleet
+              handle_onVehicleClick={handle_onVehicleClick}
+              fleetData={fleetData}
+            />
+          ).if(state.visible_tab == TAB_FLEET)}
         </div>
       </div>
 
 
 
-      <FloatingButtonWithModal
-        icon={<BiPlus size={42} className={'text-white'} />}
-      >
+      <FloatingButtonWithModal>
         {renderUi(<SmallLoader />).if(draftMission?.data == null)}
 
         {renderUi(
-          <label className="p-12">
+          <label className='lbl-text'>
             {'هیچ درخواستی در پیش نویس وجود ندارد'}
           </label>
         ).if(draftMission?.data?.service_requests?.length === 0)}
+
         {renderUi(
           <div>
             {draftMission?.data?.service_requests?.map(({ request }: any) => {

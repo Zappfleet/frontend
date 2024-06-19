@@ -1,0 +1,28 @@
+.DeligationManager-component .box {
+  background-color: white;
+  width: 100%;
+  min-height: 250px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  padding: 10px 15px;
+}
+.DeligationManager-component .btn-div {
+  margin-top: 30px;
+}
+.DeligationManager-component .item-div {
+  padding: 5px 0px;
+}
+.DeligationManager-component .title {
+  color: #0d6efd;
+  padding: 15px 0px;
+}
+.DeligationManager-component .search-user-div {
+  margin-bottom: 30px;
+}
+.DeligationManager-component .search-user-div .search-users {
+  position: relative !important;
+}
+.DeligationManager-component .search-user-div .selected-user {
+  position: relative !important;
+  top: 15px;
+}/*# sourceMappingURL=style.css.map */

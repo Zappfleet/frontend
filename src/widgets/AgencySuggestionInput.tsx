@@ -1,6 +1,6 @@
 import useVehicles from '../hooks/data/useVehicles';
 import { VEHICLE_TYPE_AGENCY } from '../lib/constants';
-import SuggestionTextInput from './SuggestionTextInput';
+import SuggestionTextInput from './SuggestionTextInput/SuggestionTextInput';
 import { useRef } from 'react';
 
 export default function AgencySuggestionInput({ onAgencySelected }: any) {

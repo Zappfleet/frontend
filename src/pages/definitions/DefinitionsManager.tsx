@@ -1,6 +1,7 @@
 import { getApiClient } from "../../apis/client";
+import './style.scss'
 import BasicDataTable from "../../components/BasicDataTable";
-import TabbedPanel from "../../components/TabbedPanel";
+import TabbedPanel from "../../components/TabbedPanel/TabbedPanel";
 import useVehicleBasicData from "../../hooks/data/useVehicleBasicData";
 import { NotificationController } from "../../lib/notificationController";
 import { serviceUnits } from "../../lib/string";
@@ -88,7 +89,7 @@ const DefinitionsManager = () => {
         }
     ]
 
-    return <div className="">
+    return <div className="DefinitionsManager-component">
         <TabbedPanel
             tabs={tabs}
         />

@@ -1,10 +1,11 @@
 .useConfirmModal-component {
   position: fixed;
   right: 50%;
+  left: 50%;
   top: 150px;
   z-index: 55;
-  width: -moz-fit-content;
-  width: fit-content;
+  width: -moz-max-content;
+  width: max-content;
   padding: 30px;
   background-color: white;
   border: 1px solid #eee;

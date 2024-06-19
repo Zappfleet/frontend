@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import TransferList from '../../components/TransferList';
+import './style.scss';
+// import TransferList from '../../components/TransferList';
 
 import useAuthentication from '../../hooks/data/useAuthentication';
 import UsersSuggestionInput from '../../widgets/UsersSuggestionInput/UsersSuggestionInput';
-import renderUi from '../../lib/renderUi';
+// import renderUi from '../../lib/renderUi';
 import SimpleButton from '../../components/SimpleButton';
 import useDeligation from '../../hooks/data/useDeligation';
 import { NotificationController } from '../../lib/notificationController';
@@ -145,19 +146,80 @@ function DeligationManager() {
     });
   }
 
+
+
   return (
-    <div>
-      <h1 className="mx-2 mt-6">
-        {'جهت تفویض اختیارات خود به همکاران نام یا کد پرسنلی را جستجو کنید'}
-      </h1>
-      <UsersSuggestionInput
-        smallChips={true}
-        externalState={[state.selectedUsers, handle_setSelectedUsers]}
-        showListOnTop={false}
-        permissions={[]}
-        search_all={true}
-      />
-      {renderUi(
+    <div className='DeligationManager-component'>
+      <div className="row">
+        <div className="col-12">
+          <div className="search-user-div">
+            <h1 className="mx-2 mt-6">
+              {'جهت تفویض اختیارات خود به همکاران نام یا کد پرسنلی را جستجو کنید'}
+            </h1>
+            <UsersSuggestionInput
+              smallChips={true}
+              externalState={[state.selectedUsers, handle_setSelectedUsers]}
+              showListOnTop={false}
+              permissions={[]}
+              search_all={true}
+            />
+          </div>
+        </div>
+      </div>
+      {state?.selectedUsers?.length > 0 && userDeligations != null &&
+        <>
+          <div className="row">
+            <div className="col-6">
+              <div>
+                <div className='box'>
+                 <div className='title'>{'مجوز های من'}</div> 
+
+                  {state.source.map((item: any) => {
+                    return (
+                      <div className='item-div' onClick={() => handle_tranfer(item, 'source', 'dest')}>
+                        {item.label}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            <div className="col-6">
+              <div>
+                <div className='box'>
+                 <div className='title'>{'تفویض شده'}</div> 
+
+                  {state.dest.map((item: any) => {
+                    return (
+                      <div className='item-div' onClick={() => handle_tranfer(item, 'dest', 'source')} >
+                        {item.label}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-12">
+              <div className="btn-div">
+                {permission_DELEGATION === true &&
+                  <SimpleButton onClick={handle_submitDeligations}>
+                    {'اعمال تفویض اختیار'}
+                  </SimpleButton>
+                }
+                {permission_DELEGATION === false &&
+                  <SimpleButton disabled={true} className={'NoPermission'}>
+                    {'اعمال تفویض اختیار'}
+                  </SimpleButton>
+                }
+              </div>
+            </div>
+          </div>
+        </>
+      }
+      {/* {renderUi(
         <div>
           <TransferList
             options={{
@@ -179,7 +241,7 @@ function DeligationManager() {
             </SimpleButton>
           }
         </div>
-      ).if(state?.selectedUsers?.length > 0 && userDeligations != null)}
+      ).if(state?.selectedUsers?.length > 0 && userDeligations != null)} */}
     </div>
   );
 }

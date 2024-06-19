@@ -8,4 +8,7 @@
 }
 .RequestManagment-component .no-active {
   color: gray;
+}
+.RequestManagment-component .lbl-text {
+  padding: 25px 5px;
 }/*# sourceMappingURL=style.css.map */

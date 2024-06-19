@@ -1,0 +1,57 @@
+.MissionHistory-component {
+  margin-top: 30px;
+}
+.MissionHistory-component .expand {
+  transition-duration: 300ms;
+}
+.MissionHistory-component .request-mycomment {
+  margin-top: 30px;
+}
+.MissionHistory-component .request-mycomment .title {
+  color: #0d6efd;
+}
+.MissionHistory-component .request-mycomment .com1 i {
+  margin-left: 10px;
+}
+.MissionHistory-component .request-mycomment .com3 span {
+  display: inline-flex;
+  width: -moz-max-content;
+  width: max-content;
+  padding: 2px 5px;
+  margin-left: 5px;
+  margin-top: 3px;
+  border-radius: 5px;
+  color: white;
+  font-size: 12px;
+}
+.MissionHistory-component .request-mycomment .com3 .good {
+  background-color: green;
+}
+.MissionHistory-component .request-mycomment .com3 .bad {
+  background-color: red;
+}
+.MissionHistory-component .pencil {
+  color: #0d6efd;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.MissionHistory-component .name {
+  color: #0d6efd;
+  padding-left: 15px;
+}
+.MissionHistory-component .have-table {
+  overflow: auto;
+}
+.MissionHistory-component .table {
+  background-color: white;
+  width: -moz-max-content;
+  width: max-content;
+  overflow: scroll;
+}
+.MissionHistory-component .table thead {
+  background-color: #0d6efd;
+  color: white;
+}
+.MissionHistory-component .table thead tr {
+  border-radius: 5px !important;
+}/*# sourceMappingURL=style.css.map */

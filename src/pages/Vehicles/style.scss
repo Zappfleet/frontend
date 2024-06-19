@@ -1,0 +1,39 @@
+@import '../../variable';
+
+.VehicleManager-component {
+    background-color: white;
+
+    .right {
+        position: relative;
+    }
+
+    .left {
+        padding: 25px 10px;
+        position: relative;
+        width: 100%;
+        overflow: auto;
+        max-height: 300px;
+
+    }
+
+    table {
+        width: max-content;
+        overflow: scroll;
+    }
+
+    .close-icon {
+        position: absolute;
+        background-color: $color-base;
+        top: 5px;
+        left: 0px;
+        padding: 8px;
+        border-radius: 50%;
+        color: white;
+    }
+
+    .close-icon:hover {
+        color: whitesmoke;
+        cursor: pointer;
+    }
+
+}

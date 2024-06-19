@@ -58,12 +58,12 @@ const DefaultLayout = () => {
 
   return (
     <>
-      <div className="DefaultLayout-component">
+      <div className="container-fluid DefaultLayout-component">
 
-        <i onClick={() => setSidebarOpen(!sidebarOpen)} className='button-bars fa fa-bars d-block d-sm-none'></i>
 
-        <div className="row">
+        <div className="row row-header">
           <div className="col-12">
+            <i onClick={() => setSidebarOpen(!sidebarOpen)} className='button-bars fa fa-bars d-block d-sm-none'></i>
             <Header />
           </div>
         </div>

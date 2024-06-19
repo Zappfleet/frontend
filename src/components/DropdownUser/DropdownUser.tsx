@@ -8,13 +8,14 @@ import { LOGIN_PAGE } from '../../lib/constants';
 import useAuthentication from '../../hooks/data/useAuthentication';
 import { BiUserCircle } from 'react-icons/bi';
 import { FaUserCircle } from 'react-icons/fa';
+import classNames from 'classnames';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const { authInfo } = useAuthentication();
 
-  const { show: showConfirm, ui: ModalUi } = useConfirmModal();
+  const { show: showConfirm, ui: ModalUi } = useConfirmModal('ModalLayout-component-login');
   const navigate = useNavigate();
 
 

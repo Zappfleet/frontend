@@ -88,7 +88,7 @@ const DriverList_By_LastServiceAdnDistanse: React.FC = () => {
 
         if (missionList) {
             if (missionList.status === 200) {
-                console.log(222, missionList);
+              //  console.log(222, missionList);
                 fetchData()
             }
             if (missionList.status === 403) {

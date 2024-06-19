@@ -3,6 +3,7 @@
 }
 .datagrid-component .grid-height {
   min-height: 400px;
+  overflow: auto;
 }
 .datagrid-component .datetime-input {
   border: none;
@@ -121,14 +122,8 @@
   width: -moz-max-content;
   width: max-content;
   border: 1px solid #ddd;
-  min-width: 100%;
   overflow: scroll;
   border: none;
-}
-.datagrid-component .div-table-responsive {
-  overflow-x: auto;
-  overflow-y: auto;
-  overflow: visible !important;
 }
 .datagrid-component td {
   padding: 7px !important;

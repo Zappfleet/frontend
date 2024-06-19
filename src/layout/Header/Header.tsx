@@ -14,8 +14,8 @@ const Header = () => {
           <span className='titlepage'> سامانه ی جامع حمل و نقل زپ</span>
         </div>
 
-        <div className="col-2 d-block d-md-none"></div>
-        <div className="col-6 col-md-8 flex-center">
+       
+        <div className="col-12 col-md-8 flex-center">
           <div className="search flex-center">
             <input
               type="text"
@@ -25,7 +25,9 @@ const Header = () => {
             <i className='fa fa-search flex-center'></i></div>
         </div>
 
-        <div className="col-4 col-md-2 flex-end">
+        <div className="col-2 d-block d-md-none"></div>
+
+        <div className="col-10 col-md-2 flex-end">
           <DropdownUser />
         </div>
 

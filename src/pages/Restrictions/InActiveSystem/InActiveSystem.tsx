@@ -223,13 +223,13 @@ const InActiveSystem: React.FC = () => {
             <div className="report-component">
                 <div className="filter-items">
                     <div className="row">
-                        <div className="col-3">
+                        <div className="col-12 col-md-3">
                             <div className="right">
                                 <button onClick={() => handleInsert()} className='form-control'>ایجاد</button>
                                 {ShowlistOfItems}
                             </div>
                         </div>
-                        <div className="col-9">
+                        <div className="col-12 col-md-9">
                             <div className="row">
                                 <div className="col-12 col-md-3">
                                     از تاریخ

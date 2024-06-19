@@ -1,13 +1,77 @@
+@import '../../../variable';
+
 .PassengerServiceRequest-page {
+    position: relative;
+
+    .showFavoriteLocation {
+        position: absolute;
+        margin-bottom: 30px;
+        top: 40px;
+        right: 20px;
+
+        .favorite-name {
+            position: relative;
+            background-color: white;
+            border-radius: 15px;
+            padding: 5px 15px;
+            width: max-content;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 5px;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+        .favorite-name:hover {
+            color: $color-base;
+        }
+    }
+
     .main-div {
+        top: 35px;
+        width: 100%;
+        height: 400px;
+    }
+
+    .loc-name-div {
+        position: absolute;
+        bottom: 10px;
+    }
+
+    .loc-name {
+        position: relative;
+        background-color: white;
+        border-radius: 10px;
+        font-size: 12px;
+        margin-top: 3px;
+        margin-right: 10px;
+        padding-right: 25px;
+
+    }
+
+    .loc-remove {
+        position: absolute;
+        background-color: red;
+        color: white;
+        font-size: 14px;
+        border-radius: 50%;
+        padding: 5px;
+        right: 3px;
+    }
+
+    .delete-icon {
         position: absolute;
     }
 
-    .delete-icon{
-        position: absolute;
-    }
     .loc-search {
         position: absolute;
         top: 20px;
+    }
+
+    .pin-icon {
+        position: absolute;
+        bottom: 10px;
+        right: 25px;
     }
 }

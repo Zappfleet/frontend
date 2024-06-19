@@ -24,6 +24,7 @@ import {
     PERMIT_SERVICE_PERSONAL_EDIT,
     PERMIT_SERVICE_ORG_DIRECT_EDIT
 } from '../../../../lib/constants'
+import { setEndOfDay, setStartOfDay } from '../../../../utils/utils';
 
 const ServiceRequestCard = (props: any) => {
 
@@ -39,7 +40,7 @@ const ServiceRequestCard = (props: any) => {
     }, [result])
 
     useEffect(() => {
-       // console.log(122,count);
+        // console.log(122,count);
     }, [count])
 
     const currentDate = new Date();
@@ -116,10 +117,10 @@ const ServiceRequestCard = (props: any) => {
                 //sgh filter request based restriction show reaquest
                 let date = new Date(item.gmt_for_date);
 
-                console.log(7,date,currentDate,endDate);
-                
+                console.log(7, date, currentDate, endDate);
 
-                if (!(date >= currentDate && date <= endDate)) {
+
+                if (!(date >= setStartOfDay(currentDate) && date <= setEndOfDay(endDate))) {
                     return null
                 }
 

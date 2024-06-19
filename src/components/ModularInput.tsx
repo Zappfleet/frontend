@@ -20,7 +20,7 @@ export function ModularInput(props: any) {
     <div>
       <label>{props.title}</label>
       {renderUi(
-        <input
+        <input className='form-control'
           {...props}
           name={props.inputKey}
         />
@@ -37,6 +37,7 @@ export function ModularInput(props: any) {
         </select>
       ).if(props.type == INPUT_TYPE_LIST)}
       {renderUi(
+        
         <div>
           <DatePicker
             {...props}
@@ -60,7 +61,6 @@ export function ModularInput(props: any) {
           />
         </div>
       ).if(props.type == INPUT_TYPE_DATETIME)}
-
       {renderUi(
         <div>
           <UsersSuggestionInput

@@ -4,11 +4,13 @@ import './FooterStyle.scss'
 
 function Footer() {
   return (
-    <div className='footer-component'>
-      <footer>
+    <>
+    </>
+    // <div className='footer-component'>
+    //   <footer>
       
-      </footer>
-    </div>
+    //   </footer>
+    // </div>
   );
 }
 

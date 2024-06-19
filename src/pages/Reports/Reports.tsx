@@ -1,4 +1,4 @@
-import TabbedPanel from '../../components/TabbedPanel';
+import TabbedPanel from '../../components/TabbedPanel/TabbedPanel';
 import AgencyReport from './AgencyReport/AgencyReport';
 import DriverReport from './AgencyReport/DriverReport';
 import DriverReportDetails from './AgencyReport/DriverReportDetails';

@@ -3,6 +3,7 @@
 
     .grid-height {
         min-height: 400px;
+        overflow: auto;
     }
 
     .datetime-input {
@@ -167,20 +168,11 @@
         width: max-content;
 
         border: 1px solid #ddd;
-        min-width: 100%;
+        
         overflow: scroll;
 
         border: none;
 
-
-    }
-
-    .div-table-responsive {
-        overflow-x: auto;
-        overflow-y: auto;
-        // border: 1px solid #ddd;
-        // max-height: 450px;
-        overflow: visible !important;
 
     }
 

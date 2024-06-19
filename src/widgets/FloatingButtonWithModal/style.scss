@@ -1,0 +1,21 @@
+@import '../../variable';
+
+.FloatingButtonWithModal-component {
+    .icon {
+        position: fixed;
+        background-color: $color-base;
+        color: white;
+        border-radius: 50%;
+        font-size: 25px;
+        padding: 20px;
+        bottom: 30px;
+        left: 30px;
+    }
+    .pishkhan-div{
+        position: fixed;
+        max-width: 80%;
+        bottom: 100px;
+        left: 15px;
+        background-color: white;
+    }
+}

@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import './style.scss'
 import LoaderButton from '../../components/LoaderButton';
 import { useEffect, useRef, useState } from 'react';
 import useVehicles from '../../hooks/data/useVehicles';
@@ -21,14 +22,14 @@ import ErrorMessage from '../Form/FormErrorMessage';
 import { getApiClient } from '../../apis/client';
 import { NotificationController } from '../../lib/notificationController';
 import usePermittedUsers from '../../hooks/data/usePermittedUsers';
-import SuggestionTextInput from '../../widgets/SuggestionTextInput';
+import SuggestionTextInput from '../../widgets/SuggestionTextInput/SuggestionTextInput';
 import {
   EMPTY,
   NONE_KEY,
   PERMIT_DRIVER,
   VEHICLE_TYPE_AGENCY,
 } from '../../lib/constants';
-import TabbedPanel from '../../components/TabbedPanel';
+import TabbedPanel from '../../components/TabbedPanel/TabbedPanel';
 
 
 import useCurrentUserPermissions from '../../hooks/useCurrentUserPermissions';
@@ -318,389 +319,384 @@ const VehicleManager = () => {
     if (isAgencyTabSelected())
       return (
         <>
-          <th className="px-4 py-2 text-sm text-black dark:text-white">
+          <th>
             نام آژانس
           </th>
-          <th className="px-4 py-2 text-sm text-black dark:text-white">تلفن</th>
+          <th>تلفن</th>
         </>
       );
     return (
       <>
-        <th className="px-4 py-2 text-sm text-black dark:text-white">گروه</th>
-        <th className="px-4 py-2 text-sm text-black dark:text-white">وضعیت</th>
-        <th className="px-4 py-2 text-sm text-black dark:text-white">پلاک</th>
-        <th className="px-4 py-2 text-sm text-black dark:text-white">
+        <th>گروه</th>
+        <th>وضعیت</th>
+        <th>پلاک</th>
+        <th>
           سرویس ها
         </th>
-        <th className="px-4 py-2 text-sm text-black dark:text-white">راننده</th>
-        <th className="px-4 py-2 text-sm text-black dark:text-white">جزئیات</th>
+        <th>راننده</th>
+        <th>جزئیات</th>
       </>
     );
   }
 
   return (
-    <div className="flex rounded border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-      <div className="relative w-full p-6 lg:w-1/3">
-        {input._id != null && (
-          <BiXCircle
-            onClick={clearInputs}
-            className={'absolute left-0 cursor-pointer hover:text-danger'}
-            size={20}
-          />
-        )}
+    <>
+      <div className="VehicleManager-component">
+        <div className="row">
+          <div className="col-12 col-md-4 order-2 order-md-1">
+            <div className="right">
 
-        <div
-          className={classNames(
-            'absolute left-5 h-2'
-            // { "hidden": selectedUserRow == null }
-          )}
-        >
-          {/* <BiXCircle onClick={handle_clearSelectedRow} className='cursor-pointer text-2xl hover:text-danger' /> */}
-        </div>
-        <form ref={formRef}>
-          <TabbedPanel
-            onTabChange={handle_tabChanged}
-            tabs={[
-              {
-                label: 'سازمانی',
-                key: 'org',
-                component: (
-                  <div>
-                    <div className="mb-4">
-                      <label className="mb-2.5 block font-medium text-black dark:text-white">
-                        گروه
-                        <ErrorMessage message={errors.group} />
-                      </label>
-                      <div className="relative flex items-center justify-center">
-                        <select
-                          value={input.group}
-                          onChange={handle_groupChanged}
-                          className="select-box w-full"
-                        >
-                          <option disabled value={NONE_KEY}>
-                            {NONE_KEY}
-                          </option>
-                          {data?.groups?.map((item: any) => {
-                            return (
-                              <option key={item.key} value={item.key}>
-                                {item.title}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      </div>
-                    </div>
+              {input._id != null && <i className=' fa fa-remove close-icon' onClick={clearInputs} ></i>}
 
-                    <div>
-                      <label className="mb-2.5 block font-medium text-black dark:text-white">
-                        {'پلاک'}
-                        <ErrorMessage message={errors.plaque} />
-                      </label>
-                      <PlaqueInput
-                        inputRef={plaqueRef}
-                        onChange={handle_plaqueChange}
-                      />
-                    </div>
 
-                    <div className="mb-2 p-2 shadow">
-                      <label className="mb-2.5 block font-medium text-black dark:text-white">
-                        {'راننده'}
-                        <ErrorMessage message={errors.driver} />
-                      </label>
-                      <SuggestionTextInput
-                        onSuggestionSelected={handle_selectDriver}
-                        placeholder="جستجوی راننده ها ..."
-                        readFromDataSource={readPermittedDrivers}
-                        suggestionRenderer={(item) => (
-                          <div className="px-4 py-1">{item.full_name}</div>
-                        )}
-                      />
-                      <div className="mb-2 h-8">
-                        {input.driver == null ? (
-                          <label className="block w-full text-center text-sm">
-                            {'راننده انتخاب نشده'}
-                          </label>
-                        ) : (
-                          <div className="item-center flex justify-between rounded p-2 shadow">
-                            <span>{`${input.driver.full_name}`}</span>
-                            <BiX
-                              onClick={handle_clearSelectedDriver}
-                              className={'cursor-pointer hover:text-danger'}
-                              size={24}
+              <form ref={formRef}>
+                <TabbedPanel
+                  onTabChange={handle_tabChanged}
+                  tabs={[
+                    {
+                      label: 'سازمانی',
+                      key: 'org',
+                      component: (
+                        <div>
+                          <div className="mb-4">
+                            <label className="mb-2.5 block font-medium text-black dark:text-white">
+                              گروه
+                              <ErrorMessage message={errors.group} />
+                            </label>
+                            <div className="relative flex items-center justify-center">
+                              <select
+                                value={input.group}
+                                onChange={handle_groupChanged}
+                                className="select-box w-full"
+                              >
+                                <option disabled value={NONE_KEY}>
+                                  {NONE_KEY}
+                                </option>
+                                {data?.groups?.map((item: any) => {
+                                  return (
+                                    <option key={item.key} value={item.key}>
+                                      {item.title}
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            </div>
+                          </div>
+
+                          <div>
+                            <label className="mb-2.5 block font-medium text-black dark:text-white">
+                              {'پلاک'}
+                              <ErrorMessage message={errors.plaque} />
+                            </label>
+                            <PlaqueInput
+                              inputRef={plaqueRef}
+                              onChange={handle_plaqueChange}
                             />
                           </div>
-                        )}
-                      </div>
-                    </div>
 
-                    <div className="mb-4 rounded p-2 shadow">
-                      <label className="mb-2.5 block font-medium text-black dark:text-white">
-                        سرویس های خودرو
-                        <ErrorMessage message={errors.services} />
-                      </label>
-                      <SimpleButton onClick={handle_addServiceItem}>
-                        {'افزودن سرویس'}
-                        <BiPlusCircle size={24} className={'mr-2'} />
-                      </SimpleButton>
-
-                      {input.services?.map((item: any) => {
-                        return (
-                          <div
-                            key={item.temp_id}
-                            className="mt-3 flex items-center p-2 shadow"
-                          >
-                            <MdClose
-                              onClick={() => handle_deleteServiceItem(item)}
-                              className={
-                                'ml-1 cursor-pointer hover:text-danger'
-                              }
-                              size={24}
+                          <div className="mb-2 p-2 shadow">
+                            <label className="mb-2.5 block font-medium text-black dark:text-white">
+                              {'راننده'}
+                              <ErrorMessage message={errors.driver} />
+                            </label>
+                            <SuggestionTextInput
+                              onSuggestionSelected={handle_selectDriver}
+                              placeholder="جستجوی راننده ها ..."
+                              readFromDataSource={readPermittedDrivers}
+                              suggestionRenderer={(item) => (
+                                <div className="px-4 py-1">{item.full_name}</div>
+                              )}
                             />
-                            <select
-                              onChange={(e) =>
-                                handle_ServceItemChanged(item, e)
+                            <div className="mb-2 h-8">
+                              {input.driver == null ? (
+                                <label className="block w-full text-center text-sm">
+                                  {'راننده انتخاب نشده'}
+                                </label>
+                              ) : (
+                                <div className="item-center flex justify-between rounded p-2 shadow">
+                                  <span>{`${input.driver.full_name}`}</span>
+                                  <BiX
+                                    onClick={handle_clearSelectedDriver}
+                                    className={'cursor-pointer hover:text-danger'}
+                                    size={24}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="mb-4 rounded p-2 shadow">
+                            <label className="mb-2.5 block font-medium text-black dark:text-white">
+                              سرویس های خودرو
+                              <ErrorMessage message={errors.services} />
+                            </label>
+                            <SimpleButton onClick={handle_addServiceItem}>
+                              {'افزودن سرویس'}
+                              <BiPlusCircle size={24} className={'mr-2'} />
+                            </SimpleButton>
+
+                            {input.services?.map((item: any) => {
+                              return (
+                                <div
+                                  key={item.temp_id}
+                                  className="mt-3 flex items-center p-2 shadow"
+                                >
+                                  <MdClose
+                                    onClick={() => handle_deleteServiceItem(item)}
+                                    className={
+                                      'ml-1 cursor-pointer hover:text-danger'
+                                    }
+                                    size={24}
+                                  />
+                                  <select
+                                    onChange={(e) =>
+                                      handle_ServceItemChanged(item, e)
+                                    }
+                                    value={item.service}
+                                    className="select-box w-full flex-1"
+                                  >
+                                    <option disabled value={NONE_KEY}>
+                                      {NONE_KEY}
+                                    </option>
+                                    {data?.services?.map((item: any) => {
+                                      return (
+                                        <option key={item.key} value={item.key}>{`${item.title
+                                          } (${Object.fromEntries(serviceUnits)[
+                                          item.unit
+                                          ] || 'نامشخص'
+                                          })`}</option>
+                                      );
+                                    })}
+                                  </select>
+                                  <input
+                                    onChange={(e) =>
+                                      handle_ServiceItemCapacityChanged(item, e)
+                                    }
+                                    value={item.capacity || ''}
+                                    className="mr-2 w-24 rounded border border-gray px-2 outline-none"
+                                    placeholder="ظرفیت ..."
+                                  />
+                                </div>
+                              );
+                            })}
+                          </div>
+
+                          <div className="mx-1 mb-4 flex-1">
+                            <label className="mb-2.5 block font-medium text-black dark:text-white">
+                              مدل خودرو
+                              <ErrorMessage message={errors['extras.name']} />
+                            </label>
+                            <div className="relative flex items-center justify-center">
+                              <select
+                                name={'name'}
+                                onChange={(e: any) => handle_onExtraChange(e)}
+                                value={input.extras?.name}
+                                className="select-box w-full"
+                              >
+                                <option disabled value={NONE_KEY}>
+                                  {NONE_KEY}
+                                </option>
+                                {data?.names?.map((item: any) => {
+                                  return (
+                                    <option key={item.key} value={item.key}>
+                                      {item.title}
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            </div>
+                          </div>
+
+                          <div className="mx-1 mb-4 flex-1">
+                            <label className="mb-2.5 block font-medium text-black dark:text-white">
+                              رنگ خودرو
+                              <ErrorMessage message={errors['extras.color']} />
+                            </label>
+                            <div className="relative flex items-center justify-center">
+                              <select
+                                name={'color'}
+                                onChange={(e: any) => handle_onExtraChange(e)}
+                                value={input.extras?.color}
+                                className="select-box w-full"
+                              >
+                                <option disabled value={NONE_KEY}>
+                                  {NONE_KEY}
+                                </option>
+                                {data?.colors?.map((item: any) => {
+                                  return (
+                                    <option key={item.key} value={item.key}>
+                                      {item.title}
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            </div>
+                            <div className="mt-5">
+                              {permission_SUBMIT === true &&
+                                <LoaderButton
+                                  onClick={handle_submitVehicle}
+                                  className={'mt-3 w-full cursor-pointer  rounded-lg bg-primary p-2 text-white transition hover:bg-opacity-90'}
+                                >
+                                  {'ثبت خودرو'}
+                                </LoaderButton>
                               }
-                              value={item.service}
-                              className="select-box w-full flex-1"
-                            >
-                              <option disabled value={NONE_KEY}>
-                                {NONE_KEY}
-                              </option>
-                              {data?.services?.map((item: any) => {
-                                return (
-                                  <option key={item.key} value={item.key}>{`${item.title
-                                    } (${Object.fromEntries(serviceUnits)[
-                                    item.unit
-                                    ] || 'نامشخص'
-                                    })`}</option>
-                                );
-                              })}
-                            </select>
+                              {permission_SUBMIT === false &&
+                                <LoaderButton
+                                  disabled={true}
+                                  className={
+                                    'NoPermission mt-3 w-full cursor-pointer  rounded-lg bg-primary p-2 text-white transition hover:bg-opacity-90'
+                                  }
+                                >
+                                  {'ثبت خودرو'}
+                                </LoaderButton>
+                              }
+
+
+                            </div>
+                          </div>
+                        </div>
+                      ),
+                    },
+                    {
+                      label: 'آژانس',
+                      key: VEHICLE_TYPE_AGENCY,
+                      component: (
+                        <div className="m-2">
+                          <div>
+                            <label className="my-2 inline-block">{'نام آژانس'}</label>
+                            <ErrorMessage message={errors.agency_name} />
                             <input
-                              onChange={(e) =>
-                                handle_ServiceItemCapacityChanged(item, e)
-                              }
-                              value={item.capacity || ''}
-                              className="mr-2 w-24 rounded border border-gray px-2 outline-none"
-                              placeholder="ظرفیت ..."
+                              value={input.agency_name || ''}
+                              onChange={handle_onInputChange}
+                              name="agency_name"
+                              className="w-full rounded border border-gray p-2 outline-none"
+                              placeholder="نام آژانس"
                             />
                           </div>
-                        );
-                      })}
-                    </div>
+                          <div className="mt-2">
+                            <label className="my-2 inline-block">
+                              {'شماره تماس'}
+                            </label>
+                            <ErrorMessage message={errors.agency_phone} />
+                            <input
+                              onChange={handle_onInputChange}
+                              value={input.agency_phone || ''}
+                              name="agency_phone"
+                              className="w-full rounded border border-gray p-2 outline-none"
+                              placeholder="تلفن آژانس"
+                            />
+                          </div>
 
-                    <div className="mx-1 mb-4 flex-1">
-                      <label className="mb-2.5 block font-medium text-black dark:text-white">
-                        مدل خودرو
-                        <ErrorMessage message={errors['extras.name']} />
-                      </label>
-                      <div className="relative flex items-center justify-center">
-                        <select
-                          name={'name'}
-                          onChange={(e: any) => handle_onExtraChange(e)}
-                          value={input.extras?.name}
-                          className="select-box w-full"
-                        >
-                          <option disabled value={NONE_KEY}>
-                            {NONE_KEY}
-                          </option>
-                          {data?.names?.map((item: any) => {
-                            return (
-                              <option key={item.key} value={item.key}>
-                                {item.title}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="mx-1 mb-4 flex-1">
-                      <label className="mb-2.5 block font-medium text-black dark:text-white">
-                        رنگ خودرو
-                        <ErrorMessage message={errors['extras.color']} />
-                      </label>
-                      <div className="relative flex items-center justify-center">
-                        <select
-                          name={'color'}
-                          onChange={(e: any) => handle_onExtraChange(e)}
-                          value={input.extras?.color}
-                          className="select-box w-full"
-                        >
-                          <option disabled value={NONE_KEY}>
-                            {NONE_KEY}
-                          </option>
-                          {data?.colors?.map((item: any) => {
-                            return (
-                              <option key={item.key} value={item.key}>
-                                {item.title}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      </div>
-                      <div className="mt-5">
-                        {permission_SUBMIT === true &&
-                          <LoaderButton
-                            onClick={handle_submitVehicle}
-                            className={'mt-3 w-full cursor-pointer  rounded-lg bg-primary p-2 text-white transition hover:bg-opacity-90'}
-                          >
-                            {'ثبت خودرو'}
-                          </LoaderButton>
-                        }
-                        {permission_SUBMIT === false &&
-                          <LoaderButton
-                            disabled={true}
-                            className={
-                              'NoPermission mt-3 w-full cursor-pointer  rounded-lg bg-primary p-2 text-white transition hover:bg-opacity-90'
+                          <div className="mt-5">
+                            {permission_SUBMIT === true &&
+                              <LoaderButton
+                                onClick={handle_submitAgency}
+                                className={
+                                  'mt-3 w-full cursor-pointer  rounded-lg bg-primary p-2 text-white transition hover:bg-opacity-90'
+                                }
+                              >
+                                {'ثبت آژانس'}
+                              </LoaderButton>
                             }
-                          >
-                            {'ثبت خودرو'}
-                          </LoaderButton>
-                        }
+                            {permission_SUBMIT === false &&
+                              <LoaderButton
+                                disabled={true}
+                                className={
+                                  'NoPermission mt-3 w-full cursor-pointer  rounded-lg bg-primary p-2 text-white transition hover:bg-opacity-90'
+                                }
+                              >
+                                {'ثبت آژانس'}
+                              </LoaderButton>
+
+                            }
 
 
-                      </div>
-                    </div>
-                  </div>
-                ),
-              },
-              {
-                label: 'آژانس',
-                key: VEHICLE_TYPE_AGENCY,
-                component: (
-                  <div className="m-2">
-                    <div>
-                      <label className="my-2 inline-block">{'نام آژانس'}</label>
-                      <ErrorMessage message={errors.agency_name} />
-                      <input
-                        value={input.agency_name || ''}
-                        onChange={handle_onInputChange}
-                        name="agency_name"
-                        className="w-full rounded border border-gray p-2 outline-none"
-                        placeholder="نام آژانس"
-                      />
-                    </div>
-                    <div className="mt-2">
-                      <label className="my-2 inline-block">
-                        {'شماره تماس'}
-                      </label>
-                      <ErrorMessage message={errors.agency_phone} />
-                      <input
-                        onChange={handle_onInputChange}
-                        value={input.agency_phone || ''}
-                        name="agency_phone"
-                        className="w-full rounded border border-gray p-2 outline-none"
-                        placeholder="تلفن آژانس"
-                      />
-                    </div>
+                          </div>
+                        </div>
+                      ),
+                    },
+                  ]}
+                />
+              </form>
 
-                    <div className="mt-5">
-                      {permission_SUBMIT === true &&
-                        <LoaderButton
-                          onClick={handle_submitAgency}
-                          className={
-                            'mt-3 w-full cursor-pointer  rounded-lg bg-primary p-2 text-white transition hover:bg-opacity-90'
-                          }
-                        >
-                          {'ثبت آژانس'}
-                        </LoaderButton>
-                      }
-                      {permission_SUBMIT === false &&
-                        <LoaderButton
-                          disabled={true}
-                          className={
-                            'NoPermission mt-3 w-full cursor-pointer  rounded-lg bg-primary p-2 text-white transition hover:bg-opacity-90'
-                          }
-                        >
-                          {'ثبت آژانس'}
-                        </LoaderButton>
-
-                      }
-
-
-                    </div>
-                  </div>
-                ),
-              },
-            ]}
-          />
-        </form>
-      </div>
-
-      <div className="lg:w-2/2 hidden p-6 lg:block lg:flex-1">
-        <table className="table w-full">
-          <thead>
-            <tr className="bg-gray-2 text-center dark:bg-meta-4">
-              {renderHeaders()}
-            </tr>
-          </thead>
-          <tbody>
-            {vehicles?.docs?.map((item: any) => {
-              if (isAgencyTabSelected()) {
-                return (
-                  <tr
-                    onClick={() => { permission_EDIT === true ? handle_onRowClick(item) : undefined }}
-                    key={item._id}
-                    className="cursor-pointer text-center hover:bg-gray-4"
-                  >
-                    <td className="px-4 py-2 text-sm text-black dark:text-white">
-                      {item.extra.agency_name}
-                    </td>
-                    <td className="px-4 py-2 text-sm text-black dark:text-white">
-                      {item.extra.agency_phone}
-                    </td>
+            </div>
+          </div>
+          <div className="col-12 col-md-8 order-1 order-md-2">
+            <div className="left">
+              <table className="table table-hover table-striped">
+                <thead>
+                  <tr>
+                    {renderHeaders()}
                   </tr>
-                );
-              }
-              return (
-                <tr
-                  onClick={() => handle_onRowClick(item)}
-                  key={item._id}
-                  className="cursor-pointer text-center hover:bg-gray-4"
-                >
-                  <td className="px-4 py-2 text-sm text-black dark:text-white">
-                    {findText(item.group, data.groups)}
-                  </td>
-                  <td className="px-4 py-2 text-sm text-black dark:text-white">
-                    {Object.fromEntries(carStatusEntries)[item.status]}
-                  </td>
-                  <td className="px-4 py-2 text-sm text-black dark:text-white">
-                    <PlaqueInput
-                      small={true}
-                      disabled
-                      value={convertStringToPlaque(item.plaque)}
-                    />
-                  </td>
-                  <td className="px-4 py-2 text-sm text-black dark:text-white">
-                    {item.services.map((item: any) => {
+                </thead>
+                <tbody>
+                  {vehicles?.docs?.map((item: any) => {
+                    if (isAgencyTabSelected()) {
                       return (
-                        <span className="mx-1">{`${findText(
-                          item.service,
-                          data.services
-                        )} (${item.capacity})`}</span>
+                        <tr
+                          onClick={() => { permission_EDIT === true ? handle_onRowClick(item) : undefined }}
+                          key={item._id}
+                        >
+                          <td>
+                            {item.extra.agency_name}
+                          </td>
+                          <td>
+                            {item.extra.agency_phone}
+                          </td>
+                        </tr>
                       );
-                    })}
-                  </td>
-                  <td className="px-4 py-2 text-sm text-black dark:text-white">
-                    {item.driver_user?.full_name}
-                  </td>
-                  <td className="px-4 py-2 text-sm text-black dark:text-white">
-                    {Object.entries(item.extra).map(([_, value]: any) => {
-                      return (
-                        <span className="mx-1">
-                          {findText(value, data[`${_}s`])}
-                        </span>
-                      );
-                    })}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                    }
+                    return (
+                      <tr
+                        onClick={() => handle_onRowClick(item)}
+                        key={item._id}
+                      >
+                        <td>
+                          {findText(item.group, data.groups)}
+                        </td>
+                        <td>
+                          {Object.fromEntries(carStatusEntries)[item.status]}
+                        </td>
+                        <td>
+                          <PlaqueInput
+                            small={true}
+                            disabled
+                            value={convertStringToPlaque(item.plaque)}
+                          />
+                        </td>
+                        <td>
+                          {item.services.map((item: any) => {
+                            return (
+                              <span>{`${findText(
+                                item.service,
+                                data.services
+                              )} (${item.capacity})`}</span>
+                            );
+                          })}
+                        </td>
+                        <td>
+                          {item.driver_user?.full_name}
+                        </td>
+                        <td>
+                          {Object.entries(item.extra).map(([_, value]: any) => {
+                            return (
+                              <span>
+                                {findText(value, data[`${_}s`])}
+                              </span>
+                            );
+                          })}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+
+    </>
   );
 };
 

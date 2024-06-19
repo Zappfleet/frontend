@@ -3,13 +3,14 @@ import './style.scss'
 import ModalLayout from "../../components/ModalLayout/ModalLayout";
 import useModal from "../useModal";
 
-const useConfirmModal = () => {
+const useConfirmModal = (className:any) => {
 
     const modal = useModal();
 
     const ui = <ModalLayout
         {...modal}
         mode="center"
+        className={className}
         renderContent={(data: any) => {
             if (!data) return "";
             return <div className="useConfirmModal-component">

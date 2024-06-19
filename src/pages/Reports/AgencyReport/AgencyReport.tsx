@@ -2,7 +2,7 @@ import DatePicker from 'react-multi-date-picker';
 import useVehicles from '../../../hooks/data/useVehicles';
 import { VEHICLE_TYPE_AGENCY } from '../../../lib/constants';
 import AgencySuggestionInput from '../../../widgets/AgencySuggestionInput';
-import SuggestionTextInput from '../../../widgets/SuggestionTextInput';
+import SuggestionTextInput from '../../../widgets/SuggestionTextInput/SuggestionTextInput';
 import { useRef, useState } from 'react';
 
 import persian from 'react-date-object/calendars/persian';

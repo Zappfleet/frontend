@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import './style.scss'
 import MapContainer, { MapRefType } from '../../../widgets/map/MapContainer';
 import LoaderButton from '../../../components/LoaderButton';
-
 import MarkerRed from '../../../images/map/marker-red.png';
 import BottomSheetModal from '../../../components/BottomSheetModal';
-
+import carIcon from '../../../assets/imgs/car.svg';
 import { RiArrowUpDoubleFill } from 'react-icons/ri';
-import TripMissionDetails from '../TripMissionDetails';
+import TripMissionDetails from '../TripMissionDetails/TripMissionDetails';
 import LocationSearch from '../../../widgets/LocationSearch/LocationSearch';
 import { BsPin, BsX } from 'react-icons/bs';
 import { SmallLoader } from '../../../common/Loader';
@@ -24,6 +24,9 @@ import { NotificationController } from '../../../lib/notificationController';
 import renderUi from '../../../lib/renderUi';
 import ModularForm from '../../../widgets/ModularForm';
 import { useLocation } from 'react-router-dom';
+import useFavorite from '../../../hooks/data/Favorite/useFavorite';
+import DriverOnMap from '../../../components/DriverOnMap/DriverOnMap';
+
 
 export const MODE_USER_ONLY = 'user-only';
 export const MODE_ADMIN_ONLY = 'admin-only';
@@ -31,7 +34,7 @@ export const MODE_ADMIN_ONLY = 'admin-only';
 const PassengerServiceRequest = (props: any = {}) => {
 
   // console.log(300, props);
-
+  const { result: resultFavorite } = useFavorite(true, 'select', null)
   const { mode: componentMode = MODE_USER_ONLY } = props;
   const internalState = useState<any>(props.initialValues || {});
   const internalUserInput = useState<any>({
@@ -63,10 +66,17 @@ const PassengerServiceRequest = (props: any = {}) => {
   }, [formState])
 
   ////////////////////////////////
+
+
   const [userInput, setUserInput] =
     props?.externalUserInput != null
       ? props.externalUserInput
       : internalUserInput;
+
+  useEffect(() => {
+    console.log(120, userInput);
+
+  }, [userInput])
 
   const { searchState, reverseGeocoding } = useNeshanApi();
 
@@ -111,6 +121,8 @@ const PassengerServiceRequest = (props: any = {}) => {
     });
   }, []);
 
+  
+
   const updateInbetweenLines = (newLocations: any) => {
     if (searchState.inProgress || mapRef.current == null) return;
 
@@ -144,6 +156,8 @@ const PassengerServiceRequest = (props: any = {}) => {
     if (addMarkerResult == null) return;
 
     const [lng, lat] = addMarkerResult.coordinates;
+    console.log(200, lng, lat);
+
     reverseGeocoding(lat, lng)
       .then((result) => {
         setUserInput({
@@ -230,126 +244,142 @@ const PassengerServiceRequest = (props: any = {}) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
+  const handleSelectFavorite = (item: any) => {
+    const [lng, lat] = item?.location?.coordinates
+    mapRef.current?.viewCoordinates(lng, lat, 16)
+  }
+
+  const showDriverOnMap = () => {
+    console.log(55);
+    const [lng, lat] = [52.808064, 29.88258900000001]
+    mapRef.current?.addMarker(5879388.492312675, 3488877.5134539823, false, carIcon)
+
+  }
+
   return (
-    <div
-      className={classNames(
-        'absolute bottom-0 left-0 right-0 top-18',
-        type && type === 'update' ? className : props.className
-      )}
-    >
-      <MapContainer mapRef={mapRef as { current: MapRefType }} />
+    <div className="PassengerServiceRequest-page">
+      <div className={`main-div ${type === 'update' ? className : ''}`}>
 
-      <img
-        className="absolute bottom-2/4 left-2/4 z-999999 w-8 -translate-x-2/4"
-        src={MarkerRed}
-      />
+        {/* sgh map */}
+        <MapContainer mapRef={mapRef as { current: MapRefType }} />
 
-      <LocationSearch
-        mapRef={mapRef}
-        className="absolute left-0 right-0 top-0 z-999999 m-2 flex "
-      />
 
-      <div className="absolute bottom-0 right-0 z-999999 p-1">
-        {userInput.locations.map((item: any, index: number) => {
-          return (
-            <div>
-              <span
-                key={`${item.lat}${item.lng}`}
-                className="relative mx-2 my-1 inline-block rounded-2xl bg-white py-2 pl-4 text-xs text-black shadow"
-              >
-                <BsX
-                  onClick={() => handle_deleteLocation(index)}
-                  size={20}
-                  className={
-                    'absolute -right-3 top-1/2 flex h-7 w-7 -translate-y-1/2 cursor-pointer rounded-full bg-danger text-white '
-                  }
-                />
-                <span className="inline-block pr-6">{item.address}</span>
-              </span>
+        <img className="absolute bottom-2/4 left-2/4 w-8 -translate-x-2/4"
+          src={MarkerRed}
+        />
+
+        <LocationSearch
+          mapRef={mapRef}
+          className="absolute left-0 right-0 top-0 z-50 m-2 flex "
+        />
+
+        <div className="showFavoriteLocation">
+          {resultFavorite?.data?.map((item: any) => {
+            return <div onClick={() => handleSelectFavorite(item)} className='favorite-name'>
+              {item.name}
             </div>
-          );
-        })}
-
-        <span className="flex">
-          <button
-            onClick={handle_clickPin}
-            className="m-2 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-primary p-3 text-primary text-white shadow active:saturate-50"
-          >
-            <BsPin
-              className={classNames('absolute p-0.5 text-white duration-200', {
-                'scale-0': searchState.inProgress,
-                'scale-100': !searchState.inProgress,
-              })}
-              size={30}
-            />
-            <SmallLoader
-              className={classNames('absolute duration-200', {
-                'scale-0': !searchState.inProgress,
-                'scale-100': searchState.inProgress,
-              })}
-              color={'white'}
-            />
-          </button>
-
-          <button
-            onClick={handle_showBottomSheet}
-            className={classNames(
-              'm-2 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-success p-3 text-primary text-white shadow duration-300 active:saturate-50',
-              {
-                'scale-100': uiState.readyForSubmit,
-                'scale-0': !uiState.readyForSubmit,
-              }
-            )}
-          >
-            <BiCheck
-              className={classNames('absolute p-0.5 text-white duration-200')}
-              size={40}
-            />
-          </button>
-        </span>
-      </div>
-
-      <BottomSheetModal onCreate={onBottomSheetCreate}>
-        <div>
-          <form>
-            <div className="mb-2">
-              <label className="inline-block py-2">{'سرویس'}</label>
-              <select
-                value={formState['service'] || NONE_KEY}
-                onChange={handle_onInputChanged}
-                name="service"
-                className="select-box w-full flex-1"
-              >
-                <option
-                  disabled
-                  key={NONE_KEY}
-                  value={NONE_KEY}
-                >{`--- سرویس مورد نظر را انتخاب کنید ---`}</option>
-                {vehicleData?.services?.map((item: any) => {
-                  return (
-                    <option
-                      key={item.key}
-                      value={item.key}
-                    >{`${item.title}`}</option>
-                  );
-                })}
-              </select>
-            </div>
-            <ModularForm
-              formState={formState}
-              fields={authInfo?.org?.additionalRequestFields}
-              onInputChange={handle_onInputChanged}
-              mode={componentMode}
-            />
-          </form>
-          <LoaderButton
-            onClick={handle_submitRequest}
-            className={'my-3 w-full'}
-          >
-            {props.overrideOnSubmit != null ? 'تایید' : type && type === 'update' ? 'بروزرسانی' : 'ثبت درخواست'}
-          </LoaderButton>
+          })}
         </div>
-      </BottomSheetModal>
+
+
+        <div className="loc-name-div">
+          {userInput.locations.map((item: any, index: number) => {
+            return (
+              <div className='loc-name'>
+                <span
+                  key={`${item.lat}${item.lng}`}
+                >
+                  <i className='fa fa-remove loc-remove' onClick={() => handle_deleteLocation(index)} ></i>
+                  <span >{item.address}</span>
+                </span>
+              </div>
+            );
+          })}
+
+          <span className="flex">
+            <i className='fa fa-search' onClick={showDriverOnMap}></i>
+
+            <button
+              onClick={handle_clickPin}
+              className="m-2 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-primary p-3 text-primary text-white shadow active:saturate-50"
+            >
+              <BsPin
+                className={classNames('absolute p-0.5 text-white duration-200', {
+                  'scale-0': searchState.inProgress,
+                  'scale-100': !searchState.inProgress,
+                })}
+                size={30}
+              />
+              <SmallLoader
+                className={classNames('absolute duration-200', {
+                  'scale-0': !searchState.inProgress,
+                  'scale-100': searchState.inProgress,
+                })}
+                color={'white'}
+              />
+            </button>
+
+            <button
+              onClick={handle_showBottomSheet}
+              className={classNames(
+                'm-2 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-success p-3 text-primary text-white shadow duration-300 active:saturate-50',
+                {
+                  'scale-100': uiState.readyForSubmit,
+                  'scale-0': !uiState.readyForSubmit,
+                }
+              )}
+            >
+              <BiCheck
+                className={classNames('absolute p-0.5 text-white duration-200')}
+                size={40}
+              />
+            </button>
+          </span>
+        </div>
+
+        <BottomSheetModal onCreate={onBottomSheetCreate}>
+          <div>
+            <form>
+              <div className="mb-2">
+                <label className="inline-block py-2">{'سرویس'}</label>
+                <select
+                  value={formState['service'] || NONE_KEY}
+                  onChange={handle_onInputChanged}
+                  name="service"
+                  className="select-box w-full flex-1"
+                >
+                  <option
+                    disabled
+                    key={NONE_KEY}
+                    value={NONE_KEY}
+                  >{`--- سرویس مورد نظر را انتخاب کنید ---`}</option>
+                  {vehicleData?.services?.map((item: any) => {
+                    return (
+                      <option
+                        key={item.key}
+                        value={item.key}
+                      >{`${item.title}`}</option>
+                    );
+                  })}
+                </select>
+              </div>
+
+              <ModularForm
+                formState={formState}
+                fields={authInfo?.org?.additionalRequestFields}
+                onInputChange={handle_onInputChanged}
+                mode={componentMode}
+              />
+            </form>
+            <LoaderButton
+              onClick={handle_submitRequest}
+              className={'my-3 w-full'}
+            >
+              {props.overrideOnSubmit != null ? 'تایید' : type && type === 'update' ? 'بروزرسانی' : 'ثبت درخواست'}
+            </LoaderButton>
+          </div>
+        </BottomSheetModal>
+      </div >
     </div>
   );
 };

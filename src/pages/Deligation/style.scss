@@ -1,0 +1,40 @@
+
+@import '../../variable';
+.DeligationManager-component {
+
+    .box {
+        background-color: white;
+        width: 100%;
+        min-height: 250px;
+        border: 1px solid #eee;
+        border-radius: 5px;
+        padding: 10px 15px;
+    }
+
+    .btn-div {
+        margin-top: 30px;
+    }
+
+    .item-div {
+        padding: 5px 0px;
+    }
+
+    .title{
+        color:$color-base ;
+        padding: 15px 0px;
+    }
+
+    .search-user-div {
+        margin-bottom: 30px;
+
+        .search-users {
+            position: relative !important;
+        }
+
+        .selected-user {
+            position: relative !important;
+            top:15px;
+        }
+    }
+
+}

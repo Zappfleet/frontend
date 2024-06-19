@@ -55,7 +55,7 @@ console.log(7000);
     getApiClient()
       .login(formData)
       .then(({ data }) => {
-        console.log(99);
+        console.log(99,data);
         
         storeTokens(data);
         NotificationController.showSuccess(data.message);

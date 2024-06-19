@@ -1,9 +1,6 @@
 .UsersSuggestionInput-component .search-users {
-  position: absolute;
-  top: 0px;
   width: 90%;
 }
 .UsersSuggestionInput-component .selected-user {
-  position: absolute;
-  top: 120px;
+  top: 15px;
 }/*# sourceMappingURL=style.css.map */

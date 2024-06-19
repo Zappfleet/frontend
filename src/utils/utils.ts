@@ -182,10 +182,21 @@ const convertGregorianToJalali = (gregorianDateStr: any) => {
   return jalaliDate;
 };
 
-const getDayName = (date:any) => {
+const getDayName = (date: any) => {
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   return daysOfWeek[date.getDay()];
 };
+
+
+const setStartOfDay = (date: any) => {
+  // Set the time part of the "from" date to the start of the day (00:00:00)
+  return date.setHours(0, 0, 0, 0);
+}
+
+const setEndOfDay = (date: any) => {
+  // Set the time part of the "to" date to the end of the day (23:59:59)
+  return date.setHours(23, 59, 59, 999);
+}
 
 export {
   convertToJalaliDateTiem,
@@ -196,5 +207,7 @@ export {
   convertToJalali,
   convertJalaliToGregorian,
   convertGregorianToJalali,
-  getDayName
+  getDayName,
+  setStartOfDay,
+  setEndOfDay
 }

@@ -6,8 +6,10 @@ import useNeshanApi, { getAddressObjText } from '../../hooks/data/useNeshanApi';
 import renderUi from '../../lib/renderUi';
 import Loader, { SmallLoader } from '../../common/Loader';
 
+
 const LocationSearch = (props: any) => {
 
+   
     const { searchState, searchAddress, clearAddressSearch } = useNeshanApi();
     const resultDivRef = useRef<any>();
 
@@ -23,9 +25,9 @@ const LocationSearch = (props: any) => {
     const handle_addressResultClick = (result: any) => {
         clearAddressSearch();
         props.mapRef.current.viewCoordinates(result.location.x, result.location.y, 16)
-
     }
 
+ 
     const showResultPane = searchState.inProgress || searchState.searchResult != null;
     return (
         <div className='LocationSearch-component flex-center'>
@@ -40,8 +42,9 @@ const LocationSearch = (props: any) => {
                     }
                 }}
             />
+          
             <div className={classNames(
-                'duration-300 absolute top-12 left-1 right-1 rounded bg-white p-1',
+                'loc-search-result duration-300 absolute top-12 left-1 right-1 rounded bg-white p-1',
                 {
                     "opacity-100 -translate-y-0 pointer-events-auto": showResultPane,
                     "opacity-0 -translate-y-2 pointer-events-none": !showResultPane,
