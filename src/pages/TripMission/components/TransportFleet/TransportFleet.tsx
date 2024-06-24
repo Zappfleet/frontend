@@ -16,10 +16,11 @@ const TransportFleet = (props: any) => {
   const [permitForRunUseFleetGps, setPermitForRunUseFleetGps] = useState<any>(false)
   const [vehicleIDs, setVehicleIDs] = useState<any>(null)
   const [mode, setMode] = useState<any>(null)
-  const useFleetGpsResult = useFleetGps(permitForRunUseFleetGps, mode, vehicleIDs, mapRef1, carIcon, 0.015);
+  const useFleetGpsResult = useFleetGps(permitForRunUseFleetGps, vehicleIDs, mapRef1, carIcon, 0.015);
 
 
   useEffect(() => {
+console.log(7820,fleetData?.data?.vehicles?.docs);
 
     if (mapRef1) {
       console.log(100, 'ناوگان')

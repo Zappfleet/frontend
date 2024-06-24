@@ -414,7 +414,7 @@ class ApiClient {
     }
     );
   }
-  
+
 
 
   async setMissionRequestOnRoute(mission_id: string, request_id: string) {
@@ -488,10 +488,10 @@ class ApiClient {
 
   async insert_FavoriteLocation(item: any) {
     let body = {
-      item:item
+      item: item
     }
-    console.log(111,item);
-    
+    console.log(111, item);
+
     return await this.axiosInstance.post(`/api/v2/favoriteLocations/insert_FavoriteLocation`, body
     );
   }
@@ -502,6 +502,30 @@ class ApiClient {
 
   async delete_FavoriteLocation(_id: string) {
     return this.axiosInstance.delete(`/api/v2/favoriteLocations/delete_FavoriteLocation/${_id}`);
+  }
+
+
+
+  async selectRestrictions(key: any, count: any) {
+    const params = {
+      key: key,
+      count: count
+    }
+    return await this.axiosInstance.get(`/api/v2/restrict/selectRestrictions`, { params });
+  }
+
+  async updateRestrictions(key: any, value: any) {
+    console.log(53);
+    let body = {
+      key: key,
+      value: value
+    }
+    try {
+      return this.axiosInstance.put(`/api/v2/restrict/updateRestrictions`, body);
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
   }
 
   async insertRestrictionShowRequests(key: number, count: any) {
@@ -533,11 +557,14 @@ class ApiClient {
     );
   }
 
-  async selectSetWorkingWeek(key: number, item: any) {
+  async selectSetWorkingWeek(key: any, item: any) {
+   
+    
     const params = {
       key: key,
       item: item
-    }
+    } 
+    console.log(789);
     return await this.axiosInstance.get(`/api/v2/restrict/selectSetWorkingWeek`, { params });
   }
 

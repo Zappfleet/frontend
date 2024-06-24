@@ -31,7 +31,7 @@ const SetWorkingWeek = () => {
         Friday: false,
     });
 
-    const { result, state, refreshData } = useSetWorkingWeek(type, 5, checkedDays);
+    const { result, state, refreshData } = useSetWorkingWeek(type, 9, checkedDays);
 
     const handleCheckboxChange = (event: any) => {
         const { name, checked } = event.target;

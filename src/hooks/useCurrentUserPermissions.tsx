@@ -8,7 +8,7 @@ import { getDayName } from '../utils/utils';
 export default function useCurrentUserPermissions() {
   const { authInfo } = useAuthentication();
   const { missionList } = useInactiveSystem('select', null)
-  const { result: resultSetWorkingWeek } = useSetWorkingWeek('select', 5, null)
+  const { result: resultSetWorkingWeek } = useSetWorkingWeek('select', 9, null)
 
   const [permits, setPermits] = useState<any>();
   const [permits_systeminactive, setPermits_systeminactive] = useState<any>();

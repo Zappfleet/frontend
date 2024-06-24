@@ -35,7 +35,7 @@ const DriverCurrentMissionService = () => {
     const [permitForRunUseFleetGps, setPermitForRunUseFleetGps] = useState<any>(false)
     const [vehicleIDs, setVehicleIDs] = useState<any>(null)
     const [mode, setMode] = useState<any>(null)
-    const useFleetGpsResult = useFleetGps(permitForRunUseFleetGps, mode, vehicleIDs, mapRef, carIcon, 0.015);
+    const useFleetGpsResult = useFleetGps(permitForRunUseFleetGps,vehicleIDs, mapRef, carIcon, 0.015);
 
     const bottomSheet = useRef<any>();
 

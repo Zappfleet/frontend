@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getApiClient } from '../../../apis/client';
 
-export default function useSetWorkingWeek(type: any, key: number, item: any) {
+export default function useSetWorkingWeek(type: any, key: any, item: any) {
 
   //  console.log(89,item);
 

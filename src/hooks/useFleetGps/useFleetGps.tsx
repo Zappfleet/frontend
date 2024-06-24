@@ -4,7 +4,7 @@ import useFleet from '../data/useFleet';
 import { EVENT_FLEET_GPS_REQUEST, EVENT_FLEET_GPS_UPDATE } from '../../lib/constants';
 import { io } from "socket.io-client";
 
-const useFleetGps = (permitForRunUseFleetGps: boolean, mode: any, vehicleIDs: any, mapRef: any, icon: any, scale: any) => {
+const useFleetGps = (permitForRunUseFleetGps: boolean,vehicleIDs: any, mapRef: any, icon: any, scale: any) => {
     const [fleetGps, setFleetGps] = useState<any>(null);
     const fleetData: any = useFleet();
     const intervalRef = useRef<any>(null);

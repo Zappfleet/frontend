@@ -22,6 +22,7 @@ const DriverCurrentMissionService = lazy(
 const RoleActions = lazy(() => import('../pages/Users/RoleActions/RoleActions'));
 const UsersManager = lazy(() => import('../pages/Users/UsersManager/UsersManager'));
 const AreaManager = lazy(() => import('../pages/Areas/AreaManager'));
+const  Restriction= lazy(() => import('../pages/Restrictions/Restrictions/Restrictions'));
 const DefinitionsManager = lazy(
   () => import('../pages/definitions/DefinitionsManager')
 );
@@ -142,6 +143,11 @@ const coreRoutes = [
     path: '/areas',
     title: 'Areas',
     component: AreaManager,
+  },
+  {
+    path: '/restriction',
+    title: 'Restriction',
+    component: Restriction,
   },
   {
     path: '/vehicles',

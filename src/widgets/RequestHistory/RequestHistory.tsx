@@ -167,7 +167,7 @@ export default function RequestHistory(props: any = {}) {
         );
 
         const myComments = myMissions && myMissions[0]?.extra?.comments ? myMissions[0].extra.comments : undefined;
-      
+
         const result = myComments?.map((item: any) => {
             return <>
                 <div className='com0'>
@@ -187,11 +187,11 @@ export default function RequestHistory(props: any = {}) {
                     })}
                 </div>
             </>
-        }) 
-        
+        })
+
         // setShowBtnRegistComment(true)
 
-        
+
         return result ? <div className='request-mycomment'>
             <div className="row">
                 <div className="col-2 title">
@@ -268,7 +268,7 @@ export default function RequestHistory(props: any = {}) {
                                     <td>{request.submitted_by?.full_name || request.submitted_by?.username}</td>
                                     <td>{request.confirmed_by?.full_name || request.confirmed_by?.username}</td>
                                     <td>{Object.fromEntries(requestStatus)[request.status]}</td>
-                                    <td>{request.details.desc}</td>
+                                    <td>{request.details?.desc && request.details?.desc}</td>
                                     <td onClick={() => toggleExpandedRows(request._id)}>
                                         <i className={`fa ${isExpanded ? 'fa-angle-down' : 'fa-angle-up'}`}></i>
                                     </td>
@@ -332,11 +332,11 @@ function RequestDetailsBox({ request }: any) {
         <tbody>
             <tr>
                 <td className='name'>{TEXT_PROJECT}</td>
-                <td>{request.details.proj_code}</td>
+                <td>{request?.details?.proj_code && request?.details?.proj_code}</td>
             </tr>
             <tr>
                 <td className='name'>{TEXT_COST_CENTER}</td>
-                <td>{request.details.cost_center}</td>
+                <td>{request?.details?.cost_center && request.details.cost_center}</td>
             </tr>
             <tr>
                 <td className='name'>{TEXT_LOCATIONS}</td>

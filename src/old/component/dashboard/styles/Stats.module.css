@@ -1,0 +1,97 @@
+
+
+.statsContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: #3796E8;
+    border-radius: 8px;
+    padding: 0.5rem;
+    border-radius: 8px;
+    box-shadow: 2px 2px 8px rgba(128, 128, 128, 0.089),
+        -2px -2px 8px rgba(128, 128, 128, 0.089);
+}
+
+.children {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-weight: bold;
+}
+
+.childrenContainer {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.childrenContainer:last-child span {
+    display: none;
+}
+
+.children div:first-child {
+    font-size: 1rem;
+    margin: 0 0 1.5rem 0;
+}
+
+
+
+.children div:nth-child(2) {
+    margin: 0 0 1rem 0;
+}
+
+.span {
+    background-color: #f4f4f4;
+    width: 1px;
+    opacity: 0.5;
+}
+
+.button {
+    background: #3796E8;
+    border: none;
+    color: #f4f4f4;
+    transition: all 0.2s ease-in;
+    width: 100%;
+    height: 100%;
+    padding: 0.5rem;
+    border-radius: 10px !important;
+    cursor: pointer;
+}
+
+.button .title {
+    height: 50%;
+    font-size: 0.8rem;
+}
+
+.button .body {
+    height: 50%;
+    font-size: 1.8rem;
+}
+
+.button:hover {
+    background: #1e72bc;
+}
+
+@media (max-width: 768px) {
+
+    .statsContainer,
+    .childrenContainer {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .button {
+        height: 40%;
+    }
+
+    .childrenContainer .span {
+        width: 100%;
+        height: 10%;
+        opacity: 0.5;
+        height: 2px;
+    }
+}
+
