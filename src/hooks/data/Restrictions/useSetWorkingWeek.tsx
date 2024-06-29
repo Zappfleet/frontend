@@ -24,7 +24,7 @@ export default function useSetWorkingWeek(type: any, key: any, item: any) {
                         // Handle the error, e.g., show a message to the user
                     })
                     .finally(() => {
-                        console.log(7000);
+                     //   console.log(7000);
                         setState({ ...state, in_progress: false });
                     });
                 break;
@@ -39,7 +39,7 @@ export default function useSetWorkingWeek(type: any, key: any, item: any) {
                         // Handle the error, e.g., show a message to the user
                     })
                     .finally(() => {
-                        console.log(7000);
+                      //  console.log(7000);
                         setState({ ...state, in_progress: false });
                     });
                 break;

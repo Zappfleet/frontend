@@ -6,16 +6,32 @@ import { emoji, comments as commentsLib } from '../../lib/comments'
 const Comments = (props: any) => {
 
 
+    // Define the interface for a comment
+    interface Comment {
+        type: string;
+        value: string;
+    }
+
+    // Define the interface for a review
+    interface Review {
+        role: 'driver' | 'passenger';
+        registerID: any;//ObjectId;
+        comments: Comment[];
+        emojiID: number;//from emoji -key
+        customComment?: string;
+    }
+
+
     const [type, setType] = useState<any>('good')
     const [selectedEmoji, setSelectedEmoji] = useState<any>(-1)
-    const [selectedComments, setSelectedComments] = useState<any>([])
+    const [selectedComments, setSelectedComments] = useState<[Review]>()
     const [customComment, setCustomComment] = useState<any>('')
     const role = props.registerRole
 
 
     const handleSelectedComments = (e: any, result: any, item: any) => {
 
-        let comment = {
+        let comment:Comment = {
             type: result.type,
             value: item
         }
@@ -53,7 +69,7 @@ const Comments = (props: any) => {
             return <div key={index} className={`col-6  ${index % 2 === 0 ? 'flex-end' : 'flex-start'}`}>
                 <div
                     onClick={(e) => handleSelectedComments(e, result[0], item)}
-                    className={`comment-div ${selectedComments.some((ite: any) => ite.value === item) ? 'selected-item-div' : ''}`}>{item}</div>
+                    className={`comment-div ${selectedComments?.some((ite: any) => ite.value === item) ? 'selected-item-div' : ''}`}>{item}</div>
             </div >
         })
         return k

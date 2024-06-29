@@ -102,7 +102,7 @@ const DriverMissionServiceItem = (props: any) => {
                 }
             }
             if (actionType === 'select') {
-                console.log(23, resultComment.data);
+              //  console.log(23, resultComment.data);
 
                 let registedCommentbefore = true
                 resultComment?.data?.data?.map((item: any) => {

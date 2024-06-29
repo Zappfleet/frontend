@@ -32,7 +32,7 @@ const CountOfServicesOfDrivers: React.FC = () => {
     const { missionList, state, refreshData } = useReportCountOfServices("DONE", persianDateToGregorian(fromDate), persianDateToGregorian(toDate));
 
 
-    let TotalCount = 'جمع سرویس ها : 156'
+    let TotalCount = ''
     let report_Title = 'دسترسی به تعداد سرویس های انجام شده توسط رانندگان در بازه زمانی مشخص'
 
 
@@ -80,10 +80,12 @@ const CountOfServicesOfDrivers: React.FC = () => {
     })
 
 
-    const options = [{ id: 1, value: 2 }, { id: 2, value: 3 }, { id: 3, value: 5 }]
+    const options = [{ id: 1, value: 10 }, { id: 2, value: 30 }, { id: 3, value: 50}]
 
     useEffect(() => {
         if (missionList) {
+            console.log(63,missionList);
+            
             if (missionList.status === 200) {
                 fetchData()
             }

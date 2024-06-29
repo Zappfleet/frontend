@@ -171,11 +171,9 @@ class ApiClient {
     return this.axiosInstance.get(`/api/v2/vehicles/agency`, { params });
   }
 
-  async getReportAgencyCost(agency_id?: string, dateFilter?: any) {
-    const params = createParams(undefined, dateFilter);
-    return this.axiosInstance.get(`/api/v2/reports/agency-costs/${agency_id}`, {
-      params,
-    });
+  async getReportAgencyCost() {
+   // const params = createParams(undefined, dateFilter);
+    return this.axiosInstance.get(`/api/v2/reports/agency-costs`);
   }
 
   async getReportDriverDaily(driver_id?: string, dateFilter?: any) {
@@ -433,27 +431,30 @@ class ApiClient {
     );
   }
 
-  async getListOfConcerningMissionsAreal(status: string, dateFilter: any) {
+  async getListOfConcerningMissionsAreal(status: string, dateFilter: any, paging: any) {
+    console.log(79,paging);
+    
     return await this.axiosInstance.get(`/api/v2/services/missions/areal`, {
-      params: createParams(status, dateFilter),
+      params: createParams(status, dateFilter, paging),
     });
   }
 
   async getListOfConcerningMissionsAsPassenger(
     status: string,
-    dateFilter: any
+    dateFilter: any,
+    paging:any
   ) {
     return await this.axiosInstance.get(`/api/v2/services/missions/passenger`, {
-      params: createParams(status, dateFilter),
+      params: createParams(status, dateFilter,paging),
     });
   }
 
 
 
 
-  async getListOfConcerningMissionsAsDriver(status: string, dateFilter: any) {
+  async getListOfConcerningMissionsAsDriver(status: string, dateFilter: any,paging:any) {
     return await this.axiosInstance.get(`/api/v2/services/missions/driver`, {
-      params: createParams(status, dateFilter),
+      params: createParams(status, dateFilter,paging),
     });
   }
 
@@ -558,13 +559,13 @@ class ApiClient {
   }
 
   async selectSetWorkingWeek(key: any, item: any) {
-   
-    
+
+
     const params = {
       key: key,
       item: item
-    } 
-    console.log(789);
+    }
+   // console.log(789);
     return await this.axiosInstance.get(`/api/v2/restrict/selectSetWorkingWeek`, { params });
   }
 
@@ -584,11 +585,12 @@ class ApiClient {
   }
 }
 
-function createParams(status?: string, dateFilter?: any) {
+function createParams(status?: string, dateFilter?: any, paging?: any) {
   return {
     status,
     gmt_from: dateFilter?.gmt_from,
     gmt_to: dateFilter?.gmt_to,
+    paging
   };
 }
 

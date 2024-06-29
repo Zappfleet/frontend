@@ -10,20 +10,27 @@ import ExpandableBox from "../ExpandableBox";
 import SimpleButton from "../../components/SimpleButton";
 import './style.scss'
 import { emoji as emojiLib } from '../../lib/comments';
+import { useEffect } from "react";
+import DataGrid from "../../components/DataGrid/DataGrid";
 
 const SHOW_TRIP = "نمایش سفر"
 
 export default function MissionHistory(props: any = {}) {
-    const { mode } = props;
+    const { mode, paging, status } = props;
     const showAsDriver = mode == MODE_DRIVER
-    const status = ""
-    const { missions }: any = useMissions({ mode, status });
+    // console.log(52,status,paging);
+
+    const { missions }: any = useMissions({ mode, status, paging });
+
     const {
         items: expandedRows,
         toggleItem: toggleExpandedRows,
     } = useItemSetToggle({ onlyOne: true });
     const screen = useScreen();
 
+    useEffect(() => {
+        console.log(2000, missions);
+    }, [missions])
     // if (!screen) return <div></div>
 
     // if (screen.width < SCREEN_LG) return <div>
@@ -86,41 +93,67 @@ export default function MissionHistory(props: any = {}) {
 
     }
 
+
+
+    const optionsMission = [{ id: 1, value: 5 }, { id: 2, value: 10 }, { id: 3, value: 15 }]
+    const theadMission = [
+        // { key: 'id', name: 'شناسه' },
+        // { key: '_id', name: 'شناسه' },
+        { key: 'mission_date', name: 'تاریخ سفر' },
+        { key: 'created_by', name: 'ایجاد توسط' },
+        { key: 'dispature', name: 'تغییر توسط' },
+        { key: 'distance', name: 'مسافت' },
+        // { key: 'price', name: 'هزینه' },
+        // { key: 'commentOfDriver', name: 'نظر راننده' },
+        // { key: 'commentOfPassenger', name: 'نظر مسافر' },
+        { key: 'status', name: 'وضعیت' },
+    ]
+
     return <div className="MissionHistory-component">
         <div className="row">
             <div className="col-12 have-table">
+                {/* {missions?.data?.length > 0 &&
+                    <DataGrid
+                        pagesize={optionsMission[0].value}
+                        items={missions?.data}
+                        options={optionsMission}
+                        thead={theadMission}
+                    />
+                } */}
                 <table className='table table-hover'>
                     <thead>
                         <tr>
                             <th>تاریخ و ساعت</th>
                             <th>ایجاد توسط</th>
                             <th>توزیع توسط</th>
+                            <th>مسافت </th>
                             <th>وضعیت</th>
                             {renderUi(<th></th>).if(showAsDriver)}
                             <th>{""}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {missions.data?.docs?.map((mission: any) => {
+                        {missions?.data?.map((mission: any) => {
 
                             const isExpanded = expandedRows.includes(mission._id);
                             return <>
                                 <tr key={mission._id}>
-                                    <td>{mission.gmt_for_date && getLocalDatetime(mission.gmt_for_date)}</td>
-                                    <td>{mission.created_by?.full_name || mission.created_by?.username}</td>
-                                    <td>{mission.assigned_by?.full_name || mission.assigned_by?.username}</td>
+                                    <td>{mission.mission_date && getLocalDatetime(mission.mission_date)}</td>
+                                    <td>{mission.created_by}</td>
+                                    <td>{mission.dispature}</td>
+                                    <td>{mission.distance}</td>
                                     <td>{mission.status}</td>
                                     {renderUi(
                                         <td >
                                             <div>
                                                 <a href={`/driver/active?mission_id=${mission._id}`}>
-                                                    {SHOW_TRIP}
+                                                    <i className="fa fa-eye icon-view"></i>
                                                 </a>
                                             </div>
                                         </td>
                                     ).if(showAsDriver)}
                                     <td onClick={() => toggleExpandedRows(mission._id)}>
-                                        <i className={`fa ${isExpanded ? 'fa-angle-down' : 'fa-angle-up'}`}></i>
+                                        <i className={` angle-icon fa ${isExpanded ? 'fa-angle-down' : 'fa-angle-up'}`}></i>
                                     </td>
                                 </tr>
                                 <tr style={{ display: isExpanded ? 'contents' : 'none' }}>
@@ -177,34 +210,37 @@ function MissionListItem({ mission, children }: any) {
 }
 
 
-function MissionDetailsBox({ request }: any) {
+
+
+function MissionDetailsBox({ mission }: any) {
 
     return <table>
         <tbody>
-            {/* {"OK"} */}
-            {/* <tr>
-                <td className="text-primary text-left p-2  whitespace-nowrap">{TEXT_PROJECT}</td>
-                <td>{request.details.proj_code}</td>
+            <tr>
+                <td className='name'>{TEXT_PROJECT}</td>
+                <td>{mission?.project_Code}</td>
             </tr>
             <tr>
-                <td className="text-primary text-left p-2  whitespace-nowrap">{TEXT_COST_CENTER}</td>
-                <td>{request.details.cost_center}</td>
+                <td className='name'>{TEXT_COST_CENTER}</td>
+                <td>{mission?.cost_center}</td>
             </tr>
             <tr>
-                <td className="text-primary text-left px-2 align-top p-2">{TEXT_LOCATIONS}</td>
+                <td className='name'>{TEXT_LOCATIONS}</td>
                 <td>
                     <ul>
-                        {request.locations.map(({ meta }: any, index: number) => {
+                        {mission?.locations?.map(({ meta }: any, index: number) => {
                             return <>
-                                <li className="my-2">
-                                    <span className="text-graydark ml-4">{`${getLocationIndexTitle(request.locations.length, index)}`}</span>
+                                <li>
+                                    <span>{` ${getLocationIndexTitle(mission.locations.length, index)} `}</span>
                                     {meta.address}
                                 </li>
                             </>
                         })}
                     </ul>
                 </td>
-            </tr> */}
+            </tr>
         </tbody>
     </table>
 }
+
+

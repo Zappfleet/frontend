@@ -30,7 +30,7 @@ function App() {
           {routes
             .filter(({ path }) => {
               return navigatioMenu?.find(({ href }: any) => {
-                console.log('D');
+               // console.log('D');
                 return path == href || `${path}/` == href || path == `${href}/`;
               });
             })

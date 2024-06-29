@@ -12,7 +12,7 @@ export default function useRestrictions(refresh: any, type: any, key: any, value
     });
 
     function refreshData() {
-        console.log(52);
+       // console.log(52);
 
         switch (type) {
             case 'update':

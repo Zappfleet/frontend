@@ -5,10 +5,7 @@ const LoaderButton = (props: any) => {
         <button
             {...props}
             disabled={props.isLoading || props.disabled}
-            className={classNames(
-                "bg-primary text-white dark:bg-boxdark disabled:bg-disabled disabled:bg-opacity-90 dark:disabled:bg-disabled dark:disabled:bg-opacity-90 ",
-                "duration-200 active:saturate-50 rounded p-3 flex items-center justify-center",
-                props.className || "")}
+            className='my-btn'
         >
             {props.children}
             <div className={classNames(

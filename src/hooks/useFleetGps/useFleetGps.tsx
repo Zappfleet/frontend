@@ -104,7 +104,7 @@ const useFleetGps = (permitForRunUseFleetGps: boolean,vehicleIDs: any, mapRef: a
                 } catch (error) {
                     console.error("Error in sendFakeLocations:", error);
                 }
-            }, 10000);
+            }, 5000);
         }
 
         return () => {

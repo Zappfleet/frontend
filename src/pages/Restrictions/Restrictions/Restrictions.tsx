@@ -111,7 +111,7 @@ const Restrictions = () => {
     ];
 
     const rows = restrictions?.map((element: any) => {
-        console.log(444, items);
+     //   console.log(444, items);
 
         return <>
             <tr key={element.name} className="table-row">

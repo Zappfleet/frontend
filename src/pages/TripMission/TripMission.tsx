@@ -130,7 +130,7 @@ function TripMission() {
                     case ACCESS_REQUEST_HISTORY:
                       return <RequestHistory mode={MODE_AREAL} />;
                     case ACCESS_MISSION_HISTORY:
-                      return <MissionHistory mode={MODE_AREAL} />;
+                      return <MissionHistory mode={MODE_AREAL} paging={false} status={'DONE'}/>;
                   }
                 })()
               }

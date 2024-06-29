@@ -27,9 +27,7 @@ const DefinitionsManager = lazy(
   () => import('../pages/definitions/DefinitionsManager')
 );
 const VehicleManager = lazy(() => import('../pages/Vehicles/VehicleManager'));
-const DriverMissionHistory = lazy(
-  () => import('../pages/Driver/DriverMissionHistory/DriverMissionHistory')
-);
+const DriverMissionHistory = lazy(() => import('../pages/Driver/DriverMissionHistory/DriverMissionHistory'));
 const PassengerRequestHistory = lazy(
   () => import('../pages/Passenger/PassengerRequestHistory/PassengerRequestHistory')
 );

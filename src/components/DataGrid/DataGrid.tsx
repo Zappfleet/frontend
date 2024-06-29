@@ -14,7 +14,7 @@ import {
 
 const DataGrid = (props: any) => {
 
-    console.log(5, props.pagesize);
+  // console.log(5, props.pagesize);
 
     const [currentPage, setcurrentPage] = useState(1)
     const [pagesize, setpagesize] = useState(props.pagesize)
@@ -120,17 +120,17 @@ const DataGrid = (props: any) => {
     })
 
     useEffect(() => {
-        console.log(85, props.items);
+       // console.log(85, props.items);
 
         setCopyItems(props.items.slice(0, 2))
     }, [props.items])
     useEffect(() => {
-        console.log(96, copyItems);
+      //  console.log(96, copyItems);
 
     }, [copyItems])
 
     useEffect(() => {
-        console.log(44, pagesize);
+       // console.log(44, pagesize);
 
         const startIndex = (currentPage - 1) * pagesize;
         const endIndex = startIndex + parseInt(pagesize.toString());

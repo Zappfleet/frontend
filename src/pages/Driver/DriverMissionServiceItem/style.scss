@@ -1,13 +1,17 @@
 .DriverMissionServiceItem-component {
     .div-comments {
-       .close-icon{
-        position: absolute;
-        bottom: 190%;
-        left: 30px;
-        color: black;
-        z-index: 100;
-        cursor: pointer;
-       }
+        .close-icon {
+            position: absolute;
+            bottom: 190%;
+            left: 30px;
+            color: black;
+            z-index: 100;
+            cursor: pointer;
+        }
 
+    }
+
+    .my-btn {
+        margin-left: 15px;
     }
 }

@@ -26,6 +26,7 @@ import useFleetGps from '../../../hooks/useFleetGps/useFleetGps';
 
 const DriverCurrentMissionService = () => {
 
+
     const [searchParams] = useSearchParams();
     const mission_id = searchParams.get("mission_id");
     const [missionStatus, setMissionStatus] = useState<any>('')
@@ -35,7 +36,7 @@ const DriverCurrentMissionService = () => {
     const [permitForRunUseFleetGps, setPermitForRunUseFleetGps] = useState<any>(false)
     const [vehicleIDs, setVehicleIDs] = useState<any>(null)
     const [mode, setMode] = useState<any>(null)
-    const useFleetGpsResult = useFleetGps(permitForRunUseFleetGps,vehicleIDs, mapRef, carIcon, 0.015);
+    const useFleetGpsResult = useFleetGps(permitForRunUseFleetGps, vehicleIDs, mapRef, carIcon, 0.015);
 
     const bottomSheet = useRef<any>();
 
@@ -125,7 +126,7 @@ const DriverCurrentMissionService = () => {
 
     useEffect(() => {
         if (missionDetails) {
-            console.log(112, missionDetails);
+         //   console.log(112, missionDetails);
             if (missionDetails?.mission?.status === 'DONE') {
                 setMissionStatus('DONE')
             }
@@ -135,6 +136,8 @@ const DriverCurrentMissionService = () => {
                 //show current location
 
                 setMode('driver')
+                console.log(422,missionDetails?.mission?.vehicle?.id);
+                
                 setVehicleIDs([missionDetails?.mission?.vehicle?.id])
                 setPermitForRunUseFleetGps(true)
 
@@ -146,7 +149,7 @@ const DriverCurrentMissionService = () => {
             //  console.log(1, missionDetails?.mission?.service_requests[0].request?.locations);
             missionDetails?.mission?.service_requests[0]?.request?.locations?.map((location: any, index: any) => {
 
-                console.log(85, location.coordinates[1], location.coordinates[0]);
+                // console.log(85, location.coordinates[1], location.coordinates[0]);
 
                 index === 0 ?
                     mapRef.current?.addMarker(location.coordinates[1], location.coordinates[0], true, MarkerRed, 0.1) :
@@ -210,8 +213,8 @@ const DriverCurrentMissionService = () => {
 
 
                         </div>
-                        {missionDetails?.mission?.service_requests?.map((serviceItem: any) => {
-                            return <DriverMissionServiceItem
+                        {missionDetails?.mission?.service_requests?.map((serviceItem: any, index: any) => {
+                            return <DriverMissionServiceItem key={index}
                                 mission_id={mission_id}
                                 serviceItem={serviceItem}
                                 handleServiceItemProgress={handle_ServiceItemProgress}

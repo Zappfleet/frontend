@@ -24,12 +24,14 @@ const TripMissionCard = (props: any) => {
 
 
     return missions?.data?.docs?.map((mission: any) => {
-        return <MissionService
-            vehicleBasicData={vehicleBasicData}
-            prompt_onMissionReady={props.prompt_onMissionReady}
-            triggerVehicleAssignment={props.triggerVehicleAssignment}
-            key={mission._id}
-            mission={mission} />
+        return <>
+            <MissionService
+                vehicleBasicData={vehicleBasicData}
+                prompt_onMissionReady={props.prompt_onMissionReady}
+                triggerVehicleAssignment={props.triggerVehicleAssignment}
+                key={mission._id}
+                mission={mission} />
+        </>
     })
 
 };

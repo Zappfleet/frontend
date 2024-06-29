@@ -4,10 +4,14 @@ import { MODE_AREAL, MODE_DRIVER, MODE_PASSENGER } from "../../lib/constants";
 
 
 export default function useMissions(props: any = {}) {
-    const { mode, status, dateFilter } = props;
+
+    const { mode, status, dateFilter, paging } = props;
     const [missions, setMissions] = useState({
         data: null
     });
+
+   // console.log(78, mode, paging);
+
 
     useEffect(() => {
         const apiName = function () {
@@ -18,10 +22,14 @@ export default function useMissions(props: any = {}) {
             }
         }()
         if (apiName == null) throw "apiName is not set"
-        getApiClient()[apiName](status, dateFilter).then(({ data }) => {
+        
+        getApiClient()[apiName](status, dateFilter, paging).then(({ data }) => {
+            // console.log(54,data);
+
             setMissions({ ...missions, data })
         }).catch(console.log)
     }, [])
+
 
     return {
         missions

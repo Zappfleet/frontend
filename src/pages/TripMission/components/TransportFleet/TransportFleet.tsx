@@ -20,7 +20,7 @@ const TransportFleet = (props: any) => {
 
 
   useEffect(() => {
-console.log(7820,fleetData?.data?.vehicles?.docs);
+    console.log(7820, fleetData?.data?.vehicles?.docs);
 
     if (mapRef1) {
       console.log(100, 'ناوگان')
@@ -38,27 +38,31 @@ console.log(7820,fleetData?.data?.vehicles?.docs);
   return (
     <div className="TransportFleet-component">
       <div className="row">
-        <div className="col-6 col-md-3">
-          <input
-            className="search"
-            placeholder="جستجوی رانندگان ..."
-          />
-          <div className="driver-list">
-            {fleetData?.data?.vehicles?.docs.map((vehicle: any) => {
-              return (
-                <div
-                  onClick={() => props.handle_onVehicleClick?.(vehicle)}
-                  key={vehicle._id}
-                >
-                  <VehicleItem vehicle={vehicle} basicData={basicData} />
-                </div>
-              );
-            })}
+        <div className="col-12 col-md-3">
+          <div className="search-div">
+            <input
+              className="search"
+              placeholder="جستجوی رانندگان ..."
+            />
+            <div className="driver-list">
+              {fleetData?.data?.vehicles?.docs.map((vehicle: any) => {
+                return (
+                  <div
+                    onClick={() => props.handle_onVehicleClick?.(vehicle)}
+                    key={vehicle._id}
+                  >
+                    <VehicleItem vehicle={vehicle} basicData={basicData} />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
-        <div className="col-6 col-md-9 map-div">
-          <div className="location-div">
-            <MapContainer mapRef={mapRef1 as { current: MapRefType }} />
+        <div className="col-12 col-md-8">
+          <div className="map-div">
+            <div className="location-div">
+              <MapContainer mapRef={mapRef1 as { current: MapRefType }} />
+            </div>
           </div>
         </div>
       </div>
