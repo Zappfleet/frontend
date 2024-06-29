@@ -1,6 +1,6 @@
 // import './widgetStyle.scss'
 import './style.scss'
-import { TEXT_CONFIRMED_BY, TEXT_COST_CENTER, TEXT_CREATED_BY, TEXT_DATE_TIME, TEXT_DESC, TEXT_LOCATIONS, TEXT_PROJECT, TEXT_STATUS, getLocalDatetime, getLocationIndexTitle, joinStatus, requestStatus } from "../../lib/string";
+import { TEXT_CONFIRMED_BY, TEXT_COST_CENTER, TEXT_CREATED_BY, TEXT_DATE_TIME, TEXT_DESC, TEXT_LOCATIONS, TEXT_PROJECT, TEXT_STATUS, getLocalDatetime, getLocationIndexTitle, joinStatus, missionStatus, requestStatus } from "../../lib/string";
 import useRequests from "../../hooks/data/useRequests";
 import React, { useEffect, useState } from "react";
 import useItemSetToggle from "../../hooks/custom/useItemSetToggle";
@@ -123,7 +123,7 @@ export default function RequestHistory(props: any = {}) {
         return false
     }
 
-    const saveComment = (comment: any) => {
+    const saveComment = (comment: any, missionID: any) => {
         setShowCommentComponent(false)
         setUserComment(comment)
         setActionType('insert')
@@ -145,7 +145,7 @@ export default function RequestHistory(props: any = {}) {
                 }
             }
             if (actionType === 'select') {
-              //  console.log(23, resultComment.data);
+                //  console.log(23, resultComment.data);
 
                 let registedCommentbefore = true
                 resultComment?.data?.data?.map((item: any) => {
@@ -234,7 +234,9 @@ export default function RequestHistory(props: any = {}) {
 
                             const myMissions = missionListDONEStatus?.filter((item: any) =>
                                 item.service_requests && item.service_requests[0]?.request_id === request._id
+                                && item.status === 'DONE'
                             );
+                            console.log(4444, myMissions);
 
                             const myComments = myMissions && myMissions[0]?.extra?.comments ? myMissions[0].extra.comments : undefined;
 
@@ -255,10 +257,10 @@ export default function RequestHistory(props: any = {}) {
                                         {isEditPossible === true &&
                                             <i onClick={() => handleNavigation(request)} className="fa fa-pencil pencil "></i>
                                         }
-                                        {x === true &&
+                                        {x === true && myMissions && myMissions[0] && myMissions[0]?.status === 'DONE' &&
                                             <i onClick={() => handleClickBtnComment(myMissions[0]._id)} className="fa fa-comment pencil "></i>}
 
-                                        {showCommentComponent &&
+                                        {showCommentComponent && mission_id === myMissions[0]?._id &&
                                             <div className="div-comments">
                                                 <i onClick={() => setShowCommentComponent(false)} className='close-icon fa fa-remove'></i>
                                                 <Comments registerID={ID} registerRole={role} saveComment={saveComment} />
@@ -267,7 +269,8 @@ export default function RequestHistory(props: any = {}) {
                                     </td>
                                     <td>{request.submitted_by?.full_name || request.submitted_by?.username}</td>
                                     <td>{request.confirmed_by?.full_name || request.confirmed_by?.username}</td>
-                                    <td>{Object.fromEntries(requestStatus)[request.status]}</td>
+                                    {/* <td>{Object.fromEntries(requestStatus)[request.status]}</td> */}
+                                    <td>{myMissions && myMissions[0] ? Object.fromEntries(missionStatus)[myMissions[0].status] : Object.fromEntries(requestStatus)[request.status]}</td>
                                     <td>{request.details?.desc && request.details?.desc}</td>
                                     <td onClick={() => toggleExpandedRows(request._id)}>
                                         <i className={`fa ${isExpanded ? 'fa-angle-down' : 'fa-angle-up'}`}></i>

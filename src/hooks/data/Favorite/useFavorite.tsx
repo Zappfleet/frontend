@@ -50,6 +50,8 @@ export default function useFavorite(refresh: boolean, action_name: any, item: an
                 break;
 
             case 'update':
+                console.log(41,item);
+                
                 if (item !== null) {
                     setState({ ...state, in_progress: true })
                     getApiClient().update_FavoriteLocation(item)

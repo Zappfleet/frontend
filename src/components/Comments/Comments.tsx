@@ -31,20 +31,20 @@ const Comments = (props: any) => {
 
     const handleSelectedComments = (e: any, result: any, item: any) => {
 
-        let comment:Comment = {
+        let comment: Comment = {
             type: result.type,
             value: item
         }
 
         setSelectedComments((prev: any) => {
-            const itemExists = prev.some((ite: any) => ite.value === item);
+            const itemExists = prev?.some((ite: any) => ite.value === item);
 
             if (itemExists) {
                 // Remove the comment if it exists
                 return prev.filter((c: any) => c.value !== item);
             } else {
                 // Add the comment if it does not exist
-                return [...prev, comment];
+                return prev ? [...prev, comment] : [comment]
             }
         })
 

@@ -22,7 +22,7 @@ const PassengerFavoriteLocation = () => {
     const [des, setDes] = useState<any>('')
     const [coordinates, setCoordinates] = useState<any>()
     const [favoriteLocationList, setFavoriteLocationList] = useState<any>(null)
-
+    const [is_Update, setIs_Update] = useState<any>(false)
 
 
 
@@ -65,6 +65,7 @@ const PassengerFavoriteLocation = () => {
             if (hookType === 'update') {
                 if (resultFavorite.status === 200) {
                     NotificationController.showSuccess('مکان منتخب بروزرسانی شد');
+                    setIs_Update(false)
                     setActionType('select')
                     setRefresh(!refresh)
                     setShowForm(false)
@@ -75,6 +76,7 @@ const PassengerFavoriteLocation = () => {
                 }
             }
             setShowForm(false)
+
         }
     }, [resultFavorite]);
 
@@ -94,7 +96,7 @@ const PassengerFavoriteLocation = () => {
 
     const handle_saveFavorite = async () => {
         //update
-        if (actionType === 'update') {
+        if (is_Update === true) {
             if (!coordinates || coordinates.length !== 2) {
                 console.error('Invalid coordinates:', coordinates);
                 return;
@@ -108,6 +110,7 @@ const PassengerFavoriteLocation = () => {
                     coordinates: coordinates // [longitude, latitude]
                 }
 
+            setActionType('update')
             setFavoritItem(favorite)
             setRefresh(!refresh)
             // Refresh the page after handling the deletion
@@ -142,6 +145,8 @@ const PassengerFavoriteLocation = () => {
     }, [refresh])
 
     const handleRemoveFavorite = async (item: any) => {
+        console.log(752);
+
         setActionType('delete');
         setFavoritItem(item);
         setRefresh(true);
@@ -167,7 +172,7 @@ const PassengerFavoriteLocation = () => {
         setName(item.name)
         setDes(item.description)
         setFavoritItem(item);
-        setActionType('update')
+        setIs_Update(true)
     }
 
 
@@ -218,7 +223,7 @@ const PassengerFavoriteLocation = () => {
                                         <i onClick={() => setShowForm(false)} className='fa fa-arrow-left icon-back'></i>
                                         <input value={name} onChange={(e: any) => setName(e.target.value)} className='name form-control' type="text" placeholder='نام' />
                                         <textarea rows={5} value={des} onChange={(e: any) => setDes(e.target.value)} className='des form-control' placeholder='جزییات برای مسیریابی بهتر' />
-                                        <button onClick={handle_saveFavorite} className='my-btn form-control'>{actionType === 'update' ? 'بروزرسانی' : 'ثبت'}</button>
+                                        <button onClick={handle_saveFavorite} className='my-btn form-control'>{is_Update === true ? 'بروزرسانی' : 'ثبت'}</button>
                                     </div>
                                 </div>
                             </div>

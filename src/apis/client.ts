@@ -498,7 +498,7 @@ class ApiClient {
   }
 
   async update_FavoriteLocation(item: any) {
-    return this.axiosInstance.put(`/api/v2/favoriteLocations/update_FavoriteLocation`, item);
+    return this.axiosInstance.put(`/api/v2/favoriteLocations/update_FavoriteLocation/${item._id}`, {item});
   }
 
   async delete_FavoriteLocation(_id: string) {

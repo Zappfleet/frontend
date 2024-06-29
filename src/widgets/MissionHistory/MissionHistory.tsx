@@ -54,6 +54,8 @@ export default function MissionHistory(props: any = {}) {
 
 
     const showComment = (mission: any) => {
+        console.log(800,mission);
+        
         const myComments = mission?.extra?.comments ? mission.extra.comments : undefined;
         const result = myComments?.map((item: any) => {
             console.log(10, item, item.emojiID, emojiLib.find(ite => ite.key === item.emojiID)?.icon);
