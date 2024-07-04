@@ -37,6 +37,7 @@
     "match-sorter": "^6.3.1",
     "nebular": "^0.0.1",
     "num2persian": "^3.2.2",
+    "ol": "^9.2.4",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
     "react-bootstrap": "^2.10.2",

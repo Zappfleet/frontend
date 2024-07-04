@@ -51,7 +51,10 @@ const PassengerServiceRequest = (props: any = {}) => {
 
   const { authInfo } = useAuthentication();
 
+useEffect(()=>{
+console.log(745,authInfo?.org?.additionalRequestFields);
 
+},[authInfo])
   //sgh
   useEffect(() => {
     if (type === "update") {
@@ -213,22 +216,28 @@ const PassengerServiceRequest = (props: any = {}) => {
   };
 
   const handle_submitRequest = (e: any) => {
+    console.log(1);
+    
     e.preventDefault();
 
     const body = buildRequestBody(formState, userInput, type, submitted_by);
 
+    console.log(2,props.overrideOnSubmit,body,formState._id);
+    
     if (props.overrideOnSubmit != null) {
       props.overrideOnSubmit(body, formState._id);
       handle_hideBottomSheet();
-      return;
+    //  return;
     }
 
     const method = formState._id == null ? 'submitRequest' : 'updateRequest';
-    // console.log(333, method);
+     console.log(333, method);
 
     getApiClient()
     [method](body, formState._id)
       .then(({ data }) => {
+        console.log(320,data);
+        
         NotificationController.showSuccess('اطلاعات با موفقیت ذخیره شد');
         setFormState({});
         clearMapMarkers();
@@ -236,7 +245,7 @@ const PassengerServiceRequest = (props: any = {}) => {
         if (props.submitCallback != null) props.submitCallback(data);
       })
       .catch((e) => {
-        NotificationController.showError(e.message);
+        NotificationController.showError(e.response.data.error);
       });
   };
 
@@ -296,10 +305,11 @@ const PassengerServiceRequest = (props: any = {}) => {
             );
           })}
 
-          <span className="flex">
-            <i className='fa fa-search' onClick={showDriverOnMap}></i>
+          <span className="flex-center">
+            {/* <i className='fa fa-search' onClick={showDriverOnMap}></i> */}
+            <button  onClick={handle_clickPin} className="my-btn"><i className="fas fa-thumbtack"></i> انتخاب ایستگاه</button>
 
-            <button
+            {/* <button
               onClick={handle_clickPin}
               className="m-2 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-primary p-3 text-primary text-white shadow active:saturate-50"
             >
@@ -317,7 +327,8 @@ const PassengerServiceRequest = (props: any = {}) => {
                 })}
                 color={'white'}
               />
-            </button>
+            </button> */}
+ 
 
             <button
               onClick={handle_showBottomSheet}

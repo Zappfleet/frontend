@@ -230,6 +230,8 @@ class ApiClient {
     status: string,
     driverID: any
   ) {
+    console.log(100);
+    
     return await this.axiosInstance.get(`/api/v2/services/missions/getMissions_by_StatusAndDriverID`, {
       params: createParams(status, driverID),
     });
@@ -491,7 +493,7 @@ class ApiClient {
     let body = {
       item: item
     }
-    console.log(111, item);
+    //console.log(111, item);
 
     return await this.axiosInstance.post(`/api/v2/favoriteLocations/insert_FavoriteLocation`, body
     );

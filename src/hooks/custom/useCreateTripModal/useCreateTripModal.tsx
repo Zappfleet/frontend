@@ -238,7 +238,9 @@ export default function useCreateTripModal() {
     setSate({ ...state, activeUser: item });
   };
 
-  const handle_submitOverride = (requestBody: any, requestId: string) => {
+  const handle_submitOverride = (requestBody: any, requestId: any) => {
+    console.log(5);
+    
     //take no action
   };
 

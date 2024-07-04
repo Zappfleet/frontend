@@ -5,7 +5,7 @@ import UserOne from '../../../images/user/user-01.png';
 import { findText } from '../../../../lib/string';
 import useVehicleBasicData from '../../../../hooks/data/useVehicleBasicData';
 import { VehicleItem } from '../VehicleItem/VehicleItem';
-import useFleetGps from '../../../../hooks/useFleetGps/useFleetGps';
+import getCurrentLocations from '../../../../hooks/useCurrentLocations/getCurrentLocations';
 import carIcon from '../../../../images/map/carIcon.png';
 
 const TransportFleet = (props: any) => {
@@ -16,7 +16,7 @@ const TransportFleet = (props: any) => {
   const [permitForRunUseFleetGps, setPermitForRunUseFleetGps] = useState<any>(false)
   const [vehicleIDs, setVehicleIDs] = useState<any>(null)
   const [mode, setMode] = useState<any>(null)
-  const useFleetGpsResult = useFleetGps(permitForRunUseFleetGps, vehicleIDs, mapRef1, carIcon, 0.015);
+  const useFleetGpsResult = getCurrentLocations(permitForRunUseFleetGps, vehicleIDs, mapRef1, carIcon, 0.015);
 
 
   useEffect(() => {

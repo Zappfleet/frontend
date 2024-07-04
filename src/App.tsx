@@ -10,9 +10,11 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { sendEnvToAndroidClient } from './pages/Authentication/utils';
 import useNavigationMenu from './hooks/useNavigationMenu';
+
 const DefaultLayout = lazy(() => import('./layout/DefaultLayout/DefaultLayout'));
 
 function App() {
+
   const navigatioMenu = useNavigationMenu();
 
   useEffect(() => {
@@ -30,7 +32,7 @@ function App() {
           {routes
             .filter(({ path }) => {
               return navigatioMenu?.find(({ href }: any) => {
-               // console.log('D');
+                //  console.log('D');
                 return path == href || `${path}/` == href || path == `${href}/`;
               });
             })

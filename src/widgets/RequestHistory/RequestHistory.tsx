@@ -1,6 +1,6 @@
 // import './widgetStyle.scss'
 import './style.scss'
-import { TEXT_CONFIRMED_BY, TEXT_COST_CENTER, TEXT_CREATED_BY, TEXT_DATE_TIME, TEXT_DESC, TEXT_LOCATIONS, TEXT_PROJECT, TEXT_STATUS, getLocalDatetime, getLocationIndexTitle, joinStatus, missionStatus, requestStatus } from "../../lib/string";
+import { TEXT_CONFIRMED_BY, TEXT_COST_CENTER, TEXT_CREATED_BY, TEXT_DATE_TIME, TEXT_DESC, TEXT_LOCATIONS, TEXT_PROJECT, TEXT_STATUS, TEXT_DRIVER, getLocalDatetime, getLocationIndexTitle, joinStatus, missionStatus, requestStatus } from "../../lib/string";
 import useRequests from "../../hooks/data/useRequests";
 import React, { useEffect, useState } from "react";
 import useItemSetToggle from "../../hooks/custom/useItemSetToggle";
@@ -59,7 +59,6 @@ export default function RequestHistory(props: any = {}) {
 
     const { missionList } = useMissions_by_StatusAndDriverID("DRAFT", null);
     const { missionList: missionListDONEStatus } = useMissions_by_StatusAndDriverID("DONE", null);
-
 
 
     // return <div>
@@ -132,7 +131,7 @@ export default function RequestHistory(props: any = {}) {
 
 
     useEffect(() => {
-        console.log(7, resultComment);
+      //  console.log(7, resultComment);
 
         if (resultComment) {
             if (actionType === 'insert') {
@@ -222,6 +221,7 @@ export default function RequestHistory(props: any = {}) {
                             <th>{TEXT_CREATED_BY}</th>
                             <th>{TEXT_CONFIRMED_BY}</th>
                             <th>{TEXT_STATUS}</th>
+                            <th>{TEXT_DRIVER}</th>
                             <th>{TEXT_DESC}</th>
                             <th>{""}</th>
                         </tr>
@@ -235,13 +235,14 @@ export default function RequestHistory(props: any = {}) {
                             const myMissions = missionListDONEStatus?.filter((item: any) =>
                                 item.service_requests && item.service_requests[0]?.request_id === request._id
                                 && item.status === 'DONE'
-                            );
-                            console.log(4444, myMissions);
+                            )
+
+                        //    console.log(4444, request);
 
                             const myComments = myMissions && myMissions[0]?.extra?.comments ? myMissions[0].extra.comments : undefined;
 
                             let x = true
-                            console.log(50, myComments, ID);
+                            //console.log(50, myComments, ID);
 
                             myComments?.map((ite: any) => {
                                 if (ite.registerID === ID) {
@@ -271,6 +272,7 @@ export default function RequestHistory(props: any = {}) {
                                     <td>{request.confirmed_by?.full_name || request.confirmed_by?.username}</td>
                                     {/* <td>{Object.fromEntries(requestStatus)[request.status]}</td> */}
                                     <td>{myMissions && myMissions[0] ? Object.fromEntries(missionStatus)[myMissions[0].status] : Object.fromEntries(requestStatus)[request.status]}</td>
+                                    <td>{myMissions && myMissions[0] && myMissions[0].driver_full_name}</td>
                                     <td>{request.details?.desc && request.details?.desc}</td>
                                     <td onClick={() => toggleExpandedRows(request._id)}>
                                         <i className={`fa ${isExpanded ? 'fa-angle-down' : 'fa-angle-up'}`}></i>

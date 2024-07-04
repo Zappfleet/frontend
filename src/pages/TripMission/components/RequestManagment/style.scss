@@ -1,6 +1,6 @@
 @import '../../../../variable';
 
-.RequestManagment-component{
+.RequestManagment-component {
 
     .link {
         padding-right: 15px;
@@ -15,7 +15,23 @@
     .no-active {
         color: gray;
     }
-    .lbl-text{
+
+    .lbl-text {
         padding: 25px 5px;
+    }
+
+    .my-btn {
+        padding: 10px 25px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+
+        .car-icon {
+            padding-left: 10px;
+        }
+    }
+
+    .my-btn:hover {
+        color: whitesmoke;
+        cursor: pointer;
     }
 }

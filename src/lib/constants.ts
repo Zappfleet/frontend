@@ -12,6 +12,7 @@ export const EMPTY = '';
 
 export const EVENT_FLEET_GPS_UPDATE = 'fleet-gps-update';
 export const EVENT_FLEET_GPS_REQUEST = 'fleet-gps-request';
+export const PASSENGER_NOTIF = 'passengerNotif';
 
 export const MODE_AREAL = 'areal';
 export const MODE_PASSENGER = 'passenger';

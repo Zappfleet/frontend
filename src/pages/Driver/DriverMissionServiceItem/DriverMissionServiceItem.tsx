@@ -45,6 +45,8 @@ const DriverMissionServiceItem = (props: any) => {
     });
 
     const serviceItem = props.serviceItem;
+    //console.log(75,serviceItem?.request?.submitted_by?.phone);
+    
 
     const handle_toggleDetails = () => {
         setState({ ...state, open: !state.open })
@@ -117,6 +119,12 @@ const DriverMissionServiceItem = (props: any) => {
         }
     }, [resultComment])
 
+    const showDialPage = (phoneNumber:any) => {
+        // const phoneNumber = '+1234567890'; // Replace with your desired phone number
+         window.location.href = `tel:${phoneNumber}`;
+     }
+
+     
     return (
         <div className="DriverMissionServiceItem-component">
             <div className='border-b border-gray-4 p-2'>
@@ -125,7 +133,7 @@ const DriverMissionServiceItem = (props: any) => {
                     <label className='px-2'>
                         {serviceItem?.request.submitted_by.full_name}
                     </label>
-                    <BiPhone size={42} className={"rounded-full p-2 duration-300 active:bg-gray-4"} />
+                    <i className='fa fa-phone icon-phone' onClick={()=>showDialPage(serviceItem?.request?.submitted_by?.phone)}></i>
                     <BiChevronDown onClick={handle_toggleDetails} size={40} className={"absolute left-0 rounded-full p-2 cursor-pointer"} />
                 </div>
 

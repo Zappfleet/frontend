@@ -25,11 +25,13 @@ import { NotificationController } from '../../../lib/notificationController';
 import useMissionDetails from '../../../hooks/data/useMissionDetails';
 import useMissions from '../../../hooks/data/useMissions';
 import useRequests from '../../../hooks/data/useRequests';
-import useFleetGps from '../../../hooks/useFleetGps/useFleetGps';
+import getCurrentLocations from '../../../hooks/useCurrentLocations/getCurrentLocations';
 import carIcon from '../../../images/map/carIcon.png';
 
 const PassengerMissionDetails = (props: any) => {
 
+  
+   
     const [showDetails, setShowDetails] = useState<any>(false)
     const { searchState, reverseGeocoding } = useNeshanApi();
     const mapRef = useRef<MapRefType>(null);
@@ -41,7 +43,7 @@ const PassengerMissionDetails = (props: any) => {
     const [permitForRunUseFleetGps, setPermitForRunUseFleetGps] = useState<any>(false)
     const [vehicleIDs, setVehicleIDs] = useState<any>(null)
     const [mode, setMode] = useState<any>(null)
-    const useFleetGpsResult = useFleetGps(permitForRunUseFleetGps, vehicleIDs, mapRef, carIcon, 0.015);
+     const useFleetGpsResult = getCurrentLocations(permitForRunUseFleetGps, vehicleIDs, mapRef, carIcon, 0.015);
 
 
 

@@ -3,7 +3,7 @@ import { getApiClient } from '../apis/client';
 
 export default function useMissions_by_StatusAndDriverID(status: string, driverID: any) {
 
-    //console.log(89,status);
+    console.log(60,status);
 
     const [missionList, setMissionList] = useState<any>(null);
     const [state, setState] = useState({
@@ -11,6 +11,8 @@ export default function useMissions_by_StatusAndDriverID(status: string, driverI
     });
 
     function refreshData() {
+        console.log(520);
+        
         setState({ ...state, in_progress: true })
         getApiClient().getMissions_by_StatusAndDriverID(status, driverID)
             .then(resp => {

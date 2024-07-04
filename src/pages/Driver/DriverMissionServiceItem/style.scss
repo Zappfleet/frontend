@@ -1,3 +1,4 @@
+@import '../../../variable';
 .DriverMissionServiceItem-component {
     .div-comments {
         .close-icon {
@@ -10,7 +11,11 @@
         }
 
     }
-
+    .icon-phone {
+        color: $color-base;
+        cursor: pointer;
+        padding-right: 15px;
+    }
     .my-btn {
         margin-left: 15px;
     }

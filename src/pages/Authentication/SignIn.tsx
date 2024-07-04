@@ -46,7 +46,7 @@ const SignIn = () => {
     //console.log(7000);
 
     const isInvalid = validate(formData);
-    console.log(500, isInvalid);
+   // console.log(500, isInvalid);
 
     if (isInvalid) return;
 

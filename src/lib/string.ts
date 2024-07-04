@@ -13,6 +13,7 @@ export const TEXT_CREATED_BY = "مسافر";
 export const TEXT_CONFIRMED_BY = "تایید توسط";
 export const TEXT_STATUS = "وضعیت";
 export const TEXT_DESC = "توضیحات";
+export const TEXT_DRIVER = "راننده";
 export const TEXT_DETAILS = "نمایش جزئیات";
 export const TEXT_DISPATCH_BY = "توزیع توسط";
 
@@ -76,6 +77,8 @@ export function convertPlaqueToString(plaque: any) {
 
 export function convertStringToPlaque(plaqueString: any) {
     const splited = plaqueString.split(plaqueSeparator);
+
+    
     return {
         twoDigit: splited[0],
         threeDigit: splited[1],
@@ -144,9 +147,27 @@ export function getLocationIndexTitle(total: number, index: number) {
         case 0: return "اول";
         case 1: return "دوم";
         case 2: return "سوم";
-        default:
-            return `${Num2persian(index)}م`
+        case 3: return "چهارم";
+        case 4: return "پنجم";
+        case 5: return "ششم";
+        case 6: return "هفتم";
+        case 7: return "هشتم";
+        case 8: return "نهم";
     }
+
+    // switch (index) {
+    //     case 0: return "اول";
+    //     case 1: return "دوم";
+    //     case 2: return "سوم";
+    //     case 3: return "اول";
+    //     case 4: return "دوم";
+    //     case 5: return "سوم";
+    //     case 0: return "اول";
+    //     case 1: return "دوم";
+    //     case 2: return "سوم";
+    //      default:
+    //          return `${Num2persian(index)}`
+    // }
 }
 
 export function joinStatus(list: any) {

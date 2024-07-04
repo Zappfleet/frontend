@@ -11,11 +11,12 @@ import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary";
 export type AddMarkerLayerResult = { marker: BaseLayer, coordinates: [number, number] } | undefined;
 
 export type MapRefType = {
-    addMarker: (longitude: number, latitude: number, convert?: boolean, myicon?: string, scale?: any) => AddMarkerLayerResult,
+    addMarker: (longitude: number, latitude: number, convert?: boolean, myicon?: string, scale?: any,color?:any) => AddMarkerLayerResult,
     addMarkerToCenter: () => AddMarkerLayerResult,
     viewCoordinates: (lng: number, lat: number, zoom: number) => void,
     addPolygon: (coordinates: [number, number][], convert: boolean, color?: string) => void,
     addPolyline: (coordinates: [number, number][], convert: boolean, color?: string) => void,
+    addRoute: (coordinates: [number, number][], convert: boolean, color?: string) => void, // اضافه شده
     remove: (layer: BaseLayer) => void,
     getCenterLonLat: () => [number, number] | undefined
 }
@@ -45,6 +46,40 @@ const MapContainer = forwardRef<MapRefType, MapContainerProps>((props, ref) => {
         if (!mapRef.current) return;
         const { map } = mapRef.current;
         map.removeLayer(layer);
+    }
+
+    function addRoute(coordinates: [number, number][], convert: boolean, color?: string) {
+        if (!mapRef.current) return;
+        const { ol, map } = mapRef.current;
+
+        const coordinatesConverted = coordinates.map(c => convert ? ol.proj.fromLonLat(c) : c);
+
+        const feature = new ol.Feature({
+            geometry: new ol.geom.LineString(coordinatesConverted)
+        });
+
+        const vectorSource = new ol.source.Vector({
+            features: [feature]
+        });
+
+        const routeLayer = new ol.layer.Vector({
+            source: vectorSource,
+            style: new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: `rgba(${color || "0, 102, 255"}, 0.8)`,
+                    width: 3
+                }),
+                fill: new ol.style.Fill({
+                    color: `rgba(${color || "0, 102, 255"}, 0.3)`
+                })
+            })
+        });
+
+        map.addLayer(routeLayer);
+        return {
+            route: routeLayer,
+            coordinates: coordinatesConverted.map(c => convert ? ol.proj.toLonLat(c) : c)
+        }
     }
 
     function addPolyline(coordinates: [number, number][], convert: boolean, color?: string) {
@@ -133,12 +168,14 @@ const MapContainer = forwardRef<MapRefType, MapContainerProps>((props, ref) => {
         }
     }
 
-    function addMarker(longitude: number, latitude: number, convert?: boolean, myicon?: string, scale?: any): AddMarkerLayerResult {
+    function addMarker(longitude: number, latitude: number, convert?: boolean, myicon?: string, scale?: any, color?: any): AddMarkerLayerResult {
         if (!mapRef.current) return;
         const { ol, map } = mapRef.current;
 
         const coordinates = convert ? ol.proj.fromLonLat([longitude, latitude]) : [longitude, latitude];
 
+        let Mycolor: any = color ? color:
+            { color: 'rgba(255, 0, 0, 1)' }
         const feature = new ol.Feature(new ol.geom.Point(coordinates));
         const pinLayer = new ol.layer.Vector({
             source: new ol.source.Vector({
@@ -150,8 +187,8 @@ const MapContainer = forwardRef<MapRefType, MapContainerProps>((props, ref) => {
                     scale: scale, // Adjust the scale as needed
                 }) : new ol.style.Circle({
                     radius: 5,
-                    stroke: new ol.style.Stroke({ color: 'rgba(255, 0, 0, 1)' }),
-                    fill: new ol.style.Fill({ color: 'rgba(255, 0, 0, 0.5)' })
+                    stroke: new ol.style.Stroke(Mycolor),
+                    fill: new ol.style.Fill(Mycolor)
                 })
             }),
         });
@@ -188,6 +225,7 @@ const MapContainer = forwardRef<MapRefType, MapContainerProps>((props, ref) => {
                 viewCoordinates,
                 addPolygon,
                 addPolyline,
+                addRoute,
                 remove,
                 getCenterLonLat
             };
@@ -202,6 +240,7 @@ const MapContainer = forwardRef<MapRefType, MapContainerProps>((props, ref) => {
         viewCoordinates,
         addPolygon,
         addPolyline,
+        addRoute,
         remove,
         getCenterLonLat
     }), [mapRef.current]);
@@ -211,7 +250,7 @@ const MapContainer = forwardRef<MapRefType, MapContainerProps>((props, ref) => {
             <NeshanMap
                 style={{ zIndex: 1, height: "100%", width: "100%", pointerEvents: props.freeze ? "none" : 'all' }}
                 center={{ latitude: 29.882589, longitude: 52.808064 }}
-                zoom={14}
+                zoom={16}
                 mapKey={NeshanMapKey}
                 onInit={onInit}
             >

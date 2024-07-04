@@ -394,11 +394,12 @@ const RequestManagment = () => {
         )}
 
         {renderUi(
-          <VehicleItemEmpty
-            onClick={() =>
+          <>
+            <button className="my-btn" onClick={() =>
               triggerVehicleAssignment(draftMission?.data, TAB_REQUESTS)
-            }
-          />
+            }><i className="fas fa-car car-icon"></i> انتخاب راننده</button>
+          </>
+
         ).if(
           draftMission?.data?.service_requests?.length > 0 &&
           draftMission?.data?.vehicle == null

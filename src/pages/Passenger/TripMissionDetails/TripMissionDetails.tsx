@@ -3,10 +3,17 @@ import './style.scss'
 import IranFlag from '../../../images/country/ir.png';
 import TitledSparator from '../../../components/TitledSparator';
 import { BiMessage, BiPhone } from 'react-icons/bi';
-import { getLocalDatetime, missionStatus } from '../../../lib/string';
+import { convertStringToPlaque, getLocalDatetime, missionStatus } from '../../../lib/string';
+import PlaqueInput from '../../Form/PlaqueInput';
 
 const TripMissionDetails = ({ mission }: any) => {
     console.log(88, mission);
+
+
+    const showDialPage = (phoneNumber: any) => {
+        // const phoneNumber = '+1234567890'; // Replace with your desired phone number
+        window.location.href = `tel:${phoneNumber}`;
+    }
 
     return <>
         {mission && <div className='TripMissionDetails-component'>
@@ -17,6 +24,8 @@ const TripMissionDetails = ({ mission }: any) => {
                     </div>
                     <div className='flex flex-col px-2'>
                         <label>
+                            {mission?._id}
+                            <br />
                             {mission?.created_by}
                         </label>
                         {/* <label className='text-sm'>{`امتیاز : 4.2`}</label> */}
@@ -24,29 +33,22 @@ const TripMissionDetails = ({ mission }: any) => {
                 </div>
                 <div className='flex flex-col px-2 items-center whitespace-nowrap'>
                     <label className='mb-1 text-sm'>{`${mission.vehicleName}  ${mission.vehicleColor}`}</label>
-                    <span className='border border-black rounded bold relative pl-6'>
-                        <span className='inline-block p-1'>{mission.vehiclePlaque}</span>
-                        {/* <span className='inline-block p-1 border-l'>
+                    <PlaqueInput
+                        small={true}
+                        disabled
+                        value={convertStringToPlaque(mission.vehiclePlaque)}
+                    />
+
+                    {/* <span className='inline-block p-1 border-l'>
                             <span>{"11"}</span>
                         </span>
                         <span className='inline-block p-1'>365</span>
                         <span className='inline-block p-1'>ب</span>
                         <span className='inline-block p-1'>12</span> */}
-                        <span className='absolute p-1 bg-[#013394] inline-flex h-full'>
-                            <label className='inline-block relative flex flex-col'>
-                                <img src={IranFlag} />
-                                <label
-                                    style={{ fontSize: 6, lineHeight: 1 }}
-                                    className='text-white absolute bottom-0 left-0 text-left'>
-                                    I.R<br />
-                                    IRAN
-                                </label>
-                            </label>
-                        </span>
-                    </span>
+
                 </div>
                 <div className='border-r border-gray-4 flex flex-col'>
-                    <BiPhone className={"p-2 active:bg-gray-4"} size={40} />
+                    <i className='fa fa-phone icon-phone' onClick={() => showDialPage(mission.driver_phone)}></i>
                     <BiMessage className={"p-2 active:bg-gray-4"} size={40} />
                 </div>
             </div>
@@ -59,7 +61,7 @@ const TripMissionDetails = ({ mission }: any) => {
                         <tr><td colSpan={2}><TitledSparator title={"مسیر"} /></td></tr>
                         <tr className='text-sm'><td className='px-3 pt-2 bold whitespace-nowrap align-top text-left'>{"مبدا"}</td><td className='pt-2' >{mission.locations && mission.locations.length > 0 && mission.locations[0].meta?.address}</td></tr>
                         {/* <tr className='text-sm '><td className='px-3 pt-2 bold whitespace-nowrap align-top text-left'>{"ایستگاه 1"}</td><td>{"فلان شسکمین شسی"}</td></tr> */}
-                        <tr className='text-sm '><td className='px-3 pt-2 bold whitespace-nowrap align-top text-left'>{"مقصد"}</td><td className='pt-2' >{mission.locations && mission.locations.length > 0 && mission.locations[mission.locations.length-1].meta?.address}</td></tr>
+                        <tr className='text-sm '><td className='px-3 pt-2 bold whitespace-nowrap align-top text-left'>{"مقصد"}</td><td className='pt-2' >{mission.locations && mission.locations.length > 0 && mission.locations[mission.locations.length - 1].meta?.address}</td></tr>
                         <tr><td colSpan={2}><TitledSparator title={"مشخصات"} /></td></tr>
                         <tr className='text-sm'><td className='px-3 pt-2 bold whitespace-nowrap align-top text-left'>{"دیسپاچر"}</td><td className='pt-2' >{mission.dispature}</td></tr>
                         {/* <tr className='text-sm'><td className='px-3 pt-2 bold whitespace-nowrap align-top text-left'>{"مدیر پروژه"}</td><td className='pt-2' >{"امیدرضا احدزاده"}</td></tr> */}
@@ -67,14 +69,14 @@ const TripMissionDetails = ({ mission }: any) => {
                         <tr>
                             <td colSpan={2}>
                                 <button className='bg-primary text-white rounded-3xl p-2 w-full mt-6'>
-                                   {mission.status==='READY'?'در انتظار حرکت راننده':'در حال سفر'}
+                                    {mission.status === 'READY' ? 'در انتظار حرکت راننده' : 'در حال سفر'}
                                 </button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-        </div>}
+        </div >}
     </>
 
 };

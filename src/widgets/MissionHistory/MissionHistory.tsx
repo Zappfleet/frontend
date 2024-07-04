@@ -29,7 +29,7 @@ export default function MissionHistory(props: any = {}) {
     const screen = useScreen();
 
     useEffect(() => {
-        console.log(2000, missions);
+        //console.log(2000, missions);
     }, [missions])
     // if (!screen) return <div></div>
 
@@ -54,8 +54,8 @@ export default function MissionHistory(props: any = {}) {
 
 
     const showComment = (mission: any) => {
-        console.log(800,mission);
-        
+       // console.log(800, mission);
+
         const myComments = mission?.extra?.comments ? mission.extra.comments : undefined;
         const result = myComments?.map((item: any) => {
             console.log(10, item, item.emojiID, emojiLib.find(ite => ite.key === item.emojiID)?.icon);
@@ -136,15 +136,15 @@ export default function MissionHistory(props: any = {}) {
                     </thead>
                     <tbody>
                         {missions?.data?.map((mission: any) => {
-
+                            const statusItem = missionStatus.find(item => item[0] === mission.status);
                             const isExpanded = expandedRows.includes(mission._id);
                             return <>
                                 <tr key={mission._id}>
                                     <td>{mission.mission_date && getLocalDatetime(mission.mission_date)}</td>
                                     <td>{mission.created_by}</td>
-                                    <td>{mission.dispature}</td>
+                                    <td>{mission.dispature}{mission._id}</td>
                                     <td>{mission.distance}</td>
-                                    <td>{mission.status}</td>
+                                    <td>{statusItem ? statusItem[1] : 'نا مشخص'}</td>
                                     {renderUi(
                                         <td >
                                             <div>
