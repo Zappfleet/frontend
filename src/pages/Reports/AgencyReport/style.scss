@@ -1,0 +1,12 @@
+
+@import '../../../variable';
+.AgencyReport-component{
+    position: relative;
+    .back-icon{
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        color: $color-base;
+        cursor: pointer;
+    }
+}

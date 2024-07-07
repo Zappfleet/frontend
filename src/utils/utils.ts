@@ -105,6 +105,8 @@ function translateAction(key: string) {
       return 'تعاریف';
     case 'REPORTS':
       return 'گزارش ها';
+      case 'DASHBOARD':
+      return 'داشبورد';
     case 'RESTRICTION':
       return 'محدودیت ها';
     case 'RULES':

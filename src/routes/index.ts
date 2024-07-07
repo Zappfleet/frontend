@@ -10,6 +10,8 @@ const Tables = lazy(() => import('../pages/Tables'));
 const Alerts = lazy(() => import('../pages/UiElements/Alerts'));
 const Buttons = lazy(() => import('../pages/UiElements/Buttons'));
 const TripMission = lazy(() => import('../pages/TripMission/TripMission'));
+const dashboard = lazy(() => import('../pages/Dashboard/Dashboard'));
+
 const PassengerNewServiceRequest = lazy(
   () => import('../pages/Passenger/PassengerServiceRequest/PassengerServiceRequest')
 );
@@ -66,6 +68,11 @@ const coreRoutes = [
     path: '/user',
     title: 'Users',
     component: UsersManager,
+  },
+  {
+    path: '/dashboard',
+    title: 'dashboard',
+    component: dashboard,
   },
   {
     path: '/trip-mission',

@@ -184,6 +184,8 @@ class ApiClient {
   }
 
   async getReportDriverGeneral(driver_id?: string, dateFilter?: any) {
+    console.log(122,dateFilter);
+    
     const params = createParams(undefined, dateFilter);
     return this.axiosInstance.get(
       `/api/v2/reports/driver-general/${driver_id}`,
@@ -287,7 +289,7 @@ class ApiClient {
 
 
   async getRestOfServices(status: string, fromDate: any, toDate: any) {
-    //console.log(77, status);
+    console.log(77, status,fromDate,toDate);
 
     const params = {
       status: status,

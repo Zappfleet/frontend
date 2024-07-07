@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
  import './index.css';
 import './mainStyles.scss';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration'; // تغییر نام فایل
 
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -13,3 +14,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     </Router>
   </React.StrictMode>
 );
+
+// ثبت سرویس ورکر
+serviceWorkerRegistration.register();

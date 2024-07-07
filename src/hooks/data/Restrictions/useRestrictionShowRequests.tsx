@@ -14,6 +14,8 @@ export default function useRestrictionShowRequests(type: any, key: number, count
        
         switch (type) {
             case 'insert':
+                console.log(96);
+                
                 setState({ ...state, in_progress: true })
                 getApiClient().insertRestrictionShowRequests(key, count)
                     .then(resp => {

@@ -1,4 +1,5 @@
 import DatePicker from 'react-multi-date-picker';
+import './style.scss'
 import useVehicles from '../../../hooks/data/useVehicles';
 import { VEHICLE_TYPE_AGENCY } from '../../../lib/constants';
 import AgencySuggestionInput from '../../../widgets/AgencySuggestionInput';
@@ -14,7 +15,9 @@ import SimpleButton from '../../../components/SimpleButton';
 import DataGrid from '../../../components/DataGrid/DataGrid';
 import useReportAgency from '../../../hooks/data/reports/useReportAgency';
 
-export default function AgencyReport() {
+export default function AgencyReport({ handleBackClick, title }: any) {
+
+  console.log(21);
 
   const { result } = useReportAgency()
   const [items, setItems] = useState<any>(null)
@@ -43,7 +46,11 @@ export default function AgencyReport() {
     // { key: 'endBeforeService', name: 'پایان سرویس قبلی', type: 'caleadar', key2: 'todate' },
   ]
 
-  return <div>
+  
+  return <div className='AgencyReport-component'>
+    <i className=' fa fa-arrow-left back-icon' onClick={handleBackClick}></i>
+    <p>{title}</p>
+
     <div className="flex items-center px-4">
       <div className="flex-1 px-4 ">
         {/* <AgencySuggestionInput onAgencySelected={setSelectedAgency} /> */}

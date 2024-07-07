@@ -8,6 +8,8 @@ function useReportDriverGeneral({ driver_id, date_filter }: any) {
     getApiClient()
       .getReportDriverGeneral(driver_id, date_filter)
       .then(({ data }) => {
+        console.log(744,data);
+        
         setState(data);
       })
       .catch(console.log);

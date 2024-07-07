@@ -1,6 +1,6 @@
 import DatePicker from 'react-multi-date-picker';
 import UsersSuggestionInput from '../../../widgets/UsersSuggestionInput/UsersSuggestionInput';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
 import moment from 'jalali-moment';
@@ -9,13 +9,17 @@ import { RiFileExcel2Line } from 'react-icons/ri';
 import useReportDriverDaily from '../../../hooks/data/reports/useReportDriverDaily';
 import { getLocalDatetime } from '../../../lib/string';
 
-export default function DriverReport() {
+export default function DriverReport({ handleBackClick, title }: any) {
   const [selectedUsersState, setSelectedUsersState] = useState<any>([]);
   const [dateRage, setDateRage] = useState<any>([
     moment().subtract(7, 'days').toDate().getTime(),
     moment.now(),
   ]);
 
+  useEffect(()=>{
+console.log(200,dateRage);
+
+  },[dateRage])
   const { state: dailyReport } = useReportDriverDaily({
     driver_id: selectedUsersState?.[0]?._id,
     date_filter: {
@@ -28,7 +32,10 @@ export default function DriverReport() {
     setSelectedUsersState(value?.length > 0 ? [value[1] || value[0]] : []);
   }
   return (
-    <div>
+    <div className='AgencyReport-component'>
+
+      <i className='fa fa-arrow-left back-icon' onClick={handleBackClick}></i>
+      <p>{title}</p>
       <div className="flex items-center px-4">
         <div className="flex-1 px-4 ">
           <UsersSuggestionInput

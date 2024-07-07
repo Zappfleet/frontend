@@ -55,7 +55,7 @@ const ServiceRequestCard = (props: any) => {
 
     const { showFullScreenModal, FullScreenModalUi, closeFullScreenModal } = useRequestEditModal();
 
-    const { show: showConfirm, ui: ModalUi } = useConfirmModal();
+    const { show: showConfirm, ui: ModalUi } = useConfirmModal(null);
 
     useEffect(() => {
         setPermission_EDIT(hasPermitFor([PERMIT_SERVICE_ORG_DIRECT_EDIT, PERMIT_SERVICE_PERSONAL_EDIT]))

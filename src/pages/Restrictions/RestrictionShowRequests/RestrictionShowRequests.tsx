@@ -10,7 +10,7 @@ const RestrictionShowRequests = () => {
     const [type, setType] = useState<any>('select')
 
 
-    const { result, state, refreshData } = useRestrictionShowRequests(type, 6, count);
+    const { result, state, refreshData } = useRestrictionShowRequests(type, 8, count);
     const pageTitle = 'تنظیم تاریخ نشان دادن درخواست ها'
 
     const handleclick = () => {

@@ -20,12 +20,12 @@ import {
 } from '../../../utils/utils.js';
 
 
-const TimeOfServices: React.FC = () => {
+export default function TimeOfServices({ handleBackClick, title }: any) {
 
     // const status = "DONE"
     //  const fromdate1 = new Date("2024-05-11T14:49:34.988+00:00")
     //const todate = new Date("2024-05-11T14:49:34.988+00:00")
-    const report_Title = 'گزارش مدت زمان هر سرویس'
+    const report_Title = title
     const [forbidden, setForbidden] = useState<any>(false)
     const [searchIsClecked, setSearchIsClecked] = useState<boolean>(false)
     const [items, setItems] = useState<any[]>([])
@@ -51,7 +51,7 @@ const TimeOfServices: React.FC = () => {
         setFromDateDatePicker(date);
         setFromDate(date.format('YYYY/MM/DD', { calendar: 'persian', locale: 'fa' }))
         //console.log(fromDate);
-        
+
     };
 
     const handleChangeDatePickerTodate = (date: any) => {
@@ -111,10 +111,10 @@ const TimeOfServices: React.FC = () => {
 
     const thead = [
         // { key: 'id', name: 'شناسه' },
-        { key: 'name', name: 'راننده',type:'' },
-        { key: 'startDate', name: 'شروع سرویس',type:'caleadar',key2:'fromdate' },
-        { key: 'endDate', name: 'پایان سرویس',type:'caleadar',key2:'todate' },
-        { key: 'time', name: 'مدت زمان سرویس' ,type:''},
+        { key: 'name', name: 'راننده', type: '' },
+        { key: 'startDate', name: 'شروع سرویس', type: 'caleadar', key2: 'fromdate' },
+        { key: 'endDate', name: 'پایان سرویس', type: 'caleadar', key2: 'todate' },
+        { key: 'time', name: 'مدت زمان سرویس', type: '' },
     ]
 
     const options = [{ id: 1, value: 2 }, { id: 2, value: 3 }, { id: 3, value: 5 }]
@@ -124,6 +124,8 @@ const TimeOfServices: React.FC = () => {
             {forbidden === true && <Page403 />}
             {forbidden === false &&
                 <div className='report-component'>
+                    <i className='fa fa-arrow-left back-icon' onClick={handleBackClick}></i>
+
                     {/* {loading === false && <p>Loading ...</p>} */}
                     {/* {loading === true && <div className="datagrid-component"> */}
                     <div dir="rtl" className="container-fluid">
@@ -212,4 +214,3 @@ const TimeOfServices: React.FC = () => {
     );
 };
 
-export default TimeOfServices;

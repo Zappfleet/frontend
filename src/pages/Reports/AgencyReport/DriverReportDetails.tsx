@@ -8,8 +8,9 @@ import SimpleButton from '../../../components/SimpleButton';
 import { RiFileExcel2Line } from 'react-icons/ri';
 import useReportDriverGeneral from '../../../hooks/data/reports/useReportDriverGeneral';
 import { getLocalDatetime } from '../../../lib/string';
+import { convertGregorianToJalali } from '../../../utils/utils';
 
-export default function DriverReportDetails() {
+export default function DriverReportDetails({ handleBackClick, title }: any) {
   const [selectedUsersState, setSelectedUsersState] = useState<any>([]);
   const [dateRage, setDateRage] = useState<any>([
     moment().subtract(7, 'days').toDate().getTime(),
@@ -29,7 +30,10 @@ export default function DriverReportDetails() {
   }
 
   return (
-    <div>
+    <div className='AgencyReport-component'>
+
+      <i className=' fa fa-arrow-left back-icon' onClick={handleBackClick}></i>
+      <p>{title}</p>
       <div className="flex items-center px-4">
         <div className="flex-1 px-4 ">
           <UsersSuggestionInput
@@ -99,7 +103,7 @@ export default function DriverReportDetails() {
                   <>
                     <tr className="border-b border-gray-4">
                       <td className="p-2">
-                        {getLocalDatetime(item.gmt_for_date)}
+                        {convertGregorianToJalali(item.extra?.mission_start)}
                       </td>
                       <td className="p-2">
                         {moment
@@ -110,7 +114,7 @@ export default function DriverReportDetails() {
                     </tr>
                     <tr className="even:bg-gray-2">
                       <td colSpan={4} className="p-2 text-sm">
-                        استراحت : 2 ساعت و 20 دقیقه
+                        {/* استراحت : 2 ساعت و 20 دقیقه */}
                       </td>
                     </tr>
                   </>
@@ -121,7 +125,7 @@ export default function DriverReportDetails() {
                   <>
                     <tr className="border-b border-gray-4">
                       <td className="p-2">
-                        {getLocalDatetime(item.gmt_for_date)}
+                        {convertGregorianToJalali(item.extra?.mission_start)}
                       </td>
                       <td className="p-2">
                         {moment
@@ -132,7 +136,7 @@ export default function DriverReportDetails() {
                     </tr>
                     <tr className="even:bg-gray-2">
                       <td colSpan={4} className="p-2 text-sm">
-                        استراحت : 2 ساعت و 20 دقیقه
+                        {/* استراحت : 2 ساعت و 20 دقیقه */}
                       </td>
                     </tr>
                   </>
@@ -143,7 +147,7 @@ export default function DriverReportDetails() {
                   <>
                     <tr className="border-b border-gray-4">
                       <td className="p-2">
-                        {getLocalDatetime(item.gmt_for_date)}
+                        {convertGregorianToJalali(item.extra?.mission_start)}
                       </td>
                       <td className="p-2">
                         {moment
@@ -154,7 +158,7 @@ export default function DriverReportDetails() {
                     </tr>
                     <tr className="even:bg-gray-2">
                       <td colSpan={4} className="p-2 text-sm">
-                        استراحت : 2 ساعت و 20 دقیقه
+                        {/* استراحت : 2 ساعت و 20 دقیقه */}
                       </td>
                     </tr>
                   </>

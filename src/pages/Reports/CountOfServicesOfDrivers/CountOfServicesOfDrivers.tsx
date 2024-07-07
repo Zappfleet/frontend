@@ -19,7 +19,7 @@ import {
     convertPersianToEnglishDigits
 } from '../../../utils/utils.js';
 
-const CountOfServicesOfDrivers: React.FC = () => {
+export default function CountOfServicesOfDrivers({ handleBackClick, title }: any) {
 
     const [forbidden, setForbidden] = useState<any>(false)
     const [searchIsClecked, setSearchIsClecked] = useState<boolean>(false)
@@ -33,7 +33,7 @@ const CountOfServicesOfDrivers: React.FC = () => {
 
 
     let TotalCount = ''
-    let report_Title = 'دسترسی به تعداد سرویس های انجام شده توسط رانندگان در بازه زمانی مشخص'
+    let report_Title = title
 
 
     // interface MyItem {
@@ -80,12 +80,12 @@ const CountOfServicesOfDrivers: React.FC = () => {
     })
 
 
-    const options = [{ id: 1, value: 10 }, { id: 2, value: 30 }, { id: 3, value: 50}]
+    const options = [{ id: 1, value: 10 }, { id: 2, value: 30 }, { id: 3, value: 50 }]
 
     useEffect(() => {
         if (missionList) {
-            console.log(63,missionList);
-            
+            console.log(63, missionList);
+
             if (missionList.status === 200) {
                 fetchData()
             }
@@ -98,7 +98,7 @@ const CountOfServicesOfDrivers: React.FC = () => {
 
     const fetchData = () => {
         let k: any = []
-       // console.log(111, missionList.data);
+        // console.log(111, missionList.data);
         missionList.data && missionList.data.map((item: any) => {
             let record = {}
             const date1: any = new Date(item.mission_end)
@@ -112,7 +112,7 @@ const CountOfServicesOfDrivers: React.FC = () => {
                 name: `${item.name}`,
                 // startDate: convertToJalaliDateTiem(item.mission_start),
                 // endDate: convertToJalaliDateTiem(item.mission_end),
-                 countOfServices: (item.countOfServices).toString()
+                countOfServices: (item.countOfServices).toString()
             }
 
             k.push(record)
@@ -127,6 +127,7 @@ const CountOfServicesOfDrivers: React.FC = () => {
             {forbidden === true && <Page403 />}
             {forbidden === false &&
                 <div className='report-component'>
+                    <i className='fa fa-arrow-left back-icon' onClick={handleBackClick}></i>
                     {/* {loading === false && <p>Loading ...</p>} */}
                     {/* {loading === true && <div className="datagrid-component"> */}
                     <div dir="rtl" className="container-fluid">
@@ -214,5 +215,3 @@ const CountOfServicesOfDrivers: React.FC = () => {
         </>
     );
 };
-
-export default CountOfServicesOfDrivers;

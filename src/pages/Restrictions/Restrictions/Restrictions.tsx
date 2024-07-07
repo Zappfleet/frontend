@@ -107,11 +107,11 @@ const Restrictions = () => {
         { title: "حداکثر فاصله زمانی نسبت به زمان درخواست برای شروع سفر توسط راننده", desc: "حداکثر زمان بعد از ساعت سفر که رانندگان بتوانند سفر را آغاز نمایند ", value: '', key: 6, unit: 'دقیقه ', type: 'number' },
         { title: "غیر فعال کردن سیستم", desc: "غیر فعال کردن سیستم", value: '', key: 7, unit: 'روز', type: 'date' },
         { title: "محدودیت زمان نمایش درخواست ها", desc: "محدودیت زمان نمایش درخواست ها", value: '', key: 8, unit: 'روز', type: 'number' },
-        { title: "تنظیم هفته کاری", desc: "تنظییم هفته کاری", value: '', key: 9, unit: 'روز', type: 'date' },
+        { title: "تنظیم هفته کاری", desc: "تنظییم هفته کاری", value: '', key: 9, unit: 'روز', type: 'string' },
     ];
 
     const rows = restrictions?.map((element: any) => {
-     //   console.log(444, items);
+        //   console.log(444, items);
 
         return <>
             <tr key={element.name} className="table-row">
@@ -121,7 +121,8 @@ const Restrictions = () => {
                     </div>
                 </td>
                 <td style={{ textAlign: "right" }}>{element.title}</td>
-                <td>{items?.find((x: any) => x?.key === element?.key)?.value || 'ثبت نشده'}</td>
+                {element.key !==9 && <td>{items?.find((x: any) => x?.key === element?.key)?.value || 'ثبت نشده'}</td>}
+                {element.key===9 && 'ثبت شده'}
                 <td>{element?.unit}</td>
             </tr >
         </>
@@ -186,19 +187,22 @@ const Restrictions = () => {
                                             {item && item?.key === 8 && <RestrictionShowRequests />}
                                             {item && item?.key === 9 && <SetWorkingWeek />}
                                             {item && item?.key !== 7 && item?.key !== 8 && item?.key !== 9 &&
-                                                <RenderModalBody onRestrictionChange={onRestrictionChange} item={item} />}
+                                                <>                                                <RenderModalBody onRestrictionChange={onRestrictionChange} item={item} />
+                                                    <div className="modal-footer">
+                                                        <button type="button" className="my-btn btn-secondary" data-bs-dismiss="modal" onClick={() => {
+                                                            setShowModal(false);
+                                                            setItem(null);
+                                                        }}>بستن</button>
+                                                        {'save' && (
+                                                            <button type="button" className={`my-btn btn-primary`} onClick={() => handleSubmit(item)}>
+                                                                {'ذخیره'}
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                </>
+                                            }
                                         </div>
-                                        <div className="modal-footer">
-                                            <button type="button" className="my-btn btn-secondary" data-bs-dismiss="modal" onClick={() => {
-                                                setShowModal(false);
-                                                setItem(null);
-                                            }}>بستن</button>
-                                            {'save' && (
-                                                <button type="button" className={`my-btn btn-primary`} onClick={() => handleSubmit(item)}>
-                                                    {'ذخیره'}
-                                                </button>
-                                            )}
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>

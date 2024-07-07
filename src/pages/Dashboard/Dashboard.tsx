@@ -20,11 +20,30 @@ import DataGrid from '../../components/DataGrid/DataGrid.tsx';
 import useReportCountOfServices from '../../hooks/data/reports/useReportCountOfServices.tsx';
 import { persianDateToGregorian } from '../../utils/utils.ts';
 import moment from 'jalali-moment';
+import useAuthentication from '../../hooks/data/useAuthentication.tsx';
 
 const Dashboard = () => {
 
+  const { authInfo } = useAuthentication();
+  const [role, setRole] = useState<boolean>(false)
   const { missionList: driversList } = useReportCountOfServices("DONE", persianDateToGregorian(moment(new Date()).format('jYYYY/jMM/jDD')), persianDateToGregorian('1303/4/6'));
 
+
+  useEffect(() => {
+    if (authInfo) {
+      if (authInfo.auth.roles[0].title === 'راننده') {
+        setRole(false)
+      } else {
+        if (authInfo.auth.roles[0].title === 'مسافر') {
+          setRole(false)
+        }
+        else {
+          setRole(true)
+        }
+      }
+
+    }
+  }, [authInfo])
   //////////mission
   const { missions }: any = useMissions({
     mode: MODE_AREAL,
@@ -134,50 +153,52 @@ const Dashboard = () => {
 
   ////////////////////////////////////
   return <>
-    <div className="Dashboard-component">
-      <div className="row">
-        <div className="col-12">
-          {showDivDetailsRequest &&
-            <div className="details-div">
-              <i className='fa fa-remove close-fa' onClick={() => setShowDivDetailsRequest(false)}></i>
-              <div className="datagrid-div">
-                <DataGrid
-                  pagesize={optionsRequest[0].value}
-                  items={requests?.filter((r: any) => r.status === status)}
-                  options={optionsRequest}
-                  thead={theadRequest}
-                />
-              </div>
+    {role === true &&
+      <div className="Dashboard-component">
+        <div className="row">
+          <div className="col-12">
+            {showDivDetailsRequest &&
+              <div className="details-div">
+                <i className='fa fa-remove close-fa' onClick={() => setShowDivDetailsRequest(false)}></i>
+                <div className="datagrid-div">
+                  <DataGrid
+                    pagesize={optionsRequest[0].value}
+                    items={requests?.filter((r: any) => r.status === status)}
+                    options={optionsRequest}
+                    thead={theadRequest}
+                  />
+                </div>
 
-            </div>
-          }
-          {showDivDetailsMission &&
-            <div className="details-div">
-              <i className='fa fa-remove close-fa' onClick={() => setShowDivDetailsMission(false)}></i>
-              <div className="datagrid-div">
-                <DataGrid
-                  pagesize={optionsMission[0].value}
-                  items={missions?.data?.filter((r: any) => r.status === status)}
-                  options={optionsMission}
-                  thead={theadMission}
-                />
               </div>
+            }
+            {showDivDetailsMission &&
+              <div className="details-div">
+                <i className='fa fa-remove close-fa' onClick={() => setShowDivDetailsMission(false)}></i>
+                <div className="datagrid-div">
+                  <DataGrid
+                    pagesize={optionsMission[0].value}
+                    items={missions?.data?.filter((r: any) => r.status === status)}
+                    options={optionsMission}
+                    thead={theadMission}
+                  />
+                </div>
 
-            </div>
-          }
+              </div>
+            }
+          </div>
         </div>
-      </div>
-      <div className="row">
-        <p> آمار سفر ها</p>
-        {missions?.data?.length > 0 && showAmarMissions()}
-      </div>
+        <div className="row">
+          <p> آمار سفر ها</p>
+          {missions?.data?.length > 0 && showAmarMissions()}
+        </div>
 
-      <div className="row">
-        <p>   آمار درخواست ها</p>
-        {requests?.length > 0 && showAmarRequests()}
-      </div>
+        <div className="row">
+          <p>   آمار درخواست ها</p>
+          {requests?.length > 0 && showAmarRequests()}
+        </div>
 
-      {/* <div className="row">
+
+        {/* <div className="row">
         <div className="col-12">
           <p>آمار سفر رانندگان</p>
           {driversList?.data?.length > 0 &&
@@ -191,7 +212,8 @@ const Dashboard = () => {
         </div>
       </div> */}
 
-    </div>
+      </div>
+    }
 
     {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
       <CardOne />

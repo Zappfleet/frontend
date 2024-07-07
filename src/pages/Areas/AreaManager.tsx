@@ -53,7 +53,7 @@ const AreaManager = () => {
 
     const { regions, refreshRegions } = useRegions();
 
-    const { show: showConfirm, ui: ModalUi } = useConfirmModal();
+    const { show: showConfirm, ui: ModalUi } = useConfirmModal(null);
 
     const [state, setState] = useState<any>({
         readyToSubmit: false,

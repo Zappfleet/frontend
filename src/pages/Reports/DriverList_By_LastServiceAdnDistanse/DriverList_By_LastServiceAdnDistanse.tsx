@@ -19,7 +19,7 @@ import {
     convertPersianToEnglishDigits
 } from '../../../utils/utils.js';
 
-const DriverList_By_LastServiceAdnDistanse: React.FC = () => {
+export default function DriverList_By_LastServiceAdnDistanse({ handleBackClick, title }: any) {
 
     const [forbidden, setForbidden] = useState<any>(false)
     const [searchIsClecked, setSearchIsClecked] = useState<boolean>(false)
@@ -33,7 +33,7 @@ const DriverList_By_LastServiceAdnDistanse: React.FC = () => {
 
 
     let TotalCount = 'جمع سرویس ها : 156'
-    let report_Title = 'گزارش لیست رانندگان بر اساس آخرین زمان سرویس و مسافت'
+    let report_Title = title
 
 
     // interface MyItem {
@@ -131,6 +131,7 @@ const DriverList_By_LastServiceAdnDistanse: React.FC = () => {
             {forbidden === true && <Page403 />}
             {forbidden === false &&
                 <div className='report-component'>
+                     <i className='fa fa-arrow-left back-icon' onClick={handleBackClick}></i>
                     {/* {loading === false && <p>Loading ...</p>} */}
                     {/* {loading === true && <div className="datagrid-component"> */}
                     <div dir="rtl" className="container-fluid">
@@ -218,5 +219,3 @@ const DriverList_By_LastServiceAdnDistanse: React.FC = () => {
         </>
     );
 };
-
-export default DriverList_By_LastServiceAdnDistanse;

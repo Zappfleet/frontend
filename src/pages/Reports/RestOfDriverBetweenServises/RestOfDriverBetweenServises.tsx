@@ -19,7 +19,7 @@ import {
     convertPersianToEnglishDigits
 } from '../../../utils/utils.js';
 
-const RestOfDriverBetweenServises: React.FC = () => {
+export default function RestOfDriverBetweenServises({ handleBackClick, title }: any) {
 
     const [forbidden, setForbidden] = useState<any>(false)
     const [searchIsClecked, setSearchIsClecked] = useState<boolean>(false)
@@ -33,8 +33,7 @@ const RestOfDriverBetweenServises: React.FC = () => {
 
 
     let TotalCount = 'جمع سرویس ها : 156'
-    let report_Title = 'گزارش میزان استراحت هر راننده بین سرویس ها'
-
+    let report_Title = title
 
     // interface MyItem {
     //     id: number;
@@ -67,7 +66,9 @@ const RestOfDriverBetweenServises: React.FC = () => {
         // { key: 'id', name: 'شناسه' },
         { key: 'name', name: 'راننده' },
         { key: 'RestOfServices', name: ' مدت استراحت' },
-        { key: 'startCurrentService', name: 'تاریخ سرویس', type: 'caleadar', key2: 'fromdate' },
+        { key: 'startCurrentService', name: 'تاریخ شروع سرویس', type: 'caleadar', key2: 'fromdate' },
+        { key: 'endBeforeService', name: 'تاریخ پایان سرویس قبلی', type: 'caleadar', key2: 'todate' },
+
         // { key: 'endBeforeService', name: 'پایان سرویس قبلی', type: 'caleadar', key2: 'todate' },
 
     ]
@@ -83,11 +84,11 @@ const RestOfDriverBetweenServises: React.FC = () => {
     const options = [{ id: 1, value: 2 }, { id: 2, value: 3 }, { id: 3, value: 5 }]
 
     useEffect(() => {
-      
+
 
         if (missionList) {
             if (missionList.status === 200) {
-              //  console.log(222, missionList);
+                //  console.log(222, missionList);
                 fetchData()
             }
             if (missionList.status === 403) {
@@ -99,7 +100,7 @@ const RestOfDriverBetweenServises: React.FC = () => {
 
     const fetchData = () => {
         let k: any = []
-       // console.log(111, missionList.data);
+        // console.log(111, missionList.data);
         missionList.data && missionList.data.map((item: any) => {
             let record = {}
             const date1: any = new Date(item.mission_end)
@@ -131,6 +132,8 @@ const RestOfDriverBetweenServises: React.FC = () => {
             {forbidden === true && <Page403 />}
             {forbidden === false &&
                 <div className='report-component'>
+                    
+                    <i className='fa fa-arrow-left back-icon' onClick={handleBackClick}></i>
                     {/* {loading === false && <p>Loading ...</p>} */}
                     {/* {loading === true && <div className="datagrid-component"> */}
                     <div dir="rtl" className="container-fluid">
@@ -219,4 +222,3 @@ const RestOfDriverBetweenServises: React.FC = () => {
     );
 };
 
-export default RestOfDriverBetweenServises;
