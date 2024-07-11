@@ -35,6 +35,7 @@ import {
   PERMIT_USERS_DELETE,
   PERMIT_USERS_LIST
 } from '../../../lib/constants'
+import DataGrid from '../../../components/DataGrid/DataGrid';
 
 const role_prefix = 'role_';
 
@@ -66,6 +67,7 @@ function combineValidationRules(additionalSignUpFields: any = {}) {
 }
 
 const UsersManager = () => {
+  console.log(21);
 
   const { hasPermitGroup, hasPermitFor, hasAdminRank, permits } =
     useCurrentUserPermissions();
@@ -89,6 +91,55 @@ const UsersManager = () => {
   const { authInfo } = useAuthentication();
   const { data: roleData } = useRoles();
   const { userList, refreshData } = useUsers();
+
+  const processUserList = (userList: any[], roleData: any) => {
+    return userList.map(user => {
+      // Map roles to get an array of role titles
+      const rolesTitlesArray = user.roles.map((role: any) => {
+        const roleTitle = roleData?.roles?.find((item: any) => item._id === role)?.title;
+        return roleTitle;
+      });
+
+      // Join role titles with a space
+      const rolesTitle = rolesTitlesArray.join(' ');
+
+      // Map roles to include id and title
+      const rolesWithIdAndTitle = user.roles.map((role: any) => {
+        const roleTitle = roleData?.roles?.find((item: any) => item._id === role)?.title;
+        return {
+          id: role,
+          title: roleTitle,
+        };
+      });
+
+      // Translate status to Persian
+      let statusText = '';
+      if (user.status === 'ACTIVE') {
+        statusText = 'فعال';
+      } else {
+        statusText = 'غیر فعال';
+      }
+
+      // Return updated user object with rolesTitle, roles, and statusText
+      return {
+        ...user,
+        rolesTitle: rolesTitle,
+        status: statusText,
+      };
+    });
+  };
+
+
+
+  useEffect(() => {
+    console.log(4, userList);
+
+    if (userList && roleData) {
+      const k = processUserList(userList, roleData);
+      console.log(100, k);
+
+    }
+  }, [userList])
 
   const signupMethodRef = useRef<any>();
 
@@ -118,6 +169,8 @@ const UsersManager = () => {
   }
 
   async function handle_onRowClick(user: any) {
+    console.log(75, user);
+
     if (user.reg_key == null) {
       NotificationController.showError('امکان ویرایش این کاربر وجود ندارد');
       return;
@@ -221,6 +274,20 @@ const UsersManager = () => {
   const handle_signupMethodChanged = (e: any) => {
     setUi({ ...ui, selectedSignupMethod: e.target.value });
   };
+
+  const options = [{ id: 1, value: 10 }, { id: 2, value: 30 }, { id: 3, value: 50 }]
+  const thead = [
+    // { key: 'id', name: 'شناسه' },
+    { key: 'username', name: 'نام کاربری' },
+    { key: 'phone', name: 'تلفن' },
+    { key: 'full_name', name: 'نام و نام خانوادگی' },
+    { key: 'rolesTitle', name: 'نقش' },
+    { key: 'status', name: 'وضعیت' },
+    // { key: 'startDate', name: 'تاریخ شروع ', type: 'caleadar', key2: 'fromdate' },
+    // { key: 'endDate', name: 'تاریخ پایان', type: 'caleadar', key2: 'todate' },
+
+  ]
+
 
   return (
     <>
@@ -361,7 +428,7 @@ const UsersManager = () => {
                 <div>
                   {permission_SUBMIT === true &&
                     <div>
-                    {/* {ui.isLoading} */}
+                      {/* {ui.isLoading} */}
                       <button className='my-btn' onClick={handle_submitData}>
                         {'ثبت نام'}
                       </button>
@@ -384,8 +451,15 @@ const UsersManager = () => {
             </div>
           </div>
           <div className="col-12 col-md-8 order-1 order-md-2">
-            <div className='left'>
-              <table className='table table-hover'>
+            {userList && roleData && authInfo &&
+              <DataGrid
+                pagesize={options[0].value}
+                items={processUserList(userList, roleData)}
+                options={options}
+                thead={thead}
+                clickOnRow={handle_onRowClick}
+              />}
+            {/* <table className='table table-hover'>
                 <thead>
                   <tr>
                     <th>
@@ -458,8 +532,7 @@ const UsersManager = () => {
                     );
                   })}
                 </tbody>
-              </table>
-            </div>
+              </table> */}
           </div>
         </div>
       </div >

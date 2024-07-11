@@ -21,6 +21,7 @@ export default function MissionHistory(props: any = {}) {
     // console.log(52,status,paging);
 
     const { missions }: any = useMissions({ mode, status, paging });
+console.log(741,missions);
 
     const {
         items: expandedRows,
@@ -29,7 +30,7 @@ export default function MissionHistory(props: any = {}) {
     const screen = useScreen();
 
     useEffect(() => {
-        //console.log(2000, missions);
+        console.log(2000, missions);
     }, [missions])
     // if (!screen) return <div></div>
 
@@ -58,7 +59,7 @@ export default function MissionHistory(props: any = {}) {
 
         const myComments = mission?.extra?.comments ? mission.extra.comments : undefined;
         const result = myComments?.map((item: any) => {
-            console.log(10, item, item.emojiID, emojiLib.find(ite => ite.key === item.emojiID)?.icon);
+           // console.log(10, item, item.emojiID, emojiLib.find(ite => ite.key === item.emojiID)?.icon);
 
             return <>
                 <div className='com0'>

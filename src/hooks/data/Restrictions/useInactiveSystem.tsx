@@ -33,7 +33,7 @@ export default function useInactiveSystem(action_name: any, item: any) {
                     setState({ ...state, in_progress: true })
                     getApiClient().insert_InactiveSystem(item)
                         .then(resp => {
-                            console.log(200, resp);
+                        //    console.log(200, resp);
                         })
                         .catch(error => {
                             console.error(6001, 'Error fetching mission list:', error);
@@ -50,7 +50,7 @@ export default function useInactiveSystem(action_name: any, item: any) {
                     setState({ ...state, in_progress: true })
                     getApiClient().update_InactiveSystem(item)
                         .then(resp => {
-                            console.log(200, resp);
+                          //  console.log(200, resp);
                         })
                         .catch(error => {
                             console.error(6001, 'Error fetching mission list:', error);

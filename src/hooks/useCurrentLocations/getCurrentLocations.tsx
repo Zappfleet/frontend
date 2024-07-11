@@ -14,7 +14,7 @@ const getCurrentLocations = (permitForRunUseFleetGps: boolean, vehicleIDs: any, 
     const markersRef = useRef<any>({});
     const LocationIntervalRef = useRef<any>(null);
 
-    console.log('start use flee', mapRef);
+   // console.log('start use flee', mapRef);
 
     const fleetGpsUpdate = (payload: any) => {
       //  console.log(85856,payload);
@@ -33,7 +33,11 @@ const getCurrentLocations = (permitForRunUseFleetGps: boolean, vehicleIDs: any, 
 
     const getLocationFromServer = (ownerID: any) => {
         try {
-            const socketInstance = io(`http://localhost:4000`, {
+            const socketInstance = io(
+                import.meta.env.VITE_ENVIRONMENT_NAME==='local'?
+                import.meta.env.VITE_BASE_URL:
+                import.meta.env.VITE_BASE_URL_SERVER 
+                 , {
                 reconnectionDelayMax: 10000,
                 autoConnect: true,
                 path: import.meta.env.VITE_SOCKET_PATH,

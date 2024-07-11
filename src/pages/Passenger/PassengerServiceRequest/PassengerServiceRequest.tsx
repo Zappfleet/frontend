@@ -25,7 +25,7 @@ import renderUi from '../../../lib/renderUi';
 import ModularForm from '../../../widgets/ModularForm';
 import { useLocation } from 'react-router-dom';
 import useFavorite from '../../../hooks/data/Favorite/useFavorite';
-import DriverOnMap from '../../../components/DriverOnMap/DriverOnMap';
+
 
 
 export const MODE_USER_ONLY = 'user-only';
@@ -52,7 +52,7 @@ const PassengerServiceRequest = (props: any = {}) => {
   const { authInfo } = useAuthentication();
 
 useEffect(()=>{
-console.log(745,authInfo?.org?.additionalRequestFields);
+//console.log(745,authInfo?.org?.additionalRequestFields);
 
 },[authInfo])
   //sgh
@@ -77,7 +77,7 @@ console.log(745,authInfo?.org?.additionalRequestFields);
       : internalUserInput;
 
   useEffect(() => {
-    console.log(120, userInput);
+   // console.log(120, userInput);
 
   }, [userInput])
 
@@ -159,7 +159,7 @@ console.log(745,authInfo?.org?.additionalRequestFields);
     if (addMarkerResult == null) return;
 
     const [lng, lat] = addMarkerResult.coordinates;
-    console.log(200, lng, lat);
+    //console.log(200, lng, lat);
 
     reverseGeocoding(lat, lng)
       .then((result) => {
@@ -231,7 +231,7 @@ console.log(745,authInfo?.org?.additionalRequestFields);
     }
 
     const method = formState._id == null ? 'submitRequest' : 'updateRequest';
-     console.log(333, method);
+    // console.log(333, method);
 
     getApiClient()
     [method](body, formState._id)
@@ -283,8 +283,8 @@ console.log(745,authInfo?.org?.additionalRequestFields);
         />
 
         <div className="showFavoriteLocation">
-          {resultFavorite?.data?.map((item: any) => {
-            return <div onClick={() => handleSelectFavorite(item)} className='favorite-name'>
+          {resultFavorite?.data?.map((item: any,index:any) => {
+            return <div key={index} onClick={() => handleSelectFavorite(item)} className='favorite-name'>
               {item.name}
             </div>
           })}

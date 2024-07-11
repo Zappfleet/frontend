@@ -23,7 +23,7 @@ const TransportFleet = (props: any) => {
     console.log(7820, fleetData?.data?.vehicles?.docs);
 
     if (mapRef1) {
-      console.log(100, 'ناوگان')
+     // console.log(100, 'ناوگان')
       //show current location
       setMode('driver')
       const vedicle_ids: any = []

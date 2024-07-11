@@ -82,8 +82,8 @@ const Comments = (props: any) => {
                     <div className="col-12 title-div">
                         <p className='cmd-title'>{'میزان رضایت'}</p>
                         <ul>
-                            {emoji.map((item) => {
-                                return <li className={`${selectedEmoji === item.key ? 'selectedEmoji' : ''}`}
+                            {emoji.map((item,index) => {
+                                return <li key={index} className={`${selectedEmoji === item.key ? 'selectedEmoji' : ''}`}
                                     onClick={() => setSelectedEmoji(item.key)}> <i className={item.icon}></i></li>
                             })}
                         </ul>

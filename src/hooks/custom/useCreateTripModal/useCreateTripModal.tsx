@@ -30,7 +30,7 @@ import useCurrentUserPermissions from '../../useCurrentUserPermissions';
 import {
   PERMIT_SERVICE_ORG_DIRECT_SUBMIT,
 } from '../../../lib/constants'
-import DriverOnMap from '../../../components/DriverOnMap/DriverOnMap';
+
 
 export default function useCreateTripModal() {
 
@@ -45,7 +45,7 @@ export default function useCreateTripModal() {
   }, [hasPermitFor])
 
   useEffect(() => {
-    console.log(12, IsDispature);
+    //console.log(12, IsDispature);
 
   }, [IsDispature])
 

@@ -48,7 +48,7 @@ const DefaultLayout = () => {
   const [payload, setPayload] = useState<any>(null)
 
   useEffect(() => {
-    console.log('Received notification:', payload?.userIDs, authInfo?.auth?._id);
+    //console.log('Received notification:', payload?.userIDs, authInfo?.auth?._id);
     if (payload && authInfo?.auth?._id) {
       if (payload.userIDs === authInfo?.auth?._id) {
         NotificationController.showSuccess(payload.massage)

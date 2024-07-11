@@ -28,7 +28,7 @@ const RoleActions = () => {
 
   const [selectedRole, setSelectedRole] = useState<any>(null);
 
-  const { show: showConfirm, ui: ModalUi } = useConfirmModal();
+  const { show: showConfirm, ui: ModalUi } = useConfirmModal(null);
 
   function updateSelectedRole() {
     if (selectedRole == null) return;
@@ -220,7 +220,7 @@ const RoleActions = () => {
       ) as HTMLInputElement;
 
       //  console.log(78, element);
-      const ariaIsRootWithExpanded = element.getAttribute('aria-isrootwithexpanded');
+      const ariaIsRootWithExpanded = element.getAttribute('aria-expanded');
 
       if (ariaIsRootWithExpanded !== 'true') {
         //  console.log(77, element);

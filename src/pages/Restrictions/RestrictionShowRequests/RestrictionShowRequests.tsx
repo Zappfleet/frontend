@@ -26,7 +26,7 @@ const RestrictionShowRequests = () => {
     }, [type])
 
     useEffect(() => {
-        console.log(1, result);
+       // console.log(1, result);
         if (result && result.data) {
             switch (type) {
                 case 'insert':

@@ -26,8 +26,12 @@ const GetPassengerNotification = () => {
     });
 
     useEffect(() => {
-        console.log(74);
-        const socketInstance = io(`http://localhost:4000`, {
+      //  console.log(74);
+        const socketInstance = io(
+            import.meta.env.VITE_ENVIRONMENT_NAME==='local'?
+            import.meta.env.VITE_BASE_URL:
+            import.meta.env.VITE_BASE_URL_SERVER 
+            , {
             reconnectionDelayMax: 10000,
             autoConnect: true,
             path: '/api/v2/socket',

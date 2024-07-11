@@ -25,7 +25,7 @@ export default async function createRoutingOnMap(coordinates: any, mapRef: any) 
     })
 
 
-    console.log(122, mapLength, origin, destination, waypoints);
+   // console.log(122, mapLength, origin, destination, waypoints);
 
 
 
@@ -109,7 +109,7 @@ function extractRouteCoordinates(mapRef: any, data: any, origin: any): [number, 
                     decodedCoordinates.map((item: any) => {
                         coordinates.push([item[1], item[0]])
                     })
-                    console.log(6000, decodedCoordinates);
+                  //  console.log(6000, decodedCoordinates);
 
                     //   coordinates.push([step.start_location[0], step.start_location[1]])
                 })

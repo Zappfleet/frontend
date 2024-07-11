@@ -30,9 +30,9 @@ const PassengerFavoriteLocation = () => {
     }, [favoriteLocationList, actionType])
 
     useEffect(() => {
-        console.log(1, actionType, resultFavorite);
+        //console.log(1, actionType, resultFavorite);
         if (resultFavorite) {
-            console.log(2, actionType, resultFavorite);
+           // console.log(2, actionType, resultFavorite);
             if (hookType === 'select') {
                 if (resultFavorite.status === 200) {
                     setFavoriteLocationList(resultFavorite?.data);
@@ -141,7 +141,7 @@ const PassengerFavoriteLocation = () => {
     }
 
     useEffect(() => {
-        console.log(33, refresh);
+       // console.log(33, refresh);
     }, [refresh])
 
     const handleRemoveFavorite = async (item: any) => {

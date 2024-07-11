@@ -187,7 +187,7 @@ const AdmindDashboard = ({ isDispatcher }: any) => {
                 statsTrips: resStatsTrips?.data?.trips?.[0] || {}
             };
             setStats(newStat)
-            console.log(333,newStat.statsRequest.by_area);
+           // console.log(333,newStat.statsRequest.by_area);
         }
         fetchStats();
     }, []);

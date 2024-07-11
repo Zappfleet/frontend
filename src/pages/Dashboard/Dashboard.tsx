@@ -52,7 +52,7 @@ const Dashboard = () => {
   })
 
   useEffect(() => {
-    console.log(100, missions);
+   // console.log(100, missions);
   }, [missions])
 
   const [showDivDetailsMission, setShowDivDetailsMission] = useState<boolean>(false)
@@ -70,7 +70,7 @@ const Dashboard = () => {
       const items = missions?.data?.filter((r: any) => r.status === status)
       // console.log(500, items, status, requests?.length);
 
-      return <div className="col-6 col-md-2">
+      return <div key={index} className="col-6 col-md-2">
         <div className="box" onClick={() => showMission(status)}>
           <div className="title">{titles[index]}</div>
           {/* <i className="fas fa-analytics"></i> */}
@@ -117,7 +117,7 @@ const Dashboard = () => {
       const items = requests?.filter((r: any) => r.status === status)
       //console.log(500, items, status, requests?.length);
 
-      return <div className="col-6 col-md-2">
+      return <div key={index} className="col-6 col-md-2">
         <div className="box" onClick={() => showRequest(status)}>
           <div className="title">{titles[index]}</div>
           {/* <i className="fas fa-analytics"></i> */}

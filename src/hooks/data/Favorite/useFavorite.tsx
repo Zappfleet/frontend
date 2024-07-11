@@ -37,7 +37,7 @@ export default function useFavorite(refresh: boolean, action_name: any, item: an
                         .then(resp => {
                             setResult(resp)
                             setType('insert')
-                            console.log(200, resp);
+                          //  console.log(200, resp);
                         })
                         .catch(error => {
                             console.error(6001, 'Error fetching Favorite list:', error);
@@ -58,7 +58,7 @@ export default function useFavorite(refresh: boolean, action_name: any, item: an
                         .then(resp => {
                             setResult(resp)
                             setType('update')
-                            console.log(200, resp);
+                           // console.log(200, resp);
                         })
                         .catch(error => {
                             console.error(6001, 'Error fetching Favorite list:', error);
@@ -76,7 +76,7 @@ export default function useFavorite(refresh: boolean, action_name: any, item: an
                     .then(resp => {
                         setResult(resp)
                         setType('delete')
-                        console.log(200, resp);
+                      //  console.log(200, resp);
                     })
                     .catch(error => {
                         console.error(6001, 'Error fetching Favorite list:', error);
@@ -90,7 +90,7 @@ export default function useFavorite(refresh: boolean, action_name: any, item: an
     }
 
     useEffect(() => {
-        console.log(666, action_name, refresh);
+      //  console.log(666, action_name, refresh);
 
             refreshData();
         

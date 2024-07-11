@@ -17,7 +17,7 @@ export default function DriverReport({ handleBackClick, title }: any) {
   ]);
 
   useEffect(()=>{
-console.log(200,dateRage);
+//console.log(200,dateRage);
 
   },[dateRage])
   const { state: dailyReport } = useReportDriverDaily({

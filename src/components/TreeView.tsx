@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { FaChevronCircleDown, FaChevronCircleLeft } from 'react-icons/fa';
 
 const TreeView = (props: any) => {
-    console.log(200,props.data);
+    //console.log(200,props.data);
 
     const [expanded, setExpanded] = useState<any>({});
 
@@ -47,7 +47,7 @@ const TreeView = (props: any) => {
                     }>
                         {hasChildren && CollapseIcon}
 
-                        <input id={props.checkboxId(item.id)} onChange={(e) => props.handle_checkChange(e, item)} type='checkbox' aria-isrootwithexpanded={isrootwithexpanded} className='ml-2' />
+                        <input id={props.checkboxId(item.id)} onChange={(e) => props.handle_checkChange(e, item)} type='checkbox' aria-expanded={isrootwithexpanded} className='ml-2' />
                         <label className='inline-block p-1'>{item.title}</label>
                     </div>
                     {item.children && renderTree(item, false, is_expanded)}

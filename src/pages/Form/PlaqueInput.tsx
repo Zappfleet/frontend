@@ -15,7 +15,7 @@ export default function PlaqueInput({ small, disabled, onChange, defaultValue, i
     
 
     const [state, setState] = useState(defaultValue || {});
-    console.log(74,value,state);
+   // console.log(74,value,state);
     const handleOnChange = (e: any, ref: any) => {
         const inputName = e.target.name;
         const maxLength = e.target.maxLength;

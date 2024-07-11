@@ -74,7 +74,7 @@ class ApiClient {
   }
 
   async login(body: any) {
-    console.log(1000, "/api/v2/users/sign-in");
+   // console.log(1000, "/api/v2/users/sign-in");
 
     return this.axiosInstance.post(`/api/v2/users/sign-in`, body);
   }
@@ -184,7 +184,7 @@ class ApiClient {
   }
 
   async getReportDriverGeneral(driver_id?: string, dateFilter?: any) {
-    console.log(122,dateFilter);
+    //console.log(122,dateFilter);
     
     const params = createParams(undefined, dateFilter);
     return this.axiosInstance.get(
@@ -232,7 +232,7 @@ class ApiClient {
     status: string,
     driverID: any
   ) {
-    console.log(100);
+    //console.log(100);
     
     return await this.axiosInstance.get(`/api/v2/services/missions/getMissions_by_StatusAndDriverID`, {
       params: createParams(status, driverID),
@@ -436,7 +436,7 @@ class ApiClient {
   }
 
   async getListOfConcerningMissionsAreal(status: string, dateFilter: any, paging: any) {
-    console.log(79,paging);
+    //console.log(79,paging);
     
     return await this.axiosInstance.get(`/api/v2/services/missions/areal`, {
       params: createParams(status, dateFilter, paging),

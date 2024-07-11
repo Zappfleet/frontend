@@ -231,7 +231,7 @@ const MapContainer = forwardRef<MapRefType, MapContainerProps>((props, ref) => {
             };
         }
         if (props.onMapInit) props.onMapInit();
-        console.log("Map initialized");
+       // console.log("Map initialized");
     }
 
     useImperativeHandle(ref, () => ({

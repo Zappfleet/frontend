@@ -26,7 +26,7 @@ export default function useRestrictionShowRequests(type: any, key: number, count
                         // Handle the error, e.g., show a message to the user
                     })
                     .finally(() => {
-                        console.log(7000);
+                      //  console.log(7000);
                         setState({ ...state, in_progress: false });
                     });
                 break;
@@ -41,7 +41,7 @@ export default function useRestrictionShowRequests(type: any, key: number, count
                         // Handle the error, e.g., show a message to the user
                     })
                     .finally(() => {
-                        console.log(7000);
+                       // console.log(7000);
                         setState({ ...state, in_progress: false });
                     });
                 break;

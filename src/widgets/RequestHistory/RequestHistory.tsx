@@ -349,7 +349,7 @@ function RequestDetailsBox({ request }: any) {
                     <ul>
                         {request.locations.map(({ meta }: any, index: number) => {
                             return <>
-                                <li>
+                                <li key={index}>
                                     <span>{` ${getLocationIndexTitle(request.locations.length, index)} `}</span>
                                     {meta.address}
                                 </li>

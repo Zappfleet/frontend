@@ -142,7 +142,7 @@ const PassengerMissionDetails = (props: any) => {
                         decodedCoordinates.map((item:any)=>{
                             coordinates.push([item[1],item[0]])
                         })
-                        console.log(6000,decodedCoordinates);
+                        //console.log(6000,decodedCoordinates);
                         
                      //   coordinates.push([step.start_location[0], step.start_location[1]])
                     })
@@ -389,7 +389,7 @@ const PassengerMissionDetails = (props: any) => {
                             freeze={false}
                             mapRef={mapRef}
                             onMapInit={() => {
-                                console.log('Map initialized');
+                              //  console.log('Map initialized');
                                 // if (mapRef.current) {
                                 //     mapRef.current.addMarkerToCenter();
                                 // }

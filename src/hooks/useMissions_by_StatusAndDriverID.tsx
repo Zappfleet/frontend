@@ -3,7 +3,7 @@ import { getApiClient } from '../apis/client';
 
 export default function useMissions_by_StatusAndDriverID(status: string, driverID: any) {
 
-    console.log(60,status);
+    //console.log(60,status);
 
     const [missionList, setMissionList] = useState<any>(null);
     const [state, setState] = useState({
@@ -11,7 +11,7 @@ export default function useMissions_by_StatusAndDriverID(status: string, driverI
     });
 
     function refreshData() {
-        console.log(520);
+     //   console.log(520);
         
         setState({ ...state, in_progress: true })
         getApiClient().getMissions_by_StatusAndDriverID(status, driverID)
@@ -22,7 +22,7 @@ export default function useMissions_by_StatusAndDriverID(status: string, driverI
                 console.error(6001, 'Error fetching mission list:', error);
             })
             .finally(() => {
-                console.log(7000);
+               // console.log(7000);
                 setState({ ...state, in_progress: false });
             });
     }

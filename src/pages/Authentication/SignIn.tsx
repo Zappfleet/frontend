@@ -38,7 +38,7 @@ const SignIn = () => {
   };
 
   function handle_login(e: any) {
-    console.log(1200);
+   // console.log(1200);
 
     e.preventDefault();
 

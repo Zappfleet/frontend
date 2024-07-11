@@ -117,7 +117,7 @@ const ServiceRequestCard = (props: any) => {
                 //sgh filter request based restriction show reaquest
                 let date = new Date(item.gmt_for_date);
 
-                console.log(7, date, currentDate, endDate);
+             //   console.log(7, date, currentDate, endDate);
 
 
                 if (!(date >= setStartOfDay(currentDate) && date <= setEndOfDay(endDate))) {

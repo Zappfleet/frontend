@@ -68,7 +68,7 @@ const SetWorkingWeek = () => {
                     break;
 
                 case 'select':
-                    console.log(74,result);
+                    //console.log(74,result);
                     
                     if (result && result.data[0]) {
                         setCheckedDays(result.data[0].value)

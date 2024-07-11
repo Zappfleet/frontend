@@ -14,7 +14,7 @@ import {
 
 const DataGrid = (props: any) => {
 
-  // console.log(5, props.pagesize);
+    // console.log(5, props.pagesize);
 
     const [currentPage, setcurrentPage] = useState(1)
     const [pagesize, setpagesize] = useState(props.pagesize)
@@ -97,40 +97,62 @@ const DataGrid = (props: any) => {
 
 
     const showbody = copyItems.map(item => {
-        // console.log(3, item);
-
-        //  console.log(888, copyItems, item);
-
-        return <tr >
-            {/* <td>{item.id}</td> */}
-            {props.thead.map((hitem: any) => {
+        return (
+          props.clickOnRow ? (
+            <tr key={item.id} onClick={() => props.clickOnRow(item)}>
+              {/* Render <td> elements inside the row */}
+              {props.thead.map((hitem: any, index: number) => {
                 if (hitem.key === "name") {
-                    return <td>
-                        <img className='tbody-img' src={item.img} data-csiid="17" data-atf="1"></img>
-                        <span>{item.name} </span>
+                  return (
+                    <td key={index}>
+                      <img className='tbody-img' src={item.img} alt={item.name} data-csiid="17" data-atf="1" />
+                      <span>{item.name}</span>
                     </td>
+                  );
                 }
-                return <td>{item[hitem.key]}</td>
-            })}
-            {/*
-            <td>{item.startDate}</td>
-            <td>{item.endDate}</td>
-            <td>{item.time}</td> */}
-        </tr>
-    })
+                return <td key={index}>{item[hitem.key]}</td>;
+              })}
+              {/* Uncomment or add more <td> elements as needed */}
+              {/* <td>{item.startDate}</td> */}
+              {/* <td>{item.endDate}</td> */}
+              {/* <td>{item.time}</td> */}
+            </tr>
+          ) : (
+            <tr key={item.id}>
+              {/* Render <td> elements inside the row */}
+              {props.thead.map((hitem: any, index: number) => {
+                if (hitem.key === "name") {
+                  return (
+                    <td key={index}>
+                      <img className='tbody-img' src={item.img} alt={item.name} data-csiid="17" data-atf="1" />
+                      <span>{item.name}</span>
+                    </td>
+                  );
+                }
+                return <td key={index}>{item[hitem.key]}</td>;
+              })}
+              {/* Uncomment or add more <td> elements as needed */}
+              {/* <td>{item.startDate}</td> */}
+              {/* <td>{item.endDate}</td> */}
+              {/* <td>{item.time}</td> */}
+            </tr>
+          )
+        );
+      });
+      
 
     useEffect(() => {
-       // console.log(85, props.items);
+        // console.log(85, props.items);
 
         setCopyItems(props.items.slice(0, 2))
     }, [props.items])
     useEffect(() => {
-      //  console.log(96, copyItems);
+        //  console.log(96, copyItems);
 
     }, [copyItems])
 
     useEffect(() => {
-       // console.log(44, pagesize);
+        // console.log(44, pagesize);
 
         const startIndex = (currentPage - 1) * pagesize;
         const endIndex = startIndex + parseInt(pagesize.toString());

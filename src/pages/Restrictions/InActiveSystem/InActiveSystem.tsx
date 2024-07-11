@@ -139,7 +139,7 @@ const InActiveSystem: React.FC = () => {
                 end_date: toDate,
                 inactive_permissions: checked
             }
-            console.log(1, ite);
+           // console.log(1, ite);
 
             setItem(ite)
         }
