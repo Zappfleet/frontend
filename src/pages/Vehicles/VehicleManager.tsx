@@ -210,7 +210,7 @@ const VehicleManager = () => {
 
   const clearInputs = () => {
     setInput(DEFAULT_INPUT_VALUES());
-    plaqueRef.current.resetToDefaults();
+    plaqueRef?.current?.resetToDefaults();
   };
 
   const executeApi = (

@@ -27,7 +27,7 @@
 .PassengerServiceRequest-page .main-div {
   top: 35px;
   width: 100%;
-  height: 400px;
+  height: 85vh;
 }
 .PassengerServiceRequest-page .loc-name-div {
   position: absolute;
@@ -62,4 +62,10 @@
   position: absolute;
   bottom: 10px;
   right: 25px;
+}
+.PassengerServiceRequest-page .my-btn {
+  height: -moz-fit-content;
+  height: fit-content;
+  min-height: 40px;
+  padding: 10px 25px;
 }/*# sourceMappingURL=style.css.map */

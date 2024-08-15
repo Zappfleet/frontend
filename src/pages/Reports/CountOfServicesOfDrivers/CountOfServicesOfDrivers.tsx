@@ -84,7 +84,7 @@ export default function CountOfServicesOfDrivers({ handleBackClick, title }: any
 
     useEffect(() => {
         if (missionList) {
-            console.log(63, missionList);
+          //  console.log(63, missionList);
 
             if (missionList.status === 200) {
                 fetchData()

@@ -3,23 +3,7 @@ import { BiShapePolygon, BiUser } from 'react-icons/bi';
 import { BsFillCarFrontFill } from 'react-icons/bs';
 import { MdAssignmentInd } from 'react-icons/md';
 import useCurrentUserPermissions from './useCurrentUserPermissions';
-import {
-  PERMIT_DASHBOARD,
-  PERMIT_AREAS,
-  PERMIT_AREAS_CREATE,
-  PERMIT_DEFINITIONS,
-  PERMIT_DELEGATION,
-  PERMIT_DRIVER,
-  PERMIT_PASSENGER_SERVICE,
-  PERMIT_REPORTS,
-  PERMIT_SERVICE,
-  PERMIT_USERS_CREATE,
-  PERMIT_USERS_DELETE,
-  PERMIT_USERS_EDIT,
-  PERMIT_USERS_LIST,
-  PERMIT_VEHICLES_CREATE,
-  PERMIT_RESTRICTION
-} from '../lib/constants';
+import * as PERMIT_CONST from '../lib/constants';
 
 export type NavigationMenuItem = {
   key: string;
@@ -52,7 +36,7 @@ export default function useNavigationMenu() {
         is_title: false,
         href: '/dashboard',
         icon: <BsFillCarFrontFill />,
-        isPermitted: hasPermitGroup([PERMIT_DASHBOARD]),
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_DASHBOARD]),
       },
       {
         key: 'menu.services',
@@ -60,7 +44,7 @@ export default function useNavigationMenu() {
         is_title: false,
         href: '/trip-mission',
         icon: <BsFillCarFrontFill />,
-        isPermitted: hasPermitGroup([PERMIT_SERVICE]),
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_SERVICE]),
       },
       {
         key: 'menu.users',
@@ -69,9 +53,9 @@ export default function useNavigationMenu() {
         href: '/user/',
         icon: <BiUser />,
         isPermitted: hasPermitGroup([
-          PERMIT_USERS_CREATE,
-          PERMIT_USERS_EDIT,
-          PERMIT_USERS_DELETE,
+          PERMIT_CONST.PERMIT_USERS_CREATE,
+          PERMIT_CONST.PERMIT_USERS_EDIT,
+          PERMIT_CONST.PERMIT_USERS_DELETE,
         ]),
       },
       {
@@ -88,7 +72,7 @@ export default function useNavigationMenu() {
         is_title: false,
         href: '/areas',
         icon: <BiShapePolygon />,
-        isPermitted: hasPermitGroup([PERMIT_AREAS_CREATE]),
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AREAS_CREATE]),
       },
       {
         key: 'menu.restriction',
@@ -96,7 +80,7 @@ export default function useNavigationMenu() {
         is_title: false,
         href: '/restriction',
         icon: <BiShapePolygon />,
-        isPermitted: hasPermitGroup([PERMIT_RESTRICTION]),
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_RESTRICTION]),
       },
       {
         key: 'menu.reports',
@@ -104,7 +88,7 @@ export default function useNavigationMenu() {
         is_title: false,
         href: '/reports',
         icon: <BiShapePolygon />,
-        isPermitted: hasPermitGroup([PERMIT_REPORTS]),
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_REPORTS]),
       },
       {
         key: 'menu.definitions',
@@ -112,7 +96,7 @@ export default function useNavigationMenu() {
         is_title: false,
         href: '/definitions',
         icon: <BiShapePolygon />,
-        isPermitted: hasPermitGroup([PERMIT_DEFINITIONS]),
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_DEFINITIONS]),
       },
       {
         key: 'menu.vehicles',
@@ -121,9 +105,9 @@ export default function useNavigationMenu() {
         href: '/vehicles',
         icon: <BiShapePolygon />,
         isPermitted: hasPermitGroup([
-          PERMIT_VEHICLES_CREATE,
-          PERMIT_USERS_DELETE,
-          PERMIT_USERS_EDIT,
+          PERMIT_CONST.PERMIT_VEHICLES_CREATE,
+          PERMIT_CONST.PERMIT_USERS_DELETE,
+          PERMIT_CONST.PERMIT_USERS_EDIT,
         ]),
       },
       {
@@ -132,7 +116,7 @@ export default function useNavigationMenu() {
         is_title: false,
         href: '/deligations',
         icon: <BiShapePolygon />,
-        isPermitted: hasPermitFor([PERMIT_DELEGATION]),
+        isPermitted: hasPermitFor([PERMIT_CONST.PERMIT_DELEGATION]),
       },
       // {
       //   key: 'menu.reports',
@@ -140,7 +124,7 @@ export default function useNavigationMenu() {
       //   is_title: false,
       //   href: '/reports',
       //   icon: <BiShapePolygon />,
-      //   isPermitted: hasPermitGroup([PERMIT_REPORTS]),
+      //   isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_REPORTS]),
       // },
       // {
       //   key: 'menu.reports',
@@ -148,7 +132,7 @@ export default function useNavigationMenu() {
       //   is_title: false,
       //   href: '/TimeOfServices',
       //   icon: <BiShapePolygon />,
-      //   isPermitted: hasPermitGroup([PERMIT_REPORTS]),
+      //   isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_REPORTS]),
       // },
       // {
       //   key: 'menu.reports',
@@ -156,7 +140,7 @@ export default function useNavigationMenu() {
       //   is_title: false,
       //   href: '/CountOfServicesOfDrivers',
       //   icon: <BiShapePolygon />,
-      //   isPermitted: hasPermitGroup([PERMIT_REPORTS]),
+      //   isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_REPORTS]),
       // },
       // {
       //   key: 'menu.reports',
@@ -164,7 +148,7 @@ export default function useNavigationMenu() {
       //   is_title: false,
       //   href: '/RestOfDriverBetweenServises',
       //   icon: <BiShapePolygon />,
-      //   isPermitted: hasPermitGroup([PERMIT_REPORTS]),
+      //   isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_REPORTS]),
       // },
       // {
       //   key: 'menu.reports',
@@ -172,7 +156,7 @@ export default function useNavigationMenu() {
       //   is_title: false,
       //   href: '/DriverList_By_LastServiceAdnDistanse',
       //   icon: <BiShapePolygon />,
-      //   isPermitted: hasPermitGroup([PERMIT_REPORTS]),
+      //   isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_REPORTS]),
       // },
       // {
       //   key: 'menu.reports',
@@ -180,13 +164,96 @@ export default function useNavigationMenu() {
       //   is_title: false,
       //   href: '/Comments',
       //   icon: <BiShapePolygon />,
-      //   isPermitted: hasPermitGroup([PERMIT_RESTRICTION]),
+      //   isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_RESTRICTION]),
       // },
+      {
+        key: 'menu.aganceRegister',
+        label: '  ثبت آژانس',
+        is_title: false,
+        href: '/aganceRegister',
+        icon: <BsFillCarFrontFill />,
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_AGANCE_LIST]),
+      },
+      {
+        key: 'menu.aganceSodureParvane',
+        label: 'صدور پروانه آژانس',
+        is_title: false,
+        href: '/aganceSodureParvane',
+        icon: <BsFillCarFrontFill />,
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_SODURE_PARVANE_LIST]),
+      },
+      {
+        key: 'menu.aganceDriver',
+        label: ' ثبت راننده',
+        is_title: false,
+        href: '/aganceDriver',
+        icon: <BsFillCarFrontFill />,
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_DRIVER_LIST]),
+      },
+      {
+        key: 'menu.aganceCarteSalahiyat',
+        label: ' صدور کارت صلاحیت',
+        is_title: false,
+        href: '/aganceCarteSalahiyat',
+        icon: <BsFillCarFrontFill />,
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_CART_SALAHIYAT_LIST]),
+      },
+      {
+        key: 'menu.aganceEstelameSeGane',
+        label: ' استعلام های سه گانه',
+        is_title: false,
+        href: '/aganceEstelameSeGane',
+        icon: <BsFillCarFrontFill />,
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_ESTELAMHAYE_SE_GANE_LIST]),
+      },
+      {
+        key: 'menu.aganceAmaken',
+        label: ' استعلام اداره اماکن',
+        is_title: false,
+        href: '/aganceAmaken',
+        icon: <BsFillCarFrontFill />,
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_ESTELAM_AMAKEN_LIST]),
+      },
+      {
+        key: 'menu.aganceAvarez',
+        label: ' تعرفه عوارض',
+        is_title: false,
+        href: '/aganceAvarez',
+        icon: <BsFillCarFrontFill />,
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_TAREFE_AVAREZ_LIST]),
+      },
+      {
+        key: 'menu.aganceMoayeneFani',
+        label: ' معاینه فنی',
+        is_title: false,
+        href: '/aganceMoayeneFani',
+        icon: <BsFillCarFrontFill />,
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_MOAYENE_FANI_LIST]),
+      },
+      {
+        key: 'menu.aganceProfile',
+        label: ' پروفایل',
+        is_title: false,
+        href: '/aganceProfile',
+        icon: <BsFillCarFrontFill />,
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_PROFILE_LIST]),
+      },
+      {
+        key: 'menu.aganceDabirkhane',
+        label: ' دبیرخانه',
+        is_title: false,
+        href: '/aganceDabirkhane',
+        icon: <BsFillCarFrontFill />,
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_DABIRKHANE_LIST]),
+      },
+
+
+
       {
         key: 'menu.passenger',
         label: 'منو مسافر',
         is_title: true,
-        isPermitted: hasPermitGroup([PERMIT_PASSENGER_SERVICE]),
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_PASSENGER_SERVICE]),
       },
       {
         key: 'menu.passenger.newtrip',
@@ -194,7 +261,7 @@ export default function useNavigationMenu() {
         is_title: false,
         href: '/passenger/new',
         icon: <BsFillCarFrontFill />,
-        isPermitted: hasPermitGroup([PERMIT_PASSENGER_SERVICE]),
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_PASSENGER_SERVICE]),
       },
       {
         key: 'menu.passenger.current',
@@ -202,7 +269,7 @@ export default function useNavigationMenu() {
         is_title: false,
         href: '/passenger/active',
         icon: <BsFillCarFrontFill />,
-        isPermitted: hasPermitGroup([PERMIT_PASSENGER_SERVICE]),
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_PASSENGER_SERVICE]),
       },
       {
         key: 'menu.passenger.history',
@@ -210,7 +277,7 @@ export default function useNavigationMenu() {
         is_title: false,
         href: '/passenger/history',
         icon: <BsFillCarFrontFill />,
-        isPermitted: hasPermitGroup([PERMIT_PASSENGER_SERVICE]),
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_PASSENGER_SERVICE]),
       },
       {
         key: 'menu.passenger.favoriteLocation',
@@ -218,7 +285,7 @@ export default function useNavigationMenu() {
         is_title: false,
         href: '/passenger/favoriteLocation',
         icon: <BsFillCarFrontFill />,
-        isPermitted: hasPermitGroup([PERMIT_PASSENGER_SERVICE]),
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_PASSENGER_SERVICE]),
       },
       // {
       //     key: "menu.passenger.newtrip",
@@ -231,7 +298,7 @@ export default function useNavigationMenu() {
         key: 'menu.driver',
         label: 'منو راننده',
         is_title: true,
-        isPermitted: hasPermitGroup([PERMIT_DRIVER]),
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_DRIVER]),
       },
       {
         key: 'menu.driver.current',
@@ -239,7 +306,7 @@ export default function useNavigationMenu() {
         is_title: false,
         href: '/driver/active',
         icon: <BsFillCarFrontFill />,
-        isPermitted: hasPermitGroup([PERMIT_DRIVER]),
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_DRIVER]),
       },
       {
         key: 'menu.driver.history',
@@ -247,12 +314,12 @@ export default function useNavigationMenu() {
         is_title: false,
         href: '/driver/history',
         icon: <BsFillCarFrontFill />,
-        isPermitted: hasPermitGroup([PERMIT_DRIVER]),
+        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_DRIVER]),
       },
     ];
     setNavigationMenu(
       allNavItems.filter((item) => {
-        return item.isPermitted;
+        return item.isPermitted 
       })
     );
   }, [permits]);

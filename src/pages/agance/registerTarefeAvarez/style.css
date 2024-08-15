@@ -1,0 +1,17 @@
+.RegisterTarefeAvarez-component {
+  position: relative;
+  margin-bottom: 40px;
+}
+.RegisterTarefeAvarez-component .back-icon {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #0d6efd;
+  cursor: pointer;
+}
+.RegisterTarefeAvarez-component .form-group {
+  padding: 10px 15px;
+}
+.RegisterTarefeAvarez-component .form-group p {
+  font-size: 14px;
+}/*# sourceMappingURL=style.css.map */

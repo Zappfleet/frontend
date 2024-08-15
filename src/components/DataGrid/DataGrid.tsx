@@ -10,11 +10,12 @@ import {
     convertToJalaliDateTiem,
     convertPersianToEnglishDigits
 } from '../../utils/utils.js';
+import Alert from '../Alert/Alert.js';
 
 
 const DataGrid = (props: any) => {
 
-    // console.log(5, props.pagesize);
+     //  console.log(66666666, props.thead);
 
     const [currentPage, setcurrentPage] = useState(1)
     const [pagesize, setpagesize] = useState(props.pagesize)
@@ -25,6 +26,10 @@ const DataGrid = (props: any) => {
     const [filterCriteria, setFilterCriteria] = useState({})
     const [copyItems, setCopyItems] = useState<any[]>(props.items.slice(0, pagesize))
     const [searchGrid, setSearchGrid] = useState('')
+
+    const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false)
+    const [deleteItem, setDeleteItem] = useState<any>(null)
+
 
     const showOptions = props.options.map((item: any) => {
         return <option key={item.id} value={item.value}>
@@ -50,6 +55,8 @@ const DataGrid = (props: any) => {
         if (key2 === 'fromdate') {
             setFromDateate(date);
             const formattedDate = date ? date.format('YYYY/MM/DD') : '';
+            console.log(1452, formattedDate, headerKey);
+
             handleHeaderSearch(convertPersianToEnglishDigits(formattedDate), headerKey); // Replace 'dateKey' with the actual key you want to filter by
 
         }
@@ -59,92 +66,91 @@ const DataGrid = (props: any) => {
             handleHeaderSearch(convertPersianToEnglishDigits(formattedDate), headerKey); // Replace 'dateKey' with the actual key you want to filter by
 
         }
+
     };
 
 
     const showThead = props.thead.map((item: any) => {
-        return <th>
-            <div className={`tr-thead`} >
-                {item.name}
-                <a href='#' onMouseDown={(e) => { setcountForSort(countForSort + 1); handleSort(e, item.key, countForSort) }}><i className='fa fa-sort sort-i'></i></a>
-                {item.type === 'caleadar' &&
-                    <>
-                        <div style={{ position: 'relative' }}>
-                            <DatePicker
-                                onFocusedDateChange={(date) => handleDateChange(date !== null ? (Array.isArray(date) ? date[0] : date) : null, item.key, item.key2)}
-                                calendar={persian}
-                                locale={persian_fa}
-                                className="datetime-picker iscalendar"
-                                inputClass="datetime-input !text-center !text-lg !p-4"
-                                value={item.key2 === 'fromdate' ? fromdate : todate}
-                                placeholder='تاریخ'
-                                editable={false}  // Ensure the input is not editable directly
+        return item.key === '' ? <th></th> :
+            <th>
+                <div className={`tr-thead`} >
+                    {item.name}
+                    <a href='#' onMouseDown={(e) => { setcountForSort(countForSort + 1); handleSort(e, item.key, countForSort) }}><i className='fa fa-sort sort-i'></i></a>
+                    {item.type === 'caleadar' &&
+                        <>
+                            <div style={{ position: 'relative' }}>
+                                <DatePicker
+                                    onFocusedDateChange={(date) => handleDateChange(date !== null ? (Array.isArray(date) ? date[0] : date) : null, item.key, item.key2)}
+                                    calendar={persian}
+                                    locale={persian_fa}
+                                    className="datetime-picker iscalendar"
+                                    inputClass="datetime-input !text-center !text-lg !p-4"
+                                    value={item.key2 === 'fromdate' ? fromdate : todate}
+                                    placeholder='تاریخ'
+                                    editable={false}  // Ensure the input is not editable directly
 
-                            />
+                                />
 
-                            {fromdate && <i className='fa fa-remove calendar-close' onClick={() => clearDate(item.key, item.key2)}></i>}
-                        </div>
-                    </>
-                }
+                                {fromdate && <i className='fa fa-remove calendar-close' onClick={() => clearDate(item.key, item.key2)}></i>}
+                            </div>
+                        </>
+                    }
 
-                {item.type !== 'caleadar' &&
-                    <input onChange={(e) => handleHeaderSearch(e.target.value, item.key)} className="form-control" type="search" placeholder="جستجو" aria-label="Search" />
-                }
-            </div>
-            <div className="header-column-resize"></div>
-        </th>
+                    {item.type !== 'caleadar' &&
+                        <input onChange={(e) => handleHeaderSearch(e.target.value, item.key)} className="form-control" type="search" placeholder="جستجو" aria-label="Search" />
+                    }
+                </div>
+                <div className="header-column-resize"></div>
+            </th>
     })
 
+    const handleDataGridDelete = (resp: any) => {
+        if (resp === true) {
+            deleteItem && props.clickOnRow(deleteItem, 'delete')
+        }
+        setDeleteItem(null)
+        setShowDeleteAlert(false)
+    }
 
     const showbody = copyItems.map(item => {
-        return (
-          props.clickOnRow ? (
-            <tr key={item.id} onClick={() => props.clickOnRow(item)}>
-              {/* Render <td> elements inside the row */}
-              {props.thead.map((hitem: any, index: number) => {
+        return <tr key={item.id}>
+            {props.thead.map((hitem: any, index: number) => {
+                if (hitem.key === '') {
+                    return (
+                        <td>
+                            {hitem.name.includes("delete") &&
+                                <i onClick={() => { setDeleteItem(item); setShowDeleteAlert(true) }}
+                                    className='fa fa-trash row-delete' ></i>
+                            }
+                            {hitem.name.includes("update") &&
+                                <i onClick={() => props.clickOnRow(item, 'update')} className='fa fa-pencil row-edit' ></i>
+                            }
+                            {hitem.name.includes("view") &&
+                                <i onClick={() => props.clickOnRow(item, 'view')} className='fa fa-eye row-delete' ></i>
+                            }
+                        </td>
+                    );
+                }
                 if (hitem.key === "name") {
-                  return (
-                    <td key={index}>
-                      <img className='tbody-img' src={item.img} alt={item.name} data-csiid="17" data-atf="1" />
-                      <span>{item.name}</span>
-                    </td>
-                  );
+                    return (
+                        <td key={index}>
+                            {(hitem.img === undefined || (hitem?.img && hitem?.img !== false)) && <img className='tbody-img' src={item.img} alt={item.name} data-csiid="17" data-atf="1" />}
+                            <span>{item.name}</span>
+                        </td>
+                    );
                 }
                 return <td key={index}>{item[hitem.key]}</td>;
-              })}
-              {/* Uncomment or add more <td> elements as needed */}
-              {/* <td>{item.startDate}</td> */}
-              {/* <td>{item.endDate}</td> */}
-              {/* <td>{item.time}</td> */}
-            </tr>
-          ) : (
-            <tr key={item.id}>
-              {/* Render <td> elements inside the row */}
-              {props.thead.map((hitem: any, index: number) => {
-                if (hitem.key === "name") {
-                  return (
-                    <td key={index}>
-                      <img className='tbody-img' src={item.img} alt={item.name} data-csiid="17" data-atf="1" />
-                      <span>{item.name}</span>
-                    </td>
-                  );
-                }
-                return <td key={index}>{item[hitem.key]}</td>;
-              })}
-              {/* Uncomment or add more <td> elements as needed */}
-              {/* <td>{item.startDate}</td> */}
-              {/* <td>{item.endDate}</td> */}
-              {/* <td>{item.time}</td> */}
-            </tr>
-          )
-        );
-      });
-      
+            })}
+            {/* Uncomment or add more <td> elements as needed */}
+            {/* <td>{item.startDate}</td> */}
+            {/* <td>{item.endDate}</td> */}
+            {/* <td>{item.time}</td> */}
+        </tr>
+    });
+
 
     useEffect(() => {
-        // console.log(85, props.items);
-
-        setCopyItems(props.items.slice(0, 2))
+        setCopyItems(props.items.slice(0, props.pagesize))
     }, [props.items])
     useEffect(() => {
         //  console.log(96, copyItems);
@@ -313,7 +319,14 @@ const DataGrid = (props: any) => {
     }
     return (
         <>
-            <div className="datagrid-component">
+            <div id={'DATAGRIG'} className="datagrid-component">
+
+                {showDeleteAlert && <Alert msg={`آیا از حذف اطلاعات مطمئن هستید؟`}
+                    handleDataGridDelete={handleDataGridDelete}
+                    item={deleteItem}
+                />
+                }
+
                 <div>
                     {/* <button className="btn btn-success" onClick={() => FakeDataGenerator.generateData(10)}>Generate Data And Save For DataGrid</button> */}
                     {/* <pre>{JSON.stringify(generatedData, null, 2)}</pre> */}

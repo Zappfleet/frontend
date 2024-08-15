@@ -15,6 +15,7 @@ import Comments from '../../components/Comments/Comments';
 import useAuthentication from '../../hooks/data/useAuthentication';
 import useComments from '../../hooks/data/Comments/useComments';
 import { NotificationController } from '../../lib/notificationController';
+import { DB_ROLE_DRIVER_TITLE, DB_ROLE_MOSAFER_TITLE } from '../../lib/constants';
 
 
 
@@ -36,11 +37,11 @@ export default function RequestHistory(props: any = {}) {
 
     useEffect(() => {
         if (authInfo) {
-            if (authInfo.auth.roles[0].title === 'راننده') {
+            if (authInfo.auth.roles[0].title === DB_ROLE_DRIVER_TITLE) {
                 setRole('driver')
                 setID(authInfo.auth._id)
             }
-            if (authInfo.auth.roles[0].title === 'مسافر') {
+            if (authInfo.auth.roles[0].title === DB_ROLE_MOSAFER_TITLE) {
                 setRole('passenger')
                 setID(authInfo.auth._id)
             }
@@ -148,7 +149,7 @@ export default function RequestHistory(props: any = {}) {
 
                 let registedCommentbefore = true
                 resultComment?.data?.data?.map((item: any) => {
-                    console.log(5, item.registerID, ID);
+                 //   console.log(5, item.registerID, ID);
                     if (item.registerID === ID) {
                         registedCommentbefore = false
                     }

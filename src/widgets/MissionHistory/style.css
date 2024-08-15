@@ -1,6 +1,10 @@
 .MissionHistory-component {
   margin-top: 30px;
 }
+.MissionHistory-component .icon-view {
+  color: #0d6efd;
+  cursor: pointer;
+}
 .MissionHistory-component .expand {
   transition-duration: 300ms;
 }
@@ -41,6 +45,10 @@
 }
 .MissionHistory-component .have-table {
   overflow: auto;
+}
+.MissionHistory-component .angle-icon {
+  color: #0d6efd;
+  cursor: pointer;
 }
 .MissionHistory-component .table {
   background-color: white;

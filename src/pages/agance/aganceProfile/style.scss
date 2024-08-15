@@ -1,0 +1,47 @@
+@import '../../../variable';
+
+.agance-profile-component {
+    position: relative;
+
+
+    .part1 {
+        position: relative;
+
+        .img-driverPic {
+            position: absolute;
+            top: -15px;
+            left: 40px;
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+        }
+    }
+
+    .part {
+        position: relative;
+        // border: 1px solid #eee;
+        border-radius: 5px;
+        margin-top: 15px;
+        padding: 10px;
+
+        .title {}
+
+        .items {
+            margin-top: 10px;
+
+            span {
+                display: inline-flex;
+                padding: 5px 0px;
+                margin-right: 10px;
+            }
+        }
+
+        .page-title {
+            font-size: 16px;
+        }
+
+        .hr-title {
+            color: #A1E2D9;
+        }
+    }
+}

@@ -3,4 +3,9 @@
   background-color: white;
   z-index: 2;
   padding: 40px 15px;
+}
+.TripMissionDetails-component .icon-phone {
+  color: #0d6efd;
+  cursor: pointer;
+  padding-right: 15px;
 }/*# sourceMappingURL=style.css.map */

@@ -24,7 +24,7 @@ const DriverCurrentMissionService = lazy(
 const RoleActions = lazy(() => import('../pages/Users/RoleActions/RoleActions'));
 const UsersManager = lazy(() => import('../pages/Users/UsersManager/UsersManager'));
 const AreaManager = lazy(() => import('../pages/Areas/AreaManager'));
-const  Restriction= lazy(() => import('../pages/Restrictions/Restrictions/Restrictions'));
+const Restriction = lazy(() => import('../pages/Restrictions/Restrictions/Restrictions'));
 const DefinitionsManager = lazy(
   () => import('../pages/definitions/DefinitionsManager')
 );
@@ -39,6 +39,9 @@ const PassengerFavoriteLocation = lazy(
 
 
 const Reports = lazy(() => import('../pages/Reports/Reports'));
+const agance = lazy(() => import('../pages/agance/AganceItems'));
+const sodureParvane = lazy(() => import('../pages/agance/sodureParvane/SodureParvane'));
+
 const TimeOfServices = lazy(() => import('../pages/Reports/TimeOfServices/TimeOfServices'));
 const CountOfServicesOfDrivers = lazy(() => import('../pages/Reports/CountOfServicesOfDrivers/CountOfServicesOfDrivers'));
 const DriverList_By_LastServiceAdnDistanse = lazy(() => import('../pages/Reports/DriverList_By_LastServiceAdnDistanse/DriverList_By_LastServiceAdnDistanse'));
@@ -48,6 +51,24 @@ const InActiveSystem = lazy(() => import('../pages/Restrictions/InActiveSystem/I
 const RestrictionShowRequests = lazy(() => import('../pages/Restrictions/RestrictionShowRequests/RestrictionShowRequests'));
 const SetWorkingWeek = lazy(() => import('../pages/Restrictions/SetWorkingWeek/SetWorkingWeek'));
 const Comments = lazy(() => import('../pages/Comments/Comments'));
+
+
+//AGANCE
+const aganceRegister = lazy(() => import('../pages/agance/aganceRegister/AganceRegister'));
+const aganceAmaken = lazy(() => import('../pages/agance/estelamAmaken/EstelamAmaken'));
+const aganceAvarez = lazy(() => import('../pages/agance/registerTarefeAvarez/RegisterTarefeAvarez'));
+const aganceMoayeneFani = lazy(() => import('../pages/agance/registerMoayeneFani/RegisterMoayeneFani'));
+const aganceProfile = lazy(() => import('../pages/agance/aganceProfile/AganceProfile'));
+const aganceDabirkhane = lazy(() => import('../pages/agance/dabirkhane/Dabirkhane'));
+const aganceEstelameSeGane = lazy(() => import('../pages/agance/estehamhaye3gane/Estehamhaye3gane'));
+const aganceCarteSalahiyat = lazy(() => import('../pages/agance/cardSalahiyat/CardSalahiyat'));
+const aganceDriver = lazy(() => import('../pages/agance/aganceDriver/AganceDriver'));
+const aganceSodureParvane = lazy(() => import('../pages/agance/sodureParvane/SodureParvane'));
+
+
+
+//////////////////
+
 
 const DeligationManager = lazy(
   () => import('../pages/Deligation/DeligationManager')
@@ -88,6 +109,16 @@ const coreRoutes = [
     path: '/passenger/active',
     title: 'Passenger',
     component: PassengerMissionDetails,
+  },
+  {
+    path: '/agance',
+    title: 'agance',
+    component: agance,
+  },
+  {
+    path: '/sodureParvane',
+    title: 'sodureParvane',
+    component: sodureParvane,
   },
   {
     path: '/driver/active',
@@ -219,7 +250,57 @@ const coreRoutes = [
     title: 'Comments',
     component: Comments,
   },
-  
+  {
+    path: '/aganceRegister',
+    title: 'aganceRegister',
+    component: aganceRegister,
+  },
+  {
+    path: '/aganceAmaken',
+    title: 'aganceAmaken',
+    component:aganceAmaken ,
+  },
+  {
+    path: '/aganceAvarez',
+    title: 'aganceAvarez',
+    component:aganceAvarez ,
+  },
+  {
+    path: '/aganceMoayeneFani',
+    title: 'aganceMoayeneFani',
+    component:aganceMoayeneFani ,
+  },
+  {
+    path: '/aganceProfile',
+    title: 'aganceProfile',
+    component:aganceProfile ,
+  },
+  {
+    path: '/aganceDabirkhane',
+    title: 'aganceDabirkhane',
+    component:aganceDabirkhane ,
+  },
+  {
+    path: '/aganceEstelameSeGane',
+    title: 'aganceEstelameSeGane',
+    component:aganceEstelameSeGane ,
+  },
+  {
+    path: '/aganceCarteSalahiyat',
+    title: 'aganceCarteSalahiyat',
+    component:aganceCarteSalahiyat ,
+  },
+  {
+    path: '/aganceDriver',
+    title: 'aganceDriver',
+    component:aganceDriver ,
+  },
+  {
+    path: '/aganceSodureParvane',
+    title: 'aganceSodureParvane',
+    component:aganceSodureParvane ,
+  },
+
 ];
 
 const routes = [...coreRoutes];

@@ -141,7 +141,7 @@ const DriverCurrentMissionService = () => {
                 //show current location
 
                 setMode('driver')
-                console.log(422, missionDetails?.mission?.vehicle?.id);
+             //   console.log(422, missionDetails?.mission?.vehicle?.id);
 
                 setVehicleIDs([missionDetails?.mission?.vehicle?.id])
                 setPermitForRunUseFleetGps(true)

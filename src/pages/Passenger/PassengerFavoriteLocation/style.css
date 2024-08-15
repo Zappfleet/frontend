@@ -64,7 +64,7 @@
 }
 .PassengerFavoriteLocation-component .location-div {
   position: relative;
-  min-height: 350px;
+  height: 70vh;
 }
 .PassengerFavoriteLocation-component .location-div ._map_1yxt5_2 {
   position: absolute;

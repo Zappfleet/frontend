@@ -1,8 +1,16 @@
 .report-component {
   font-size: 14px;
+  position: relative;
 }
 .report-component .form-select:focus {
   box-shadow: none;
+}
+.report-component .back-icon {
+  position: absolute;
+  top: 10px;
+  left: 40px;
+  color: #0d6efd;
+  cursor: pointer;
 }
 .report-component .form-control,
 .report-component .btn {

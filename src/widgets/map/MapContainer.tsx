@@ -6,12 +6,13 @@ import { NeshanMapKey } from "../../apis/neshan";
 import BaseLayer from "ol/layer/Base";
 import { Feature } from "ol";
 import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary";
+import { DEFAULT_LATITUDE, DEFAULT_LONGITUDE } from '../../CustomForCustomer/constatns'
 
 
 export type AddMarkerLayerResult = { marker: BaseLayer, coordinates: [number, number] } | undefined;
 
 export type MapRefType = {
-    addMarker: (longitude: number, latitude: number, convert?: boolean, myicon?: string, scale?: any,color?:any) => AddMarkerLayerResult,
+    addMarker: (longitude: number, latitude: number, convert?: boolean, myicon?: string, scale?: any, color?: any) => AddMarkerLayerResult,
     addMarkerToCenter: () => AddMarkerLayerResult,
     viewCoordinates: (lng: number, lat: number, zoom: number) => void,
     addPolygon: (coordinates: [number, number][], convert: boolean, color?: string) => void,
@@ -29,6 +30,8 @@ type MapContainerProps = {
 }
 
 const MapContainer = forwardRef<MapRefType, MapContainerProps>((props, ref) => {
+    console.log(6);
+    
     const [markers, setMarkers] = useState<Feature[]>([]);
     const mapRef = useRef<{ ol: Ol, map: OlMap } | null>(null);
 
@@ -174,7 +177,7 @@ const MapContainer = forwardRef<MapRefType, MapContainerProps>((props, ref) => {
 
         const coordinates = convert ? ol.proj.fromLonLat([longitude, latitude]) : [longitude, latitude];
 
-        let Mycolor: any = color ? color:
+        let Mycolor: any = color ? color :
             { color: 'rgba(255, 0, 0, 1)' }
         const feature = new ol.Feature(new ol.geom.Point(coordinates));
         const pinLayer = new ol.layer.Vector({
@@ -231,7 +234,7 @@ const MapContainer = forwardRef<MapRefType, MapContainerProps>((props, ref) => {
             };
         }
         if (props.onMapInit) props.onMapInit();
-       // console.log("Map initialized");
+        // console.log("Map initialized");
     }
 
     useImperativeHandle(ref, () => ({
@@ -249,7 +252,7 @@ const MapContainer = forwardRef<MapRefType, MapContainerProps>((props, ref) => {
         <ErrorBoundary>
             <NeshanMap
                 style={{ zIndex: 1, height: "100%", width: "100%", pointerEvents: props.freeze ? "none" : 'all' }}
-                center={{ latitude: 29.882589, longitude: 52.808064 }}
+                center={{ latitude: DEFAULT_LATITUDE, longitude: DEFAULT_LONGITUDE }}
                 zoom={16}
                 mapKey={NeshanMapKey}
                 onInit={onInit}

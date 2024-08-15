@@ -1,10 +1,26 @@
+@import '../../variable';
+
 .datagrid-component {
     font-size: 14px;
+    position: relative;
 
     .grid-height {
         min-height: 400px;
         overflow: auto;
     }
+
+    .row-delete,
+    .row-edit {
+        cursor: pointer;
+
+    }
+
+    .row-delete:hover,
+    .row-edit:hover {
+        color: $color-base;
+    }
+
+    .row-edit {}
 
     .datetime-input {
         border: none;
@@ -168,7 +184,7 @@
         width: max-content;
 
         border: 1px solid #ddd;
-        
+
         overflow: scroll;
 
         border: none;

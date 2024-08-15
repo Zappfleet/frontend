@@ -1,0 +1,111 @@
+.agance-component {
+  position: relative;
+  margin-bottom: 40px;
+  margin-top: 40px;
+}
+.agance-component .form-group {
+  position: relative;
+}
+.agance-component .back-icon {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #0d6efd;
+  cursor: pointer;
+}
+.agance-component .myAttachImage {
+  position: fixed;
+  z-index: 2;
+  display: flex;
+  /* padding: 25px 0px; */
+  justify-content: center;
+  align-items: flex-start;
+  background-color: rgba(0, 0, 0, 0.9);
+  /* top: 15%; */
+  width: 60vw;
+  height: 60vh;
+}
+.agance-component .myAttachImage .close-icon {
+  position: absolute;
+  color: #0d6efd;
+  cursor: pointer;
+  top: 20px;
+  left: 20px;
+}
+.agance-component .myAttachImage img {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 100%;
+}
+.agance-component .myalert {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  padding: 25px 0px;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: rgba(0, 0, 0, 0.9);
+  top: 30px;
+  width: 100%;
+  min-height: 100%;
+}
+.agance-component .myalert .alert {
+  padding: 30px 40px;
+  top: 100px;
+  background-color: white;
+  text-align: center;
+}
+.agance-component .myalert .close-icon {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  cursor: pointer;
+  color: #0d6efd;
+}
+.agance-component .myalert .my-btn {
+  margin-top: 20px;
+}
+.agance-component .myalert .eimoji-icon {
+  margin-right: 15px;
+  color: #0d6efd;
+}
+.agance-component .page-title {
+  margin-left: 25px;
+  display: inline;
+  cursor: pointer;
+}
+.agance-component .page-title i:hover {
+  color: blue;
+}
+.agance-component .page-title .active {
+  color: #0d6efd;
+}
+.agance-component .aganceRegister-component {
+  margin-top: 40px;
+}
+.agance-component .aganceRegister-component .file-upload-div {
+  position: relative;
+  padding-right: 25px;
+}
+.agance-component .aganceRegister-component .my-eye-icon {
+  position: absolute;
+  top: 5px;
+  right: 0px;
+  cursor: pointer;
+  color: #0d6efd;
+}
+.agance-component .aganceRegister-component .my-btn {
+  margin-left: 10px;
+}
+.agance-component .aganceRegister-component .upload-img {
+  width: 100px;
+  /* height: 100px; */
+  max-height: 100px;
+  height: auto;
+}
+.agance-component .aganceRegister-component .form-group {
+  padding: 10px 15px;
+}
+.agance-component .aganceRegister-component .form-group p {
+  font-size: 14px;
+}/*# sourceMappingURL=style.css.map */

@@ -78,12 +78,26 @@ export function convertPlaqueToString(plaque: any) {
 export function convertStringToPlaque(plaqueString: any) {
     const splited = plaqueString.split(plaqueSeparator);
 
-    
+   // console.log(45, splited[0], splited[1], splited[1] !== 'undefined' ? splited[1] : '');
+
+    return {
+        twoDigit: splited[0] !== 'undefined' ? splited[0] : '',
+        threeDigit: splited[1] !== 'undefined' ? splited[1] : '',
+        character: splited[2],
+        serial: splited[3] !== 'undefined' ? splited[3] : ''
+    };
+}
+
+export function convertStringToPlaqueForAgance(plaqueString: any) {
+    const splited = plaqueString.split(plaqueSeparator);
+
+    //console.log(45, splited);
+
     return {
         twoDigit: splited[0],
         threeDigit: splited[1],
-        character: splited[2],
-        serial: splited[3]
+        character: splited[3],
+        serial: splited[2]
     };
 }
 

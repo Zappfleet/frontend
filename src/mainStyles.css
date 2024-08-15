@@ -10,15 +10,26 @@
   font-weight: 900;
   font-display: swap;
 }
-ol, ul, li, a, input, button {
+ol,
+ul,
+li,
+a,
+input,
+button {
   border: none;
   outline: none;
-  list-style: none; /* Removes bullets/numbers from lists */
-  padding: 0; /* Removes default padding */
-  margin: 0; /* Removes default margin */
-  color: inherit; /* Inherits color from parent elements */
-  text-decoration: none; /* Removes underline from links */
-  box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+  list-style: none;
+  /* Removes bullets/numbers from lists */
+  padding: 0;
+  /* Removes default padding */
+  margin: 0;
+  /* Removes default margin */
+  color: inherit;
+  /* Inherits color from parent elements */
+  text-decoration: none;
+  /* Removes underline from links */
+  box-sizing: border-box;
+  /* Ensures padding and border are included in the element's total width and height */
 }
 
 body {
@@ -184,6 +195,39 @@ body {
   background-color: #0d6efd;
   color: white;
   border-radius: 5px;
+}
+
+.my-btn-inactive {
+  background-color: gray;
+}
+
+.validate {
+  position: absolute;
+  /* bottom: 0px; */
+  font-size: 12px;
+  right: 0px;
+  top: 10px;
+  color: red;
+}
+.validate .error-msg {
+  display: none;
+}
+
+.validate:hover {
+  cursor: pointer;
+}
+.validate:hover .error-msg {
+  display: block;
+  width: -moz-fit-content;
+  width: fit-content;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: whitesmoke;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.require {
+  color: red;
 }
 
 .flex-end {

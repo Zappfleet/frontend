@@ -12,6 +12,8 @@ import { getApiClient } from '../../apis/client';
 import { NotificationController } from '../../lib/notificationController';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { storeTokens } from './utils';
+import { LOGIN_TITLE } from '../../CustomForCustomer/constatns';
+
 
 const validationRules = {
   username: {
@@ -38,7 +40,7 @@ const SignIn = () => {
   };
 
   function handle_login(e: any) {
-   // console.log(1200);
+    // console.log(1200);
 
     e.preventDefault();
 
@@ -46,7 +48,7 @@ const SignIn = () => {
     //console.log(7000);
 
     const isInvalid = validate(formData);
-   // console.log(500, isInvalid);
+    // console.log(500, isInvalid);
 
     if (isInvalid) return;
 
@@ -70,16 +72,19 @@ const SignIn = () => {
       });
   }
 
+  console.log(22, LOGIN_TITLE);
+
   return (
     <>
       <div className="row">
         <div className="col-12">
           <div className="signin-component">
             <div className="login">
-              <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                ورود به حساب کاربری
-              </h2>
-
+              <div className="title">
+                {/* ورود به حساب کاربری */}
+                <p style={{whiteSpace: 'pre'}}> {LOGIN_TITLE} </p>
+              
+              </div>
               <form ref={signinFormRef}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">

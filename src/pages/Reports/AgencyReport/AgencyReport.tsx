@@ -17,7 +17,7 @@ import useReportAgency from '../../../hooks/data/reports/useReportAgency';
 
 export default function AgencyReport({ handleBackClick, title }: any) {
 
-  console.log(21);
+ // console.log(21);
 
   const { result } = useReportAgency()
   const [items, setItems] = useState<any>(null)

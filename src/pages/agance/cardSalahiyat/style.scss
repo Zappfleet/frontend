@@ -1,0 +1,53 @@
+@import '../../../variable';
+
+.aganceRegister-component {
+    position: relative;
+    margin-bottom: 40px;
+
+    .back-icon{
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        color: $color-base;
+        cursor: pointer;
+    }
+
+    .form-group {
+        padding: 10px 15px;
+        p{
+            font-size: 14px;
+        }
+        input{
+            // max-width: 300px;
+        }
+    }
+
+    .myalert {
+        position: absolute;
+        width: fit-content;
+        top: 30px;
+
+        .alert {
+            padding: 30px 40px;
+            background-color: white;
+            text-align: center;
+        }
+
+        .close-icon {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            cursor: pointer;
+            color: $color-base;
+        }
+
+        .my-btn {
+            margin-top: 20px;
+        }
+
+        .eimoji-icon {
+            margin-right: 15px;
+            color: $color-base;
+        }
+    }
+}

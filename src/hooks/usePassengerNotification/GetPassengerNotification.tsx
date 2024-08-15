@@ -11,7 +11,7 @@ const GetPassengerNotification = () => {
         console.log(4555);
 
         try {
-            console.log(7888);
+           // console.log(7888);
             
             NotificationController.showSuccess(payload.notif.message)
         } catch (error) {

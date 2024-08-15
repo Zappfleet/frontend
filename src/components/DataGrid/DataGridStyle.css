@@ -1,9 +1,18 @@
 .datagrid-component {
   font-size: 14px;
+  position: relative;
 }
 .datagrid-component .grid-height {
   min-height: 400px;
   overflow: auto;
+}
+.datagrid-component .row-delete,
+.datagrid-component .row-edit {
+  cursor: pointer;
+}
+.datagrid-component .row-delete:hover,
+.datagrid-component .row-edit:hover {
+  color: #0d6efd;
 }
 .datagrid-component .datetime-input {
   border: none;

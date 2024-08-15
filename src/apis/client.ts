@@ -74,7 +74,7 @@ class ApiClient {
   }
 
   async login(body: any) {
-   // console.log(1000, "/api/v2/users/sign-in");
+    // console.log(1000, "/api/v2/users/sign-in");
 
     return this.axiosInstance.post(`/api/v2/users/sign-in`, body);
   }
@@ -172,7 +172,7 @@ class ApiClient {
   }
 
   async getReportAgencyCost() {
-   // const params = createParams(undefined, dateFilter);
+    // const params = createParams(undefined, dateFilter);
     return this.axiosInstance.get(`/api/v2/reports/agency-costs`);
   }
 
@@ -185,7 +185,7 @@ class ApiClient {
 
   async getReportDriverGeneral(driver_id?: string, dateFilter?: any) {
     //console.log(122,dateFilter);
-    
+
     const params = createParams(undefined, dateFilter);
     return this.axiosInstance.get(
       `/api/v2/reports/driver-general/${driver_id}`,
@@ -214,8 +214,7 @@ class ApiClient {
 
 
   async getCountOfServices(status: string, fromDate: any, toDate: any) {
-    //console.log(77, status);
-
+  
     const params = {
       status: status,
       fromdate: fromDate,
@@ -233,7 +232,7 @@ class ApiClient {
     driverID: any
   ) {
     //console.log(100);
-    
+
     return await this.axiosInstance.get(`/api/v2/services/missions/getMissions_by_StatusAndDriverID`, {
       params: createParams(status, driverID),
     });
@@ -289,7 +288,7 @@ class ApiClient {
 
 
   async getRestOfServices(status: string, fromDate: any, toDate: any) {
-    console.log(77, status,fromDate,toDate);
+    console.log(77, status, fromDate, toDate);
 
     const params = {
       status: status,
@@ -354,7 +353,9 @@ class ApiClient {
   }
 
   async updateRequestStatus(request_id: string, status: string) {
-    return await this.axiosInstance.patch(
+    console.log(8,`/api/v2/services/requests/${status}/${request_id}`);
+    
+    return await this.axiosInstance.get(
       `/api/v2/services/requests/${status}/${request_id}`
     );
   }
@@ -437,7 +438,7 @@ class ApiClient {
 
   async getListOfConcerningMissionsAreal(status: string, dateFilter: any, paging: any) {
     //console.log(79,paging);
-    
+
     return await this.axiosInstance.get(`/api/v2/services/missions/areal`, {
       params: createParams(status, dateFilter, paging),
     });
@@ -446,19 +447,19 @@ class ApiClient {
   async getListOfConcerningMissionsAsPassenger(
     status: string,
     dateFilter: any,
-    paging:any
+    paging: any
   ) {
     return await this.axiosInstance.get(`/api/v2/services/missions/passenger`, {
-      params: createParams(status, dateFilter,paging),
+      params: createParams(status, dateFilter, paging),
     });
   }
 
 
 
 
-  async getListOfConcerningMissionsAsDriver(status: string, dateFilter: any,paging:any) {
+  async getListOfConcerningMissionsAsDriver(status: string, dateFilter: any, paging: any) {
     return await this.axiosInstance.get(`/api/v2/services/missions/driver`, {
-      params: createParams(status, dateFilter,paging),
+      params: createParams(status, dateFilter, paging),
     });
   }
 
@@ -502,7 +503,7 @@ class ApiClient {
   }
 
   async update_FavoriteLocation(item: any) {
-    return this.axiosInstance.put(`/api/v2/favoriteLocations/update_FavoriteLocation/${item._id}`, {item});
+    return this.axiosInstance.put(`/api/v2/favoriteLocations/update_FavoriteLocation/${item._id}`, { item });
   }
 
   async delete_FavoriteLocation(_id: string) {
@@ -569,7 +570,7 @@ class ApiClient {
       key: key,
       item: item
     }
-   // console.log(789);
+    // console.log(789);
     return await this.axiosInstance.get(`/api/v2/restrict/selectSetWorkingWeek`, { params });
   }
 
@@ -587,6 +588,386 @@ class ApiClient {
       }
     );
   }
+
+
+  //agance
+  async insert_Agance(body: any) {
+    try {
+
+      return this.axiosInstance.post(
+        `/api/v2/agance/insert_Agance`,
+        body
+      );
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+  async update_Agance(body: any) {
+    try {
+      const _id = body._id
+      return this.axiosInstance.put(`/api/v2/Agance/update_Agance/${_id}`, body);
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+
+  async select_Agance() {
+    //console.log(8989);
+
+    try {
+      return this.axiosInstance.get(
+        `/api/v2/Agance/select_Agance`
+      );
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+
+  async delete_Agance(id: string) {
+    try {
+      return this.axiosInstance.delete(`/api/v2/Agance/delete_Agance/${id}`);
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+
+  //sodureParvane
+  async insert_sodureParvane(body: any) {
+    try {
+
+      return this.axiosInstance.post(
+        `/api/v2/agance/insert_sodureParvane`,
+        body
+      );
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+  async update_sodureParvane(body: any) {
+    try {
+      const _id = body._id
+      return this.axiosInstance.put(`/api/v2/agance/update_sodureParvane/${_id}`, body);
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+
+  async select_sodureParvane() {
+    //console.log(8989);
+
+    try {
+      return this.axiosInstance.get(
+        `/api/v2/agance/select_sodureParvane`
+      );
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+
+  async delete_sodureParvane(id: string) {
+    try {
+      return this.axiosInstance.delete(`/api/v2/agance/delete_sodureParvane/${id}`);
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+
+
+  //aganceDriver
+  async insert_AganceDriver(body: any) {
+    try {
+
+      return this.axiosInstance.post(
+        `/api/v2/agance/insert_AganceDriver`,
+        body
+      );
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+  async update_AganceDriver(body: any) {
+    try {
+      const _id = body._id
+      return this.axiosInstance.put(`/api/v2/Agance/update_AganceDriver/${_id}`, body);
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+
+  async select_AganceDriver() {
+    //console.log(8989);
+
+    try {
+      return this.axiosInstance.get(
+        `/api/v2/Agance/select_AganceDriver`
+      );
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+
+  async delete_AganceDriver(id: string) {
+    try {
+      return this.axiosInstance.delete(`/api/v2/Agance/delete_AganceDriver/${id}`);
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+  //aganceVehicle
+  async insert_AganceVehicle(body: any) {
+    try {
+
+      return this.axiosInstance.post(
+        `/api/v2/agance/insert_AganceVehicle`,
+        body
+      );
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+  async update_AganceVehicle(body: any) {
+    try {
+      const _id = body._id
+      return this.axiosInstance.put(`/api/v2/Agance/update_AganceVehicle/${_id}`, body);
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+
+  async select_AganceVehicleByDriverID(driver_user: any) {
+    const params = {
+      driver_user: driver_user,
+    }
+    //console.log(7888,params);
+
+    try {
+      return this.axiosInstance.get(
+        `/api/v2/Agance/select_AganceVehicleByDriverID`, { params }
+      );
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+  async select_AganceVehicle() {
+    //console.log(8989);
+
+    try {
+      return this.axiosInstance.get(
+        `/api/v2/Agance/select_AganceVehicle`
+      );
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+
+  async delete_AganceVehicle(id: string) {
+    try {
+      return this.axiosInstance.delete(`/api/v2/Agance/delete_AganceVehicle/${id}`);
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+
+
+  //carteSalahiyat
+  async insert_carteSalahiyat(body: any) {
+    try {
+
+      return this.axiosInstance.post(
+        `/api/v2/agance/insert_carteSalahiyat`,
+        body
+      );
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+  async update_carteSalahiyat(body: any) {
+    try {
+      const _id = body._id
+      return this.axiosInstance.put(`/api/v2/agance/update_carteSalahiyat/${_id}`, body);
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+
+  async select_carteSalahiyat() {
+    //console.log(8989);
+
+    try {
+      return this.axiosInstance.get(
+        `/api/v2/agance/select_carteSalahiyat`
+      );
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+
+  async delete_carteSalahiyat(id: string) {
+    try {
+      return this.axiosInstance.delete(`/api/v2/agance/delete_carteSalahiyat/${id}`);
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+
+
+  //TarefeAvarez
+  async insert_TarefeAvarez(body: any) {
+    try {
+
+      return this.axiosInstance.post(
+        `/api/v2/agance/insert_TarefeAvarez`,
+        body
+      );
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+  async update_TarefeAvarez(body: any) {
+    try {
+      const _id = body._id
+      return this.axiosInstance.put(`/api/v2/agance/update_TarefeAvarez/${_id}`, body);
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+
+  async select_TarefeAvarez() {
+    //console.log(8989);
+
+    try {
+      return this.axiosInstance.get(
+        `/api/v2/agance/select_TarefeAvarez`
+      );
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+
+  async delete_TarefeAvarez(id: string) {
+    try {
+      return this.axiosInstance.delete(`/api/v2/agance/delete_TarefeAvarez/${id}`);
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+
+
+  //MoayeneFani
+  async insert_MoayeneFani(body: any) {
+    try {
+
+      return this.axiosInstance.post(
+        `/api/v2/agance/insert_MoayeneFani`,
+        body
+      );
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+  async update_MoayeneFani(body: any) {
+    try {
+      const _id = body._id
+      return this.axiosInstance.put(`/api/v2/agance/update_MoayeneFani/${_id}`, body);
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+
+  async select_MoayeneFani() {
+    //console.log(8989);
+
+    try {
+      return this.axiosInstance.get(
+        `/api/v2/agance/select_MoayeneFani`
+      );
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+
+  async delete_MoayeneFani(id: string) {
+    try {
+      return this.axiosInstance.delete(`/api/v2/agance/delete_MoayeneFani/${id}`);
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
+  //selectAganceProfileByDriverId
+  async selectAganceProfileByDriverId(driverId: any) {
+    //console.log(8989);
+    const params = {
+      driverId: driverId
+    }
+
+    try {
+      return this.axiosInstance.get(
+        `/api/v2/agance/selectAganceProfileByDriverId`, { params }
+      );
+    } catch (error) {
+      console.error('API Client Error:', error);
+      throw error;
+    }
+  }
+
 }
 
 function createParams(status?: string, dateFilter?: any, paging?: any) {

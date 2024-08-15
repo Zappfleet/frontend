@@ -1,0 +1,61 @@
+@import '../../../variable';
+
+.WordProcessor-component {
+    padding: 10px 0px;
+
+
+    .print-icon {
+        color: $color-base;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .eye-icon {
+        color: $color-base;
+        cursor: pointer;
+        margin-right: 15px;
+    }
+
+    .myPrint {
+
+        position: fixed;
+        z-index: 2;
+        display: flex;
+        /* padding: 25px 0px; */
+        justify-content: center;
+        align-items: flex-start;
+        background-color: rgba(0, 0, 0, 0.9);
+        padding-top: 20px;
+        top: 15%;
+        width: 60vw;
+        height: 60vh;
+
+        .close-icon {
+            position: absolute;
+            color: $color-base;
+            cursor: pointer;
+            top: 20px;
+            left: 20px;
+        }
+
+        img {
+            width: fit-content;
+            height: 100%;
+        }
+
+        .word-image {
+            width: 100px;
+            height: 100px;
+        }
+
+        .upload-img {
+            background-color: white;
+            width: fit-content !important;
+            /* height: 100px; */
+            // max-height: 100px;
+            height: auto;
+            padding: 20px 30px;
+            border-radius: 5px;
+        }
+    }
+}

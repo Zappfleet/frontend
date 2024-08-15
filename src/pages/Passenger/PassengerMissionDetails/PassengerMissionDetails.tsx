@@ -189,7 +189,7 @@ const PassengerMissionDetails = (props: any) => {
         })
 
 
-        console.log(122, mapLength, origin, destination, waypoints);
+      //  console.log(122, mapLength, origin, destination, waypoints);
 
 
 

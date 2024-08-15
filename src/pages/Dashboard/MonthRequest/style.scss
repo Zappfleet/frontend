@@ -1,0 +1,23 @@
+.MonthRequest-component {
+    background-color: white;
+    padding: 30px 20px;
+
+    .linechart {
+        padding: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .my-select{
+        width: fit-content;
+        float: left;
+        margin-left: 30px;
+        
+    }
+
+    .my-select:focus{
+        background-color: none !important;
+    }
+    
+}

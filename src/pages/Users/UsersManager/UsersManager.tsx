@@ -67,7 +67,7 @@ function combineValidationRules(additionalSignUpFields: any = {}) {
 }
 
 const UsersManager = () => {
-  console.log(21);
+ // console.log(21);
 
   const { hasPermitGroup, hasPermitFor, hasAdminRank, permits } =
     useCurrentUserPermissions();
@@ -132,11 +132,11 @@ const UsersManager = () => {
 
 
   useEffect(() => {
-    console.log(4, userList);
+    //console.log(4, userList);
 
     if (userList && roleData) {
       const k = processUserList(userList, roleData);
-      console.log(100, k);
+     // console.log(100, k);
 
     }
   }, [userList])

@@ -1,0 +1,15 @@
+.alert-component {
+  position: absolute;
+  top: auto;
+  left: auto;
+  width: -moz-fit-content;
+  width: fit-content;
+  background-color: white;
+  padding: 40px 40px;
+  border-radius: 5px;
+  z-index: 5;
+}
+.alert-component .my-btn {
+  margin-top: 20px;
+  margin-right: 10px;
+}/*# sourceMappingURL=style.css.map */

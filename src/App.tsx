@@ -11,6 +11,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { sendEnvToAndroidClient } from './pages/Authentication/utils';
 import useNavigationMenu from './hooks/useNavigationMenu';
 
+import './CustomForCustomer/CustomStyle/zarghan/style.scss'
+
 const DefaultLayout = lazy(() => import('./layout/DefaultLayout/DefaultLayout'));
 
 function App() {
@@ -23,32 +25,34 @@ function App() {
 
   return (
     <>
-      <ToastContainer style={{ zIndex: 10000000 }} />
-      <Routes>
-        <Route path="/auth/signin" element={<SignIn />} />
-        <Route path="/auth/signup" element={<SignUp />} />
-        <Route element={<DefaultLayout />}>
-          <Route index element={<ECommerce />} />
-          {routes
-            .filter(({ path }) => {
-              return navigatioMenu?.find(({ href }: any) => {
-                //  console.log('D');
-                return path == href || `${path}/` == href || path == `${href}/`;
-              });
-            })
-            .map(({ path, component: Component }) => (
-              <Route
-                path={path}
-                key={path}
-                element={
-                  <Suspense fallback={<Loader />}>
-                    <Component />
-                  </Suspense>
-                }
-              />
-            ))}
-        </Route>
-      </Routes>
+      <div className={import.meta.env.VITE_CUSTOMER_NAME}>
+        <ToastContainer style={{ zIndex: 10000000 }} />
+        <Routes>
+          <Route path="/auth/signin" element={<SignIn />} />
+          <Route path="/auth/signup" element={<SignUp />} />
+          <Route element={<DefaultLayout />}>
+            <Route index element={<ECommerce />} />
+            {routes
+              .filter(({ path }) => {
+                return navigatioMenu?.find(({ href }: any) => {
+                  //  console.log('D');
+                  return path == href || `${path}/` == href || path == `${href}/`;
+                });
+              })
+              .map(({ path, component: Component }) => (
+                <Route
+                  path={path}
+                  key={path}
+                  element={
+                    <Suspense fallback={<Loader />}>
+                      <Component />
+                    </Suspense>
+                  }
+                />
+              ))}
+          </Route>
+        </Routes>
+      </div>
     </>
   );
 }

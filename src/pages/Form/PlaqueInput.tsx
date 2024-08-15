@@ -12,10 +12,11 @@ export default function PlaqueInput({ small, disabled, onChange, defaultValue, i
     const serialRef = useRef<any>();
 
     
+    //console.log(100,defaultValue,value);
     
 
     const [state, setState] = useState(defaultValue || {});
-   // console.log(74,value,state);
+   //console.log(74,value);
     const handleOnChange = (e: any, ref: any) => {
         const inputName = e.target.name;
         const maxLength = e.target.maxLength;
@@ -51,7 +52,7 @@ export default function PlaqueInput({ small, disabled, onChange, defaultValue, i
                 onChange={(e) => handleOnChange(e, characterRef)}
                 autoComplete="off"
                 ref={serialRef}
-                value={value?.serial || state.serial || ''}
+                value={value?.serial || state?.serial || ''}
             />
             <input
                 disabled={disabled}
@@ -62,10 +63,10 @@ export default function PlaqueInput({ small, disabled, onChange, defaultValue, i
                 onChange={(e) => handleOnChange(e, serialRef)}
                 autoComplete="off"
                 ref={threeDigitRef}
-                value={value?.threeDigit || state.threeDigit || ''}
+                value={value?.threeDigit || state?.threeDigit || ''}
             />
             {disabled ?
-                <span className='px-2'>{value?.character || state.character}</span> :
+                <span className='px-2'>{value?.character || state?.character}</span> :
                 <select
                     disabled={disabled}
                     className="plaque-input min-w-min"
@@ -73,7 +74,7 @@ export default function PlaqueInput({ small, disabled, onChange, defaultValue, i
                     onChange={(e) => handleOnChange(e, threeDigitRef)}
                     autoComplete="off"
                     ref={characterRef}
-                    value={value?.character || state.character}
+                    value={value?.character || state?.character}
                 >
                     {plaqueLevels.map((p, index) => {
                         return (
@@ -95,7 +96,7 @@ export default function PlaqueInput({ small, disabled, onChange, defaultValue, i
                 onChange={(e) => handleOnChange(e, characterRef)}
                 autoComplete="off"
                 ref={twoDigitRef}
-                value={value?.twoDigit || state.twoDigit || ''}
+                value={value?.twoDigit || state?.twoDigit || ''}
             />
             <img src={PlaqueImg} alt="plq" className="plaque-img" />
         </div>

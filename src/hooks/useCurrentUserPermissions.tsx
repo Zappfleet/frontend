@@ -37,11 +37,29 @@ export default function useCurrentUserPermissions() {
       .some((resultIsTrue: boolean) => resultIsTrue);
   }
 
+  function initialPermit(menuItem: any) {
+   // console.log(78,menuItem, menuItem.split('.')[0]);
+
+    let result = true
+    const notAllowed = import.meta.env.VITE_NOT_ALLOWED_MENU ? JSON.parse(import.meta.env.VITE_NOT_ALLOWED_MENU) : []
+    notAllowed.map((item: any) => {
+      if (menuItem.split('.')[0] === item || menuItem === item) {
+        result = false
+      }
+    })
+    return result
+  }
+
   function hasPermitGroup(checkPermit: string[]) {
     return checkPermit.every((item) => {
       if (!permits) return null;
       for (let i = 0; i < permits.length; i++) {
-        if (permits[i].startsWith(item)) return true;
+        if (initialPermit(item)) {
+          if (permits[i].startsWith(item)) return true;
+        }
+        else {
+          return false
+        }
       }
       return false;
     });
@@ -108,8 +126,8 @@ export default function useCurrentUserPermissions() {
     }
 
     //console.log(700,checkPermit,permits);
-    
-    return checkPermit.every((item) => permits?.includes(item));
+
+    return checkPermit.every((item) => initialPermit(item) ? permits?.includes(item) : false);
   }
 
 

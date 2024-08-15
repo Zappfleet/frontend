@@ -5,7 +5,7 @@ import Sidebar from '../Sidebar/Sidebar';
 import { Outlet, useNavigate } from 'react-router-dom';
 import useAuthentication from '../../hooks/data/useAuthentication';
 import Loader from '../../common/Loader';
-import { LOGIN_PAGE } from '../../lib/constants';
+import { DB_ROLE_MOSAFER_TITLE, LOGIN_PAGE } from '../../lib/constants';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
 import SendCurrentLocations from '../../hooks/useCurrentLocations/SendCurrentLocations';
@@ -30,7 +30,7 @@ const DefaultLayout = () => {
       //console.log(555, authInfo?.auth?._id);
 
       try {
-        setIsPassenger(authInfo?.auth?.roles?.some((x: any) => x._id === '663902a12733b1e14bcde2f4'));
+        setIsPassenger(authInfo?.auth?.roles?.some((x: any) => x.title === DB_ROLE_MOSAFER_TITLE));
       } catch {
         setIsPassenger(undefined);
       }

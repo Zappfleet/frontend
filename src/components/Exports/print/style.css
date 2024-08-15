@@ -1,0 +1,12 @@
+.print-component {
+  margin-left: 10px;
+  display: inline;
+}
+.print-component .my-icon {
+  color: #0d6efd;
+  font-size: 16px;
+  cursor: pointer;
+}
+.print-component .my-icon:hover {
+  color: blue;
+}/*# sourceMappingURL=style.css.map */

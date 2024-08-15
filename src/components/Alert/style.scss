@@ -1,0 +1,18 @@
+
+@import '../../variable';
+.alert-component{
+    position: absolute;
+    top: auto;
+    left: auto;
+    width: fit-content;
+    background-color: white;
+    padding: 40px 40px;
+    border-radius: 5px;
+    z-index: 5;
+
+    .my-btn{
+        margin-top: 20px;
+        margin-right: 10px;
+    }
+
+}

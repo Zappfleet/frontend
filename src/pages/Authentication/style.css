@@ -1,0 +1,24 @@
+.signin-component {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  height: 100vh;
+}
+.signin-component .login {
+  max-width: 1000px;
+  background-color: whitesmoke;
+  padding: 30px 40px;
+  border-radius: 10px;
+}
+.signin-component .my-btn {
+  width: 100%;
+}
+.signin-component .title {
+  margin-bottom: 50px;
+  text-align: center;
+  font-weight: bold;
+}
+.signin-component .title pre {
+  font-family: inherit;
+}/*# sourceMappingURL=style.css.map */

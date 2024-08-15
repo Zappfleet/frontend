@@ -27,7 +27,7 @@ export default function useComments(refreshHook: any, action_name: any, mission_
 
             case "insert":
                 setState({ ...state, in_progress: true })
-                console.log(7888,mission_id,comment);
+                //console.log(7888,mission_id,comment);
 
                 getApiClient().saveMissionComment(mission_id, comment)
                     .then(resp => {

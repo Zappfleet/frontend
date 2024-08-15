@@ -1,0 +1,32 @@
+.AganceDriver-component .my-step-active {
+  color: #0d6efd !important;
+}
+.AganceDriver-component .gridRow {
+  margin-top: 30px;
+}
+.AganceDriver-component .inactive {
+  background-color: #e9ecef;
+  color: gray;
+}
+.AganceDriver-component .upRow {
+  margin-bottom: 30px;
+}
+.AganceDriver-component .my-step {
+  margin-top: 30px;
+  position: relative;
+  display: inline;
+  margin-right: 15px;
+  border-bottom: 1px solid #A1E2D9;
+  color: black;
+  cursor: pointer;
+}
+.AganceDriver-component .my-step .tik-icon {
+  position: absolute;
+  color: white;
+  top: -16px;
+  right: -10px;
+  background-color: green;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 10px;
+}/*# sourceMappingURL=style.css.map */

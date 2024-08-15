@@ -25,6 +25,8 @@ import renderUi from '../../../lib/renderUi';
 import ModularForm from '../../../widgets/ModularForm';
 import { useLocation } from 'react-router-dom';
 import useFavorite from '../../../hooks/data/Favorite/useFavorite';
+import moment from 'jalali-moment';
+import { persianDateToGregorian } from '../../../utils/utils';
 
 
 
@@ -33,7 +35,7 @@ export const MODE_ADMIN_ONLY = 'admin-only';
 
 const PassengerServiceRequest = (props: any = {}) => {
 
-  // console.log(300, props);
+   console.log(5);
   const { result: resultFavorite } = useFavorite(true, 'select', null)
   const { mode: componentMode = MODE_USER_ONLY } = props;
   const internalState = useState<any>(props.initialValues || {});
@@ -51,10 +53,10 @@ const PassengerServiceRequest = (props: any = {}) => {
 
   const { authInfo } = useAuthentication();
 
-useEffect(()=>{
-//console.log(745,authInfo?.org?.additionalRequestFields);
+  useEffect(() => {
+    //console.log(745,authInfo?.org?.additionalRequestFields);
 
-},[authInfo])
+  }, [authInfo])
   //sgh
   useEffect(() => {
     if (type === "update") {
@@ -77,7 +79,7 @@ useEffect(()=>{
       : internalUserInput;
 
   useEffect(() => {
-   // console.log(120, userInput);
+    // console.log(120, userInput);
 
   }, [userInput])
 
@@ -124,7 +126,7 @@ useEffect(()=>{
     });
   }, []);
 
-  
+
 
   const updateInbetweenLines = (newLocations: any) => {
     if (searchState.inProgress || mapRef.current == null) return;
@@ -217,17 +219,17 @@ useEffect(()=>{
 
   const handle_submitRequest = (e: any) => {
     console.log(1);
-    
+
     e.preventDefault();
 
     const body = buildRequestBody(formState, userInput, type, submitted_by);
 
-    console.log(2,props.overrideOnSubmit,body,formState._id);
-    
+    console.log(2, props.overrideOnSubmit, body, formState._id);
+
     if (props.overrideOnSubmit != null) {
       props.overrideOnSubmit(body, formState._id);
       handle_hideBottomSheet();
-    //  return;
+      //  return;
     }
 
     const method = formState._id == null ? 'submitRequest' : 'updateRequest';
@@ -236,8 +238,8 @@ useEffect(()=>{
     getApiClient()
     [method](body, formState._id)
       .then(({ data }) => {
-        console.log(320,data);
-        
+        console.log(320, data);
+
         NotificationController.showSuccess('اطلاعات با موفقیت ذخیره شد');
         setFormState({});
         clearMapMarkers();
@@ -250,7 +252,29 @@ useEffect(()=>{
   };
 
   const handle_onInputChanged = (e: any) => {
+    // if (e.target.name === 'datetime') {
+    //   // Suppose e.target.value is an array of date strings, and you want to get the first one
+    //   let x = (e.target.value)[0].format('YYYY/MM/DD'); // Assuming e.target.value[0] is a moment object
+    //   let y = persianDateToGregorian(x); // Convert to Gregorian date
+
+    //   // Convert y (Gregorian date) to a moment object
+    //   let yMoment = moment(y, 'M/D/YYYY'); // Assuming y is in 'M/D/YYYY' format
+
+    //   // Get today's date as a moment object
+    //   let today = moment().startOf('day'); // Start of the day to ignore the time part
+
+    //   // Compare the dates
+    //   if (yMoment.isBefore(today)) {
+    //     NotificationController.showError('امکان انتخاب تاریخ های قبل از امروز وجود ندارد');
+    //   } else {
+    //     setFormState({ ...formState, [e.target.name]: e.target.value });
+    //   }
+
+    // }
+    // else {
     setFormState({ ...formState, [e.target.name]: e.target.value });
+    //}
+
   };
 
   const handleSelectFavorite = (item: any) => {
@@ -259,7 +283,7 @@ useEffect(()=>{
   }
 
   const showDriverOnMap = () => {
-    console.log(55);
+   // console.log(55);
     const [lng, lat] = [52.808064, 29.88258900000001]
     mapRef.current?.addMarker(5879388.492312675, 3488877.5134539823, false, carIcon)
 
@@ -283,7 +307,7 @@ useEffect(()=>{
         />
 
         <div className="showFavoriteLocation">
-          {resultFavorite?.data?.map((item: any,index:any) => {
+          {resultFavorite?.data?.map((item: any, index: any) => {
             return <div key={index} onClick={() => handleSelectFavorite(item)} className='favorite-name'>
               {item.name}
             </div>
@@ -307,7 +331,7 @@ useEffect(()=>{
 
           <span className="flex-center">
             {/* <i className='fa fa-search' onClick={showDriverOnMap}></i> */}
-            <button  onClick={handle_clickPin} className="my-btn"><i className="fas fa-thumbtack"></i> انتخاب ایستگاه</button>
+            <button onClick={handle_clickPin} className="my-btn"><i className="fas fa-thumbtack"></i> انتخاب ایستگاه</button>
 
             {/* <button
               onClick={handle_clickPin}
@@ -328,7 +352,7 @@ useEffect(()=>{
                 color={'white'}
               />
             </button> */}
- 
+
 
             <button
               onClick={handle_showBottomSheet}

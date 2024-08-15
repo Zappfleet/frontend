@@ -9,7 +9,7 @@
 .PassengerMissionDetails-component .location-div {
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 70vh;
 }
 .PassengerMissionDetails-component .car-icon {
   padding: 15px;

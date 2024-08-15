@@ -17,11 +17,11 @@ const SHOW_TRIP = "نمایش سفر"
 
 export default function MissionHistory(props: any = {}) {
     const { mode, paging, status } = props;
-    const showAsDriver = mode == MODE_DRIVER
+    const showAsDriver = mode === MODE_DRIVER
     // console.log(52,status,paging);
 
-    const { missions }: any = useMissions({ mode, status, paging });
-console.log(741,missions);
+    const { missions }: any = showAsDriver === true ? useMissions({ mode, status, paging }) : []
+  //  console.log(741, missions);
 
     const {
         items: expandedRows,
@@ -55,11 +55,11 @@ console.log(741,missions);
 
 
     const showComment = (mission: any) => {
-       // console.log(800, mission);
+        // console.log(800, mission);
 
         const myComments = mission?.extra?.comments ? mission.extra.comments : undefined;
         const result = myComments?.map((item: any) => {
-           // console.log(10, item, item.emojiID, emojiLib.find(ite => ite.key === item.emojiID)?.icon);
+            // console.log(10, item, item.emojiID, emojiLib.find(ite => ite.key === item.emojiID)?.icon);
 
             return <>
                 <div className='com0'>

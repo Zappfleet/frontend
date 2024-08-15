@@ -1,0 +1,40 @@
+.DarkhasthayeTafkikShode-component {
+    background-color: white;
+    margin-bottom: 30px;
+padding: 15px;
+    border-radius: 5px;
+
+    .list {
+        border: 1px solid #ADB1B8;
+        padding: 5px;
+        width: fit-content;
+        border-radius: 5px;
+
+        .my-span {
+            padding: 0px 10px;
+            margin-left: 15px;
+            color: #333A47;
+            cursor: pointer;
+        }
+
+        .active {
+            background-color: #EEEFF1;
+            border:1px solid #EEEFF1;
+        }
+    }
+
+    .chart {
+        display: flex;
+        justify-content: center;
+    }
+
+    .title {
+        color: #171E2B;
+        padding: 15px 15px;
+    }
+
+    .piechart {
+        width: 300px;
+        height: 300px;
+    }
+}

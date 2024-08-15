@@ -1,0 +1,140 @@
+@import '../../../variable';
+
+.agance-component {
+    position: relative;
+    margin-bottom: 40px;
+    margin-top: 40px;
+
+    .form-group {
+        position: relative;
+    }
+
+    .back-icon {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        color: $color-base;
+        cursor: pointer;
+    }
+
+
+    .myAttachImage {
+        position: fixed;
+        z-index: 2;
+        display: flex;
+        /* padding: 25px 0px; */
+        justify-content: center;
+        align-items: flex-start;
+        background-color: rgba(0, 0, 0, 0.9);
+        /* top: 15%; */
+        width: 60vw;
+        height: 60vh;
+
+        .close-icon {
+            position: absolute;
+            color: $color-base;
+            cursor: pointer;
+            top: 20px;
+            left: 20px;
+        }
+
+        img {
+            width: fit-content;
+            height: 100%;
+        }
+    }
+
+    .myalert {
+        position: absolute;
+        z-index: 2;
+        display: flex;
+        padding: 25px 0px;
+        justify-content: center;
+        align-items: flex-start;
+        background-color: rgba(0, 0, 0, 0.9);
+        top: 30px;
+        width: 100%;
+        min-height: 100%;
+
+        .alert {
+            padding: 30px 40px;
+            top: 100px;
+            background-color: white;
+            text-align: center;
+        }
+
+        .close-icon {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            cursor: pointer;
+            color: $color-base;
+        }
+
+        .my-btn {
+            margin-top: 20px;
+        }
+
+        .eimoji-icon {
+            margin-right: 15px;
+            color: $color-base;
+        }
+    }
+
+    .page-title {
+        margin-left: 25px;
+        display: inline;
+        cursor: pointer;
+
+        i:hover {
+            color: blue;
+        }
+
+        .active {
+            color: $color-base;
+        }
+    }
+
+    .aganceRegister-component {
+        margin-top: 40px;
+
+        .file-upload-div {
+            position: relative;
+            padding-right: 25px;
+        }
+
+        .my-eye-icon {
+            position: absolute;
+            top: 5px;
+            right: 0px;
+            cursor: pointer;
+            color: $color-base;
+        }
+
+        .my-btn {
+            margin-left: 10px;
+        }
+
+
+        .upload-img {
+            width: 100px;
+            /* height: 100px; */
+            max-height: 100px;
+            height: auto;
+        }
+
+        .form-group {
+            padding: 10px 15px;
+
+            p {
+                font-size: 14px;
+            }
+
+            input {
+                // max-width: 300px;
+            }
+        }
+
+
+    }
+}

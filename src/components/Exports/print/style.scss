@@ -1,0 +1,15 @@
+@import '../../../variable';
+
+.print-component {
+    margin-left: 10px;
+    display: inline;
+
+    .my-icon {
+        color: $color-base;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .my-icon:hover {
+        color: blue;
+    }
+}

@@ -3,6 +3,25 @@ import jalaliMoment from "jalali-moment";
 /**
  * @param {Object} jalaliDate should contain year , month and day
  */
+
+
+//how conver 5/12/2024 to format("YYYY-MM-DDT00:00:00.000") + "Z"
+export function convertDateToISO(dateString:any) {
+  // Split the input date string (assuming MM/DD/YYYY format)
+  const [month, day, year] = dateString.split('/');
+
+  // Create a new Date object
+  const date = new Date(year, month - 1, day);
+
+  // Convert the Date object to ISO string and format it as required
+  const isoString = date.toISOString();
+
+  // Extract the date part and add the required time part
+ // const formattedDate = isoString.split('T')[0] + "T00:00:00.000Z";
+
+  return isoString;
+}
+
 export function jalaliToIso(jalaliDate:any) {
   if (!jalaliDate) return;
   const d = [jalaliDate?.year, jalaliDate?.month, jalaliDate?.day];

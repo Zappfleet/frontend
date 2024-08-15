@@ -1,0 +1,92 @@
+
+@import '../../../variable';
+.AmarRequest-component {
+    .row-amar {
+        background-color: white;
+        border-radius: 5px;
+        margin: 10px 0px;
+        border: 2px solid #FFFFFF;
+
+        .box {
+            width: 100%;
+            color: black;
+            margin: 15px;
+            text-align: center;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .left-div {
+                text-align: right;
+                border-left: 2px solid whitesmoke;
+            }
+
+            .right-div {
+                text-align: left;
+                margin-left: 10px;
+
+            }
+
+            .icon {
+                padding: 10px;
+                border-radius: 50%;
+                z-index: 5;
+            }
+
+            .icon1 {
+
+                background-color: #DBF4E3;
+                color: #49C673 !important;
+            }
+
+            .icon2 {
+                color: #EF4049;
+                background-color: #FBD3D5;
+
+            }
+
+            .icon3 {
+                color: #FFA130;
+                background-color: #FFE9CF;
+
+            }
+
+            .icon4 {
+                color: #FFC910;
+                background-color: #FFF4CF;
+
+            }
+
+            .title {
+                color: #757C89;
+                font-size: 12px;
+            }
+
+            .count {
+                color: #171E2B;
+                weight: 700;
+            }
+        }
+    }
+
+    .details-div {
+        position: absolute;
+        width: 100%;
+        background: rgb(0, 0, 0, 0.8);
+
+        .close-fa {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: $color-base;
+            cursor: pointer;
+        }
+
+        .datagrid-div {
+            background-color: white;
+            margin: 45px 30px;
+            padding: 20px 20px;
+        }
+    }
+}

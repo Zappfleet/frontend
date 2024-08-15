@@ -1,5 +1,7 @@
 
+import axios from 'axios';
 import moment from 'jalali-moment'
+import { forEach } from 'lodash';
 
 function convertPersianToEnglishDigits(inputString: any) {
   const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
@@ -11,6 +13,19 @@ function convertPersianToEnglishDigits(inputString: any) {
     return englishDigits[persianIndex];
   });
 }
+
+function convertEnglishToPersianDigits(inputString: any) {
+  const englishDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+
+  // Use regular expression to replace each English digit with its Persian counterpart
+  return inputString.replace(/[0-9]/g, (match: any) => {
+    const englishIndex = englishDigits.indexOf(match);
+    return persianDigits[englishIndex];
+  });
+}
+
+
 // Function to convert Persian date string to Gregorian Date object
 function persianDateToGregorian(inputdate: any) {
 
@@ -105,7 +120,7 @@ function translateAction(key: string) {
       return 'تعاریف';
     case 'REPORTS':
       return 'گزارش ها';
-      case 'DASHBOARD':
+    case 'DASHBOARD':
       return 'داشبورد';
     case 'RESTRICTION':
       return 'محدودیت ها';
@@ -113,6 +128,24 @@ function translateAction(key: string) {
       return 'قوانین سیستم';
     case 'DELEGATION':
       return 'تفویض اختیار';
+    case 'AGANCE':
+      return ' آژانس';
+    case 'SODURE_PARVANE':
+      return 'صدور پروانه ';
+    case 'CART_SALAHIYAT':
+      return 'کارت صلاحیت  ';
+    case 'TAMDID_CART_SALAHIYAT':
+      return 'تمدید کارت صلاحیت  ';
+    case 'ESTELAMHAYE_SE_GANE':
+      return 'استعلام های سه گانه ';
+    case 'ESTELAM_AMAKEN':
+      return 'استعلام اماکن ';
+    case 'MOAYENE_FANI':
+      return 'معاینه فنی ';
+    case 'TAREFE_AVAREZ':
+      return 'تعرفه عوارض ';
+    case 'DABIRKHANE':
+      return 'دبیرخانه ';
     case 'PERSONAL':
       return 'فردی';
     case 'ORG':
@@ -200,16 +233,62 @@ const setEndOfDay = (date: any) => {
   return date.setHours(23, 59, 59, 999);
 }
 
+export async function getBase64WithFileName(fileName: string) {
+  console.log(7);
+
+  if (fileName) {
+    const url = import.meta.env.VITE_ENVIRONMENT_NAME === 'local'
+      ? import.meta.env.VITE_BASE_URL
+      : import.meta.env.VITE_BASE_URL_SERVER;
+
+    // console.log(1000, fileName);
+
+
+    //console.log(700, `${url}/uploads/${fileName}`);
+    console.log(8);
+
+    console.log(9, `${url}/uploads/${fileName}`);
+
+    const response = await axios.get(`${url}/uploads/${fileName}`, {
+      responseType: 'arraybuffer',
+    });
+
+    console.log(10, response);
+
+    const base64String = btoa(
+      new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), '')
+    );
+
+    return `data:image/jpeg;base64,${base64String}`
+  }
+};
+
+function CustomAllPermissions(raw_permissions: any) {
+
+  const notAllowed = import.meta.env.VITE_NOT_ALLOWED_MENU ? JSON.parse(import.meta.env.VITE_NOT_ALLOWED_MENU) : []
+
+  let result: any = {}
+  Object.keys(raw_permissions).forEach((key: any) => {
+    if (!notAllowed.includes(key)) {
+      result[key] = raw_permissions[key];
+    }
+  });
+
+  return result;
+}
+
 export {
   convertToJalaliDateTiem,
   secondsToHMS,
   persianDateToGregorian,
   convertPersianToEnglishDigits,
+  convertEnglishToPersianDigits,
   translateAction,
   convertToJalali,
   convertJalaliToGregorian,
   convertGregorianToJalali,
   getDayName,
   setStartOfDay,
-  setEndOfDay
+  setEndOfDay,
+  CustomAllPermissions
 }

@@ -11,4 +11,16 @@
 }
 .RequestManagment-component .lbl-text {
   padding: 25px 5px;
+}
+.RequestManagment-component .my-btn {
+  padding: 10px 25px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.RequestManagment-component .my-btn .car-icon {
+  padding-left: 10px;
+}
+.RequestManagment-component .my-btn:hover {
+  color: whitesmoke;
+  cursor: pointer;
 }/*# sourceMappingURL=style.css.map */
