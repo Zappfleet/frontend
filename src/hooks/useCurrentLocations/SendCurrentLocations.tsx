@@ -46,7 +46,7 @@ function SendCurrentLocations({ vehicleID }: any) {
 
     function sendLocationToServer(lat: any, lng: any, bearing: any, ownerID: any) {
         try {
-            const socket = io(`http://localhost:4000`, {
+            const socket = io(import.meta.env.VITE_BASE_URL, {
                 reconnectionDelayMax: 10000,
                 autoConnect: true,
                 path: import.meta.env.VITE_SOCKET_PATH,

@@ -90,6 +90,7 @@ const validationRules: any = {
     },
     "details.nat_num": {
         required: true,
+        pattern: /^[0-9]{10}$/, // فقط 10 رقم
         showName: ''
     },
     "details.shomare_shenasname": {
@@ -122,16 +123,19 @@ const validationRules: any = {
     // },
     "details.postalCode": {
         required: true,
+        pattern: /^[0-9]{10}$/, // فقط 10 رقم
         showName: ''
     }
     ,
     "details.homePhone": {
         required: true,
+        pattern: /^[0-9]{11}$/, // فقط 11 رقم
         showName: ''
     }
     ,
     phone: {
         required: true,
+        pattern: /^[0-9]{11}$/, // فقط 11 رقم
         showName: ''
     },
     "details.madrakeTahsili": {

@@ -3,6 +3,7 @@ import './style.scss'
 import { MODE_AREAL } from '../../../lib/constants.ts';
 import useRequests from '../../../hooks/data/useRequests.tsx';
 import DataGrid from '../../../components/DataGrid/DataGrid.tsx';
+import { isArray } from 'lodash';
 
 const AmarRequest = () => {
 
@@ -12,7 +13,7 @@ const AmarRequest = () => {
     })
 
     useEffect(() => {
-       // console.log(4, requests);
+        // console.log(4, requests);
 
         showAmarRequests()
     }, [requests])
@@ -29,7 +30,7 @@ const AmarRequest = () => {
         const statusType = ["PENDING", "REJECT", "CONFIRM", "ASSIGNED_TO_MISSION"]//, "HIDDEN"]
         const titles = ["درخواست در انتظار", "درخواست رد شده", "درخواست تایید شده", "درخواست دیده شده"]
         const result = statusType.map((status: any, index: any) => {
-            const items = requests?.filter((r: any) => r.status === status)
+            const items = isArray(requests)? requests?.filter((r: any) => r.status === status):[]
 
 
             //  if (index < 4) {
@@ -70,7 +71,7 @@ const AmarRequest = () => {
                             <div className="datagrid-div">
                                 <DataGrid
                                     pagesize={optionsRequest[0].value}
-                                    items={requests?.filter((r: any) => r.status === status)}
+                                    items={isArray(requests) && requests?.filter((r: any) => r.status === status)}
                                     options={optionsRequest}
                                     thead={theadRequest}
                                 />

@@ -106,7 +106,7 @@ const validationRules: any = {
 
 const initialValue: any = {
     status: "1",
-    activityContext: "1",
+    activityContext: "بار",
     StartActivityDate: '',// moment(new Date()).format('jYYYY/jMM/jDD'),
     name: '',
     managerFullName: '',
@@ -216,6 +216,8 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
     //validate
     const { errors: validateErrors, refreshData: validateRefreshData } = useValidateForm(validationRules, fields)
     useEffect(() => {
+        console.log(100, Object.keys(validateErrors).length);
+
     }, [validateErrors])
 
 
@@ -481,9 +483,9 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p> زمینه فعالیت (بار ، مسافر)  </p>
                                     <select onChange={(e) => setFields({ ...fields, activityContext: e.target.value })}
-                                        className='form-control' value={fields?.activityContext as string || "1"}>
-                                        <option value="1">بار</option>
-                                        <option value="2">مسافر</option>
+                                        className='form-control' value={fields?.activityContext as string || "بار"}>
+                                        <option value="بار">بار</option>
+                                        <option value="مسافر">مسافر</option>
                                     </select>
                                     {validateErrors?.activityContext?.length > 0 &&
                                         <>
@@ -735,7 +737,9 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
 
                             <div className="col-12">
                                 <div className="form-group">
-                                    <button onClick={() => handleClick(InsertOrUpdate === 'insert' ? 'insert' : 'update')} className='my-btn'>
+                                    <button onClick={() => handleClick(InsertOrUpdate === 'insert' ? 'insert' : 'update')}
+                                        className={`my-btn ${Object.keys(validateErrors).length === 0 ? '' : 'my-btn-inactive'}`}
+                                    >
                                         {InsertOrUpdate === 'insert' ? 'ثبت' : 'بروز رسانی'}</button>
                                     <button onClick={() => clearFormInputs()} className='my-btn'>انصراف</button>
                                 </div>

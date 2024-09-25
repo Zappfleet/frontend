@@ -3,6 +3,7 @@
 // import DarkModeSwitcher from './DarkModeSwitcher';
 // import DropdownMessage from './DropdownMessage';
 // import DropdownNotification from './DropdownNotification';
+import { NavLink } from 'react-router-dom';
 import DropdownUser from '../../components/DropdownUser/DropdownUser';
 import './HeaderStyle.scss'
 
@@ -11,10 +12,12 @@ const Header = () => {
     <header className="bg-primary header-component">
       <div className="row header-div">
         <div className="col-12 col-md-2 flex-center">
-          <span className='titlepage'> سامانه ی جامع حمل و نقل زپ</span>
+          <NavLink to={"/"}>
+            <span className='titlepage'>{import.meta.env.VITE_TITLE}</span>
+          </NavLink>
         </div>
 
-       
+
         <div className="col-12 col-md-8 flex-center">
           <div className="search flex-center">
             <input

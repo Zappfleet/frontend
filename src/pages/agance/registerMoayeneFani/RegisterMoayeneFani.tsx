@@ -343,7 +343,7 @@ const RegisterMoayeneFani = ({ handleBackClick, title }: any) => {
 
     return (
 
-        <div className='agance-component'>
+        <div className='agance-component RegisterMoayeneFani-component'>
             {handleBackClick && <i className='fa fa-arrow-left back-icon' onClick={handleBackClick}></i>}
 
             {showAttchImage && <div className="myAttachImage">
@@ -426,11 +426,12 @@ const RegisterMoayeneFani = ({ handleBackClick, title }: any) => {
 
                             <div className="col-6">
                                 <div className="form-group">
-                                    <p> زمینه فعالیت (خودرو سبک یا سنگین)  </p>
+                                    <p> زمینه فعالیت (سبک ، سنگین ، سبک و سنگین)  </p>
                                     <select onChange={(e) => setFields({ ...fields, activityContext: e.target.value })}
                                         className='form-control' value={fields?.activityContext as string || "خودرو سبک"}>
                                         <option value="خودرو سبک">خودرو سبک</option>
                                         <option value="خودرو سنگین">خودرو سنگین</option>
+                                        <option value="خودرو سبک و سنگین">خودرو سبک و سنگین</option>
                                     </select>
                                     {validateErrors?.activityContext?.length > 0 &&
                                         <>

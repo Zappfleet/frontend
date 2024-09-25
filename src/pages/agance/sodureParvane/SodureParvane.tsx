@@ -19,7 +19,7 @@ import Page403 from '../../../components/Page403/Page403';
 
 
 const SodureParvane = ({ handleBackClick, title }: any) => {
-    title = 'صدور پروانه آژانس'
+    title = 'صدور و تمدید پروانه آژانس'
     const { authInfo } = useAuthentication();
     const [theadCRUD, setTheadCRUD] = useState<any>('')
     const [permit, setPermit] = useState<any>({
@@ -322,9 +322,9 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
 
             <div className="row">
                 <div className="col-12">
-                    <div className="page-title">
+                    {/* <div className="page-title">
                         <i onClick={() => { setSelectedTab('list'); setShowAlert(false) }} className={selectedTab === 'list' ? 'active' : ''}>{'لیست  صدور صلاحیت ها'}</i>
-                    </div>
+                    </div> */}
                     <div className="page-title">
                         <i onClick={() => { setSelectedTab('insert'); InsertOrUpdate === 'insert' ? setShowAlert(true) : setShowAlert(false) }} className={selectedTab === 'insert' ? 'active' : ''}>{InsertOrUpdate === 'insert' ? title : 'بروزرسانی آژانس'}</i>
                     </div>
@@ -406,9 +406,11 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
                                     <select
                                         onChange={(e) => setFields({ ...fields, aganceID: e.target.value })}
                                         className='form-control' value={fields?.aganceID || '-1'}>
-                                        {aganceList?.map((item: any) => {
-                                            return <option value={item._id}>{item.name}</option>
-                                        })}
+                                        {aganceList
+                                            ?.filter((item: any) => item.status === '1') // فیلتر کردن آیتم‌هایی که مقدار status آنها 1 است
+                                            .map((item: any) => {
+                                                return <option value={item._id}>{item.name}</option>;
+                                            })}
                                     </select>
 
                                     با اعتبار

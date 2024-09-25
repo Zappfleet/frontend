@@ -1,7 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './style.scss'
-import LogoDark from '../../images/logo/logo-dark.svg';
-import Logo from '../../images/logo/logo.svg';
 import { useRef, useState } from 'react';
 import LoaderButton from '../../components/LoaderButton';
 import { MSG_MIN_LENGTH, MSG_REQUIRED_FIELD } from '../../lib/string';
@@ -10,9 +8,9 @@ import { readFormInputs } from '../../lib/form';
 import ErrorMessage from '../Form/FormErrorMessage';
 import { getApiClient } from '../../apis/client';
 import { NotificationController } from '../../lib/notificationController';
-import useLocalStorage from '../../hooks/useLocalStorage';
 import { storeTokens } from './utils';
 import { LOGIN_TITLE } from '../../CustomForCustomer/constatns';
+import LoginWithGmail from '../../components/LoginWithGmail/LoginWithGmail';
 
 
 const validationRules = {
@@ -82,8 +80,8 @@ const SignIn = () => {
             <div className="login">
               <div className="title">
                 {/* ورود به حساب کاربری */}
-                <p style={{whiteSpace: 'pre'}}> {LOGIN_TITLE} </p>
-              
+                <p style={{ whiteSpace: 'pre' }}> {LOGIN_TITLE} </p>
+
               </div>
               <form ref={signinFormRef}>
                 <div className="mb-4">
@@ -167,6 +165,8 @@ const SignIn = () => {
                   >
                     {'ورود به حساب'}
                   </LoaderButton>
+
+                  <LoginWithGmail />
                 </div>
 
                 <div className="mt-6 text-center">

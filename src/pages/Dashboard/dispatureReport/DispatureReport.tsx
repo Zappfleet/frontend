@@ -6,6 +6,7 @@ import { MODE_AREAL } from '../../../lib/constants';
 import useRegions from '../../../hooks/data/useRegions';
 import useUsers from '../../../hooks/data/useUsers';
 import useRoles from '../../../hooks/data/useRoles';
+import { isArray } from 'lodash';
 
 interface Dispatcher {
     full_name: string;
@@ -47,11 +48,11 @@ const DispatureReport = ({ count, handleShowMore }: any) => {
         // if (!Array.isArray(requests?.docs) || !Array.isArray(userList) || !Array.isArray(regions)) {
         //     return;
         // }
-        
+
         let requestCountForDispature: Record<string, number> = {};
         let tripCountOfDispature: Record<string, number> = {};
 
-        requests?.forEach((request: Request) => {
+        isArray(requests) && requests?.forEach((request: Request) => {
             let area = request?.area;
             let submitted_by = request?.submitted_by;
 

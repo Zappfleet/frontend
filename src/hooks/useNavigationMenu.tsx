@@ -176,7 +176,7 @@ export default function useNavigationMenu() {
       },
       {
         key: 'menu.aganceSodureParvane',
-        label: 'صدور پروانه آژانس',
+        label: 'صدور و تمدید پروانه آژانس',
         is_title: false,
         href: '/aganceSodureParvane',
         icon: <BsFillCarFrontFill />,

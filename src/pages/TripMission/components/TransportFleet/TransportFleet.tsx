@@ -23,34 +23,50 @@ const TransportFleet = (props: any) => {
     console.log(7820, fleetData?.data?.vehicles?.docs);
 
     if (mapRef1) {
-     // console.log(100, 'ناوگان')
+      // console.log(100, 'ناوگان')
       //show current location
       setMode('driver')
       const vedicle_ids: any = []
       fleetData?.data?.vehicles?.docs.map((vehicle: any) => {
-        vedicle_ids.push(vehicle._id)
+        //show all vehicle or one
+        if (vehicleID === null || vehicleID === vehicle._id) {
+          vedicle_ids.push(vehicle._id)
+        }
       })
       setVehicleIDs(vedicle_ids)
       setPermitForRunUseFleetGps(true)
     }
   }, [fleetData, mapRef1])
 
+
+  const [vehicleID, setVehicleID] = useState<any>(null)
+  const viewVehicleOnMap = (id: any) => {
+    setVehicleID(id)
+    console.log(55, id);
+
+  }
+
+
   return (
     <div className="TransportFleet-component">
       <div className="row">
         <div className="col-12 col-md-3">
           <div className="search-div">
+            {vehicleID !== null && <button className='my-btn' onClick={() => setVehicleID(null)}>نمایش همه</button>}
             <input
               className="search"
               placeholder="جستجوی رانندگان ..."
             />
             <div className="driver-list">
               {fleetData?.data?.vehicles?.docs.map((vehicle: any) => {
+
                 return (
                   <div
+                    className='vehicle-list'
                     onClick={() => props.handle_onVehicleClick?.(vehicle)}
                     key={vehicle._id}
                   >
+                    <i className='fa fa-eye icon-eye' onClick={() => viewVehicleOnMap(vehicle._id)}></i>
                     <VehicleItem vehicle={vehicle} basicData={basicData} />
                   </div>
                 );

@@ -22,7 +22,7 @@ export default function AganceItems() {
 
   const reports = [
     { Title: 'ثبت آژانس', componentName: 'aganceRegister' },
-    { Title: 'صدور پروانه آژانس', componentName: 'SodureParvane' },
+    { Title: 'صدور و تمدید پروانه آژانس', componentName: 'SodureParvane' },
     { Title: 'ثبت راننده', componentName: 'AganceDriver' },
     { Title: 'صدور کارت صلاحیت', componentName: 'cardSalahiyat' },
     { Title: 'استعلام های 3 گانه (تایید گواهینامه ، تشخیص هویت ، مرکز بهداشت)', componentName: 'estehamhaye3gane' },

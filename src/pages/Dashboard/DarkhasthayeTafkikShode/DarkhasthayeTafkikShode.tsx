@@ -4,6 +4,7 @@ import PieChart from '../../../components/Charts/PieChart/PieChart';
 import { MODE_AREAL } from '../../../lib/constants';
 import useRequests from '../../../hooks/data/useRequests';
 import useRegions from '../../../hooks/data/useRegions';
+import { isArray } from 'lodash';
 
 
 const DarkhasthayeTafkikShode = () => {
@@ -22,12 +23,12 @@ const DarkhasthayeTafkikShode = () => {
 
     useEffect(() => {
 
-        console.log(75,activeItem);
-        
+        console.log(75, activeItem);
+
         let resCount: any = {}
 
         if (activeItem === 'محدوده') {
-            requests?.map((request: any) => {
+            isArray(requests) && requests?.map((request: any) => {
                 let date: any = request?.area
                 if (date) {
                     let id: any = date
@@ -36,7 +37,7 @@ const DarkhasthayeTafkikShode = () => {
             })
         }
         if (activeItem === 'مرکز هزینه') {
-            requests?.map((request: any) => {
+            isArray(requests) && requests?.map((request: any) => {
                 let date: any = request?.details?.costCenter
                 if (date) {
                     let id: any = date?.DES_CC

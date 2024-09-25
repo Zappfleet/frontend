@@ -3,9 +3,11 @@
 .VehicleItem-component {
     padding: 10px 5px;
     border-radius: 5px;
+    font-size: 13px;
 
     .name {
         color: $color-base;
+        padding-right: 15px;
     }
 }
 

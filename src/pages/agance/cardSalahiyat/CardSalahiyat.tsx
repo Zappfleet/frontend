@@ -151,7 +151,7 @@ const CardSalahiyat = ({ handleBackClick, title }: any) => {
     const [attchImageSrc, setAttchImageSrc] = useState<any>('')
     const [action_name, setActionName] = useState<any>('select')
     const [InsertOrUpdate, setInsertOrUpdate] = useState<any>('insert')
-    const [selectedTab, setSelectedTab] = useState<any>('list')
+    const [selectedTab, setSelectedTab] = useState<any>('insert')
 
     const [fishDateDatePicker, setFishDateDatePicker] = useState<any>(moment(new Date()).format('jYYYY/jMM/jDD'));
     const [fishDate, setFishDate] = useState<any>(moment(new Date()).format('jYYYY/jMM/jDD'));
@@ -398,9 +398,9 @@ const CardSalahiyat = ({ handleBackClick, title }: any) => {
 
             <div className="row">
                 <div className="col-12">
-                    <div className="page-title">
+                    {/* <div className="page-title">
                         <i onClick={() => { setSelectedTab('list'); setShowAlert(false) }} className={selectedTab === 'list' ? 'active' : ''}>{'لیست کارت  صلاحیت ها'}</i>
-                    </div>
+                    </div> */}
                     <div className="page-title">
                         <i onClick={() => { setSelectedTab('insert'); InsertOrUpdate === 'insert' ? setShowAlert(true) : setShowAlert(false) }} className={selectedTab === 'insert' ? 'active' : ''}>{InsertOrUpdate === 'insert' ? title : 'بروزرسانی کارت  صلاحیت'}</i>
                     </div>

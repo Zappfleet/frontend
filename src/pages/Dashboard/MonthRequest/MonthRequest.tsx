@@ -4,6 +4,7 @@ import LineChart from '../../../components/Charts/LineChart/LineChart';
 import { convertEnglishToPersianDigits, convertGregorianToJalali } from '../../../utils/utils';
 import useRequests from '../../../hooks/data/useRequests';
 import { MODE_AREAL } from '../../../lib/constants';
+import { isArray } from 'lodash';
 
 const MonthRequest = () => {
 
@@ -37,7 +38,7 @@ const MonthRequest = () => {
     useEffect(() => {
        // console.log(78, requests);
         let resCount: any = {}
-        requests?.map((request: any) => {
+        isArray(requests) && requests?.map((request: any) => {
             let date = convertGregorianToJalali(request?.gmt_for_date)
             resCount[date] = resCount[date] ? resCount[date] + 1 : 1
         })

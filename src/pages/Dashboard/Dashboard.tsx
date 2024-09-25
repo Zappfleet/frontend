@@ -39,7 +39,7 @@ const Dashboard = () => {
 
   ////////////////////////////////////
   return <>
-    {role === true &&
+    {role === true && import.meta.env.VITE_SHOW_DASHBOARD !== 'false' &&
       <div className="Dashboard-component">
 
         {showMore && <>
@@ -93,6 +93,8 @@ const Dashboard = () => {
 
       </div>
     }
+    {role === true && import.meta.env.VITE_SHOW_DASHBOARD === 'false' &&
+      <p>خوش آمدید</p>}
   </>
 };
 

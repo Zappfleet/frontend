@@ -12,6 +12,7 @@ import './style.scss'
 import { emoji as emojiLib } from '../../lib/comments';
 import { useEffect } from "react";
 import DataGrid from "../../components/DataGrid/DataGrid";
+import { isArray } from "lodash";
 
 const SHOW_TRIP = "نمایش سفر"
 
@@ -21,7 +22,7 @@ export default function MissionHistory(props: any = {}) {
     // console.log(52,status,paging);
 
     const { missions }: any = showAsDriver === true ? useMissions({ mode, status, paging }) : []
-  //  console.log(741, missions);
+    console.log(741, missions, paging);
 
     const {
         items: expandedRows,
@@ -136,7 +137,8 @@ export default function MissionHistory(props: any = {}) {
                         </tr>
                     </thead>
                     <tbody>
-                        {missions?.data?.map((mission: any) => {
+                        {console.log(12, missions)}
+                        {isArray(missions?.data) && missions?.data?.map((mission: any) => {
                             const statusItem = missionStatus.find(item => item[0] === mission.status);
                             const isExpanded = expandedRows.includes(mission._id);
                             return <>

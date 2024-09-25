@@ -2,6 +2,10 @@
 
 .RequestManagment-component {
 
+    .modal-content {
+        z-index: 30;
+    }
+
     .link {
         padding-right: 15px;
         cursor: pointer;

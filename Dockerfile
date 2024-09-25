@@ -1,15 +1,15 @@
-FROM node:16.15.0-alpine3.15
+# مرحله نهایی
+FROM mcr.microsoft.com/windows/nanoserver:ltsc2019
 
+# تنظیم دایرکتوری کاری
+WORKDIR C:/app
 
-WORKDIR /app
-COPY package*.json ./
-COPY yarn.lock .
+# کپی فایل‌های ساخته شده
+COPY ./dist ./dist
+COPY ./node_modules ./node_modules
 
-RUN npm install
-COPY . .
+# نمایش پورت اپلیکیشن
+EXPOSE 5173
 
-RUN npm run build
-RUN npm install -g serve
-
-
-CMD ["serve", "-s","build"]
+# اجرای برنامه با استفاده از Vite
+CMD ["npm", "run", "preview", "--", "--host"]

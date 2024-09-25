@@ -3,6 +3,7 @@ import '../AmarRequest/style.scss'
 import { MODE_AREAL } from '../../../lib/constants.ts';
 import DataGrid from '../../../components/DataGrid/DataGrid.tsx';
 import useMissions from '../../../hooks/data/useMissions.tsx';
+import { isArray } from 'lodash';
 
 const AmarMissons = () => {
 
@@ -14,7 +15,7 @@ const AmarMissons = () => {
     })
 
     useEffect(() => {
-     //   console.log(96, missions);
+        //   console.log(96, missions);
 
     }, [missions])
 
@@ -27,7 +28,7 @@ const AmarMissons = () => {
 
         const result = statusType.map((status: any, index: any) => {
 
-            const items = missions && missions?.data?.filter((r: any) => r.status === status)
+            const items = missions && isArray(missions?.data) && missions?.data?.filter((r: any) => r.status === status)
 
             if (index < 4) {
                 return (<div key={index} className="col-6 col-md-3">
