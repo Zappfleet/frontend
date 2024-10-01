@@ -56,13 +56,16 @@ const Estehamhaye3gane = ({ handleBackClick, title }: any) => {
     const { result: resulAgancetDriver } = useAganceDriver('select', null)
 
     useEffect(() => {
+        console.log(7);
+        
         if (resulAgancetDriver) {
+            console.log(8,resulAgancetDriver?.data?.data);
             setAganceDriversList(resulAgancetDriver?.data?.data)
         }
     }, [resulAgancetDriver])
 
     useEffect(() => {
-    }, [fields])
+    }, [fields,aganceDriversList])
 
 
 

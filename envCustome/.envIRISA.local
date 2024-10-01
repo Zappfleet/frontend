@@ -1,9 +1,9 @@
-#ZAPP
+#IRISA
 VITE_ENVIRONMENT_NAME=local # local or server
-VITE_SERVER_IP_FRONT=127.0.0.1
+VITE_SERVER_IP_FRONT=172.25.25.173
 VITE_PORT=5173
-VITE_BASE_URL=http://127.0.0.1:4000
-VITE_FRONT_URL=http://127.0.0.1:5173
+VITE_BASE_URL=http://172.25.25.173:4000
+VITE_FRONT_URL=http://172.25.25.173:5173
 
 VITE_SOCKET_PATH=/api/v2/socket
 VITE_BASE_URL_SERVER=https://zapp-backend.liara.run
@@ -14,13 +14,13 @@ VITE_FRONT_URL_SERVER=https://zapp-frontend.liara.run
 # VITE_TITLE=" سامانه ی جامع حمل و نقل شهرداری زرقان"
 # VITE_SHOW_DASHBOARD='false'
 
-# VITE_CUSTOMER_NAME=irisa
-# VITE_NOT_ALLOWED_MENU=["AGANCE","RULES"]
-# VITE_TITLE="سامانه ی جامع حمل و نقل زپ "
-
-VITE_CUSTOMER_NAME=all
-VITE_NOT_ALLOWED_MENU=["RULES"]
+VITE_CUSTOMER_NAME=irisa
+VITE_NOT_ALLOWED_MENU=["AGANCE","RULES"]
 VITE_TITLE="سامانه ی جامع حمل و نقل زپ "
+
+# VITE_CUSTOMER_NAME=all
+# VITE_NOT_ALLOWED_MENU=["RULES"]
+# VITE_TITLE="سامانه ی جامع حمل و نقل زپ "
 
 VITE_GOOGLE_AUTH_CLIENT_ID=210424230900-h413ecac421uf5jsfv6lbck89e3kbtnt.apps.googleusercontent.com
 VITE_GOOGLE_AUTH_CLIENT_SECRET=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

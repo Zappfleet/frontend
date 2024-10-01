@@ -120,7 +120,10 @@ const AganceProfile = ({ handleBackClick, title }: any) => {
 
 
     useEffect(() => {
+        console.log(78,resultReport,driverId);
+        
         if (resultReport) {
+            console.log(79,resultReport);
             clearFormInputs()
             customizeAndSetAganceProfile(resultReport?.data?.data)
         }
@@ -172,7 +175,9 @@ const AganceProfile = ({ handleBackClick, title }: any) => {
 
 
     const clickOnRowDataGrid = (item: any, type: any) => {
-        if (type === 'view') {
+        console.log(100,item,type);
+        
+        if (type === 'update') {
             setDriverId(item?._id)
         }
     }

@@ -16,13 +16,13 @@ export default function Reports() {
   const [reportcomponentName, setReportcomponentName] = useState<any>('');
 
   const reports = [
-    { Title: 'گزارش هزینه آژانس ها', componentName: 'AgencyReport' },
-    { Title: 'گزارش روزانه رانندگان', componentName: 'DriverReport' },
-    { Title: 'ریز گزارش رانندگان', componentName: 'DriverReportDetails' },
-    { Title: 'گزارش مدت زمان هر سرویس', componentName: 'TimeOfServices' },
-    { Title: 'دسترسی به تعداد سرویس های انجام شده توسط رانندگان در بازه زمانی مشخص', componentName: 'CountOfServicesOfDrivers' },
-    { Title: 'گزارش میزان استراحت هر راننده بین سرویس ها', componentName: 'RestOfDriverBetweenServises' },
-    { Title: 'گزارش لیست رانندگان بر اساس آخرین زمان سرویس و مسافت', componentName: 'DriverList_By_LastServiceAdnDistanse' },
+    { Title: 'گزارش هزینه آژانس ها', componentName: 'AgencyReport', icon: 'fas fa-money-bill-alt' },
+    { Title: 'گزارش روزانه رانندگان', componentName: 'DriverReport', icon: 'fas fa-calendar-alt' },
+    { Title: 'ریز گزارش رانندگان', componentName: 'DriverReportDetails', icon: 'fas fa-history' },
+    { Title: 'گزارش مدت زمان هر سرویس', componentName: 'TimeOfServices', icon: 'fas fa-hourglass-end' },
+    { Title: 'دسترسی به تعداد سرویس های انجام شده توسط رانندگان در بازه زمانی مشخص', componentName: 'CountOfServicesOfDrivers', icon: 'fas fa-filter' },
+    { Title: 'گزارش میزان استراحت هر راننده بین سرویس ها', componentName: 'RestOfDriverBetweenServises', icon: 'fas fa-hotel' },
+    { Title: 'گزارش لیست رانندگان بر اساس آخرین زمان سرویس و مسافت', componentName: 'DriverList_By_LastServiceAdnDistanse', icon: 'fas fa-sort-amount-down' },
     // {Title:'', componentName:''},
 
   ]
@@ -39,10 +39,10 @@ export default function Reports() {
   }
 
   const renderReport = () => {
-   
+
     switch (reportcomponentName) {
       case 'AgencyReport':
-        return <AgencyReport handleBackClick={handleBackClick} title={reportTitle}/>;
+        return <AgencyReport handleBackClick={handleBackClick} title={reportTitle} />;
       case 'DriverReport':
         return <DriverReport handleBackClick={handleBackClick} title={reportTitle} />;
       case 'DriverReportDetails':
@@ -64,11 +64,23 @@ export default function Reports() {
           renderReport()
         ) : (
           <>
-            {reports.map((item: any) => {
-              return <div className='item'>
-                <button onClick={() => handleButtonClick(item)}> {item.Title} </button>
-              </div>
-            })}
+            <div className="row row-amar">
+              {reports.map((item: any, index: any) => {
+                return (<div className="col-6 col-md-4">
+                  <div className="box" onClick={() => handleButtonClick(item)}>
+                    <div className="col-2 right-div">
+                      <i className={`${item.icon}`} />
+                    </div>
+                    <div className="col-10 left-div">
+                      <div className="title">{item?.Title}</div></div>
+                  </div>
+                </div>)
+                // return <div className='item'>
+                //   رسشل
+                //   <button onClick={() => handleButtonClick(item)}> {item.Title} </button>
+                // </div>
+              })}
+            </div>
           </>
 
         )}

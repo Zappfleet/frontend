@@ -29,8 +29,10 @@ const AmarRequest = () => {
     const showAmarRequests = () => {
         const statusType = ["PENDING", "REJECT", "CONFIRM", "ASSIGNED_TO_MISSION"]//, "HIDDEN"]
         const titles = ["درخواست در انتظار", "درخواست رد شده", "درخواست تایید شده", "درخواست دیده شده"]
+        const icons = ["fas fa-exchange-alt", "fas fa-user-times", "fas fa-file-edit", "fas fa-eye"]
+
         const result = statusType.map((status: any, index: any) => {
-            const items = isArray(requests)? requests?.filter((r: any) => r.status === status):[]
+            const items = isArray(requests) ? requests?.filter((r: any) => r.status === status) : []
 
 
             //  if (index < 4) {
@@ -38,7 +40,7 @@ const AmarRequest = () => {
                 <div className="row">
                     <div className="box" onClick={() => showRequest(status)}>
                         <div className="col-4 right-div">
-                            <img className={`icon icon${(index % 4) + 1}`} src={`./images/${(index % 4) + 1}.png`} />
+                            <i className={` ${icons[index]} icon icon${(index % 4) + 1}`} />
                         </div>
                         <div className="col-8 left-div">
                             <div className="count">{items?.length ? items?.length : 0}</div>

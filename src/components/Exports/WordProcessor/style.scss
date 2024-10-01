@@ -2,7 +2,9 @@
 
 .WordProcessor-component {
     padding: 10px 0px;
-
+    font-family: 'Tahoma', sans-serif;
+    direction: rtl;
+    text-align: right;
 
     .print-icon {
         color: $color-base;
@@ -17,11 +19,9 @@
     }
 
     .myPrint {
-
         position: fixed;
         z-index: 2;
         display: flex;
-        /* padding: 25px 0px; */
         justify-content: center;
         align-items: flex-start;
         background-color: rgba(0, 0, 0, 0.9);
@@ -29,6 +29,8 @@
         top: 15%;
         width: 60vw;
         height: 60vh;
+        direction: rtl;
+        text-align: right;
 
         .close-icon {
             position: absolute;
@@ -38,24 +40,19 @@
             left: 20px;
         }
 
-        img {
-            width: fit-content;
-            height: 100%;
-        }
-
         .word-image {
-            width: 100px;
-            height: 100px;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
         }
 
         .upload-img {
             background-color: white;
             width: fit-content !important;
-            /* height: 100px; */
-            // max-height: 100px;
             height: auto;
             padding: 20px 30px;
             border-radius: 5px;
         }
     }
 }
+

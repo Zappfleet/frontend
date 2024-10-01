@@ -1,14 +1,95 @@
-
 @import '../../variable';
+
 .reports-component {
     position: relative;
     margin-top: 30px;
+
     .item {
         position: relative;
         padding: 5px;
     }
-    .item:hover{
+
+    .item:hover {
         color: $color-base;
         cursor: pointer;
+    }
+
+    .row-amar {
+        background-color: whitesmoke;
+
+        .box:hover {
+            background-color: azure;
+            color: $color-base;
+
+            .title {
+                color: $color-base;
+            }
+        }
+
+        .box {
+            background-color: white;
+            height: 80px;
+            border-radius: 5px;
+            width: 90%;
+            padding: 15px;
+            color: black;
+            margin: 15px;
+            text-align: center;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+
+            .icon {
+                padding: 10px;
+                border-radius: 50%;
+                z-index: 5;
+            }
+
+            .icon1 {
+
+                background-color: #DBF4E3;
+                color: #49C673 !important;
+            }
+
+            .icon2 {
+                color: #EF4049;
+                background-color: #FBD3D5;
+
+            }
+
+            .icon3 {
+                color: #FFA130;
+                background-color: #FFE9CF;
+
+            }
+
+            .icon4 {
+                color: #FFC910;
+                background-color: #FFF4CF;
+
+            }
+
+            .title {
+                color: #757C89;
+                font-size: 12px;
+            }
+
+            .count {
+                color: #171E2B;
+                weight: 700;
+            }
+
+            .left-div {
+                text-align: right;
+
+            }
+
+            .right-div {
+                text-align: left;
+                margin-left: 10px;
+            }
+        }
     }
 }

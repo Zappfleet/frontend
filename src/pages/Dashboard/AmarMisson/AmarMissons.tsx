@@ -25,6 +25,7 @@ const AmarMissons = () => {
     const showAmarMissions = () => {
         const statusType = ["DRAFT", "PUBLISHED", /*"READY",*/ "ON_ROUTE", "DONE"]//, "HIDDEN"]
         const titles = ["سفر در انتظار", "سفر اختصاص داده شده", /*"سفر در انتظار شروع", */ "سفر در حال انجام", "سفر انجام شده"]
+        const icons = ["fas fa-user-check", "fas fa-taxi","fas fa-road", "fas fa-check-circle"]
 
         const result = statusType.map((status: any, index: any) => {
 
@@ -35,7 +36,7 @@ const AmarMissons = () => {
                     <div className="row">
                         <div className="box" onClick={() => showMission(status)}>
                             <div className="col-4 right-div">
-                                <img className={`icon icon${(index % 4) + 1}`} src={`./images/${(index % 4) + 1}.png`} />
+                                <i className={` ${icons[index]} icon icon${(index % 4) + 1}`}  />
                             </div>
                             <div className="col-8 left-div">
                                 <div className="count">{items?.length ? items?.length : 0}</div>

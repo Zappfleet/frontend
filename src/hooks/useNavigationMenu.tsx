@@ -35,7 +35,7 @@ export default function useNavigationMenu() {
         label: 'داشبورد',
         is_title: false,
         href: '/dashboard',
-        icon: <BsFillCarFrontFill />,
+        icon: <i className="fa fa-tachometer-alt"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_DASHBOARD]),
       },
       {
@@ -43,7 +43,7 @@ export default function useNavigationMenu() {
         label: 'سرویس ها',
         is_title: false,
         href: '/trip-mission',
-        icon: <BsFillCarFrontFill />,
+        icon: <i className="fa fa-solid fa-ticket"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_SERVICE]),
       },
       {
@@ -71,7 +71,7 @@ export default function useNavigationMenu() {
         label: 'محدوده ها',
         is_title: false,
         href: '/areas',
-        icon: <BiShapePolygon />,
+        icon: <i className="fa fa-map"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AREAS_CREATE]),
       },
       {
@@ -79,7 +79,8 @@ export default function useNavigationMenu() {
         label: 'محدودیت ها',
         is_title: false,
         href: '/restriction',
-        icon: <BiShapePolygon />,
+        icon: <i className="fa-solid fa-sliders"></i>
+        ,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_RESTRICTION]),
       },
       {
@@ -87,7 +88,7 @@ export default function useNavigationMenu() {
         label: 'گزارش ها',
         is_title: false,
         href: '/reports',
-        icon: <BiShapePolygon />,
+        icon: <i className="fa-solid fa-chart-bar"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_REPORTS]),
       },
       {
@@ -95,7 +96,7 @@ export default function useNavigationMenu() {
         label: 'تعاریف',
         is_title: false,
         href: '/definitions',
-        icon: <BiShapePolygon />,
+        icon: <i className="fa-solid fa-pen-to-square"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_DEFINITIONS]),
       },
       {
@@ -103,7 +104,7 @@ export default function useNavigationMenu() {
         label: 'خودرو ها',
         is_title: false,
         href: '/vehicles',
-        icon: <BiShapePolygon />,
+        icon: <i className="fa-solid fa-car"></i>,
         isPermitted: hasPermitGroup([
           PERMIT_CONST.PERMIT_VEHICLES_CREATE,
           PERMIT_CONST.PERMIT_USERS_DELETE,
@@ -115,7 +116,7 @@ export default function useNavigationMenu() {
         label: 'تفویض اختیارات',
         is_title: false,
         href: '/deligations',
-        icon: <BiShapePolygon />,
+        icon: <i className="fa fa-code-fork"></i>,
         isPermitted: hasPermitFor([PERMIT_CONST.PERMIT_DELEGATION]),
       },
       // {
@@ -171,7 +172,7 @@ export default function useNavigationMenu() {
         label: '  ثبت آژانس',
         is_title: false,
         href: '/aganceRegister',
-        icon: <BsFillCarFrontFill />,
+        icon: <i className="fa-solid fa-taxi"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_AGANCE_LIST]),
       },
       {
@@ -179,7 +180,7 @@ export default function useNavigationMenu() {
         label: 'صدور و تمدید پروانه آژانس',
         is_title: false,
         href: '/aganceSodureParvane',
-        icon: <BsFillCarFrontFill />,
+        icon: <i className="fa fa-id-card"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_SODURE_PARVANE_LIST]),
       },
       {
@@ -187,7 +188,7 @@ export default function useNavigationMenu() {
         label: ' ثبت راننده',
         is_title: false,
         href: '/aganceDriver',
-        icon: <BsFillCarFrontFill />,
+        icon: <i className="fa fa-id-card"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_DRIVER_LIST]),
       },
       {
@@ -195,7 +196,7 @@ export default function useNavigationMenu() {
         label: ' صدور کارت صلاحیت',
         is_title: false,
         href: '/aganceCarteSalahiyat',
-        icon: <BsFillCarFrontFill />,
+        icon: <i className="fa fa-id-card"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_CART_SALAHIYAT_LIST]),
       },
       {
@@ -203,7 +204,7 @@ export default function useNavigationMenu() {
         label: ' استعلام های سه گانه',
         is_title: false,
         href: '/aganceEstelameSeGane',
-        icon: <BsFillCarFrontFill />,
+        icon: <i className="fas fa-qrcode"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_ESTELAMHAYE_SE_GANE_LIST]),
       },
       {
@@ -211,7 +212,7 @@ export default function useNavigationMenu() {
         label: ' استعلام اداره اماکن',
         is_title: false,
         href: '/aganceAmaken',
-        icon: <BsFillCarFrontFill />,
+        icon: <i className="fas fa-qrcode"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_ESTELAM_AMAKEN_LIST]),
       },
       {
@@ -219,7 +220,7 @@ export default function useNavigationMenu() {
         label: ' تعرفه عوارض',
         is_title: false,
         href: '/aganceAvarez',
-        icon: <BsFillCarFrontFill />,
+        icon: <i className="fa-solid fa-money-bill-1"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_TAREFE_AVAREZ_LIST]),
       },
       {
@@ -227,7 +228,7 @@ export default function useNavigationMenu() {
         label: ' معاینه فنی',
         is_title: false,
         href: '/aganceMoayeneFani',
-        icon: <BsFillCarFrontFill />,
+        icon: <i className="fa fa-institution"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_MOAYENE_FANI_LIST]),
       },
       {
@@ -235,7 +236,7 @@ export default function useNavigationMenu() {
         label: ' پروفایل',
         is_title: false,
         href: '/aganceProfile',
-        icon: <BsFillCarFrontFill />,
+        icon: <i className="fas fa-user-circle"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_PROFILE_LIST]),
       },
       {
@@ -243,7 +244,7 @@ export default function useNavigationMenu() {
         label: ' دبیرخانه',
         is_title: false,
         href: '/aganceDabirkhane',
-        icon: <BsFillCarFrontFill />,
+        icon: <i className="far fa-envelope-open"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_DABIRKHANE_LIST]),
       },
 
@@ -260,7 +261,7 @@ export default function useNavigationMenu() {
         label: 'سفر جدید',
         is_title: false,
         href: '/passenger/new',
-        icon: <BsFillCarFrontFill />,
+        icon: <i className="fa fa-plus-square"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_PASSENGER_SERVICE]),
       },
       {
@@ -276,7 +277,7 @@ export default function useNavigationMenu() {
         label: 'درخواست ها',
         is_title: false,
         href: '/passenger/history',
-        icon: <BsFillCarFrontFill />,
+        icon: <i className="fa fa-history"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_PASSENGER_SERVICE]),
       },
       {
@@ -284,7 +285,7 @@ export default function useNavigationMenu() {
         label: 'مکان های منتخب',
         is_title: false,
         href: '/passenger/favoriteLocation',
-        icon: <BsFillCarFrontFill />,
+        icon: <i className="fa fa-map-pin"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_PASSENGER_SERVICE]),
       },
       // {
@@ -313,13 +314,13 @@ export default function useNavigationMenu() {
         label: 'سفر ها',
         is_title: false,
         href: '/driver/history',
-        icon: <BsFillCarFrontFill />,
+        icon: <i className="fa fa-calendar"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_DRIVER]),
       },
     ];
     setNavigationMenu(
       allNavItems.filter((item) => {
-        return item.isPermitted 
+        return item.isPermitted
       })
     );
   }, [permits]);

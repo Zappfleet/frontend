@@ -91,7 +91,7 @@ const initialValue = {
 const CardSalahiyat = ({ handleBackClick, title }: any) => {
     title = 'صدور کارت صلاحیت'
 
-
+    const [ShowSodurecartSalahiyat, setShowSodurecartSalahiyat] = useState<boolean>(false)
     const { authInfo } = useAuthentication();
     const [theadCRUD, setTheadCRUD] = useState<any>('')
     const [permit, setPermit] = useState<any>({
@@ -406,6 +406,21 @@ const CardSalahiyat = ({ handleBackClick, title }: any) => {
                     </div>
                 </div>
             </div>
+
+            <div className="row">
+                    <div className="col-12">
+                    <button onClick={() => setShowSodurecartSalahiyat(true)} className='my-btn'>صدور کارت</button>
+                            
+                        {ShowSodurecartSalahiyat===true 
+                            && <>
+                                <WordProcessor autoReadFile={true} wordFile={wordFile}
+                                    fields={fields}
+                                />
+                            </>
+                        }
+                    </div>
+                </div>
+
 
             <div style={{ display: `${selectedTab === 'list' ? '' : 'none'}` }} className="row">
                 <div className="col-12">

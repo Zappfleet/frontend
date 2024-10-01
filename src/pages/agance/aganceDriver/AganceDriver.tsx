@@ -507,19 +507,20 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
 
     const handleApprove = () => {
         console.log(5, fields);
-        if (fields?.details?.step && fields?.details?.step <= 4) {
+        if (fields?.details?.step && fields?.details?.step < 4) {
             setFields({
                 ...fields,
                 details: { ...fields?.details, step: fields?.details?.step ? fields?.details?.step + 1 : 7 },
                 full_name: `${fields?.details?.name} ${fields?.details?.family}`,
             });
         }
-        if (fields?.details?.step && fields?.details?.step <= 4) {
+        if (fields?.details?.step && fields?.details?.step === 4) {
             const shomareParvane = createShomareParvane()
             setFields({
                 ...fields,
                 details: { ...fields?.details, shomareParvane: shomareParvane, step: fields?.details?.step ? fields?.details?.step + 1 : 7 },
                 full_name: `${fields?.details?.name} ${fields?.details?.family}`,
+                status:'ACTIVE'
             });
         }
 

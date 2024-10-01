@@ -1,4 +1,11 @@
 @import '../../../variable';
 
 .SodureParvane-component {
+    .WordProcessor-component {
+        display: inline !important;
+    }
+
+    .my-btn {
+        margin-right: 10px;
+    }
 }

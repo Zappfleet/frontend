@@ -16,12 +16,17 @@ import { convertDateToISO, jalaliToIso } from '../../../utils/dateTools';
 import useAuthentication from '../../../hooks/data/useAuthentication';
 import * as permitConstant from '../../../lib/constants'
 import Page403 from '../../../components/Page403/Page403';
+import WordProcessor from '../../../components/Exports/WordProcessor/WordProcessor';
+import wordFile_sodureParvaneAgance from '../../../lib/zarghan/sodureParvaneAgance.docx';
+import wordFile_sodureParvaneBar from '../../../lib/zarghan/sodureParvaneBar.docx';
 
 
 const SodureParvane = ({ handleBackClick, title }: any) => {
     title = 'صدور و تمدید پروانه آژانس'
     const { authInfo } = useAuthentication();
     const [theadCRUD, setTheadCRUD] = useState<any>('')
+    const [ShowSodureParvaneAgance, setShowSodureParvaneAgance] = useState<boolean>(false)
+    const [ShowSodureParvaneBar, setShowSodureParvaneBar] = useState<boolean>(false)
     const [permit, setPermit] = useState<any>({
         CREATE: false,
         EDIT: false,
@@ -297,7 +302,7 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
 
     return (
 
-        <div className='agance-component'>
+        <div className='agance-component SodureParvane-component'>
             {handleBackClick && <i className='fa fa-arrow-left back-icon' onClick={handleBackClick}></i>}
 
 
@@ -328,6 +333,29 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
                     <div className="page-title">
                         <i onClick={() => { setSelectedTab('insert'); InsertOrUpdate === 'insert' ? setShowAlert(true) : setShowAlert(false) }} className={selectedTab === 'insert' ? 'active' : ''}>{InsertOrUpdate === 'insert' ? title : 'بروزرسانی آژانس'}</i>
                     </div>
+                </div>
+            </div>
+
+            <div className="row">
+                <div className="col-12">
+                    <button onClick={() => setShowSodureParvaneAgance(true)} className='my-btn'>صدور پروانه آژانس</button>
+
+                    {ShowSodureParvaneAgance === true
+                        && <>
+                            <WordProcessor autoReadFile={true} wordFile={wordFile_sodureParvaneAgance}
+                                fields={fields}
+                            />
+                        </>
+                    }
+                    <button onClick={() => setShowSodureParvaneBar(true)} className='my-btn'>صدور پروانه بار</button>
+
+                    {ShowSodureParvaneBar === true
+                        && <>
+                            <WordProcessor autoReadFile={true} wordFile={wordFile_sodureParvaneBar}
+                                fields={fields}
+                            />
+                        </>
+                    }
                 </div>
             </div>
 
