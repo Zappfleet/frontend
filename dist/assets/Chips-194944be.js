@@ -1,0 +1,1 @@
+import{b as a,h as s}from"./index-a6150745.js";const i=e=>a("span",{className:s("inline-block bg-primary m-1 py-1 text-white rounded-full text-xs whitespace-pre",e.className),children:e==null?void 0:e.children});export{i as C};

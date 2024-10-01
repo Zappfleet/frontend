@@ -1,0 +1,1 @@
+import{T as a}from"./index-a6150745.js";function s(t){const[o,n,r]=t.split("/");return new Date(r,o-1,n).toISOString()}function c(t){return t?a(t).locale("fa").format("YYYY/MM/DD HH:mm"):"ثبت نشده"}export{c as I,s as c};
