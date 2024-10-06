@@ -30,6 +30,7 @@ import useCurrentUserPermissions from '../../useCurrentUserPermissions';
 import {
   PERMIT_SERVICE_ORG_DIRECT_SUBMIT,
 } from '../../../lib/constants'
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
 
 export default function useCreateTripModal() {
@@ -134,10 +135,12 @@ export default function useCreateTripModal() {
     renderContent: (
       <div>
         <div>
-          <TransportFleet
-            handle_onVehicleClick={handle_onVehicleClick}
-            fleetData={fleetData}
-          />
+           
+            <TransportFleet
+              handle_onVehicleClick={handle_onVehicleClick}
+              fleetData={fleetData}
+            />
+           
         </div>
       </div>
     ),
@@ -158,20 +161,22 @@ export default function useCreateTripModal() {
     renderContent: (
       <div>
 
-        <ModularForm
+          <ModularForm
           formState={finalState}
           fields={authInfo?.org?.additionalTripFields}
           onInputChange={handle_onFinalInputChanged}
 
-        />
-        <TitledSparator title={'انتخاب خودرو'} />
+        /> 
+           <TitledSparator title={'انتخاب خودرو'} /> 
         <div onClick={triggerVehicleSelection}>
           {renderUi(<i className=' fa fa-car'></i>).if(selectedVehicle == null)}
           <div>
-            <VehicleItem
-              vehicle={selectedVehicle}
-              basicData={vehicleBasicData}
-            />
+             
+              <VehicleItem
+                vehicle={selectedVehicle}
+                basicData={vehicleBasicData}
+              />
+             
           </div>
         </div>
 
@@ -240,7 +245,7 @@ export default function useCreateTripModal() {
 
   const handle_submitOverride = (requestBody: any, requestId: any) => {
     console.log(5);
-    
+
     //take no action
   };
 
@@ -252,30 +257,34 @@ export default function useCreateTripModal() {
     renderContent: ({ }: any) => {
       return (
 
-        
+
         <div className='useCreateTripModal-component'>
           <div>
             <div>
-              <UsersSuggestionInput
-                freeInput={IsDispature === true ? true : false}
-                hideChips={true}
-                showListOnTop={false}
-                externalState={[selectedUsersState, setSelectedUsersState]}
-                permissions={['SERVICE.PERSONAL.SUBMIT']}
-                include_external_base={true}
-                onChange={handle_updateRequestListStates}
-              />
+               
+                <UsersSuggestionInput
+                  freeInput={IsDispature === true ? true : false}
+                  hideChips={true}
+                  showListOnTop={false}
+                  externalState={[selectedUsersState, setSelectedUsersState]}
+                  permissions={['SERVICE.PERSONAL.SUBMIT']}
+                  include_external_base={true}
+                  onChange={handle_updateRequestListStates}
+                />
+               
             </div>
           </div>
           <div>
             <div>
-              <UserSelectionRender
-                highlights={state.activeUser ? [state.activeUser] : []}
-                smallChips={true}
-                list={selectedUsersState}
-                onChipsItemClick={handle_onUserChipsItemClick}
-                handleRemove={handle_onUserChipsItemRemoved}
-              />
+               
+                <UserSelectionRender
+                  highlights={state.activeUser ? [state.activeUser] : []}
+                  smallChips={true}
+                  list={selectedUsersState}
+                  onChipsItemClick={handle_onUserChipsItemClick}
+                  handleRemove={handle_onUserChipsItemRemoved}
+                />
+               
             </div>
             <div>
               {renderUi(
@@ -286,23 +295,25 @@ export default function useCreateTripModal() {
               {selectedUsersState.map((user: any) => {
                 if (user._id == state.activeUser?._id)
                   return (
-                    <PassengerServiceRequest
-                      mode={MODE_ADMIN_ONLY}
-                      key={user._id}
-                      externalState={[
-                        requestListState[user._id],
-                        (value: any) => updateRequestListStateById(user, value),
-                      ]}
-                      externalUserInput={[
-                        requestsListUserInput[user._id],
-                        (value: any) =>
-                          updateRequestsListUserInput(user, value),
-                      ]}
-                      overrideOnSubmit={handle_submitOverride}
-                    // submitCallback={submitCallback}
-                    // initialLocations={initialLocations}
-                    // initialValues={initialValues}
-                    />
+                     
+                      <PassengerServiceRequest
+                        mode={MODE_ADMIN_ONLY}
+                        key={user._id}
+                        externalState={[
+                          requestListState[user._id],
+                          (value: any) => updateRequestListStateById(user, value),
+                        ]}
+                        externalUserInput={[
+                          requestsListUserInput[user._id],
+                          (value: any) =>
+                            updateRequestsListUserInput(user, value),
+                        ]}
+                        overrideOnSubmit={handle_submitOverride}
+                      // submitCallback={submitCallback}
+                      // initialLocations={initialLocations}
+                      // initialValues={initialValues}
+                      />
+                     
                   );
               })}
             </div>

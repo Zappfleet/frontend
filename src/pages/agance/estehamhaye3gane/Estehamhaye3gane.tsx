@@ -10,6 +10,7 @@ import { getBase64WithFileName } from '../../../utils/utils';
 
 import useAuthentication from '../../../hooks/data/useAuthentication';
 import * as permitConstant from '../../../lib/constants'
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
 const Estehamhaye3gane = ({ handleBackClick, title }: any) => {
 
@@ -57,15 +58,15 @@ const Estehamhaye3gane = ({ handleBackClick, title }: any) => {
 
     useEffect(() => {
         console.log(7);
-        
+
         if (resulAgancetDriver) {
-            console.log(8,resulAgancetDriver?.data?.data);
+            console.log(8, resulAgancetDriver?.data?.data);
             setAganceDriversList(resulAgancetDriver?.data?.data)
         }
     }, [resulAgancetDriver])
 
     useEffect(() => {
-    }, [fields,aganceDriversList])
+    }, [fields, aganceDriversList])
 
 
 
@@ -151,9 +152,11 @@ const Estehamhaye3gane = ({ handleBackClick, title }: any) => {
                     <div className="col-12">
                         {fields?.nat_num
                             && <>
-                                <WordProcessor autoReadFile={true} wordFile={wordFile}
-                                    fields={fields}
-                                />
+                                 
+                                    <WordProcessor autoReadFile={true} wordFile={wordFile}
+                                        fields={fields}
+                                    />
+                                 
                             </>
                         }
                     </div>

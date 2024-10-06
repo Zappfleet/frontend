@@ -13,6 +13,7 @@ import { emoji as emojiLib } from '../../lib/comments';
 import { useEffect } from "react";
 import DataGrid from "../../components/DataGrid/DataGrid";
 import { isArray } from "lodash";
+import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary";
 
 const SHOW_TRIP = "نمایش سفر"
 
@@ -145,7 +146,7 @@ export default function MissionHistory(props: any = {}) {
                                 <tr key={mission._id}>
                                     <td>{mission.mission_date && getLocalDatetime(mission.mission_date)}</td>
                                     <td>{mission.created_by}</td>
-                                    <td>{mission.dispature}{mission._id}</td>
+                                    <td>{mission.dispature}</td>
                                     <td>{mission.distance}</td>
                                     <td>{statusItem ? statusItem[1] : 'نا مشخص'}</td>
                                     {renderUi(
@@ -165,7 +166,10 @@ export default function MissionHistory(props: any = {}) {
                                     <td colSpan={6}>
                                         <div className='expand'>
                                             <div>
-                                                <MissionDetailsBox mission={mission} />
+                                             
+                                                 <MissionDetailsBox mission={mission} />
+                                             
+                                               
                                                 {showComment(mission)}
                                             </div>
                                         </div>

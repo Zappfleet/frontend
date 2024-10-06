@@ -25,12 +25,13 @@ import getCurrentLocations from '../../../hooks/useCurrentLocations/getCurrentLo
 import axios from 'axios';
 import { NeshanMapKey, NeshanServiceKey } from '../../../apis/neshan';
 import ShowLocationsInGoogleMaps from '../../../widgets/map/MapRoutingButton';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
 
 const DriverCurrentMissionService = () => {
 
 
-    const[coordsForgoogleMap,setCoordsForgoogleMap]=useState<any>([])
+    const [coordsForgoogleMap, setCoordsForgoogleMap] = useState<any>([])
     const [searchParams] = useSearchParams();
     const mission_id = searchParams.get("mission_id");
     const [missionStatus, setMissionStatus] = useState<any>('')
@@ -141,7 +142,7 @@ const DriverCurrentMissionService = () => {
                 //show current location
 
                 setMode('driver')
-             //   console.log(422, missionDetails?.mission?.vehicle?.id);
+                //   console.log(422, missionDetails?.mission?.vehicle?.id);
 
                 setVehicleIDs([missionDetails?.mission?.vehicle?.id])
                 setPermitForRunUseFleetGps(true)
@@ -167,7 +168,7 @@ const DriverCurrentMissionService = () => {
                 // mapRef.current?.addMarker(location.coordinates[1], location.coordinates[0], true, MarkerRed, 0.1)
             })
 
-            
+
             createRoutingOnMap(coordinatesForRouting)
         }
 
@@ -193,14 +194,14 @@ const DriverCurrentMissionService = () => {
         })
 
 
-      //  console.log(122, mapLength, origin, destination, waypoints);
+        //  console.log(122, mapLength, origin, destination, waypoints);
 
 
 
         // ساخت آدرس کامل برای درخواست API
         const apiGetRoutingUrl =
-        //'https://api.neshan.org/v4/direction?type=car&origin=29.87781386196582,52.80807554886337&destination=29.885447453232032,52.81699611135298&waypoints=29.881032493977102,52.818784660836286%7C29.881886980601294,52.81237890367538&avoidTrafficZone=false&avoidOddEvenZone=false&alternative=false&bearing='
-         `https://api.neshan.org/v4/direction?type=car&origin=${origin}&destination=${destination}&waypoints=${waypoints}&avoidTrafficZone=false&avoidOddEvenZone=false&alternative=false&bearing`;
+            //'https://api.neshan.org/v4/direction?type=car&origin=29.87781386196582,52.80807554886337&destination=29.885447453232032,52.81699611135298&waypoints=29.881032493977102,52.818784660836286%7C29.881886980601294,52.81237890367538&avoidTrafficZone=false&avoidOddEvenZone=false&alternative=false&bearing='
+            `https://api.neshan.org/v4/direction?type=car&origin=${origin}&destination=${destination}&waypoints=${waypoints}&avoidTrafficZone=false&avoidOddEvenZone=false&alternative=false&bearing`;
         console.log(66, apiGetRoutingUrl);
         await axios.get(apiGetRoutingUrl, {
             headers: {
@@ -222,45 +223,45 @@ const DriverCurrentMissionService = () => {
     }
 
 
-    function decodePolyline(polyline:any) {
+    function decodePolyline(polyline: any) {
         let index = 0;
         const len = polyline.length;
         let lat = 0;
         let lng = 0;
         const coordinates = [];
-    
+
         while (index < len) {
             let shift = 0;
             let result = 0;
             let byte;
-    
+
             do {
                 byte = polyline.charCodeAt(index++) - 63;
                 result |= (byte & 0x1f) << shift;
                 shift += 5;
             } while (byte >= 0x20);
-    
+
             const deltaLat = ((result & 1) ? ~(result >> 1) : (result >> 1));
             lat += deltaLat;
-    
+
             shift = 0;
             result = 0;
-    
+
             do {
                 byte = polyline.charCodeAt(index++) - 63;
                 result |= (byte & 0x1f) << shift;
                 shift += 5;
             } while (byte >= 0x20);
-    
+
             const deltaLng = ((result & 1) ? ~(result >> 1) : (result >> 1));
             lng += deltaLng;
-    
+
             coordinates.push([lat * 1e-5, lng * 1e-5]);
         }
-    
+
         return coordinates;
     }
-    
+
     const extractRouteCoordinates = (data: any, origin: any): [number, number][] | null => {
         try {
             // بررسی و استخراج مختصات از پاسخ API
@@ -269,18 +270,18 @@ const DriverCurrentMissionService = () => {
 
             // let coordinates: any = []
             let coordinates: any = []
-            
+
             //  coordinates.push(origin)
             if (routes && routes.length > 0) {
                 routes[0].legs?.map((leg: any, index: any) => {
                     leg.steps?.map((step: any, index: any) => {
                         const decodedCoordinates = decodePolyline(step.polyline);
-                        decodedCoordinates.map((item:any)=>{
-                            coordinates.push([item[1],item[0]])
+                        decodedCoordinates.map((item: any) => {
+                            coordinates.push([item[1], item[0]])
                         })
-                      //  console.log(6000,decodedCoordinates);
-                        
-                     //   coordinates.push([step.start_location[0], step.start_location[1]])
+                        //  console.log(6000,decodedCoordinates);
+
+                        //   coordinates.push([step.start_location[0], step.start_location[1]])
                     })
 
                     //  index%2===0? mapRef.current?.addRoute(coordinates, true, "255, 0, 0"):
@@ -289,11 +290,11 @@ const DriverCurrentMissionService = () => {
 
                 //  console.log(777,coordinates.length);
 
-               // coordinates.push(coordinates[coordinates.length - 2])
-               // coordinates.push(origin)
+                // coordinates.push(coordinates[coordinates.length - 2])
+                // coordinates.push(origin)
 
-               console.log(4589,coordinates);
-               
+                console.log(4589, coordinates);
+
                 mapRef.current?.addRoute(coordinates, true, "0, 0, 255")
                 //   const steps = routes[0].legs.map([0].steps;
                 // const coordinates = steps.map((step: any) => step.start_location);
@@ -325,19 +326,19 @@ const DriverCurrentMissionService = () => {
         }
     }
 
-  
-   
+
+
 
     return (
-        
+
         <div className="DriverCurrentMissionService-component">
             <div className="div">
                 <div className="row">
                     <div className="col-12">
                         <div className="location-div">
-                          
-                            <MapContainer mapRef={mapRef as { current: MapRefType }} />
-                            <ShowLocationsInGoogleMaps locations={coordsForgoogleMap}/>
+
+                              <MapContainer mapRef={mapRef as { current: MapRefType }} /> 
+                               <ShowLocationsInGoogleMaps locations={coordsForgoogleMap} /> 
                         </div>
                     </div>
                 </div>
@@ -347,8 +348,10 @@ const DriverCurrentMissionService = () => {
                 } */}
                 <div className='fixed bottom-0 left-0 right-0 flex p-1 z-999999 justify-center'>
                     <button onClick={handle_showBottomSheet} className='fixed left-4 bottom-4 bg-primary rounded-full w-16 h-16 flex justify-center items-center'>
-                        {renderUi(<SmallLoader />).if(missionDetails == null)}
-                        {renderUi(<BiCar className='text-white' size={30} />).if(missionDetails != null)}
+                        {renderUi( <SmallLoader />
+                         ).if(missionDetails == null)}
+                        {renderUi( <BiCar className='text-white' size={30} />
+                         ).if(missionDetails != null)}
                     </button>
                 </div>
 
@@ -367,10 +370,11 @@ const DriverCurrentMissionService = () => {
                         </div>
                         {missionDetails?.mission?.service_requests?.map((serviceItem: any, index: any) => {
                             return <DriverMissionServiceItem key={index}
-                                mission_id={mission_id}
-                                serviceItem={serviceItem}
-                                handleServiceItemProgress={handle_ServiceItemProgress}
-                                onStateChanged={handle_onServiceItemUiStateChanged} />
+                                    mission_id={mission_id}
+                                    serviceItem={serviceItem}
+                                    handleServiceItemProgress={handle_ServiceItemProgress}
+                                    onStateChanged={handle_onServiceItemUiStateChanged} />
+                             
                         })}
                     </div>
                 </BottomSheetModal>

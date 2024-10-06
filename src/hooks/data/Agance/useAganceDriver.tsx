@@ -3,7 +3,7 @@ import { getApiClient } from '../../../apis/client';
 
 export default function useAganceDriver(action_name: any, item: any) {
 
-      //console.log(1200,action_name);
+    //console.log(1200,action_name);
 
     const [result, setResult] = useState<any>(null);
     const [type, setType] = useState<any>(null);
@@ -12,7 +12,7 @@ export default function useAganceDriver(action_name: any, item: any) {
     });
 
     function refreshData() {
-      //  console.log(300, item, action_name);
+        //  console.log(300, item, action_name);
         switch (action_name) {
             case 'select':
                 setState({ ...state, in_progress: true })
@@ -32,8 +32,8 @@ export default function useAganceDriver(action_name: any, item: any) {
 
             case "insert":
                 if (item !== null) {
-                    console.log(78588888,item);
-                    
+                    console.log(78588888, item);
+
                     setState({ ...state, in_progress: true })
                     getApiClient().insert_AganceDriver(item)
                         .then(resp => {
@@ -55,6 +55,8 @@ export default function useAganceDriver(action_name: any, item: any) {
                     setState({ ...state, in_progress: true })
                     getApiClient().update_AganceDriver(item)
                         .then(resp => {
+
+
                             setResult(resp)
                             setType('update')
                         })
@@ -87,8 +89,8 @@ export default function useAganceDriver(action_name: any, item: any) {
     }
 
     useEffect(() => {
-      //  console.log(44,action_name);
-        
+        //  console.log(44,action_name);
+
         action_name && refreshData();
     }, [action_name]); // Include fromDate and toDate as dependencies
 

@@ -86,12 +86,16 @@ const ServiceRequestCard = (props: any) => {
 
 
     const handle_updateRequestStatus = (request: any, status: string) => {
+        console.log(13,request.id,status);
+        
         showConfirm({
             title: "تغییر وضعیت درخواست",
             desc: `از ${status == STATUS_ACCEPT ? "تایید" : "رد"} درخواست اطمینان دارید؟`,
             label_confirm: `${status == STATUS_ACCEPT ? "تایید کن" : "رد کن"}`,
             label_cancel: "خیر",
             onConfirm: () => {
+               
+                
                 getApiClient().updateRequestStatus(request._id, status)
                     .then(({ data }) => {
                         if (status != STATUS_ACCEPT)

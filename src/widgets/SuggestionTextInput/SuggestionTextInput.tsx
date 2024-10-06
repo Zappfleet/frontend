@@ -2,6 +2,7 @@ import React, { ReactElement, useRef, useState, useEffect } from 'react';
 import classNames from 'classnames';
 import LoadingSpinner from '../LoadingSpinner';
 import './style.scss'
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 interface SuggestionTextInputProps {
   dataSource?: {
@@ -29,6 +30,9 @@ function SuggestionTextInput(
       HTMLInputElement
     >
 ) {
+
+  console.log(758, props);
+
   const [state, setState] = useState<SuggestionTextInputState>({
     suggestionList: [],
     isLoading: true,
@@ -135,7 +139,7 @@ function SuggestionTextInput(
       >
         <i className='fa fa-close search-close' onClick={() => setDisplayList(false)}></i>
         <ul>
-          {state.isLoading && <LoadingSpinner spinnerClassName="w-8 h-8" />}
+          {state.isLoading &&  <LoadingSpinner spinnerClassName="w-8 h-8" /> }
           {state.suggestionList?.map((item: any, index: number) => {
             if (index > 10) return '';
             return (

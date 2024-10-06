@@ -41,6 +41,7 @@ import { getApiClient } from '../../../../apis/client';
 import { VehicleItem } from '../VehicleItem/VehicleItem';
 import useConfirmModal from '../../../../hooks/useConfirmModal/useConfirmModal';
 import VehicleItemEmpty from '../VehicleItemEmpty';
+import ErrorBoundary from '../../../../components/ErrorBoundary/ErrorBoundary';
 
 const ACTIVITY_SELECT_VEHICLE_FOR_MISSION = 'select-vehicle-for-mission';
 
@@ -232,7 +233,7 @@ const RequestManagment = () => {
             setAsReady ? MISSION_API_READY : MISSION_API_PUBLISH
           )
           .then(() => {
-            NotificationController.showSuccess('اطلاعات با موفقیت حذف شد');
+            NotificationController.showSuccess('اطلاعات با موفقیت ثبت شد');
             draftMission.reloadDraft();
           })
           .catch((e) => {
@@ -259,7 +260,9 @@ const RequestManagment = () => {
 
       <div className="row">
         <div className="col-12 col-md-8">
-          <SearchInputWithFilter />
+           
+            <SearchInputWithFilter />
+           
         </div>
         <div className="col-12 col-md-4">
 
@@ -284,24 +287,33 @@ const RequestManagment = () => {
       <div className="row">
         <div className="col-12">
           {renderUi(
-            <ServiceRequestCard
-              editCallback={handle_editCallback}
-              requests={requestsData}
-              draftMission={draftMission}
-              handle_assignRequestToDraft={handle_assignRequestToDraft}
-            />
+             
+              <ServiceRequestCard
+                editCallback={handle_editCallback}
+                requests={requestsData}
+                draftMission={draftMission}
+                handle_assignRequestToDraft={handle_assignRequestToDraft}
+              />
+             
+
           ).if(state.visible_tab == TAB_REQUESTS)}
           {renderUi(
-            <TripMissionCard
-              prompt_onMissionReady={prompt_onMissionReady}
-              triggerVehicleAssignment={triggerVehicleAssignment}
-            />
+             
+              <TripMissionCard
+                prompt_onMissionReady={prompt_onMissionReady}
+                triggerVehicleAssignment={triggerVehicleAssignment}
+              />
+             
+
           ).if(state.visible_tab == TAB_SERVICES)}
           {renderUi(
-            <TransportFleet
-              handle_onVehicleClick={handle_onVehicleClick}
-              fleetData={fleetData}
-            />
+             
+              <TransportFleet
+                handle_onVehicleClick={handle_onVehicleClick}
+                fleetData={fleetData}
+              />
+             
+
           ).if(state.visible_tab == TAB_FLEET)}
         </div>
       </div>
@@ -309,7 +321,7 @@ const RequestManagment = () => {
 
 
       <FloatingButtonWithModal>
-        {renderUi(<SmallLoader />).if(draftMission?.data == null)}
+        {renderUi( <SmallLoader /> ).if(draftMission?.data == null)}
 
         {renderUi(
           <label className='lbl-text'>
@@ -322,10 +334,13 @@ const RequestManagment = () => {
             {draftMission?.data?.service_requests?.map(({ request }: any) => {
               return (
                 <div className="relative mx-2 my-4 rounded py-2 pl-6 pr-10 shadow duration-200">
-                  <MdClose
-                    onClick={(e: any) => handle_removeRequestFromDraft(request)}
-                    className="absolute right-0 top-0 h-10 w-10 cursor-pointer p-2 hover:text-danger"
-                  />
+                   
+                    <MdClose
+                      onClick={(e: any) => handle_removeRequestFromDraft(request)}
+                      className="absolute right-0 top-0 h-10 w-10 cursor-pointer p-2 hover:text-danger"
+                    />
+                   
+
                   <div className="relative flex items-center border-b border-gray-2">
                     <div className="flex flex-col">
                       <span className="text-primary">
@@ -336,22 +351,28 @@ const RequestManagment = () => {
                       </span>
                     </div>
                     <div className="py-2 pr-6 text-xs">
-                      <DatePicker
-                        onChange={(value: any) => { }}
-                        disableDayPicker
-                        calendar={persian}
-                        locale={persian_fa}
-                        format="HH:mm"
-                        className="datetime-picker"
-                        inputClass="datetime-input !w-24 !text-center !text-lg !p-4"
-                        plugins={[<AnalogTimePicker hideSeconds={true} />]}
-                        value={request.gmt_for_date}
-                      />
+                       
+                        <DatePicker
+                          onChange={(value: any) => { }}
+                          disableDayPicker
+                          calendar={persian}
+                          locale={persian_fa}
+                          format="HH:mm"
+                          className="datetime-picker"
+                          inputClass="datetime-input !w-24 !text-center !text-lg !p-4"
+                          plugins={[ <AnalogTimePicker hideSeconds={true} /> ]}
+                          value={request.gmt_for_date}
+                        />
+                       
+
                     </div>
-                    <MdEdit
-                      onClick={() => handle_editRequest(request)}
-                      className="absolute left-0 top-0 h-10 w-10 cursor-pointer p-2 hover:text-secondary"
-                    />
+                     
+                      <MdEdit
+                        onClick={() => handle_editRequest(request)}
+                        className="absolute left-0 top-0 h-10 w-10 cursor-pointer p-2 hover:text-secondary"
+                      />
+                     
+
                   </div>
                   <div>
                     <span className="text-primary">{'مبدا : '}</span>
@@ -374,17 +395,23 @@ const RequestManagment = () => {
           >
             <div className="relative mx-1 h-full p-2">
               <div className="absolute bottom-2 left-0 right-0 top-2 flex cursor-pointer items-center justify-center rounded border border-dashed hover:border-primary hover:text-primary">
-                <MdClose
-                  onClick={(e: any) => {
-                    e.stopPropagation();
-                    removeAssignedVehicleFromMission(draftMission?.data);
-                  }}
-                  className="absolute right-2 top-2 cursor-pointer hover:text-danger"
-                />
-                <VehicleItem
-                  vehicle={draftMission?.data?.vehicle}
-                  basicData={vehicleBasicData}
-                />
+                 
+                  <MdClose
+                    onClick={(e: any) => {
+                      e.stopPropagation();
+                      removeAssignedVehicleFromMission(draftMission?.data);
+                    }}
+                    className="absolute right-2 top-2 cursor-pointer hover:text-danger"
+                  />
+                 
+
+                 
+                  <VehicleItem
+                    vehicle={draftMission?.data?.vehicle}
+                    basicData={vehicleBasicData}
+                  />
+                 
+
               </div>
             </div>
           </div>

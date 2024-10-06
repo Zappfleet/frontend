@@ -5,6 +5,7 @@ import React, { useRef } from 'react';
 import useNeshanApi, { getAddressObjText } from '../../hooks/data/useNeshanApi';
 import renderUi from '../../lib/renderUi';
 import Loader, { SmallLoader } from '../../common/Loader';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 
 const LocationSearch = (props: any) => {
@@ -50,7 +51,7 @@ const LocationSearch = (props: any) => {
                     "opacity-0 -translate-y-2 pointer-events-none": !showResultPane,
                 }
             )}>
-                {renderUi(<SmallLoader />).if(searchState.inProgress)}
+                {renderUi(  <SmallLoader /> ).if(searchState.inProgress)}
                 {renderUi(<div>{"هیچ مکانی پیدا نشد!"}</div>).if(searchState.searchResult != null && searchState.searchResult.length == 0)}
                 <ul
                     ref={resultDivRef}

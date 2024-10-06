@@ -24,7 +24,7 @@
         display: flex;
         /* padding: 25px 0px; */
         justify-content: center;
-        align-items: flex-start;
+        align-items: center;
         background-color: rgba(0, 0, 0, 0.9);
         /* top: 15%; */
         width: 60vw;
@@ -40,7 +40,8 @@
 
         img {
             width: fit-content;
-            height: 100%;
+            max-width: 80%;
+            max-height: 80%;
         }
     }
 

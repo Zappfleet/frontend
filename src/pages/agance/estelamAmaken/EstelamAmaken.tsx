@@ -5,11 +5,15 @@ import FileDeleter from '../../../components/FileUpload/FileDeleter';
 import useAganceDriver from '../../../hooks/data/Agance/useAganceDriver';
 import WordProcessor from '../../../components/Exports/WordProcessor/WordProcessor';
 import wordFile from '../../../lib/zarghan/estelameAmaken.docx';
+
+import htmlFile from '../../../lib/zarghan/estelameAmaken.htm';
 import { FileUploadHandles } from '../../../components/FileUpload/FileUpload';
 import { getBase64WithFileName } from '../../../utils/utils';
 
 import useAuthentication from '../../../hooks/data/useAuthentication';
 import * as permitConstant from '../../../lib/constants'
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
+import HTMLProcessor from '../../../components/Exports/HTMLProcessor/HTMLProcessor';
 
 const EstelamAmaken = ({ handleBackClick, title }: any) => {
 
@@ -102,7 +106,7 @@ const EstelamAmaken = ({ handleBackClick, title }: any) => {
     }
 
     return (
-        <div className='aganceRegister-component'>
+        <div className='aganceCarteSalahiyat-component'>
 
             {handleBackClick && <i className='fa fa-arrow-left back-icon' onClick={handleBackClick}></i>}
 
@@ -124,14 +128,34 @@ const EstelamAmaken = ({ handleBackClick, title }: any) => {
 
                             console.log(141);
 
+
+
+                            const fatherName = driver?.details?.fatherName || ""; // نام پدر
+                            let newFields: any = {};
+
+                            console.log(74,fatherName.length);
+                            
+                            // اضافه کردن کاراکترهای نام پدر به فیلدهای ni1 تا ni10
+                            for (let i = 0; i < 10; i++) {
+                                if (i < fatherName.length) {
+                                    newFields[`n${i + 1}`] = fatherName[i];
+                                } else {
+                                    newFields[`n${i + 1}`] = ""; // اگر تعداد کاراکترها کمتر از 10 باشد، با "" پر می‌شود
+                                }
+                            }
+
+                            // استفاده از setFields برای تنظیم فیلدها
                             setFields({
                                 full_name: driver?.full_name,
-                                fatherName: driver?.details?.fatherName,
+                                father_name: fatherName,
                                 nat_num: driver?.details?.nat_num,
-                                shomare_shenasname: driver?.details?.shomare_shenasname,
+                                sh_sh: driver?.details?.shomare_shenasname,
                                 sadere: driver?.details?.sadere,
-                                image_driverPic: await getBase64WithFileName(driver?.details?.attachFile?.driverPic)
+                                pic1: await getBase64WithFileName(driver?.details?.attachFile?.driverPic),
+                                ...newFields // اضافه کردن فیلدهای جدید ni1 تا ni10
                             });
+
+
                         }
                         }
                             className='form-control' value={fields?.nat_num as string || "1"}>
@@ -149,9 +173,11 @@ const EstelamAmaken = ({ handleBackClick, title }: any) => {
                     <div className="col-12">
                         {fields?.nat_num
                             && <>
-                                <WordProcessor autoReadFile={true} wordFile={wordFile}
+
+                                <HTMLProcessor autoReadFile={true} HTMLFile={htmlFile}
                                     fields={fields}
                                 />
+
                             </>
                         }
                     </div>

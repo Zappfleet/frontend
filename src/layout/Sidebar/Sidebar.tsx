@@ -46,6 +46,7 @@ const Sidebar = () => {
         <ul>
           {
             navigationMenu?.map((menuItem: NavigationMenuItem) => {
+              if (menuItem.label=='') return
               if (menuItem.is_title) return <h3 key={menuItem.key} >{menuItem.label}</h3>
               if (menuItem.sub_menu == null) return <li key={menuItem.key}>
                 <NavLink

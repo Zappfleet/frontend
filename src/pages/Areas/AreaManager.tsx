@@ -27,6 +27,8 @@ import {
     PERMIT_AREAS_DELETE,
     PERMIT_AREAS_LIST
 } from '../../lib/constants'
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
+import LocationSearch from '../../widgets/LocationSearch/LocationSearch';
 
 const AreaManager = () => {
 
@@ -261,12 +263,17 @@ const AreaManager = () => {
     return (
         <div className="AreaManager-component">
             <div className="main-div">
+
                 <MapContainer mapRef={mapRef} />
+
 
                 <img className="absolute bottom-2/4 left-2/4 w-8 -translate-x-2/4"
                     src={MarkerRed}
                 />
-
+                <LocationSearch
+                    mapRef={mapRef}
+                    className="absolute left-0 right-0 top-0 z-50 m-2 flex "
+                />
                 <i onClick={handle_toggleDisplayList} className='fa fa-bars btn-bars'></i>
 
                 {renderUi(
@@ -395,6 +402,7 @@ const AreaManager = () => {
                                         </Chips>
                                     </span>
                                 </div>
+
                                 <SuggestionTextInput
                                     showListOnTop={true}
                                     onSuggestionSelected={handle_selectDispatcher}
@@ -402,6 +410,8 @@ const AreaManager = () => {
                                     readFromDataSource={readPermittedDispatchers}
                                     suggestionRenderer={(item) => (<div className='px-4 py-1'>{item.full_name}</div>)}
                                 />
+
+
 
                             </div>
 

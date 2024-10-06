@@ -11,6 +11,7 @@ import { NotificationController } from '../../lib/notificationController';
 import { storeTokens } from './utils';
 import { LOGIN_TITLE } from '../../CustomForCustomer/constatns';
 import LoginWithGmail from '../../components/LoginWithGmail/LoginWithGmail';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 
 const validationRules = {
@@ -166,16 +167,20 @@ const SignIn = () => {
                     {'ورود به حساب'}
                   </LoaderButton>
 
-                  <LoginWithGmail />
+
+                  {/* <LoginWithGmail /> */}
+
                 </div>
 
                 <div className="mt-6 text-center">
-                  <p>
+
+                  {import.meta.env.VITE_CUSTOMER_NAME !== 'zarghan' && <p>
                     حساب کاربری ندارید؟{' '}
                     <Link to="/auth/signup" className="text-primary">
                       ثبت نام کنید
                     </Link>
                   </p>
+                  }
                 </div>
               </form>
             </div>

@@ -7,6 +7,8 @@ const WordProcessor = ({ autoReadFile, wordFile, fileUrl, fields }: any) => {
     const [showPrintContent, setShowPrintContent] = useState<boolean>(false);
 
     useEffect(() => {
+        console.log(78878,wordFile);
+        
         const fetchFile = async () => {
             const response = await fetch(wordFile);
             const arrayBuffer = await response.arrayBuffer();

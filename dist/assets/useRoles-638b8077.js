@@ -1,1 +1,0 @@
-import{r as t,x as c,ax as p}from"./index-a6150745.js";function m(){const[o,a]=t.useState({permissions:[],roles:[],in_progress:!0}),s=async()=>{const e=c(),i=await e.getAllPermissions(),n=p(i.data),l=await e.listRoles();a({permissions:n,roles:l.data,in_progress:!1})};function r(){s()}return t.useEffect(()=>{s()},[]),{data:o,refreshRoles:r}}export{m as u};

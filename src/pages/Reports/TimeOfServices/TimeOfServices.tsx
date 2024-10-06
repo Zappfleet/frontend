@@ -18,6 +18,7 @@ import {
     convertToJalaliDateTiem,
     convertPersianToEnglishDigits
 } from '../../../utils/utils.js';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary.js';
 
 
 export default function TimeOfServices({ handleBackClick, title }: any) {
@@ -121,7 +122,7 @@ export default function TimeOfServices({ handleBackClick, title }: any) {
 
     return (
         <>
-            {forbidden === true && <Page403 />}
+            {forbidden === true &&  <Page403 /> }
             {forbidden === false &&
                 <div className='report-component'>
                     <i className='fa fa-arrow-left back-icon' onClick={handleBackClick}></i>
@@ -142,7 +143,8 @@ export default function TimeOfServices({ handleBackClick, title }: any) {
                                 <div className="row">
                                     <div className="col-12 col-md-3">
                                         از تاریخ
-                                        <DatePicker
+                                         
+                                               <DatePicker
                                             onChange={(date) => handleChangeDatePickerFromDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
                                             calendar={persian}
                                             locale={persian_fa}
@@ -151,13 +153,16 @@ export default function TimeOfServices({ handleBackClick, title }: any) {
                                             value={fromDateDatePicker}
                                             placeholder='از تاریخ'
                                         />
+                                         
+                                     
 
 
                                         {/* <input type="text" className="form-control" id="fromdate" placeholder='از تاریخ' /> */}
                                     </div>
                                     <div className="col-12 col-md-3">
                                         تا تاریخ
-                                        <DatePicker
+                                         
+                                               <DatePicker
                                             onChange={handleChangeDatePickerTodate}
                                             calendar={persian}
                                             locale={persian_fa}
@@ -166,6 +171,8 @@ export default function TimeOfServices({ handleBackClick, title }: any) {
                                             value={toDateDatePicker}
                                             placeholder='تا تاریخ'
                                         />
+                                         
+                                     
                                     </div>
                                     <div className="col-12 col-md-3">
                                         <br />
@@ -195,12 +202,15 @@ export default function TimeOfServices({ handleBackClick, title }: any) {
                                         <p> موردی برای نمایش وجود ندارد</p>
                                     }
                                     {searchIsClecked === true && items.length > 0 &&
-                                        <DataGrid
+                                     
+                                           <DataGrid
                                             pagesize={options[0].value}
                                             items={items}
                                             options={options}
                                             thead={thead}
                                         />
+                                     
+                                     
                                     }
                                 </div>
                             </div>

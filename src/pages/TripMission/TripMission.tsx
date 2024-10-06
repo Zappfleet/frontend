@@ -24,6 +24,7 @@ import {
   PERMIT_SERVICE_PERSONAL_EDIT,
   PERMIT_SERVICE_ORG_DIRECT_EDIT
 } from '../../lib/constants'
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 const TabLayoutItems = [
   {
@@ -53,14 +54,14 @@ function TripMission() {
   const [permission_EDIT, setPermission_EDIT] = useState<boolean>(false)
 
   useEffect(() => {
-   // console.log(111, type, permission_SUBMIT);
+    // console.log(111, type, permission_SUBMIT);
   }, [permission_SUBMIT])
 
   useEffect(() => {
     setPermission_SUBMIT(hasPermitFor([PERMIT_SERVICE_ORG_DIRECT_SUBMIT, PERMIT_SERVICE_PERSONAL_SUBMIT]))
     setPermission_EDIT(hasPermitFor([PERMIT_SERVICE_ORG_DIRECT_EDIT, PERMIT_SERVICE_PERSONAL_EDIT]))
 
-    setLoading(true)   
+    setLoading(true)
 
   }, [hasPermitFor])
 
@@ -79,7 +80,7 @@ function TripMission() {
         <div className="tripmission-component">
           <div className="row">
             <div className="col-12">
-              <Breadcrumb pageName="مدیریت سفر ها" />
+              <Breadcrumb pageName="مدیریت سفر ها" />   
             </div>
           </div>
           <div className="row">
@@ -110,11 +111,14 @@ function TripMission() {
 
           <div className="row">
             <div className="col-12">
-              <TabLayout
+               
+                  <TabLayout
                 tabs={TabLayoutItems}
                 defaultActiveTab={activeTab}
                 onTabChange={setActiveTab}
               />
+               
+            
             </div>
           </div>
 
@@ -124,13 +128,13 @@ function TripMission() {
                 (function () {
                   switch (activeTab) {
                     case ACCESS_REQUEST_ADMIN:
-                      return <RequestManagment />;
+                      return   <RequestManagment />; 
                     case ACCESS_REQUEST_DISPATCH:
                       return '2';
                     case ACCESS_REQUEST_HISTORY:
-                      return <RequestHistory mode={MODE_AREAL} />;
+                      return  <RequestHistory mode={MODE_AREAL} />;  
                     case ACCESS_MISSION_HISTORY:
-                      return <MissionHistory mode={MODE_AREAL} paging={false} status={'DONE'}/>;
+                      return  <MissionHistory mode={MODE_AREAL} paging={false} status={'DONE'} />;  
                   }
                 })()
               }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -20,7 +21,9 @@ const PieChart = ({ title, data }: any) => {
         },
     };
 
-    return data && <Pie data={data} options={options} />;
+    return data &&  
+        <Pie data={data} options={options} />;
+      
 };
 
 export default PieChart;

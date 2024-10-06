@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import './style.scss'
 import UserOne from '../images/user/user-01.png';
 import useConfirmModal from '../../hooks/useConfirmModal/useConfirmModal';
@@ -9,11 +9,30 @@ import useAuthentication from '../../hooks/data/useAuthentication';
 import { BiUserCircle } from 'react-icons/bi';
 import { FaUserCircle } from 'react-icons/fa';
 import classNames from 'classnames';
+import useUsers from '../../hooks/data/useUsers';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+
   const { authInfo } = useAuthentication();
+  const { userList, refreshData } = useUsers();
+
+  const [fullname, setFullName] = useState<any>(null);
+
+  useEffect(() => {
+
+    if (authInfo && userList) {
+      const user = userList?.filter((ite: any) => ite._id === authInfo?.auth?._id)
+      console.log(44, user);
+
+      setFullName(user[0]?.full_name)
+    }
+
+  }, [authInfo])
+
+  console.log(21, authInfo, userList);
+
 
   const { show: showConfirm, ui: ModalUi } = useConfirmModal('ModalLayout-component-login');
   const navigate = useNavigate();
@@ -66,17 +85,17 @@ const DropdownUser = () => {
   return (
     <div className="DropdownUser-component">
       {ModalUi}
-      <Link
+      <NavLink
         ref={trigger}
         onClick={() => setDropdownOpen(!dropdownOpen)}
         to="#"
       >
         <span className='userTitle'>
-          {authInfo?.auth?.username}
+          {fullname ? fullname : authInfo?.auth?.username}
         </span>
         <i className='fa fa-user user-img'></i>
         <i className=' fa fa-angle-down '></i>
-      </Link>
+      </NavLink>
 
       <div
         ref={dropdown}
@@ -85,26 +104,30 @@ const DropdownUser = () => {
         className='profile-div'
         style={{ display: dropdownOpen === true ? 'block' : 'none' }}>
         <ul>
-          <li>
-            <Link
-              to="/profile"
-            >
-              <i className='fa fa-user'></i>
-              <span>پروفایل</span>
-            </Link>
-          </li>
+
+          {import.meta.env.VITE_CUSTOMER_NAME !== 'zarghan' &&
+            < li >
+              <NavLink
+                to="/profile"
+              >
+                <i className='fa fa-user'></i>
+                <span>پروفایل</span>
+              </NavLink>
+
+            </li>
+          }
 
           <li>
             <button
               onClick={prompt_userLogout}>
-                 <i className='fa fa-sign-out'></i>
+              <i className='fa fa-sign-out'></i>
               <span>خروج</span>
-             
+
             </button>
           </li>
         </ul>
       </div >
-    </div>
+    </div >
   );
 };
 

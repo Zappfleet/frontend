@@ -5,6 +5,7 @@ import TitledSparator from '../../../components/TitledSparator';
 import { BiMessage, BiPhone } from 'react-icons/bi';
 import { convertStringToPlaque, getLocalDatetime, missionStatus } from '../../../lib/string';
 import PlaqueInput from '../../Form/PlaqueInput';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
 const TripMissionDetails = ({ mission }: any) => {
     console.log(88, mission);
@@ -33,11 +34,14 @@ const TripMissionDetails = ({ mission }: any) => {
                 </div>
                 <div className='flex flex-col px-2 items-center whitespace-nowrap'>
                     <label className='mb-1 text-sm'>{`${mission.vehicleName}  ${mission.vehicleColor}`}</label>
+                  
+                   
                     <PlaqueInput
                         small={true}
                         disabled
                         value={convertStringToPlaque(mission.vehiclePlaque)}
                     />
+                       
 
                     {/* <span className='inline-block p-1 border-l'>
                             <span>{"11"}</span>
@@ -49,20 +53,20 @@ const TripMissionDetails = ({ mission }: any) => {
                 </div>
                 <div className='border-r border-gray-4 flex flex-col'>
                     <i className='fa fa-phone icon-phone' onClick={() => showDialPage(mission.driver_phone)}></i>
-                    <BiMessage className={"p-2 active:bg-gray-4"} size={40} />
+                     <BiMessage className={"p-2 active:bg-gray-4"} size={40} /> 
                 </div>
             </div>
             {/* <div className='bg-gray-4 h-px mt-3'></div> */}
             <div>
                 <table className='w-full'>
                     <tbody>
-                        <tr><td colSpan={2}><TitledSparator title={"سفر"} /></td></tr>
+                        <tr><td colSpan={2}> <TitledSparator title={"سفر"} /> </td></tr>
                         <tr className='text-sm '><td className='px-3 pt-2 bold whitespace-nowrap align-top text-left'>{"حرکت"}</td><td className='pt-2'>{getLocalDatetime(mission.mission_date)}</td></tr>
-                        <tr><td colSpan={2}><TitledSparator title={"مسیر"} /></td></tr>
+                        <tr><td colSpan={2}> <TitledSparator title={"مسیر"} /> </td></tr>
                         <tr className='text-sm'><td className='px-3 pt-2 bold whitespace-nowrap align-top text-left'>{"مبدا"}</td><td className='pt-2' >{mission.locations && mission.locations.length > 0 && mission.locations[0].meta?.address}</td></tr>
                         {/* <tr className='text-sm '><td className='px-3 pt-2 bold whitespace-nowrap align-top text-left'>{"ایستگاه 1"}</td><td>{"فلان شسکمین شسی"}</td></tr> */}
                         <tr className='text-sm '><td className='px-3 pt-2 bold whitespace-nowrap align-top text-left'>{"مقصد"}</td><td className='pt-2' >{mission.locations && mission.locations.length > 0 && mission.locations[mission.locations.length - 1].meta?.address}</td></tr>
-                        <tr><td colSpan={2}><TitledSparator title={"مشخصات"} /></td></tr>
+                        <tr><td colSpan={2}> <TitledSparator title={"مشخصات"} /> </td></tr>
                         <tr className='text-sm'><td className='px-3 pt-2 bold whitespace-nowrap align-top text-left'>{"دیسپاچر"}</td><td className='pt-2' >{mission.dispature}</td></tr>
                         {/* <tr className='text-sm'><td className='px-3 pt-2 bold whitespace-nowrap align-top text-left'>{"مدیر پروژه"}</td><td className='pt-2' >{"امیدرضا احدزاده"}</td></tr> */}
                         <tr className='text-sm'><td className='px-3 pt-2 bold whitespace-nowrap align-top text-left'>{"مرکز هزینه"}</td><td className='pt-2'>{mission.proj_desc}</td></tr>

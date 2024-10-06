@@ -14,10 +14,11 @@ import { RiFileExcel2Line } from 'react-icons/ri';
 import SimpleButton from '../../../components/SimpleButton';
 import DataGrid from '../../../components/DataGrid/DataGrid';
 import useReportAgency from '../../../hooks/data/reports/useReportAgency';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
 export default function AgencyReport({ handleBackClick, title }: any) {
 
- // console.log(21);
+  // console.log(21);
 
   const { result } = useReportAgency()
   const [items, setItems] = useState<any>(null)
@@ -46,7 +47,7 @@ export default function AgencyReport({ handleBackClick, title }: any) {
     // { key: 'endBeforeService', name: 'پایان سرویس قبلی', type: 'caleadar', key2: 'todate' },
   ]
 
-  
+
   return <div className='AgencyReport-component'>
     <i className=' fa fa-arrow-left back-icon' onClick={handleBackClick}></i>
     <p>{title}</p>
@@ -69,12 +70,14 @@ export default function AgencyReport({ handleBackClick, title }: any) {
     </div>
     <div className="row">
       <div className="col-12">
-        {items && <DataGrid
-          pagesize={options[0].value}
-          items={items}
-          options={options}
-          thead={thead}
-        />
+        {items &&  
+          <DataGrid
+            pagesize={options[0].value}
+            items={items}
+            options={options}
+            thead={thead}
+          />
+         
         }
       </div>
     </div>

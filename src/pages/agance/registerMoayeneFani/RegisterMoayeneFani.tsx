@@ -16,6 +16,7 @@ import { useValidateForm } from '../../../utils/validation';
 import useAuthentication from '../../../hooks/data/useAuthentication';
 import * as permitConstant from '../../../lib/constants'
 import Page403 from '../../../components/Page403/Page403';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
 
 
@@ -66,10 +67,12 @@ const validationRules: any = {
     },
     managerCodeMelli: {
         required: true,
+        pattern: /^[0-9]{10}$/, // فقط 10 رقم
         showName: ''
     },
     "address.postalCode": {
         required: true,
+        pattern: /^[0-9]{10}$/, // فقط 10 رقم
         showName: ''
     },
     "address.address": {
@@ -78,10 +81,12 @@ const validationRules: any = {
     },
     phone: {
         required: true,
+        pattern: /^[0-9]{11}$/, // فقط 11 رقم
         showName: ''
     },
     managerPhone: {
         required: true,
+        pattern: /^[0-9]{11}$/, // فقط 11 رقم
         showName: ''
     },
     "attachFile.modirPic": {
@@ -367,6 +372,7 @@ const RegisterMoayeneFani = ({ handleBackClick, title }: any) => {
                 <div className="col-12">
                     {ItemsList?.length <= 0 && <p style={{ marginTop: '40px' }}> {'موردی برای نمایش وجود ندارد'}</p>}
                     {ItemsList?.length > 0 &&
+
                         <DataGrid
                             clickOnRow={clickOnRowDataGrid}
                             pagesize={options[0].value}
@@ -374,6 +380,7 @@ const RegisterMoayeneFani = ({ handleBackClick, title }: any) => {
                             options={options}
                             thead={thead}
                         />
+
                     }
                 </div>
             </div>
@@ -404,6 +411,7 @@ const RegisterMoayeneFani = ({ handleBackClick, title }: any) => {
                             <div className="col-6">
                                 <div className="form-group">
                                     <p>تاریخ شروع فعالیت </p>
+
                                     <DatePicker
                                         onChange={(date) => handleChangeStartActivityDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
                                         calendar={persian}
@@ -413,6 +421,7 @@ const RegisterMoayeneFani = ({ handleBackClick, title }: any) => {
                                         value={StartActivityDateDatePicker}
                                         placeholder=' تاریخ'
                                     />
+
                                     {validateErrors?.StartActivityDate?.length > 0 &&
                                         <>
                                             <div className='validate'>
@@ -562,11 +571,13 @@ const RegisterMoayeneFani = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p>بارگزاری تصویر پروانه مرکز  </p>
                                     <div className="file-upload-div">
+
                                         <FileUpload
                                             ref={fileUploadRef_parvaneNamayandegi}
                                             name={'parvaneNamayandegi'}
                                             id={objectId.toString()}
                                             handleGetBase64={handleGetBase64} />
+
 
                                         {fields?.attachFile?.parvaneNamayandegi &&
                                             <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('parvaneNamayandegi')}></i>}
@@ -578,9 +589,12 @@ const RegisterMoayeneFani = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p> تصویر مدیر مرکز   </p>
                                     <div className="file-upload-div">
+
                                         <FileUpload
                                             ref={fileUploadRef_modirPic}
                                             name={'modirPic'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
+
                                         {fields?.attachFile?.modirPic && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('modirPic')}></i>}
                                     </div>
                                     {validateErrors['attachFile.modirPic']?.length > 0 &&
@@ -598,9 +612,11 @@ const RegisterMoayeneFani = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p> تصویر مجوز  اتحادیه سازمان های حمل و نقل </p>
                                     <div className="file-upload-div">
+
                                         <FileUpload
                                             ref={fileUploadRef_mojavezSazmanHamlVaNaghl}
                                             name={'mojavezSazmanHamlVaNaghl'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
                                         {fields?.attachFile?.mojavezSazmanHamlVaNaghl && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('mojavezSazmanHamlVaNaghl')}></i>}
                                     </div>
                                     {validateErrors['attachFile.mojavezSazmanHamlVaNaghl']?.length > 0 &&

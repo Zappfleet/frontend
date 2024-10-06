@@ -249,7 +249,7 @@ const MapContainer = forwardRef<MapRefType, MapContainerProps>((props, ref) => {
     }), [mapRef.current]);
 
     return (
-        <ErrorBoundary>
+         
             <NeshanMap
                 style={{ zIndex: 1, height: "100%", width: "100%", pointerEvents: props.freeze ? "none" : 'all' }}
                 center={{ latitude: DEFAULT_LATITUDE, longitude: DEFAULT_LONGITUDE }}
@@ -258,7 +258,7 @@ const MapContainer = forwardRef<MapRefType, MapContainerProps>((props, ref) => {
                 onInit={onInit}
             >
             </NeshanMap>
-        </ErrorBoundary>
+         
     );
 });
 

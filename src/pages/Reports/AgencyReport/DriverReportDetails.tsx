@@ -9,6 +9,7 @@ import { RiFileExcel2Line } from 'react-icons/ri';
 import useReportDriverGeneral from '../../../hooks/data/reports/useReportDriverGeneral';
 import { getLocalDatetime } from '../../../lib/string';
 import { convertGregorianToJalali } from '../../../utils/utils';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
 export default function DriverReportDetails({ handleBackClick, title }: any) {
   const [selectedUsersState, setSelectedUsersState] = useState<any>([]);
@@ -36,23 +37,29 @@ export default function DriverReportDetails({ handleBackClick, title }: any) {
       <p>{title}</p>
       <div className="flex items-center px-4">
         <div className="flex-1 px-4 ">
-          <UsersSuggestionInput
-            hideChips={true}
-            showListOnTop={false}
-            externalState={[selectedUsersState, handle_setSelectedUsers]}
-            permissions={['DRIVER']}
-          />
+           
+            <UsersSuggestionInput
+              hideChips={true}
+              showListOnTop={false}
+              externalState={[selectedUsersState, handle_setSelectedUsers]}
+              permissions={['DRIVER']}
+            />
+           
+
         </div>
         <div>
-          <DatePicker
-            onChange={setDateRage}
-            range
-            calendar={persian}
-            locale={persian_fa}
-            className="datetime-picker"
-            inputClass="datetime-input !text-center !text-lg !p-4 "
-            value={dateRage}
-          />
+           
+            <DatePicker
+              onChange={setDateRage}
+              range
+              calendar={persian}
+              locale={persian_fa}
+              className="datetime-picker"
+              inputClass="datetime-input !text-center !text-lg !p-4 "
+              value={dateRage}
+            />
+           
+
         </div>
       </div>
       <div className="ml-3 mr-8 flex ">
@@ -78,15 +85,20 @@ export default function DriverReportDetails({ handleBackClick, title }: any) {
         <div className="flex-1">
           <div>
             <span className="mb-4 inline-block">
-              <SimpleButton className="bg-success">
-                <span className="ml-4">{'دانلود فایل اکسل'}</span>
-                <RiFileExcel2Line
-                  className={
-                    'cursor-pointer rounded text-white hover:bg-gray-4'
-                  }
-                  size={24}
-                />
-              </SimpleButton>
+               
+                <SimpleButton className="bg-success">
+                  <span className="ml-4">{'دانلود فایل اکسل'}</span>
+                   
+                    <RiFileExcel2Line
+                      className={
+                        'cursor-pointer rounded text-white hover:bg-gray-4'
+                      }
+                      size={24}
+                    />
+                   
+                </SimpleButton>
+               
+
             </span>
           </div>
           <table className="w-full border border-gray-5 text-right">

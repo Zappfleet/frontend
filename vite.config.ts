@@ -44,7 +44,7 @@ export default defineConfig(({ mode }) => {
     },
     preview: {
       port: parseInt(env.VITE_PORT, 10) ,
-    },
-    assetsInclude: ['**/*.docx'],
+    }, 
+    assetsInclude: ['**/*.docx', '**/*.htm'],
   };
 });

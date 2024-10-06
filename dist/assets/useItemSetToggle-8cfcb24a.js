@@ -1,1 +1,0 @@
-import{r as u}from"./index-a6150745.js";function c({defaultIds:r,onlyOne:o}={}){const[e,s]=u.useState(r||[]);return{items:e,toggleItem:t=>{e.includes(t)?s(e.filter(n=>t!=n)):s(o?[t]:[...e,t])}}}export{c as u};

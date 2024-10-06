@@ -16,6 +16,7 @@ import AnalogTimePicker from 'react-multi-date-picker/plugins/analog_time_picker
 import { BsClock } from 'react-icons/bs';
 import SimpleButton from '../../../components/SimpleButton';
 import { MODE_AREAL } from '../../../lib/constants';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
 const TripMissionCard = (props: any) => {
 
@@ -25,12 +26,15 @@ const TripMissionCard = (props: any) => {
 
     return missions?.data?.docs?.map((mission: any) => {
         return <>
-            <MissionService
-                vehicleBasicData={vehicleBasicData}
-                prompt_onMissionReady={props.prompt_onMissionReady}
-                triggerVehicleAssignment={props.triggerVehicleAssignment}
-                key={mission._id}
-                mission={mission} />
+             
+                <MissionService
+                    vehicleBasicData={vehicleBasicData}
+                    prompt_onMissionReady={props.prompt_onMissionReady}
+                    triggerVehicleAssignment={props.triggerVehicleAssignment}
+                    key={mission._id}
+                    mission={mission} />
+             
+
         </>
     })
 
@@ -44,7 +48,9 @@ function MissionService(props: any) {
         <div className='flex flex-col lg:flex-row'>
             <div className='flex-1 whitespace-nowrap overflow-hidden '>
                 {mission.service_requests.map((request: any) => {
-                    return <MissionServiceItem key={request._id} request={request} />;
+                    return  
+                        <MissionServiceItem key={request._id} request={request} />;
+                     
                 })}
 
             </div>
@@ -57,7 +63,9 @@ function MissionService(props: any) {
                     ).if(mission.vehicle_id == null)}
                     {renderUi(
                         <div className='rounded border border-dashed hover:text-primary hover:border-primary absolute top-2 left-0 right-0 bottom-2 cursor-pointer flex-col flex items-center justify-center'>
-                            <VehicleItem vehicle={mission.vehicle_id} basicData={vehicleBasicData} />
+                             
+                                <VehicleItem vehicle={mission.vehicle_id} basicData={vehicleBasicData} />
+                             
                         </div>
                     ).if(mission.vehicle_id != null)}
                 </div>
@@ -84,22 +92,27 @@ function MissionServiceItem(props: any) {
                 <label className='mx-1'>{request.submitted_by.full_name}</label>
             </span>
             <span className='flex items-center justify-center text-center pb-2'>
-                <BsClock className={"w-12"} size={20} />
-                <DatePicker
-                    disableDayPicker
-                    calendar={persian}
-                    locale={persian_fa}
-                    format="HH:mm"
-                    className="datetime-picker"
-                    inputClass="datetime-input !w-32 !text-center !text-lg !p-4"
-                    plugins={[
-                        <AnalogTimePicker hideSeconds={true} />
-                    ]}
-                    value={request.gmt_for_date}
-                />
+                  <BsClock className={"w-12"} size={20} /> 
+                 
+                    <DatePicker
+                        disableDayPicker
+                        calendar={persian}
+                        locale={persian_fa}
+                        format="HH:mm"
+                        className="datetime-picker"
+                        inputClass="datetime-input !w-32 !text-center !text-lg !p-4"
+                        plugins={[
+                             <AnalogTimePicker hideSeconds={true} />  
+                        ]}
+                        value={request.gmt_for_date}
+                    />
+                 
+
             </span>
             {request.locations?.map((loc: any, index: number) => {
-                return <TitledDescription key={loc._id} className='flex-1 my-1 text-xs' title={`ایستگاه ${getLocationIndexTitle(request.locations.length, index)}`} desc={loc?.meta?.address} />
+                return  
+                    <TitledDescription key={loc._id} className='flex-1 my-1 text-xs' title={`ایستگاه ${getLocationIndexTitle(request.locations.length, index)}`} desc={loc?.meta?.address} />
+                 
             })}
 
         </div>

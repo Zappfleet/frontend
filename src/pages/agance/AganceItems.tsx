@@ -12,6 +12,7 @@ import RegisterTarefeAvarez from './registerTarefeAvarez/RegisterTarefeAvarez';
 import SodureParvane from './sodureParvane/SodureParvane';
 import AganceDriver from './aganceDriver/AganceDriver';
 import AganceProfile from './aganceProfile/AganceProfile'
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 
 
@@ -30,11 +31,11 @@ export default function AganceItems() {
     { Title: 'ثبت تعرفه عوارض', componentName: 'registerTarefeAvarez' },
     { Title: 'ثبت مرکز معاینه فنی', componentName: 'registerMoayeneFani' },
     { Title: 'دبیر خانه', componentName: 'dabirkhane' },
-   { Title: 'پروفایل', componentName: 'aganceProfile' },
+    { Title: 'پروفایل', componentName: 'aganceProfile' },
   ]
   const handleButtonClick = (item: any) => {
 
-   // console.log(122, item.Title);
+    // console.log(122, item.Title);
 
     setIsReportOpen(true);
     setReportTitle(item.Title)
@@ -51,25 +52,25 @@ export default function AganceItems() {
 
     switch (reportcomponentName) {
       case 'aganceRegister':
-        return <AganceRegister handleBackClick={handleBackClick} title={reportTitle} />;
+        return <ErrorBoundary> <AganceRegister handleBackClick={handleBackClick} title={reportTitle} /></ErrorBoundary>;
       case 'AganceDriver':
-        return <AganceDriver handleBackClick={handleBackClick} title={reportTitle} />;
+        return <ErrorBoundary><AganceDriver handleBackClick={handleBackClick} title={reportTitle} /> </ErrorBoundary>;
       case 'cardSalahiyat':
-        return <CardSalahiyat handleBackClick={handleBackClick} title={reportTitle} />;
+        return <ErrorBoundary><CardSalahiyat handleBackClick={handleBackClick} title={reportTitle} /> </ErrorBoundary>;
       case 'dabirkhane':
-        return <Dabirkhane handleBackClick={handleBackClick} title={reportTitle} />;
+        return <ErrorBoundary><Dabirkhane handleBackClick={handleBackClick} title={reportTitle} /> </ErrorBoundary>;
       case 'estehamhaye3gane':
-        return <Estehamhaye3gane handleBackClick={handleBackClick} title={reportTitle} />
+        return <ErrorBoundary><Estehamhaye3gane handleBackClick={handleBackClick} title={reportTitle} /> </ErrorBoundary>
       case 'estelamAmaken':
-        return <EstelamAmaken handleBackClick={handleBackClick} title={reportTitle} />
+        return <ErrorBoundary><EstelamAmaken handleBackClick={handleBackClick} title={reportTitle} /> </ErrorBoundary>
       case 'registerMoayeneFani':
-        return <RegisterMoayeneFani handleBackClick={handleBackClick} title={reportTitle} />
+        return <ErrorBoundary><RegisterMoayeneFani handleBackClick={handleBackClick} title={reportTitle} /> </ErrorBoundary>
       case 'registerTarefeAvarez':
-        return <RegisterTarefeAvarez handleBackClick={handleBackClick} title={reportTitle} />
+        return <ErrorBoundary> <RegisterTarefeAvarez handleBackClick={handleBackClick} title={reportTitle} /> </ErrorBoundary>
       case 'SodureParvane':
-        return <SodureParvane handleBackClick={handleBackClick} title={reportTitle} />
+        return <ErrorBoundary> <SodureParvane handleBackClick={handleBackClick} title={reportTitle} /> </ErrorBoundary>
       case 'aganceProfile':
-        return <AganceProfile handleBackClick={handleBackClick} title={reportTitle} />
+        return <ErrorBoundary> <AganceProfile handleBackClick={handleBackClick} title={reportTitle} /> </ErrorBoundary>
 
     }
   };

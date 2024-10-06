@@ -11,11 +11,12 @@ import {
     convertPersianToEnglishDigits
 } from '../../utils/utils.js';
 import Alert from '../Alert/Alert.js';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary.js';
 
 
 const DataGrid = (props: any) => {
 
-     //  console.log(66666666, props.thead);
+    //  console.log(66666666, props.thead);
 
     const [currentPage, setcurrentPage] = useState(1)
     const [pagesize, setpagesize] = useState(props.pagesize)
@@ -79,17 +80,19 @@ const DataGrid = (props: any) => {
                     {item.type === 'caleadar' &&
                         <>
                             <div style={{ position: 'relative' }}>
-                                <DatePicker
-                                    onFocusedDateChange={(date) => handleDateChange(date !== null ? (Array.isArray(date) ? date[0] : date) : null, item.key, item.key2)}
-                                    calendar={persian}
-                                    locale={persian_fa}
-                                    className="datetime-picker iscalendar"
-                                    inputClass="datetime-input !text-center !text-lg !p-4"
-                                    value={item.key2 === 'fromdate' ? fromdate : todate}
-                                    placeholder='تاریخ'
-                                    editable={false}  // Ensure the input is not editable directly
+                                 
+                                    <DatePicker
+                                        onFocusedDateChange={(date) => handleDateChange(date !== null ? (Array.isArray(date) ? date[0] : date) : null, item.key, item.key2)}
+                                        calendar={persian}
+                                        locale={persian_fa}
+                                        className="datetime-picker iscalendar"
+                                        inputClass="datetime-input !text-center !text-lg !p-4"
+                                        value={item.key2 === 'fromdate' ? fromdate : todate}
+                                        placeholder='تاریخ'
+                                        editable={false}  // Ensure the input is not editable directly
 
-                                />
+                                    />
+                                 
 
                                 {fromdate && <i className='fa fa-remove calendar-close' onClick={() => clearDate(item.key, item.key2)}></i>}
                             </div>

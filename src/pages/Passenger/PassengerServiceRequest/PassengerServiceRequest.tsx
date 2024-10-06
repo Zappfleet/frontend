@@ -27,6 +27,7 @@ import { useLocation } from 'react-router-dom';
 import useFavorite from '../../../hooks/data/Favorite/useFavorite';
 import moment from 'jalali-moment';
 import { persianDateToGregorian } from '../../../utils/utils';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
 
 
@@ -35,7 +36,7 @@ export const MODE_ADMIN_ONLY = 'admin-only';
 
 const PassengerServiceRequest = (props: any = {}) => {
 
-   console.log(5);
+  console.log(5);
   const { result: resultFavorite } = useFavorite(true, 'select', null)
   const { mode: componentMode = MODE_USER_ONLY } = props;
   const internalState = useState<any>(props.initialValues || {});
@@ -283,7 +284,7 @@ const PassengerServiceRequest = (props: any = {}) => {
   }
 
   const showDriverOnMap = () => {
-   // console.log(55);
+    // console.log(55);
     const [lng, lat] = [52.808064, 29.88258900000001]
     mapRef.current?.addMarker(5879388.492312675, 3488877.5134539823, false, carIcon)
 
@@ -294,7 +295,9 @@ const PassengerServiceRequest = (props: any = {}) => {
       <div className={`main-div ${type === 'update' ? className : ''}`}>
 
         {/* sgh map */}
-        <MapContainer mapRef={mapRef as { current: MapRefType }} />
+         
+          <MapContainer mapRef={mapRef as { current: MapRefType }} />
+         
 
 
         <img className="absolute bottom-2/4 left-2/4 w-8 -translate-x-2/4"
@@ -364,56 +367,68 @@ const PassengerServiceRequest = (props: any = {}) => {
                 }
               )}
             >
-              <BiCheck
-                className={classNames('absolute p-0.5 text-white duration-200')}
-                size={40}
-              />
+               
+                <BiCheck
+                  className={classNames('absolute p-0.5 text-white duration-200')}
+                  size={40}
+                />
+               
+
             </button>
           </span>
         </div>
 
-        <BottomSheetModal onCreate={onBottomSheetCreate}>
-          <div>
-            <form>
-              <div className="mb-2">
-                <label className="inline-block py-2">{'سرویس'}</label>
-                <select
-                  value={formState['service'] || NONE_KEY}
-                  onChange={handle_onInputChanged}
-                  name="service"
-                  className="select-box w-full flex-1"
-                >
-                  <option
-                    disabled
-                    key={NONE_KEY}
-                    value={NONE_KEY}
-                  >{`--- سرویس مورد نظر را انتخاب کنید ---`}</option>
-                  {vehicleData?.services?.map((item: any) => {
-                    return (
-                      <option
-                        key={item.key}
-                        value={item.key}
-                      >{`${item.title}`}</option>
-                    );
-                  })}
-                </select>
-              </div>
+         
+          <BottomSheetModal onCreate={onBottomSheetCreate}>
+            <div>
+              <form>
+                <div className="mb-2">
+                  <label className="inline-block py-2">{'سرویس'}</label>
+                  <select
+                    value={formState['service'] || NONE_KEY}
+                    onChange={handle_onInputChanged}
+                    name="service"
+                    className="select-box w-full flex-1"
+                  >
+                    <option
+                      disabled
+                      key={NONE_KEY}
+                      value={NONE_KEY}
+                    >{`--- سرویس مورد نظر را انتخاب کنید ---`}</option>
+                    {vehicleData?.services?.map((item: any) => {
+                      return (
+                        <option
+                          key={item.key}
+                          value={item.key}
+                        >{`${item.title}`}</option>
+                      );
+                    })}
+                  </select>
+                </div>
 
-              <ModularForm
-                formState={formState}
-                fields={authInfo?.org?.additionalRequestFields}
-                onInputChange={handle_onInputChanged}
-                mode={componentMode}
-              />
-            </form>
-            <LoaderButton
-              onClick={handle_submitRequest}
-              className={'my-3 w-full'}
-            >
-              {props.overrideOnSubmit != null ? 'تایید' : type && type === 'update' ? 'بروزرسانی' : 'ثبت درخواست'}
-            </LoaderButton>
-          </div>
-        </BottomSheetModal>
+                 
+                  <ModularForm
+                    formState={formState}
+                    fields={authInfo?.org?.additionalRequestFields}
+                    onInputChange={handle_onInputChanged}
+                    mode={componentMode}
+                  />
+                 
+
+              </form>
+               
+                <LoaderButton
+                  onClick={handle_submitRequest}
+                  className={'my-3 w-full'}
+                >
+                  {props.overrideOnSubmit != null ? 'تایید' : type && type === 'update' ? 'بروزرسانی' : 'ثبت درخواست'}
+                </LoaderButton>
+               
+
+            </div>
+          </BottomSheetModal>
+         
+
       </div >
     </div>
   );

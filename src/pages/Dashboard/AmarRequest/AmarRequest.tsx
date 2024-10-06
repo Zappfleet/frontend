@@ -4,6 +4,8 @@ import { MODE_AREAL } from '../../../lib/constants.ts';
 import useRequests from '../../../hooks/data/useRequests.tsx';
 import DataGrid from '../../../components/DataGrid/DataGrid.tsx';
 import { isArray } from 'lodash';
+import { requestStatus } from '../../../lib/string.ts';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary.tsx';
 
 const AmarRequest = () => {
 
@@ -11,17 +13,34 @@ const AmarRequest = () => {
         mode: MODE_AREAL,
         initialParams: { status: '', paging: false },
     })
+    const [UpdatedRequests, setUpdatedRequests] = useState([]);
 
     useEffect(() => {
         // console.log(4, requests);
-
+        requests && isArray(requests) &&  updatedArr(requests)
         showAmarRequests()
     }, [requests])
+
+
+    let updatedArr = (requests: any) => {
+        // تبدیل آرایه به یک آبجکت برای دسترسی سریع‌تر
+        const statusMap = Object.fromEntries(requestStatus);
+
+        const newRequest = requests?.map((item: any) => {
+            console.log(78, statusMap[item.status]);
+            return {
+                ...item,
+                Fr_status: statusMap[item.status] || item.status,  // جایگزینی مقدار status
+            };
+        });
+
+        setUpdatedRequests(newRequest)
+    }
 
     const [showDivDetailsRequest, setShowDivDetailsRequest] = useState<boolean>(false)
 
     const [statusRequest, setStatusRequest] = useState<any>()
-    const showRequest = (status: any) => {
+    const showRequest = (statusRequest: any) => {
         setStatusRequest(statusRequest)
         setShowDivDetailsRequest(true)
     }
@@ -58,7 +77,7 @@ const AmarRequest = () => {
     const theadRequest = [
         // { key: 'id', name: 'شناسه' },
         { key: '_id', name: 'شناسه' },
-        { key: 'status', name: 'وضعیت' },
+        { key: 'Fr_status', name: 'وضعیت' },
         // { key: 'endBeforeService', name: 'پایان سرویس قبلی', type: 'caleadar', key2: 'todate' },
     ]
 
@@ -71,12 +90,18 @@ const AmarRequest = () => {
                         <div className="details-div">
                             <i className='fa fa-remove close-fa' onClick={() => setShowDivDetailsRequest(false)}></i>
                             <div className="datagrid-div">
-                                <DataGrid
-                                    pagesize={optionsRequest[0].value}
-                                    items={isArray(requests) && requests?.filter((r: any) => r.status === status)}
-                                    options={optionsRequest}
-                                    thead={theadRequest}
-                                />
+                                {requests?.filter((request: any) => request.status === statusRequest)?.length > 0 &&
+                                     
+                                        <DataGrid
+                                            pagesize={optionsRequest[0].value}
+                                            items={UpdatedRequests?.filter((request: any) => request.status === statusRequest)}
+                                            options={optionsRequest}
+                                            thead={theadRequest}
+                                        />
+                                     
+                                }
+                                {requests?.filter((request: any) => request.status === statusRequest)?.length === 0 && <p>موردی برای نمایش وجود ندارد</p>}
+
                             </div>
 
                         </div>

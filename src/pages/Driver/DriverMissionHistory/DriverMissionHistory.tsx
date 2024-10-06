@@ -3,6 +3,7 @@ import useAuthentication from "../../../hooks/data/useAuthentication";
 import { DB_ROLE_DRIVER_TITLE, MODE_DRIVER } from "../../../lib/constants";
 import MissionHistory from "../../../widgets/MissionHistory/MissionHistory";
 import './style.scss'
+import ErrorBoundary from "../../../components/ErrorBoundary/ErrorBoundary";
 export default function DriverMissionHistory() {
 
     const [load, setLoad] = useState<any>(null)
@@ -18,6 +19,8 @@ export default function DriverMissionHistory() {
     }, [authInfo])
 
     return <div className="DriverMissionHistory-component">
-        {load && <MissionHistory mode={isDriver === true ? MODE_DRIVER : ''} status={''} paging={false} />}
+        {load &&  
+            <MissionHistory mode={isDriver === true ? MODE_DRIVER : ''} status={''} paging={false} />
+         }
     </div>
 }

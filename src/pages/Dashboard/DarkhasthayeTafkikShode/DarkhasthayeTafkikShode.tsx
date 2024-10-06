@@ -5,6 +5,7 @@ import { MODE_AREAL } from '../../../lib/constants';
 import useRequests from '../../../hooks/data/useRequests';
 import useRegions from '../../../hooks/data/useRegions';
 import { isArray } from 'lodash';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
 
 const DarkhasthayeTafkikShode = () => {
@@ -114,7 +115,10 @@ const DarkhasthayeTafkikShode = () => {
                 <div className="row">
                     <div className="col-12">
                         <div className="piechart">
-                            <PieChart data={data} />
+                             
+                                 <PieChart data={data} />
+                             
+                           
                         </div>
 
                     </div>

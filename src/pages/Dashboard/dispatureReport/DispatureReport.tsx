@@ -7,6 +7,7 @@ import useRegions from '../../../hooks/data/useRegions';
 import useUsers from '../../../hooks/data/useUsers';
 import useRoles from '../../../hooks/data/useRoles';
 import { isArray } from 'lodash';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
 interface Dispatcher {
     full_name: string;
@@ -58,8 +59,8 @@ const DispatureReport = ({ count, handleShowMore }: any) => {
 
             let isDispature = false;
             if (submitted_by) {
-                userList.forEach((user: User) => {
-                    user?.roles.forEach((role: string) => {
+                userList?.forEach((user: User) => {
+                    user?.roles?.forEach((role: string) => {
                         if (user._id === submitted_by && role === '663f7ec2665933a1316d2697') {
                             isDispature = true;
                         }
@@ -81,7 +82,7 @@ const DispatureReport = ({ count, handleShowMore }: any) => {
         let myData_tripCountOfDispature: number[] = [];
         let myData_requestCountForDispature: number[] = [];
 
-        Object.keys(tripCountOfDispature).forEach((ite: string) => {
+        Object.keys(tripCountOfDispature)?.forEach((ite: string) => {
             let area = regions.find((r: Region) => r._id === ite);
             let dispatureName = area?.dispatcher?.full_name;
 
@@ -91,7 +92,7 @@ const DispatureReport = ({ count, handleShowMore }: any) => {
             myData_tripCountOfDispature.push(tripCountOfDispature[ite]);
         });
 
-        Object.keys(requestCountForDispature).forEach((ite: string) => {
+        Object.keys(requestCountForDispature)?.forEach((ite: string) => {
             let area = regions.find((r: Region) => r._id === ite);
             let dispatureName = area?.dispatcher?.full_name;
 
@@ -144,7 +145,10 @@ const DispatureReport = ({ count, handleShowMore }: any) => {
             <div className="chart">
                 <div className="row">
                     <div className="col-12">
-                        <BarChart data={data} />
+                         
+                            <BarChart data={data} />
+                         
+
                     </div>
                 </div>
             </div>

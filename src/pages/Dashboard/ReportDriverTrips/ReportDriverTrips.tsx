@@ -4,6 +4,7 @@ import DataGrid from '../../../components/DataGrid/DataGrid';
 import useReportCountOfServices from '../../../hooks/data/reports/useReportCountOfServices';
 import moment from 'jalali-moment';
 import { convertEnglishToPersianDigits, persianDateToGregorian } from '../../../utils/utils';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
 
 const ReportDriverTrips = () => {
@@ -15,7 +16,7 @@ const ReportDriverTrips = () => {
     const options = [{ id: 1, value: 10 }, { id: 2, value: 30 }, { id: 3, value: 50 }]
 
     useEffect(() => {
-      //  console.log(11, missionList);
+        //  console.log(11, missionList);
 
         if (missionList) {
             if (missionList.status === 200) {
@@ -42,7 +43,7 @@ const ReportDriverTrips = () => {
 
 
                 ite?.extra?.comments?.map((comment: any) => {
-                   // console.log(63, comment);
+                    // console.log(63, comment);
                     if (comment?.role === 'passenger') {
                         commentRate += comment?.emojiID
                         comment?.emojiID && commentcount++;
@@ -86,12 +87,15 @@ const ReportDriverTrips = () => {
             </div>
             <div className="row">
                 <div className="col-12">
-                    <DataGrid
-                        pagesize={options[0].value}
-                        items={items}
-                        options={options}
-                        thead={thead}
-                    />
+                     
+                        <DataGrid
+                            pagesize={options[0].value}
+                            items={items}
+                            options={options}
+                            thead={thead}
+                        />
+                     
+
                 </div>
             </div>
 

@@ -21,6 +21,7 @@ import { useValidateForm } from '../../../utils/validation';
 import Page403 from '../../../components/Page403/Page403';
 import useAuthentication from '../../../hooks/data/useAuthentication';
 import * as permitConstant from '../../../lib/constants'
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
 
 interface Driver {
@@ -346,7 +347,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
     //validate
     const { errors: validateErrors, refreshData: validateRefreshData } = useValidateForm(validationRules, fields)
     useEffect(() => {
-        // console.log(100, Object.keys(validateErrors));
+        console.log(100, Object.keys(validateErrors));
 
     }, [validateErrors])
 
@@ -375,7 +376,13 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                         setActionName('select')
                     }
                     else {
-                        NotificationController.showError('راننده ثبت نشد')
+                        if (result?.status === 201) {
+                            NotificationController.showError('کد ملی وارد شده تکراری است.')
+                        }
+                        else {
+                            NotificationController.showError('راننده ثبت نشد')
+                        }
+
                     }
                     break;
                 case 'update':
@@ -520,7 +527,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                 ...fields,
                 details: { ...fields?.details, shomareParvane: shomareParvane, step: fields?.details?.step ? fields?.details?.step + 1 : 7 },
                 full_name: `${fields?.details?.name} ${fields?.details?.family}`,
-                status:'ACTIVE'
+                status: 'ACTIVE'
             });
         }
 
@@ -705,7 +712,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                         {/* step 1 */}
                         <div style={{ display: `${step === 1 ? '' : 'none'}` }} className="row">
 
-                            <div className="col-6">
+                            {/* <div className="col-6">
                                 <div className="form-group">
                                     <p>نام کاربری </p>
                                     <input disabled={realStep === 1 ? false : true} onChange={(e) => setFields({ ...fields, username: e.target.value })} value={fields?.username || ''} type="text" className="form-control" />
@@ -717,7 +724,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                     <p>پسورد </p>
                                     <input disabled={realStep === 1 ? false : true} onChange={(e) => setFields({ ...fields, password: e.target.value })} value={fields?.password || ''} type="text" className="form-control" />
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div className="col-6">
                                 <div className="form-group">
@@ -774,7 +781,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                             <div className="col-6">
                                 <div className="form-group">
                                     <p>کد ملی  </p>
-                                    <input disabled={realStep === 1 ? false : true} onChange={(e) => setFields({ ...fields, details: { ...fields.details, nat_num: e.target.value } })} value={fields?.details?.nat_num || ''} type="text" className="form-control" />
+                                    <input disabled={realStep === 1 ? false : true} onChange={(e) => setFields({ ...fields, username: e.target.value, password: e.target.value, details: { ...fields.details, nat_num: e.target.value } })} value={fields?.details?.nat_num || ''} type="text" className="form-control" />
                                     {validateErrors['details.nat_num']?.length > 0 &&
                                         <>
                                             <div className='validate'>
@@ -804,6 +811,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                             <div className="col-6">
                                 <div className="form-group">
                                     <p>تاریخ تولد  </p>
+
                                     <DatePicker
                                         style={{ backgroundColor: realStep === 1 ? '' : '#e9ecef' }}
                                         disabled={realStep === 1 ? false : true}
@@ -815,6 +823,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                         value={BirthDateDatePicker}
                                         placeholder=''
                                     />
+
                                     {validateErrors['details.birthDate']?.length > 0 &&
                                         <>
                                             <div className='validate'>
@@ -1020,10 +1029,12 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                     <p> تصویر کارت ملی</p>
 
                                     <div className="file-upload-div">
+
                                         <FileUpload
                                             disabled={realStep === 1 ? false : true}
                                             ref={fileUploadRef_cartMelli}
                                             name={'cartMelli'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
                                         {fields?.details?.attachFile?.cartMelli && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('cartMelli')}></i>}
                                     </div>
                                     {validateErrors['details.attachFile.cartMelli']?.length > 0 &&
@@ -1041,10 +1052,12 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p>تصویر شناسنامه  </p>
                                     <div className="file-upload-div">
+
                                         <FileUpload
                                             disabled={realStep === 1 ? false : true}
                                             ref={fileUploadRef_shenasname}
                                             name={'shenasname'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
                                         {fields?.details?.attachFile?.shenasname && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('shenasname')}></i>}
                                     </div>
                                     {validateErrors['details.attachFile.shenasname']?.length > 0 &&
@@ -1062,10 +1075,12 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p>تصویر پایان خدمت  </p>
                                     <div className="file-upload-div">
+
                                         <FileUpload
                                             disabled={realStep === 1 ? false : true}
                                             ref={fileUploadRef_payanekhedmat}
                                             name={'payanekhedmat'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
                                         {fields?.details?.attachFile?.payanekhedmat && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('payanekhedmat')}></i>}
                                     </div>
                                     {validateErrors['details.attachFile.payanekhedmat']?.length > 0 &&
@@ -1083,10 +1098,12 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p>تصویر روی گواهینامه  </p>
                                     <div className="file-upload-div">
+
                                         <FileUpload
                                             disabled={realStep === 1 ? false : true}
                                             ref={fileUploadRef_rooyeGovahiname}
                                             name={'rooyeGovahiname'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
                                         {fields?.details?.attachFile?.rooyeGovahiname && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('rooyeGovahiname')}></i>}
                                     </div>
                                     {validateErrors['details.attachFile.rooyeGovahiname']?.length > 0 &&
@@ -1105,10 +1122,12 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p>تصویر پشت گواهینامه  </p>
                                     <div className="file-upload-div">
+
                                         <FileUpload
                                             disabled={realStep === 1 ? false : true}
                                             ref={fileUploadRef_poshteGovahiname}
                                             name={'poshteGovahiname'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
                                         {fields?.details?.attachFile?.poshteGovahiname && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('poshteGovahiname')}></i>}
                                     </div>
                                     {validateErrors['details.attachFile.poshteGovahiname']?.length > 0 &&
@@ -1126,10 +1145,12 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p>تصویر راننده  </p>
                                     <div className="file-upload-div">
+
                                         <FileUpload
                                             disabled={realStep === 1 ? false : true}
                                             ref={fileUploadRef_driverPic}
                                             name={'driverPic'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
                                         {fields?.details?.attachFile?.driverPic && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('driverPic')}></i>}
                                     </div>
                                     {validateErrors['details.attachFile.driverPic']?.length > 0 &&
@@ -1182,6 +1203,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                             <div className="col-6">
                                 <div className="form-group">
                                     <p>تاریخ  </p>
+
                                     <DatePicker
                                         style={{ backgroundColor: realStep === 1 ? '' : '#e9ecef' }}
                                         disabled={realStep === 1 ? false : true}
@@ -1193,6 +1215,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                         value={fishDateDatePicker}
                                         placeholder=''
                                     />
+
                                     {validateErrors['details.fishDate']?.length > 0 &&
                                         <>
                                             <div className='validate'>
@@ -1239,10 +1262,12 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p> استعلام گواهینامه  </p>
                                     <div className="file-upload-div">
+
                                         <FileUpload
                                             disabled={realStep === 2 ? false : true}
                                             ref={fileUploadRef_estelameGovahiname}
                                             name={'estelameGovahiname'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
                                         {fields?.details?.attachFile?.estelameGovahiname && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('estelameGovahiname')}></i>}
                                     </div>
                                     {validateErrors['details.attachFile.estelameGovahiname']?.length > 0 &&
@@ -1261,10 +1286,12 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p>تشخیص هویت   </p>
                                     <div className="file-upload-div">
+
                                         <FileUpload
                                             disabled={realStep === 2 ? false : true}
                                             ref={fileUploadRef_tashkhisHoviyat}
                                             name={'tashkhisHoviyat'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
                                         {fields?.details?.attachFile?.tashkhisHoviyat && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('tashkhisHoviyat')}></i>}
                                     </div>
                                     {validateErrors['details.attachFile.tashkhisHoviyat']?.length > 0 &&
@@ -1282,10 +1309,12 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p>مرکز بهداشت   </p>
                                     <div className="file-upload-div">
+
                                         <FileUpload
                                             disabled={realStep === 2 ? false : true}
                                             ref={fileUploadRef_markazeBehdasht}
                                             name={'markazeBehdasht'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
                                         {fields?.details?.attachFile?.markazeBehdasht && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('markazeBehdasht')}></i>}
                                     </div>
                                     {validateErrors['details.attachFile.markazeBehdasht']?.length > 0 &&
@@ -1303,10 +1332,12 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p> مجوز اداره اماکن  </p>
                                     <div className="file-upload-div">
+
                                         <FileUpload
                                             disabled={realStep === 2 ? false : true}
                                             ref={fileUploadRef_mojavezeAmaken}
                                             name={'mojavezeAmaken'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
                                         {fields?.details?.attachFile?.mojavezeAmaken && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('mojavezeAmaken')}></i>}
                                     </div>
                                     {validateErrors['details.attachFile.mojavezeAmaken']?.length > 0 &&
@@ -1336,7 +1367,10 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                         {/* step 3 */}
                         <div style={{ display: `${step === 3 ? '' : 'none'}` }} className="row">
                             <div className="col-12">
+
                                 <AganceVehicle refresh={reftreshVehicle} driverID={InsertOrUpdate === 'update' ? fields?._id || undefined : undefined} disabled={realStep === 3 ? false : true} />
+
+
                             </div>
                         </div>
                     </>

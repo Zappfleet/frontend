@@ -1,13 +1,14 @@
 import React from "react";
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 import dataJSON from '../../public/data.json';
+import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
 
-export const Table = ({ rows, deleteRow, editRow } : any) => {
-  const fields=Object.keys(Object.values(dataJSON)[0]).filter((item:any)=>!(item.startsWith("delta_")));
-  
+export const Table = ({ rows, deleteRow, editRow }: any) => {
+  const fields = Object.keys(Object.values(dataJSON)[0]).filter((item: any) => !(item.startsWith("delta_")));
+
   return (
-   
-      <div className="max-w-full overflow-x-auto table-wrapper">
+
+    <div className="max-w-full overflow-x-auto table-wrapper">
       <table className="table">
         <thead>
           <tr className="bg-gray-2 text-left dark:bg-meta-4">
@@ -20,8 +21,8 @@ export const Table = ({ rows, deleteRow, editRow } : any) => {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row:any, idx:number) => {
-           
+          {rows.map((row: any, idx: number) => {
+
 
             return (
               <tr key={idx} className="content-center">
@@ -31,29 +32,29 @@ export const Table = ({ rows, deleteRow, editRow } : any) => {
                     {row.para}
                   </span>
                 </td>
-                
+
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <span>
-                    {row.criterion==0?"goes down by":row.criterion==1?"goes up by":row.criterion==2?"is smaller than":row.criterion==3?"is greater than":"is equal to"}
+                    {row.criterion == 0 ? "goes down by" : row.criterion == 1 ? "goes up by" : row.criterion == 2 ? "is smaller than" : row.criterion == 3 ? "is greater than" : "is equal to"}
                   </span>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">{row.value}</td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <span>
-                    {row.type==0?'Info':row.type==1?"Warning":"Alert"}
+                    {row.type == 0 ? 'Info' : row.type == 1 ? "Warning" : "Alert"}
                   </span>
                 </td>
-                
+
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <span className="actions flex grid-cols-2 gap-4">
-                    <BsFillTrashFill
+                      <BsFillTrashFill
                       className="delete-btn cursor-pointer"
-                      onClick={() => deleteRow(idx)} />
-                    
-                    <BsFillPencilFill
+                      onClick={() => deleteRow(idx)} /> 
+
+                       <BsFillPencilFill
                       className="edit-btn cursor-pointer"
-                      onClick={() => editRow(idx)} />
-                    
+                      onClick={() => editRow(idx)} /> 
+
                   </span>
                 </td>
               </tr>
@@ -62,7 +63,7 @@ export const Table = ({ rows, deleteRow, editRow } : any) => {
         </tbody>
       </table>
     </div>
-    
+
 
   );
 };

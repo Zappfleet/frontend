@@ -17,6 +17,7 @@ import moment from 'jalali-moment';
 import { convertToJalali } from '../utils/utils';
 import useAuthentication from '../hooks/data/useAuthentication';
 import { useEffect, useState } from 'react';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 export function ModularInput(props: any) {
 
@@ -24,14 +25,14 @@ export function ModularInput(props: any) {
   const [minDate, setMinDate] = useState<any>(null)
 
   useEffect(() => {
-   
+
     if (authInfo?.auth?.roles?.filter((ite: any) => ite.title === DB_ROLE_MOSAFER_TITLE)?.length === 1) {
       setMinDate(moment(new Date()).format('jYYYY/jMM/jDD - HH:mm'))
     }
   }, [authInfo])
 
 
- // console.log(72, minDate);
+  // console.log(72, minDate);
 
 
   return (
@@ -57,7 +58,8 @@ export function ModularInput(props: any) {
       {renderUi(
 
         <div>
-          <DatePicker
+           
+              <DatePicker
             {...props}
             onChange={(value: any) => {
               props.onChange({
@@ -75,20 +77,26 @@ export function ModularInput(props: any) {
             inputClass="datetime-input"
             minDate={minDate} // تنظیم تاریخ حداقل قابل انتخاب به امروز
             plugins={
-              props.hideTime ? [] : [<AnalogTimePicker hideSeconds={true} />]
+              props.hideTime ? [] : [ 
+                <AnalogTimePicker hideSeconds={true} />
+               ]
             }
           />
+           
+        
         </div>
       ).if(props.type == INPUT_TYPE_DATETIME)}
       {renderUi(
         <div>
-          <UsersSuggestionInput
-            {...props}
-            name={props.inputKey}
-            freeInput={false}
-            permissions={['SERVICE.PERSONAL.SUBMIT']}
-            include_external_base={true}
-          />
+           
+            <UsersSuggestionInput
+              {...props}
+              name={props.inputKey}
+              freeInput={false}
+              permissions={['SERVICE.PERSONAL.SUBMIT']}
+              include_external_base={true}
+            />
+           
         </div>
       ).if(props.type == INPUT_TYPE_USERLIST)}
     </div>

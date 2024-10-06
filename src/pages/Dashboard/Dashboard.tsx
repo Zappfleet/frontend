@@ -8,6 +8,7 @@ import ReportDriverTrips from './ReportDriverTrips/ReportDriverTrips.tsx';
 import MonthRequest from './MonthRequest/MonthRequest.tsx';
 import AmarMissons from './AmarMisson/AmarMissons.tsx';
 import { DB_ROLE_DRIVER_TITLE, DB_ROLE_MOSAFER_TITLE } from '../../lib/constants.ts';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary.tsx';
 
 const Dashboard = () => {
 
@@ -47,7 +48,8 @@ const Dashboard = () => {
             <i onClick={() => setShowMore(false)} className='fa fa-remove close-icon'></i>
             <div className="show-more-subdiv">
 
-              {componentName === 'DispatureReport' && <DispatureReport />}
+              {componentName === 'DispatureReport' && <ErrorBoundary> <DispatureReport /></ErrorBoundary>}
+
             </div>
           </div>
         </>
@@ -59,27 +61,41 @@ const Dashboard = () => {
         </div>
 
         <div className="row">
-          <AmarMissons />
+
+          <ErrorBoundary>  <AmarMissons /></ErrorBoundary>
+
+
         </div>
 
         <div className="row">
-          <AmarRequest />
+
+          <ErrorBoundary>  <AmarRequest /></ErrorBoundary>
+
+
         </div>
 
         <div className="row">
           <div className="col-5">
             <div className="row">
               <div className="col-12">
-                <DispatureReport count={5} handleShowMore={handleShowMore} />
+
+                <ErrorBoundary>   <DispatureReport count={5} handleShowMore={handleShowMore} /></ErrorBoundary>
+
+
               </div>
               <div className="col-12">
-                <DarkhasthayeTafkikShode />
+
+                <ErrorBoundary>   <DarkhasthayeTafkikShode /></ErrorBoundary>
+
+
               </div>
             </div>
           </div>
           <div className="col-7">
             <div className="col-12">
-              <ReportDriverTrips />
+
+              <ErrorBoundary> <ReportDriverTrips /></ErrorBoundary>
+
             </div>
           </div>
         </div>
@@ -87,7 +103,10 @@ const Dashboard = () => {
 
         <div className="row">
           <div className="col-12">
-            <MonthRequest />
+
+            <ErrorBoundary>  <MonthRequest /></ErrorBoundary>
+
+
           </div>
         </div>
 

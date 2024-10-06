@@ -3,6 +3,7 @@ import { GoogleOAuthProvider, GoogleLogin, CredentialResponse } from '@react-oau
 import axios from 'axios';
 import { NotificationController } from '../../lib/notificationController';
 import { storeTokens } from '../../pages/Authentication/utils';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 const LoginWithGmail: React.FC = () => {
 
@@ -15,7 +16,7 @@ const LoginWithGmail: React.FC = () => {
 
         try {
             console.log(8);
-            
+
             const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v2/users/googleAuth`, { token });
             if (res.data.needsProfileCompletion) {
                 console.log(78);
@@ -28,7 +29,7 @@ const LoginWithGmail: React.FC = () => {
             }
         } catch (error) {
             console.log(10);
-            
+
             console.error('Login failed:', error);
         }
     };
@@ -39,12 +40,14 @@ const LoginWithGmail: React.FC = () => {
 
 
     return (
-        <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID}>
-            <GoogleLogin
-                onSuccess={handleLoginSuccess}
-                onError={handleLoginFailure}
-            />
-        </GoogleOAuthProvider>
+         
+            <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID}>
+                <GoogleLogin
+                    onSuccess={handleLoginSuccess}
+                    onError={handleLoginFailure}
+                />
+            </GoogleOAuthProvider>
+         
     );
 };
 

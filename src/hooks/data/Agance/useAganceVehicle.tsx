@@ -12,7 +12,7 @@ export default function useAganceVehicle(action_name: any, item: any) {
     });
 
     function refreshData() {
-      //  console.log(300, item, action_name);
+        console.log(300, item, action_name);
         switch (action_name) {
             case 'selectVehicleByDriverID': {
                 setState({ ...state, in_progress: true })
@@ -106,7 +106,7 @@ export default function useAganceVehicle(action_name: any, item: any) {
     }
 
     useEffect(() => {
-      //  console.log(44, action_name,item);
+       console.log(44, action_name,item);
 
         action_name && refreshData();
     }, [action_name]); // Include fromDate and toDate as dependencies

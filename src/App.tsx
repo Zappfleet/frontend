@@ -12,6 +12,8 @@ import { sendEnvToAndroidClient } from './pages/Authentication/utils';
 import useNavigationMenu from './hooks/useNavigationMenu';
 
 import './CustomForCustomer/CustomStyle/zarghan/style.scss'
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import Profile from './pages/Profile/Profile';
 
 const DefaultLayout = lazy(() => import('./layout/DefaultLayout/DefaultLayout'));
 
@@ -26,32 +28,39 @@ function App() {
   return (
     <>
       <div className={import.meta.env.VITE_CUSTOMER_NAME}>
+
         <ToastContainer style={{ zIndex: 10000000 }} />
-        <Routes>
-          <Route path="/auth/signin" element={<SignIn />} />
-          <Route path="/auth/signup" element={<SignUp />} />
-          <Route element={<DefaultLayout />}>
-            <Route index element={<ECommerce />} />
-            {routes
-              .filter(({ path }) => {
-                return navigatioMenu?.find(({ href }: any) => {
-                  //  console.log('D');
-                  return path == href || `${path}/` == href || path == `${href}/`;
-                });
-              })
-              .map(({ path, component: Component }) => (
-                <Route
-                  path={path}
-                  key={path}
-                  element={
-                    <Suspense fallback={<Loader />}>
-                      <Component />
-                    </Suspense>
-                  }
-                />
-              ))}
-          </Route>
-        </Routes>
+        <ErrorBoundary>
+          <Routes>
+            <Route path="/auth/signin" element={<ErrorBoundary><SignIn /></ErrorBoundary>} />
+            <Route path="/auth/signup" element={<ErrorBoundary><SignUp /></ErrorBoundary>} />
+            <Route element={<DefaultLayout />}>
+              <Route index element={<ErrorBoundary><ECommerce /></ErrorBoundary>} />
+              {routes
+                .filter(({ path }) => {
+                  return navigatioMenu?.find(({ href }: any) => {
+                     // console.log(123,'D', path);
+                    return path == href || `${path}/` == href || path == `${href}/`;
+                  });
+                })
+                .map(({ path, component: Component }) => (
+                  <Route
+                    path={path}
+                    key={path}
+                    element={
+                      <Suspense fallback={<Loader />}>
+
+                        <ErrorBoundary>
+                          <Component />
+                        </ErrorBoundary>
+
+                      </Suspense>
+                    }
+                  />
+                ))}
+            </Route>
+          </Routes>
+        </ErrorBoundary>
       </div>
     </>
   );

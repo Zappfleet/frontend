@@ -7,6 +7,7 @@ import {
   translateAction,
   convertToJalali, convertGregorianToJalali
 } from '../../../utils/utils.js';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary.js';
 
 // Define the props for TreeNode
 interface TreeNodeProps {
@@ -101,7 +102,8 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, path, checked, onChange, hide
       {((isExpanded && hasChildren) || (hideLabel===true && hasChildren)) && (
         <div className="tree-node-children">
           {Object.keys(node).map((key) => (
-            <TreeNode
+             
+                <TreeNode
               key={key}
               node={node[key]}
               path={`${effectivePath}.${key}`}
@@ -109,6 +111,8 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, path, checked, onChange, hide
               onChange={onChange}
               hideLabel={false} // Pass false to ensure children labels are shown
             />
+             
+          
           ))}
         </div>
       )}

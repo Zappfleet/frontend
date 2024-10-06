@@ -8,6 +8,11 @@ declare module '*.docx' {
   export default content;
 }
 
+declare module '*.htm' {
+  const content: string;
+  export default content;
+}
+
 declare module 'html-docx-js/dist/html-docx' {
   const htmlDocx: {
     asBlob: (html: string) => Blob;

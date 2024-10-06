@@ -13,6 +13,7 @@ import GetPassengerNotification from '../../hooks/usePassengerNotification/GetPa
 import useVehicles from '../../hooks/data/useVehicles';
 import useSocket from '../../hooks/useSocket';
 import { NotificationController } from '../../lib/notificationController';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 const DefaultLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState<any>(false);
@@ -75,25 +76,27 @@ const DefaultLayout = () => {
         <div className="row row-header">
           <div className="col-12">
             <i onClick={() => setSidebarOpen(!sidebarOpen)} className='button-bars fa fa-bars d-block d-sm-none'></i>
-            <Header />
+            <ErrorBoundary> <Header /> </ErrorBoundary>
           </div>
         </div>
         <div className="row have-sidebar">
           {/* //mobile */}
           <div className="col-8 handleShowSidebar" style={{ display: sidebarOpen === true ? 'block' : 'none' }}>
-            <Sidebar />
+            <ErrorBoundary><Sidebar /> </ErrorBoundary>
           </div>
           <div className="col-3 d-none d-sm-block">
-            <Sidebar />
+            <ErrorBoundary><Sidebar /></ErrorBoundary>
           </div>
           <div className="col-12 col-md-9">
             {vehicleID && <SendCurrentLocations vehicleID={vehicleID} />}
-            <Main />
+            <ErrorBoundary><Main /> </ErrorBoundary>
           </div>
         </div>
         <div className="row">
           <div className="col-12">
-            <Footer />
+
+            <ErrorBoundary> <Footer /></ErrorBoundary> 
+
           </div>
         </div>
       </div>
@@ -102,3 +105,4 @@ const DefaultLayout = () => {
 };
 
 export default DefaultLayout;
+<Sidebar /> 

@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { useState } from 'react';
 import { FaChevronCircleDown, FaChevronCircleLeft } from 'react-icons/fa';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 const TreeView = (props: any) => {
     //console.log(200,props.data);
@@ -37,8 +38,8 @@ const TreeView = (props: any) => {
 
 
                 const CollapseIcon = is_expanded ?
-                    <FaChevronCircleDown onClick={() => toggleCollapse(item)} size={30} className={"px-2 cursor-pointer"} /> :
-                    <FaChevronCircleLeft onClick={() => toggleCollapse(item)} size={30} className={"px-2 cursor-pointer"} />
+                      <FaChevronCircleDown onClick={() => toggleCollapse(item)} size={30} className={"px-2 cursor-pointer"} />   :
+                      <FaChevronCircleLeft onClick={() => toggleCollapse(item)} size={30} className={"px-2 cursor-pointer"} /> 
                 return <li key={item.id}>
                     <div className={
                         classNames('flex items-center', {

@@ -1,3 +1,4 @@
+import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 import useVehicles from '../hooks/data/useVehicles';
 import { VEHICLE_TYPE_AGENCY } from '../lib/constants';
 import SuggestionTextInput from './SuggestionTextInput/SuggestionTextInput';
@@ -17,16 +18,18 @@ export default function AgencySuggestionInput({ onAgencySelected }: any) {
     });
   }
   return (
-    <SuggestionTextInput
-      componentRef={suggestionTextInputRef}
-      wrapperClassName={'flex-1'}
-      showListOnTop={false}
-      onSuggestionSelected={onAgencySelected}
-      placeholder="جستجوی آژانس ..."
-      readFromDataSource={readAgencies}
-      suggestionRenderer={(item) => (
-        <div className={'px-4 py-1'}>{item.extra.agency_name}</div>
-      )}
-    />
+     
+      <SuggestionTextInput
+        componentRef={suggestionTextInputRef}
+        wrapperClassName={'flex-1'}
+        showListOnTop={false}
+        onSuggestionSelected={onAgencySelected}
+        placeholder="جستجوی آژانس ..."
+        readFromDataSource={readAgencies}
+        suggestionRenderer={(item) => (
+          <div className={'px-4 py-1'}>{item.extra.agency_name}</div>
+        )}
+      />
+     
   );
 }

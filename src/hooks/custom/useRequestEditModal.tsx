@@ -1,3 +1,4 @@
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import PassengerServiceRequest, {
   MODE_USER_ONLY,
 } from '../../pages/Passenger/PassengerServiceRequest/PassengerServiceRequest';
@@ -28,13 +29,15 @@ export default function useRequestEditModal() {
       return (
         <div>
           <h2 className="p-2 text-primary">ویرایش درخواست کاربر</h2>
-          <PassengerServiceRequest
-            mode={MODE_USER_ONLY}
-            submitCallback={submitCallback}
-            initialLocations={initialLocations}
-            initialValues={initialValues}
-            className="!top-12"
-          />
+           
+            <PassengerServiceRequest
+              mode={MODE_USER_ONLY}
+              submitCallback={submitCallback}
+              initialLocations={initialLocations}
+              initialValues={initialValues}
+              className="!top-12"
+            />
+           
         </div>
       );
     },

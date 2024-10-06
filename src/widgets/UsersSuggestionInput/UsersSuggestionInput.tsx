@@ -10,6 +10,7 @@ import classNames from 'classnames';
 import { render } from 'react-dom';
 import renderUi from '../../lib/renderUi';
 import SuggestionTextInput from '../SuggestionTextInput/SuggestionTextInput';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 export default function UsersSuggestionInput(props: any) {
   const {
@@ -21,7 +22,7 @@ export default function UsersSuggestionInput(props: any) {
     search_all
   } = props;
 
-    
+
   const { refreshData: fetchUserData }: any = usePermittedUsers({
     permissions,
     include_external_base,
@@ -94,26 +95,30 @@ export default function UsersSuggestionInput(props: any) {
           />
         )} */}
 
-        <SuggestionTextInput
-          componentRef={suggestionTextInputRef}
-          wrapperClassName={'flex-1'}
-          showListOnTop={showListOnTop}
-          onSuggestionSelected={handle_userSelected}
-          onFreeConfirm={handle_onFreeConfirm}
-          placeholder="جستجو ..."
-          readFromDataSource={readPermittedUsers}
-          suggestionRenderer={(item) => (
-            <div>{item.full_name}</div>
-          )}
-        />
+         
+          <SuggestionTextInput
+            componentRef={suggestionTextInputRef}
+            wrapperClassName={'flex-1'}
+            showListOnTop={showListOnTop}
+            onSuggestionSelected={handle_userSelected}
+            onFreeConfirm={handle_onFreeConfirm}
+            placeholder="جستجو ..."
+            readFromDataSource={readPermittedUsers}
+            suggestionRenderer={(item) => (
+              <div>{item.full_name}</div>
+            )}
+          />
+         
       </div>
       <div className={classNames({ hidden: props.hideChips })}>
-        <UserSelectionRender
-          smallChips={props.smallChips}
-          list={props.value || selectedUsers}
-          onChipsItemClick={props.onChipsItemClick}
-          handleRemove={props.handle_remove || handle_remove}
-        />
+         
+          <UserSelectionRender
+            smallChips={props.smallChips}
+            list={props.value || selectedUsers}
+            onChipsItemClick={props.onChipsItemClick}
+            handleRemove={props.handle_remove || handle_remove}
+          />
+         
       </div>
     </div>
   );

@@ -21,7 +21,7 @@ export function useValidateForm(validationRules: any, formData: any) {
             for (const validate in rules) {
                 switch (validate) {
                     case 'required':
-                        if (fieldValue === '' || fieldValue === undefined || fieldValue === null) {
+                        if (fieldValue === '' || fieldValue === undefined || fieldValue === null || (typeof fieldValue === 'string' && fieldValue.trim() === '')) {
                             fieldErrors.push(`فیلد ${rules?.showName || field} الزامی می‌باشد`);
                         }
                         break;

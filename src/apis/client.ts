@@ -288,7 +288,7 @@ class ApiClient {
 
 
   async getRestOfServices(status: string, fromDate: any, toDate: any) {
-    console.log(77, status, fromDate, toDate);
+   // console.log(77, status, fromDate, toDate);
 
     const params = {
       status: status,

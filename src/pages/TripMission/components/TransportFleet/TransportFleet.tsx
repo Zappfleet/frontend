@@ -7,6 +7,7 @@ import useVehicleBasicData from '../../../../hooks/data/useVehicleBasicData';
 import { VehicleItem } from '../VehicleItem/VehicleItem';
 import getCurrentLocations from '../../../../hooks/useCurrentLocations/getCurrentLocations';
 import carIcon from '../../../../images/map/carIcon.png';
+import ErrorBoundary from '../../../../components/ErrorBoundary/ErrorBoundary';
 
 const TransportFleet = (props: any) => {
   const { fleetData } = props;
@@ -67,7 +68,7 @@ const TransportFleet = (props: any) => {
                     key={vehicle._id}
                   >
                     <i className='fa fa-eye icon-eye' onClick={() => viewVehicleOnMap(vehicle._id)}></i>
-                    <VehicleItem vehicle={vehicle} basicData={basicData} />
+                      <VehicleItem vehicle={vehicle} basicData={basicData} />  
                   </div>
                 );
               })}
@@ -77,7 +78,7 @@ const TransportFleet = (props: any) => {
         <div className="col-12 col-md-8">
           <div className="map-div">
             <div className="location-div">
-              <MapContainer mapRef={mapRef1 as { current: MapRefType }} />
+              <MapContainer mapRef={mapRef1 as { current: MapRefType }} />  
             </div>
           </div>
         </div>

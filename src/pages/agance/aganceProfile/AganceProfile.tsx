@@ -1,22 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './style.scss';
 import '../aganceRegister/style.scss'
-import ObjectId from 'bson-objectid';
-import DatePicker from 'react-multi-date-picker';
-import persian from 'react-date-object/calendars/persian';
-import persian_fa from 'react-date-object/locales/persian_fa';
-import moment from 'jalali-moment';
-import FileUpload, { FileUploadHandles } from '../../../components/FileUpload/FileUpload';
-import useAganceCarteSalahiyat from '../../../hooks/data/Agance/useCarteSalahiyat';
-import { NotificationController } from '../../../lib/notificationController';
 import DataGrid from '../../../components/DataGrid/DataGrid';
-import { MdOutlinePlaylistAddCheckCircle } from 'react-icons/md';
-import { convertDateToISO } from '../../../utils/dateTools';
 import useAganceDriver from '../../../hooks/data/Agance/useAganceDriver';
-import WordProcessor from '../../../components/Exports/WordProcessor/WordProcessor';
-import wordFile from '../../../lib/zarghan/carteSalahiyat.docx';
 import useGetAganceProfileByDriverId from '../../../hooks/data/Agance/useGetAganceProfileByDriverId';
-import useUsers from '../../../hooks/data/useUsers';
 import PlaqueInput from '../../Form/PlaqueInput';
 import { convertStringToPlaque } from '../../../lib/string';
 import { convertGregorianToJalali, getBase64WithFileName } from '../../../utils/utils';
@@ -77,6 +64,8 @@ const AganceProfile = ({ handleBackClick, title }: any) => {
 
 
     useEffect(() => {
+        console.log(2);
+
         if (driverId) {
             setRefreshReport(!refreshReport)
         }
@@ -91,7 +80,7 @@ const AganceProfile = ({ handleBackClick, title }: any) => {
     const options = [{ id: 1, value: 10 }, { id: 2, value: 30 }, { id: 3, value: 50 }]
     const thead = [
         // { key: 'id', name: 'شناسه' },
-        { key: '', name: theadCRUD },
+        { key: '', name: '-view-' },
         { key: 'full_name', name: 'نام و نام خانوادگی', img: false },
         { key: 'driverNatNum', name: 'کد ملی' },
         // { key: 'shomareParvane', name: ' تاریخ شروع  فعالیت', type: 'caleadar', key2: 'fromdate' },
@@ -120,10 +109,10 @@ const AganceProfile = ({ handleBackClick, title }: any) => {
 
 
     useEffect(() => {
-        console.log(78,resultReport,driverId);
-        
+        console.log(78, resultReport, driverId);
+
         if (resultReport) {
-            console.log(79,resultReport);
+            console.log(79, resultReport);
             clearFormInputs()
             customizeAndSetAganceProfile(resultReport?.data?.data)
         }
@@ -175,9 +164,11 @@ const AganceProfile = ({ handleBackClick, title }: any) => {
 
 
     const clickOnRowDataGrid = (item: any, type: any) => {
-        console.log(100,item,type);
-        
-        if (type === 'update') {
+        console.log(100, item, type);
+
+        if (type === 'view') {
+            console.log(8, item?._id,driverId);
+
             setDriverId(item?._id)
         }
     }
@@ -213,6 +204,7 @@ const AganceProfile = ({ handleBackClick, title }: any) => {
             <div style={{ display: `${selectedTab === 'list' ? '' : 'none'}` }} className="row">
                 <div className="col-12">
                     {aganceDrivers?.length > 0 &&
+
                         <DataGrid
                             clickOnRow={clickOnRowDataGrid}
                             pagesize={options[0].value}
@@ -220,6 +212,7 @@ const AganceProfile = ({ handleBackClick, title }: any) => {
                             options={options}
                             thead={thead}
                         />
+
                     }
                     {aganceDrivers?.length <= 0 && <p style={{ marginTop: '40px' }}> {'موردی برای نمایش وجود ندارد'}</p>}
                 </div>
@@ -265,11 +258,13 @@ const AganceProfile = ({ handleBackClick, title }: any) => {
                             <span>   شماره پلاک</span>
                             <span>
                                 {aganceProfile[0]?.vehicleInfo[0]?.plaque &&
+
                                     <PlaqueInput
                                         disabled={true}
                                         small={true}
                                         value={convertStringToPlaque(aganceProfile[0]?.vehicleInfo[0]?.plaque)}
                                     />
+
                                 }
                             </span>
                         </div>
@@ -295,12 +290,14 @@ const AganceProfile = ({ handleBackClick, title }: any) => {
                     <div className="row items">
                         <div className="col-12">
                             {aganceProfile[0]?.allActivity &&
+
                                 <DataGrid
                                     pagesize={optionsReport[0].value}
                                     items={aganceProfile[0]?.allActivity}
                                     options={optionsReport}
                                     thead={theadReport}
                                 />
+
                             }
                             {!aganceProfile[0]?.allActivity && <p style={{ marginTop: '40px' }}> {'موردی برای نمایش وجود ندارد'}</p>}
                         </div>

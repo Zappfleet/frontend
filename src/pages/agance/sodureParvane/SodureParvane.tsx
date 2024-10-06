@@ -19,6 +19,7 @@ import Page403 from '../../../components/Page403/Page403';
 import WordProcessor from '../../../components/Exports/WordProcessor/WordProcessor';
 import wordFile_sodureParvaneAgance from '../../../lib/zarghan/sodureParvaneAgance.docx';
 import wordFile_sodureParvaneBar from '../../../lib/zarghan/sodureParvaneBar.docx';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
 
 const SodureParvane = ({ handleBackClick, title }: any) => {
@@ -184,10 +185,12 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
     }, [fishDate, fromDate, toDate])
 
     const customizeAndSetItems = (data: any) => {
+        console.log(23,data,aganceList);
+        
         setItemsList(() => {
             return data.map((ite: any) => ({
                 ...ite,
-                aganceName: (aganceList?.filter((e: any) => e._id === ite?.aganceID))[0].name,
+                aganceName: (aganceList?.filter((e: any) => e._id === ite?.aganceID))[0]?.name,
                 fishDate: convertGregorianToJalali(ite.fishDate),
                 fromDate: convertGregorianToJalali(ite.fromDate),
                 toDate: convertGregorianToJalali(ite.toDate)
@@ -342,18 +345,23 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
 
                     {ShowSodureParvaneAgance === true
                         && <>
-                            <WordProcessor autoReadFile={true} wordFile={wordFile_sodureParvaneAgance}
-                                fields={fields}
-                            />
+                             
+                                <WordProcessor autoReadFile={true} wordFile={wordFile_sodureParvaneAgance}
+                                    fields={fields}
+                                />
+                             
                         </>
                     }
                     <button onClick={() => setShowSodureParvaneBar(true)} className='my-btn'>صدور پروانه بار</button>
 
                     {ShowSodureParvaneBar === true
                         && <>
-                            <WordProcessor autoReadFile={true} wordFile={wordFile_sodureParvaneBar}
-                                fields={fields}
-                            />
+                             
+                                <WordProcessor autoReadFile={true} wordFile={wordFile_sodureParvaneBar}
+                                    fields={fields}
+                                />
+                             
+
                         </>
                     }
                 </div>
@@ -361,13 +369,16 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
 
             <div style={{ display: `${selectedTab === 'list' ? '' : 'none'}` }} className="row">
                 <div className="col-12">
-                    <DataGrid
-                        clickOnRow={clickOnRowDataGrid}
-                        pagesize={options[0].value}
-                        items={ItemsList}
-                        options={options}
-                        thead={thead}
-                    />
+                     
+                        <DataGrid
+                            clickOnRow={clickOnRowDataGrid}
+                            pagesize={options[0].value}
+                            items={ItemsList}
+                            options={options}
+                            thead={thead}
+                        />
+                     
+
                 </div>
             </div>
 
@@ -397,15 +408,18 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
                             <div className="col-6">
                                 <div className="form-group">
                                     <p>تاریخ   </p>
-                                    <DatePicker
-                                        onChange={(date) => handleChangefishDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
-                                        calendar={persian}
-                                        locale={persian_fa}
-                                        className="datetime-picker"
-                                        inputClass="datetime-input !text-center !text-lg !p-4"
-                                        value={fishDateDatePicker}
-                                        placeholder='از تاریخ'
-                                    />
+                                     
+                                        <DatePicker
+                                            onChange={(date) => handleChangefishDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
+                                            calendar={persian}
+                                            locale={persian_fa}
+                                            className="datetime-picker"
+                                            inputClass="datetime-input !text-center !text-lg !p-4"
+                                            value={fishDateDatePicker}
+                                            placeholder='از تاریخ'
+                                        />
+                                     
+
                                 </div>
                             </div>
 
@@ -414,11 +428,14 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p> تصویر فیش   </p>
                                     <div className="file-upload-div">
-                                        <FileUpload
-                                            ref={fileUploadRef_fishPic}
-                                            name={'fishPic'}
-                                            id={objectId.toString()}
-                                            handleGetBase64={handleGetBase64} />
+                                         
+                                            <FileUpload
+                                                ref={fileUploadRef_fishPic}
+                                                name={'fishPic'}
+                                                id={objectId.toString()}
+                                                handleGetBase64={handleGetBase64} />
+                                         
+
 
                                         {fields?.attachFile?.fishPic &&
                                             <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('fishPic')}></i>}
@@ -445,25 +462,30 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
                                     <input onChange={(e) => setFields({ ...fields, year: e.target.value })} value={fields?.year || ''} type="text" className="form-control" />
 
                                     از تاریخ
-                                    <DatePicker
-                                        onChange={(date) => handleChangefromDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
-                                        calendar={persian}
-                                        locale={persian_fa}
-                                        className="datetime-picker"
-                                        inputClass="datetime-input !text-center !text-lg !p-4"
-                                        value={fromDateDatePicker}
-                                        placeholder='از تاریخ'
-                                    />
+
+                                     
+                                        <DatePicker
+                                            onChange={(date) => handleChangefromDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
+                                            calendar={persian}
+                                            locale={persian_fa}
+                                            className="datetime-picker"
+                                            inputClass="datetime-input !text-center !text-lg !p-4"
+                                            value={fromDateDatePicker}
+                                            placeholder='از تاریخ'
+                                        />
+                                     
                                     الی
-                                    <DatePicker
-                                        onChange={(date) => handleChangetoDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
-                                        calendar={persian}
-                                        locale={persian_fa}
-                                        className="datetime-picker"
-                                        inputClass="datetime-input !text-center !text-lg !p-4"
-                                        value={toDateDatePicker}
-                                        placeholder='تا تاریخ'
-                                    />
+                                     
+                                        <DatePicker
+                                            onChange={(date) => handleChangetoDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
+                                            calendar={persian}
+                                            locale={persian_fa}
+                                            className="datetime-picker"
+                                            inputClass="datetime-input !text-center !text-lg !p-4"
+                                            value={toDateDatePicker}
+                                            placeholder='تا تاریخ'
+                                        />
+                                     
                                     بلامانع است.
                                 </div>
                             </div>

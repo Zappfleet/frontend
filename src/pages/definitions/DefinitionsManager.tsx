@@ -5,6 +5,7 @@ import TabbedPanel from "../../components/TabbedPanel/TabbedPanel";
 import useVehicleBasicData from "../../hooks/data/useVehicleBasicData";
 import { NotificationController } from "../../lib/notificationController";
 import { serviceUnits } from "../../lib/string";
+import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary";
 
 
 const DefinitionsManager = () => {
@@ -32,67 +33,80 @@ const DefinitionsManager = () => {
         {
             label: "نوع خودرو",
             key: "groups",
-            component: <BasicDataTable
-                onSubmit={handle_submitVehicleGroup("group")}
-                data={data.groups}
-                group={"group"}
-                title={"نوع خودرو"}
-            />
+            component:
+                 
+                    <BasicDataTable
+                        onSubmit={handle_submitVehicleGroup("group")}
+                        data={data.groups}
+                        group={"group"}
+                        title={"نوع خودرو"}
+                    />
+                 
         },
         {
             label: "سرویس",
             key: "services",
-            component: <BasicDataTable
-                onSubmit={handle_submitVehicleGroup("service")}
-                data={data.services}
-                group={"service"}
-                title={"سرویس"}
-                additionalFields={[{
-                    title: "واحد ظرفیت",
-                    key: "unit",
-                    render: (value: string, item: any) => {
-                        return <select defaultValue={value } onChange={(e) => handle_updateServiceUnit(item.key, e.target.value, () => { e.target.value = value })} className="select-box" key={value}>
-                            {serviceUnits.map((entry) => {
-                                return <option value={entry[0]}>{entry[1]}</option>
-                            })}
-                        </select>
-                    }
-                }]}
-                renderAdditionalRowInput={() => {
-                    return <select name={"unit"} className="p-1.5 rounded bg-white border border-gray">
-                        {serviceUnits.map((entry) => {
-                            return <option value={entry[0]}>{entry[1]}</option>
-                        })}
-                    </select>
-                }}
-            />
+            component:
+                 
+                    <BasicDataTable
+                        onSubmit={handle_submitVehicleGroup("service")}
+                        data={data.services}
+                        group={"service"}
+                        title={"سرویس"}
+                        additionalFields={[{
+                            title: "واحد ظرفیت",
+                            key: "unit",
+                            render: (value: string, item: any) => {
+                                return <select defaultValue={value} onChange={(e) => handle_updateServiceUnit(item.key, e.target.value, () => { e.target.value = value })} className="select-box" key={value}>
+                                    {serviceUnits.map((entry) => {
+                                        return <option value={entry[0]}>{entry[1]}</option>
+                                    })}
+                                </select>
+                            }
+                        }]}
+                        renderAdditionalRowInput={() => {
+                            return <select name={"unit"} className="p-1.5 rounded bg-white border border-gray">
+                                {serviceUnits.map((entry) => {
+                                    return <option value={entry[0]}>{entry[1]}</option>
+                                })}
+                            </select>
+                        }}
+                    />
+                 
+
         },
         {
             label: "اسامی خودرو",
             key: "names",
-            component: <BasicDataTable
-                onSubmit={handle_submitVehicleGroup("name")}
-                data={data.names}
-                group={"name"}
-                title={"اسامی خودرو"}
-            />
+            component:  
+                <BasicDataTable
+                    onSubmit={handle_submitVehicleGroup("name")}
+                    data={data.names}
+                    group={"name"}
+                    title={"اسامی خودرو"}
+                />
+             
         },
         {
             label: "رنگ ها",
             key: "colors",
-            component: <BasicDataTable
-                onSubmit={handle_submitVehicleGroup("color")}
-                data={data.colors}
-                group={"color"}
-                title={"رنگ"}
-            />
+            component:  
+                <BasicDataTable
+                    onSubmit={handle_submitVehicleGroup("color")}
+                    data={data.colors}
+                    group={"color"}
+                    title={"رنگ"}
+                />
+             
         }
     ]
 
     return <div className="DefinitionsManager-component">
-        <TabbedPanel
-            tabs={tabs}
-        />
+         
+            <TabbedPanel
+                tabs={tabs}
+            />
+         
     </div>
 }
 

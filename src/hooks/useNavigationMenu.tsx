@@ -39,6 +39,14 @@ export default function useNavigationMenu() {
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_DASHBOARD]),
       },
       {
+        key: 'menu.dashboard',
+        label: '',
+        is_title: false,
+        href: '/profile',
+        icon: '',
+        isPermitted: true,
+      },
+      {
         key: 'menu.services',
         label: 'سرویس ها',
         is_title: false,
@@ -105,7 +113,7 @@ export default function useNavigationMenu() {
         is_title: false,
         href: '/vehicles',
         icon: <i className="fa-solid fa-car"></i>,
-        isPermitted: hasPermitGroup([
+        isPermitted: import.meta.env.VITE_CUSTOMER_NAME === 'zarghan' ? false : hasPermitGroup([
           PERMIT_CONST.PERMIT_VEHICLES_CREATE,
           PERMIT_CONST.PERMIT_USERS_DELETE,
           PERMIT_CONST.PERMIT_USERS_EDIT,
@@ -233,20 +241,20 @@ export default function useNavigationMenu() {
       },
       {
         key: 'menu.aganceProfile',
-        label: ' پروفایل',
+        label: 'دبیرخانه',
         is_title: false,
         href: '/aganceProfile',
         icon: <i className="fas fa-user-circle"></i>,
         isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_PROFILE_LIST]),
       },
-      {
-        key: 'menu.aganceDabirkhane',
-        label: ' دبیرخانه',
-        is_title: false,
-        href: '/aganceDabirkhane',
-        icon: <i className="far fa-envelope-open"></i>,
-        isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_DABIRKHANE_LIST]),
-      },
+      // {
+      //   key: 'menu.aganceDabirkhane',
+      //   label: ' دبیرخانه',
+      //   is_title: false,
+      //   href: '/aganceDabirkhane',
+      //   icon: <i className="far fa-envelope-open"></i>,
+      //   isPermitted: hasPermitGroup([PERMIT_CONST.PERMIT_AGANCE_DABIRKHANE_LIST]),
+      // },
 
 
 

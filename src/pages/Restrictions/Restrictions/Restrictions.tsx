@@ -13,6 +13,7 @@ import useRestrictions from '../../../hooks/data/Restrictions/useRestrictions';
 import InActiveSystem from '../InActiveSystem/InActiveSystem';
 import RestrictionShowRequests from '../RestrictionShowRequests/RestrictionShowRequests';
 import SetWorkingWeek from '../SetWorkingWeek/SetWorkingWeek';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
 const Restrictions = () => {
 
@@ -121,8 +122,8 @@ const Restrictions = () => {
                     </div>
                 </td>
                 <td style={{ textAlign: "right" }}>{element.title}</td>
-                {element.key !==9 && <td>{items?.find((x: any) => x?.key === element?.key)?.value || 'ثبت نشده'}</td>}
-                {element.key===9 && 'ثبت شده'}
+                {element.key !== 9 && <td>{items?.find((x: any) => x?.key === element?.key)?.value || 'ثبت نشده'}</td>}
+                {element.key === 9 && 'ثبت شده'}
                 <td>{element?.unit}</td>
             </tr >
         </>
@@ -183,11 +184,13 @@ const Restrictions = () => {
                                         </div>
                                         <div className="modal-body">
 
-                                            {item && item?.key === 7 && <InActiveSystem />}
-                                            {item && item?.key === 8 && <RestrictionShowRequests />}
-                                            {item && item?.key === 9 && <SetWorkingWeek />}
+                                            {item && item?.key === 7 &&  <InActiveSystem /> }
+                                            {item && item?.key === 8 &&  <RestrictionShowRequests /> }
+                                            {item && item?.key === 9 &&  <SetWorkingWeek />  }
                                             {item && item?.key !== 7 && item?.key !== 8 && item?.key !== 9 &&
-                                                <>                                                <RenderModalBody onRestrictionChange={onRestrictionChange} item={item} />
+                                                <>   
+                                                    <RenderModalBody onRestrictionChange={onRestrictionChange} item={item} />
+                                                 
                                                     <div className="modal-footer">
                                                         <button type="button" className="my-btn btn-secondary" data-bs-dismiss="modal" onClick={() => {
                                                             setShowModal(false);

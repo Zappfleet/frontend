@@ -1,5 +1,6 @@
 'use client';
 
+import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 import ModalLayout from '../components/ModalLayout/ModalLayout';
 import useModal from './useModal';
 
@@ -7,13 +8,15 @@ const useFullScreenModal = (props: any) => {
   const modal = useModal();
 
   const ui = (
-    <ModalLayout
-      {...modal}
-      {...props}
-      mode="fullscreen"
-      renderContent={props.renderContent}
-      zIndex={props.zIndex}
-    />
+     
+      <ModalLayout
+        {...modal}
+        {...props}
+        mode="fullscreen"
+        renderContent={props.renderContent}
+        zIndex={props.zIndex}
+      />
+     
   );
 
   const show = (data: any) => {

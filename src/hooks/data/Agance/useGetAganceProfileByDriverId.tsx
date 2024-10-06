@@ -27,8 +27,10 @@ export default function useGetAganceProfileByDriverId(refreshReport: any, driver
     }
 
     useEffect(() => {
+        console.log(780,driverId);
+        
         driverId && refreshData();
-    }, [refreshReport]); // Include fromDate and toDate as dependencies
+    }, [driverId]); // Include fromDate and toDate as dependencies
 
     return {
         result,

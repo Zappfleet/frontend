@@ -5,6 +5,7 @@ import { convertEnglishToPersianDigits, convertGregorianToJalali } from '../../.
 import useRequests from '../../../hooks/data/useRequests';
 import { MODE_AREAL } from '../../../lib/constants';
 import { isArray } from 'lodash';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
 const MonthRequest = () => {
 
@@ -36,14 +37,14 @@ const MonthRequest = () => {
     })
 
     useEffect(() => {
-       // console.log(78, requests);
+        // console.log(78, requests);
         let resCount: any = {}
         isArray(requests) && requests?.map((request: any) => {
             let date = convertGregorianToJalali(request?.gmt_for_date)
             resCount[date] = resCount[date] ? resCount[date] + 1 : 1
         })
 
-      //  console.log(400, resCount)
+        //  console.log(400, resCount)
         let myLable: any = []
         let myData: any = []
 
@@ -51,14 +52,14 @@ const MonthRequest = () => {
             let date = `${year}/${monthIndex < 10 ? `0${monthIndex}` : monthIndex}/${index < 10 ? `0${index}` : index}`
             myLable.push(convertEnglishToPersianDigits(date))
             myData.push(resCount[date])
-           // console.log(404,date)
+            // console.log(404,date)
         }
-       
+
 
         setChartData(myData)
         setChartLable(myLable)
 
-    }, [requests,monthIndex])
+    }, [requests, monthIndex])
 
 
 
@@ -109,7 +110,8 @@ const MonthRequest = () => {
                 <div className="row">
                     <div className="col-12">
                         <div className="linechart">
-                            <LineChart data={data} />
+                              <LineChart data={data} />
+                             
                         </div>
                     </div>
                 </div>

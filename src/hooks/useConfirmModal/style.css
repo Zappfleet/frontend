@@ -1,5 +1,5 @@
 .useConfirmModal-component {
-  position: fixed;
+  /* position: fixed;
   right: 50%;
   left: 50%;
   top: 150px;
@@ -9,7 +9,7 @@
   padding: 30px;
   background-color: white;
   border: 1px solid #eee;
-  border-radius: 5px;
+  border-radius: 5px; */
 }
 .useConfirmModal-component .my-btn {
   margin-right: 15px;

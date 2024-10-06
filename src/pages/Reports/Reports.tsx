@@ -9,6 +9,7 @@ import TimeOfServices from './TimeOfServices/TimeOfServices';
 import CountOfServicesOfDrivers from './CountOfServicesOfDrivers/CountOfServicesOfDrivers';
 import RestOfDriverBetweenServises from './RestOfDriverBetweenServises/RestOfDriverBetweenServises';
 import DriverList_By_LastServiceAdnDistanse from './DriverList_By_LastServiceAdnDistanse/DriverList_By_LastServiceAdnDistanse';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 export default function Reports() {
   const [isReportOpen, setIsReportOpen] = useState<boolean>(false);
@@ -42,19 +43,19 @@ export default function Reports() {
 
     switch (reportcomponentName) {
       case 'AgencyReport':
-        return <AgencyReport handleBackClick={handleBackClick} title={reportTitle} />;
+        return  <AgencyReport handleBackClick={handleBackClick} title={reportTitle} /> 
       case 'DriverReport':
-        return <DriverReport handleBackClick={handleBackClick} title={reportTitle} />;
+        return  <DriverReport handleBackClick={handleBackClick} title={reportTitle} /> 
       case 'DriverReportDetails':
-        return <DriverReportDetails handleBackClick={handleBackClick} title={reportTitle} />;
+        return  <DriverReportDetails handleBackClick={handleBackClick} title={reportTitle} /> 
       case 'TimeOfServices':
-        return <TimeOfServices handleBackClick={handleBackClick} title={reportTitle} />
+        return  <TimeOfServices handleBackClick={handleBackClick} title={reportTitle} /> 
       case 'CountOfServicesOfDrivers':
-        return <CountOfServicesOfDrivers handleBackClick={handleBackClick} title={reportTitle} />
+        return  <CountOfServicesOfDrivers handleBackClick={handleBackClick} title={reportTitle} /> 
       case 'RestOfDriverBetweenServises':
-        return <RestOfDriverBetweenServises handleBackClick={handleBackClick} title={reportTitle} />
+        return  <RestOfDriverBetweenServises handleBackClick={handleBackClick} title={reportTitle} /> 
       case 'DriverList_By_LastServiceAdnDistanse':
-        return <DriverList_By_LastServiceAdnDistanse handleBackClick={handleBackClick} title={reportTitle} />
+        return  <DriverList_By_LastServiceAdnDistanse handleBackClick={handleBackClick} title={reportTitle} /> 
     }
   };
   return (

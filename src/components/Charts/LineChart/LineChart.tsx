@@ -1,9 +1,10 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement, Tooltip, Legend,Filler } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement, Tooltip, Legend, Filler } from 'chart.js';
+import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary';
 
 // Register the necessary Chart.js components
-ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Tooltip, Legend,Filler);
+ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Tooltip, Legend, Filler);
 
 const LineChart = ({ data }: any) => {
     // const data = {
@@ -61,7 +62,8 @@ const LineChart = ({ data }: any) => {
         },
     };
 
-    return <Line data={data} options={options} />;
+    return  <Line data={data} options={options} />;
+     
 };
 
 export default LineChart;

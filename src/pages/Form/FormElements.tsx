@@ -8,11 +8,14 @@ import SwitcherFour from '../../components/SwitcherFour';
 import SwitcherOne from '../../components/SwitcherOne';
 import SwitcherThree from '../../components/SwitcherThree';
 import BasicSwitcher from '../../components/BasicSwitcher';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 const FormElements = () => {
   return (
     <>
-      <Breadcrumb pageName="FormElements" />
+       
+        <Breadcrumb pageName="FormElements" />
+       
 
       <div className="grid grid-cols-1 gap-9 sm:grid-cols-2">
         <div className="flex flex-col gap-9">
@@ -68,10 +71,10 @@ const FormElements = () => {
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
-              <SwitcherOne />
-              <BasicSwitcher />
-              <SwitcherThree />
-              <SwitcherFour />
+                 <SwitcherOne />   
+                <BasicSwitcher />   
+                 <SwitcherThree />   
+                 <SwitcherFour />   
             </div>
           </div>
 
@@ -193,11 +196,11 @@ const FormElements = () => {
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
-              <CheckboxOne />
-              <CheckboxTwo />
-              <CheckboxThree />
-              <CheckboxFour />
-              <CheckboxFive />
+                 <CheckboxOne /> 
+                <CheckboxTwo /> 
+                 <CheckboxThree /> 
+                <CheckboxFour /> 
+                 <CheckboxFive /> 
             </div>
           </div>
 

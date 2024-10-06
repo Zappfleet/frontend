@@ -24,6 +24,7 @@ import TreeView from '../../../components/TreeView.js';
 
 import usePermissions from '../../../hooks/data/usePermissions';
 import TreeNode from './TreeNode.js';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary.js';
 
 const InActiveSystem: React.FC = () => {
 
@@ -139,7 +140,7 @@ const InActiveSystem: React.FC = () => {
                 end_date: toDate,
                 inactive_permissions: checked
             }
-           // console.log(1, ite);
+            // console.log(1, ite);
 
             setItem(ite)
         }
@@ -233,30 +234,36 @@ const InActiveSystem: React.FC = () => {
                             <div className="row">
                                 <div className="col-12 col-md-3">
                                     از تاریخ
-                                    <DatePicker
-                                        onChange={(date) => handleChangeDatePickerFromDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
-                                        calendar={persian}
-                                        locale={persian_fa}
-                                        className="datetime-picker"
-                                        inputClass="datetime-input !text-center !text-lg !p-4"
-                                        value={fromDateDatePicker}
-                                        placeholder='از تاریخ'
-                                    />
+                                     
+                                        <DatePicker
+                                            onChange={(date) => handleChangeDatePickerFromDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
+                                            calendar={persian}
+                                            locale={persian_fa}
+                                            className="datetime-picker"
+                                            inputClass="datetime-input !text-center !text-lg !p-4"
+                                            value={fromDateDatePicker}
+                                            placeholder='از تاریخ'
+                                        />
+                                     
+
 
 
                                     {/* <input type="text" className="form-control" id="fromdate" placeholder='از تاریخ' /> */}
                                 </div>
                                 <div className="col-12 col-md-3">
                                     تا تاریخ
-                                    <DatePicker
-                                        onChange={handleChangeDatePickerTodate}
-                                        calendar={persian}
-                                        locale={persian_fa}
-                                        className="datetime-picker"
-                                        inputClass="datetime-input !text-center !text-lg !p-4"
-                                        value={toDateDatePicker}
-                                        placeholder='تا تاریخ'
-                                    />
+                                     
+                                        <DatePicker
+                                            onChange={handleChangeDatePickerTodate}
+                                            calendar={persian}
+                                            locale={persian_fa}
+                                            className="datetime-picker"
+                                            inputClass="datetime-input !text-center !text-lg !p-4"
+                                            value={toDateDatePicker}
+                                            placeholder='تا تاریخ'
+                                        />
+                                     
+
                                 </div>
                                 <div className="col-12 col-md-3">
                                     <br />
@@ -271,13 +278,16 @@ const InActiveSystem: React.FC = () => {
                                             <input className="form-control" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
                                         </div>
                                     </div>
-                                    <TreeNode
-                                        hideLabel={true}
-                                        node={PermissionSet}
-                                        path={null}
-                                        checked={checked}
-                                        onChange={handleCheckboxChange}
-                                    />
+                                     
+                                        <TreeNode
+                                            hideLabel={true}
+                                            node={PermissionSet}
+                                            path={null}
+                                            checked={checked}
+                                            onChange={handleCheckboxChange}
+                                        />
+                                     
+
                                     {/* <pre>{JSON.stringify(checked, null, 2)}</pre> */}
                                 </div>
 

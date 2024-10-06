@@ -16,6 +16,7 @@ import useAuthentication from '../../hooks/data/useAuthentication';
 import useComments from '../../hooks/data/Comments/useComments';
 import { NotificationController } from '../../lib/notificationController';
 import { DB_ROLE_DRIVER_TITLE, DB_ROLE_MOSAFER_TITLE } from '../../lib/constants';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 
 
@@ -59,7 +60,7 @@ export default function RequestHistory(props: any = {}) {
     } = useItemSetToggle({ onlyOne: true });
 
     const { missionList } = useMissions_by_StatusAndDriverID("DRAFT", null);
-    const { missionList: missionListDONEStatus } = useMissions_by_StatusAndDriverID("DONE", null);
+    const { missionList: missionListDONEStatus } = useMissions_by_StatusAndDriverID("", null);
 
 
     // return <div>
@@ -132,7 +133,7 @@ export default function RequestHistory(props: any = {}) {
 
 
     useEffect(() => {
-      //  console.log(7, resultComment);
+        //  console.log(7, resultComment);
 
         if (resultComment) {
             if (actionType === 'insert') {
@@ -149,7 +150,7 @@ export default function RequestHistory(props: any = {}) {
 
                 let registedCommentbefore = true
                 resultComment?.data?.data?.map((item: any) => {
-                 //   console.log(5, item.registerID, ID);
+                    //   console.log(5, item.registerID, ID);
                     if (item.registerID === ID) {
                         registedCommentbefore = false
                     }
@@ -228,17 +229,19 @@ export default function RequestHistory(props: any = {}) {
                         </tr>
                     </thead>
                     <tbody>
-                        {missionList && requests?.docs?.map((request: any) => {
+                        {missionList && requests?.docs?.filter((request: any) => {
+                            return props.requestID ? request._id === props.requestID : true;
+                        }).map((request: any) => {
                             let isEditPossible =
                                 request.status === 'PENDING' || request.status === 'CONFIRM' ? true :
                                     request.status === 'ASSIGNED_TO_MISSION' ? handleIsEditPossible(request._id) : false
 
                             const myMissions = missionListDONEStatus?.filter((item: any) =>
                                 item.service_requests && item.service_requests[0]?.request_id === request._id
-                                && item.status === 'DONE'
+                              //  && item.status === 'DONE'
                             )
 
-                        //    console.log(4444, request);
+                                console.log(4444,request,myMissions);
 
                             const myComments = myMissions && myMissions[0]?.extra?.comments ? myMissions[0].extra.comments : undefined;
 
@@ -265,7 +268,10 @@ export default function RequestHistory(props: any = {}) {
                                         {showCommentComponent && mission_id === myMissions[0]?._id &&
                                             <div className="div-comments">
                                                 <i onClick={() => setShowCommentComponent(false)} className='close-icon fa fa-remove'></i>
+
                                                 <Comments registerID={ID} registerRole={role} saveComment={saveComment} />
+
+
                                             </div>}
 
                                     </td>
@@ -285,7 +291,10 @@ export default function RequestHistory(props: any = {}) {
                                         <div
                                             className='expand'>
                                             <div>
+
                                                 <RequestDetailsBox request={request} />
+
+
                                                 {showComment(request._id)}
                                             </div>
                                         </div>

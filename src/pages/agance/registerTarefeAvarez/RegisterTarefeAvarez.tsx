@@ -9,6 +9,7 @@ import useTarefeAvarez from '../../../hooks/data/Agance/useTarefeAvarez';
 import useAuthentication from '../../../hooks/data/useAuthentication';
 import * as permitConstant from '../../../lib/constants'
 import Page403 from '../../../components/Page403/Page403';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
 
 
@@ -272,13 +273,16 @@ const RegisterTarefeAvarez = ({ handleBackClick, title }: any) => {
             <div style={{ display: `${selectedTab === 'list' ? '' : 'none'}` }} className="row">
                 <div className="col-12">
                     {ItemsList?.length > 0 &&
-                        <DataGrid
+                     
+                         <DataGrid
                             clickOnRow={clickOnRowDataGrid}
                             pagesize={options[0].value}
                             items={ItemsList}
                             options={options}
                             thead={thead}
                         />
+                     
+                       
                     }
                     {ItemsList?.length <= 0 && <p style={{ marginTop: '40px' }}> {'موردی برای نمایش وجود ندارد'}</p>}
                 </div>
@@ -356,11 +360,14 @@ const RegisterTarefeAvarez = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p> بارگزاری مدارک مصوب نرخ</p>
                                     <div className="file-upload-div">
-                                        <FileUpload
+                                         
+                                            <FileUpload
                                             ref={fileUploadRef_madarek}
                                             name={'madarek'}
                                             id={objectId.toString()}
-                                            handleGetBase64={handleGetBase64} />
+                                            handleGetBase64={handleGetBase64} /> 
+                                         
+                                       
                                         {fields?.attachFile?.madarek &&
                                             <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('madarek')}></i>}
                                     </div>

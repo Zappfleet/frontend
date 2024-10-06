@@ -39,6 +39,7 @@ import {
   PERMIT_VEHICLES_EDIT,
   PERMIT_VEHICLES_LIST
 } from '../../lib/constants'
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 const DEFAULT_SERVICE_ITEM = () => {
   return {
@@ -658,11 +659,13 @@ const VehicleManager = () => {
                           {Object.fromEntries(carStatusEntries)[item.status]}
                         </td>
                         <td>
-                          <PlaqueInput
-                            small={true}
-                            disabled
-                            value={convertStringToPlaque(item.plaque)}
-                          />
+                           
+                            <PlaqueInput
+                              small={true}
+                              disabled
+                              value={convertStringToPlaque(item.plaque)}
+                            />
+                           
                         </td>
                         <td>
                           {item.services.map((item: any) => {

@@ -18,6 +18,7 @@ import {
     convertToJalaliDateTiem,
     convertPersianToEnglishDigits
 } from '../../../utils/utils.js';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary.js';
 
 export default function DriverList_By_LastServiceAdnDistanse({ handleBackClick, title }: any) {
 
@@ -201,12 +202,14 @@ export default function DriverList_By_LastServiceAdnDistanse({ handleBackClick, 
                                         <p> موردی برای نمایش وجود ندارد</p>
                                     }
                                     {searchIsClecked === true && items.length > 0 &&
-                                        <DataGrid
+                                       
+                                         <DataGrid
                                             pagesize={options[0].value}
                                             items={items}
                                             options={options}
                                             thead={thead}
                                         />
+                                        
                                     }
                                 </div>
                             </div>

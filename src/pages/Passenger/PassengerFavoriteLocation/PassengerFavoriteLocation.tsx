@@ -5,6 +5,7 @@ import LocationSearch from '../../../widgets/LocationSearch/LocationSearch';
 import useNeshanApi from '../../../hooks/data/useNeshanApi';
 import useFavorite from '../../../hooks/data/Favorite/useFavorite';
 import { NotificationController } from '../../../lib/notificationController';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
 
 const PassengerFavoriteLocation = () => {
@@ -32,7 +33,7 @@ const PassengerFavoriteLocation = () => {
     useEffect(() => {
         //console.log(1, actionType, resultFavorite);
         if (resultFavorite) {
-           // console.log(2, actionType, resultFavorite);
+            // console.log(2, actionType, resultFavorite);
             if (hookType === 'select') {
                 if (resultFavorite.status === 200) {
                     setFavoriteLocationList(resultFavorite?.data);
@@ -141,7 +142,7 @@ const PassengerFavoriteLocation = () => {
     }
 
     useEffect(() => {
-       // console.log(33, refresh);
+        // console.log(33, refresh);
     }, [refresh])
 
     const handleRemoveFavorite = async (item: any) => {
@@ -200,17 +201,22 @@ const PassengerFavoriteLocation = () => {
                         <div className="row">
                             <div className="col-12">
                                 <div className="location-div">
-                                    <MapContainer mapRef={mapRef as { current: MapRefType }} />
+                                     
+                                        <MapContainer mapRef={mapRef as { current: MapRefType }} />
 
+                                     
                                     <div className="marker-div">
                                         <i className='fa fa-map-marker marker-icon'></i>
                                         <span>منتخب</span>
                                     </div>
 
-                                    <LocationSearch
-                                        mapRef={mapRef}
-                                        className="loc-search"
-                                    />
+                                     
+                                        <LocationSearch
+                                            mapRef={mapRef}
+                                            className="loc-search"
+                                        />
+                                     
+
 
                                     <i onClick={handle_clickPin} className='fa fa-check check-icon'></i>
                                 </div>

@@ -13,6 +13,7 @@ import useCurrentUserPermissions from '../../hooks/useCurrentUserPermissions';
 import {
   PERMIT_DELEGATION
 } from '../../lib/constants'
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 
 function translate(key: string) {
@@ -156,13 +157,16 @@ function DeligationManager() {
             <h1 className="mx-2 mt-6">
               {'جهت تفویض اختیارات خود به همکاران نام یا کد پرسنلی را جستجو کنید'}
             </h1>
-            <UsersSuggestionInput
+             
+                 <UsersSuggestionInput
               smallChips={true}
               externalState={[state.selectedUsers, handle_setSelectedUsers]}
               showListOnTop={false}
               permissions={[]}
               search_all={true}
             />
+             
+         
           </div>
         </div>
       </div>

@@ -67,7 +67,7 @@ function combineValidationRules(additionalSignUpFields: any = {}) {
 }
 
 const UsersManager = () => {
- // console.log(21);
+  // console.log(21);
 
   const { hasPermitGroup, hasPermitFor, hasAdminRank, permits } =
     useCurrentUserPermissions();
@@ -136,7 +136,7 @@ const UsersManager = () => {
 
     if (userList && roleData) {
       const k = processUserList(userList, roleData);
-     // console.log(100, k);
+      // console.log(100, k);
 
     }
   }, [userList])
@@ -277,7 +277,7 @@ const UsersManager = () => {
 
   const options = [{ id: 1, value: 10 }, { id: 2, value: 30 }, { id: 3, value: 50 }]
   const thead = [
-    // { key: 'id', name: 'شناسه' },
+    { key: '', name: '- update -' },
     { key: 'username', name: 'نام کاربری' },
     { key: 'phone', name: 'تلفن' },
     { key: 'full_name', name: 'نام و نام خانوادگی' },
@@ -311,6 +311,7 @@ const UsersManager = () => {
                     {'نوع ثبت نام'}
                   </label>
                   <select className='form-control'
+                    disabled={import.meta.env.VITE_CUSTOMER_NAME == 'zarghan' ? true : false}
                     ref={signupMethodRef}
                     onChange={handle_signupMethodChanged}
                   >
@@ -460,79 +461,79 @@ const UsersManager = () => {
                 clickOnRow={handle_onRowClick}
               />}
             {/* <table className='table table-hover'>
-                <thead>
-                  <tr>
-                    <th>
-                      نام کاربری
-                    </th>
-                    <th>
-                      تلفن
-                    </th>
-                    <th>
-                      نام و نام خانوادگی
-                    </th>
-                    <th>
-                      نقش
-                    </th>
-                    <th>
-                      وضعیت
-                    </th>
-                    {authInfo?.org?.userListDetailsDisplayColumns?.map(
-                      ({ key, title }: any) => {
-                        return (
-                          <th key={key} >{title} </th>
-                        );
-                      }
-                    )}
-                  </tr>
-                </thead>
-                <tbody>
-                  {userList?.map((item: any) => {
-                    return (
-                      <tr
-                        onClick={() => handle_onRowClick(item)}
-                        key={item._id}>
-                        <td >
-                          {item.username}
-                        </td>
-                        <td >
-                          {item.phone}
-                        </td>
-                        <td>
-                          {item.full_name}
-                        </td>
-                        <td >
-                          {item.roles.map((role: any) => {
-                            return (
-                              <Chips>
-                                {
-                                  roleData?.roles?.find((item: any) => {
-                                    if (item._id == role) return item;
-                                  })?.title
-                                }
-                              </Chips>
-                            );
-                          })}
-                        </td>
-                        <td>
-                          {Object.fromEntries(userStatusEntries)[item.status]}
-                        </td>
-                        {authInfo?.org?.userListDetailsDisplayColumns?.map(
-                          ({ key }: any) => {
-                            return (
-                              <td
-                                key={key}
-                              >
-                                {item.details?.[key]}
-                              </td>
-                            );
-                          }
-                        )}
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table> */}
+              <thead>
+                <tr>
+                  <th>
+                    نام کاربری
+                  </th>
+                  <th>
+                    تلفن
+                  </th>
+                  <th>
+                    نام و نام خانوادگی
+                  </th>
+                  <th>
+                    نقش
+                  </th>
+                  <th>
+                    وضعیت
+                  </th>
+                  {authInfo?.org?.userListDetailsDisplayColumns?.map(
+                    ({ key, title }: any) => {
+                      return (
+                        <th key={key} >{title} </th>
+                      );
+                    }
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {userList?.map((item: any) => {
+                  return (
+                    <tr
+                      onClick={() => handle_onRowClick(item)}
+                      key={item._id}>
+                      <td >
+                        {item.username}
+                      </td>
+                      <td >
+                        {item.phone}
+                      </td>
+                      <td>
+                        {item.full_name}
+                      </td>
+                      <td >
+                        {item.roles.map((role: any) => {
+                          return (
+                            <Chips>
+                              {
+                                roleData?.roles?.find((item: any) => {
+                                  if (item._id == role) return item;
+                                })?.title
+                              }
+                            </Chips>
+                          );
+                        })}
+                      </td>
+                      <td>
+                        {Object.fromEntries(userStatusEntries)[item.status]}
+                      </td>
+                      {authInfo?.org?.userListDetailsDisplayColumns?.map(
+                        ({ key }: any) => {
+                          return (
+                            <td
+                              key={key}
+                            >
+                              {item.details?.[key]}
+                            </td>
+                          );
+                        }
+                      )}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table> */}
           </div>
         </div>
       </div >
