@@ -14,6 +14,7 @@ import InActiveSystem from '../InActiveSystem/InActiveSystem';
 import RestrictionShowRequests from '../RestrictionShowRequests/RestrictionShowRequests';
 import SetWorkingWeek from '../SetWorkingWeek/SetWorkingWeek';
 import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
+import { isArray } from 'lodash';
 
 const Restrictions = () => {
 
@@ -38,9 +39,14 @@ const Restrictions = () => {
 
 
     useEffect(() => {
-        // console.log(1, result);
+        console.log(1, result);
         if (result && result.data) {
-            //   console.log(300, result.data);
+            if (resultType === 'update') {
+                setType('select')
+                setKey(null)
+                setValue(null)
+                setRefresh(!refresh)
+            }
             if (resultType === 'select') {
                 setItems(result.data)
             }
@@ -48,33 +54,59 @@ const Restrictions = () => {
     }, [result])
 
     const onEdit = (item: any) => {
+        console.log(704, item);
 
+        item.value = Array.isArray(items)
+            ? items.find((ite: any) => ite.key === item.key)?.value
+            : '';
         setItem(item)
         setShowModal(true)
     }
 
+
     const onRestrictionChange = (e: any, type: any) => {
-        //   console.log(12, e.target.value, type);
+        console.log(12, e.target.value, type);
 
         if (type === 'number') {
             item.value = e.target.value;
-            setItem({ ...item })
-        } else {
-            item.value = IsoToJalaliWithTime(e.target.value.toISOString()).split(' ')[1];
-            setItem({ ...item })
+            setItem({ ...item });
+        } else if (type === 'time') {
+            // تبدیل مقدار به تاریخ
+            const dateValue = new Date(`1970-01-01T${e.target.value}`);
+            if (!isNaN(dateValue.getTime())) {
+                item.value = IsoToJalaliWithTime(dateValue.toISOString()).split(' ')[1];
+                setItem({ ...item });
+            } else {
+                console.error('Invalid time format');
+            }
         }
     }
+
+
+    // const onRestrictionChange = (e: any, type: any) => {
+    //        console.log(12, e.target.value, type);
+
+    //     if (type === 'number') {
+    //         item.value = e.target.value;
+    //         setItem({ ...item })
+    //     } else {
+    //         item.value = IsoToJalaliWithTime(e.target.value.toISOString()).split(' ')[1];
+    //         setItem({ ...item })
+    //     }
+    // }
 
 
     const handleSubmit = async (item: any) => {
         try {
             const environmentName = import.meta.env.VITE_ENVIRONMENT_NAME;
             if (environmentName === "local") {
+                console.log(75, item);
+
                 setKey(item?.key)
                 setValue(item?.value)
                 setType('update')
                 setRefresh(!refresh)
-                // await httpService.post(`${import.meta.env.VITE_BASE_URL}/restriction`, { key: item?.key, value: item?.value });
+                //await httpService.post(`${import.meta.env.VITE_BASE_URL}/restriction`, { key: item?.key, value: item?.value });
                 SucccessToast({ message: "محدودیت با موفقیت افزوده شد" })
                 setShowModal(false);
                 //mutateRestrictions()
@@ -90,6 +122,8 @@ const Restrictions = () => {
             }
 
         } catch (error) {
+            console.log(4, error);
+
             ErrorToast({ message: "خطا در دریافت جزییات" });
         }
     }
@@ -122,8 +156,9 @@ const Restrictions = () => {
                     </div>
                 </td>
                 <td style={{ textAlign: "right" }}>{element.title}</td>
-                {element.key !== 9 && <td>{items?.find((x: any) => x?.key === element?.key)?.value || 'ثبت نشده'}</td>}
-                {element.key === 9 && 'ثبت شده'}
+                {element.key !== 9 && element.key !== 7 && <td>{items?.find((x: any) => x?.key === element?.key)?.value || 'ثبت نشده'}</td>}
+                {element.key === 9 && '-'}
+                {element.key === 7 && '-'}
                 <td>{element?.unit}</td>
             </tr >
         </>
@@ -178,21 +213,34 @@ const Restrictions = () => {
                                         <div className="modal-header">
                                             <h5 className="modal-title" id="exampleModalLabel">{item?.title || 'Modal Heading'}</h5>
                                             <i className='fa fa-remove' onClick={() => {
+                                                setType('select')
+                                                setKey(null)
+                                                setValue(null)
+                                                setRefresh(!refresh)
                                                 setShowModal(false);
                                                 setItem(null);
                                             }}></i>
                                         </div>
                                         <div className="modal-body">
 
-                                            {item && item?.key === 7 &&  <InActiveSystem /> }
-                                            {item && item?.key === 8 &&  <RestrictionShowRequests /> }
-                                            {item && item?.key === 9 &&  <SetWorkingWeek />  }
+                                            {item && item?.key === 7 && <InActiveSystem />}
+                                            {item && item?.key === 8 && <RestrictionShowRequests />}
+                                            {item && item?.key === 9 && <SetWorkingWeek />}
                                             {item && item?.key !== 7 && item?.key !== 8 && item?.key !== 9 &&
-                                                <>   
+                                                <>
                                                     <RenderModalBody onRestrictionChange={onRestrictionChange} item={item} />
-                                                 
+
                                                     <div className="modal-footer">
                                                         <button type="button" className="my-btn btn-secondary" data-bs-dismiss="modal" onClick={() => {
+                                                            setShowModal(false);
+                                                            setItem(null);
+                                                        }}>بستن</button>
+
+                                                        <button type="button" className="my-btn btn-primary" onClick={() => handleSubmit(item)}>
+                                                            ذخیره
+                                                        </button>
+
+                                                        {/* <button type="button" className="my-btn btn-secondary" data-bs-dismiss="modal" onClick={() => {
                                                             setShowModal(false);
                                                             setItem(null);
                                                         }}>بستن</button>
@@ -200,7 +248,7 @@ const Restrictions = () => {
                                                             <button type="button" className={`my-btn btn-primary`} onClick={() => handleSubmit(item)}>
                                                                 {'ذخیره'}
                                                             </button>
-                                                        )}
+                                                        )} */}
                                                     </div>
                                                 </>
                                             }
@@ -261,7 +309,7 @@ const RenderModalBody = ({ item, onRestrictionChange }: any) => {
                 <label>{desc}</label>
                 <input
                     className='form-control'
-                    type="number"
+                    type={type}
                     name="numberInput"
                     id="numberInput"
                     onChange={(e) => onRestrictionChange(e, type)}

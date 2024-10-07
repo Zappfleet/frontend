@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './style.scss'
 import TabbedPanel from '../../components/TabbedPanel/TabbedPanel';
 import AgencyReport from './AgencyReport/AgencyReport';
@@ -12,6 +12,8 @@ import DriverList_By_LastServiceAdnDistanse from './DriverList_By_LastServiceAdn
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 export default function Reports() {
+  console.log(55);
+  
   const [isReportOpen, setIsReportOpen] = useState<boolean>(false);
   const [reportTitle, setReportTitle] = useState<any>('');
   const [reportcomponentName, setReportcomponentName] = useState<any>('');
@@ -58,6 +60,11 @@ export default function Reports() {
         return  <DriverList_By_LastServiceAdnDistanse handleBackClick={handleBackClick} title={reportTitle} /> 
     }
   };
+
+  useEffect(()=>{
+    console.log(5);
+    
+  })
   return (
     <>
       <div className="reports-component">

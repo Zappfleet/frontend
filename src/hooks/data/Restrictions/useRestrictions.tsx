@@ -3,7 +3,7 @@ import { getApiClient } from '../../../apis/client';
 
 export default function useRestrictions(refresh: any, type: any, key: any, value: any) {
 
-   // console.log(89, type, key, value);
+    console.log(89, type, key, value);
 
     const [result, setResult] = useState<any>(null);
     const [resultType, setResultType] = useState<any>('');
@@ -12,7 +12,7 @@ export default function useRestrictions(refresh: any, type: any, key: any, value
     });
 
     function refreshData() {
-       // console.log(52);
+        console.log(54542);
 
         switch (type) {
             case 'update':
@@ -20,6 +20,8 @@ export default function useRestrictions(refresh: any, type: any, key: any, value
                 setState({ ...state, in_progress: true })
                 getApiClient().updateRestrictions(key, value)
                     .then(resp => {
+                        console.log(78258);
+                        
                         setResult(resp.data);
                     })
                     .catch(error => {
