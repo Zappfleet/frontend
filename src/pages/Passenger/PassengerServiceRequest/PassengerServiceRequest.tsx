@@ -44,7 +44,10 @@ const PassengerServiceRequest = (props: any = {}) => {
     locations: [],
   });
 
-
+  const [classNameForShowCostAndProject, setClassNameForShowCostAndProject] = useState<any>({
+    proj_code: true,
+    cost_center: true
+  })
   //sgh
   const location = useLocation();
 
@@ -56,6 +59,9 @@ const PassengerServiceRequest = (props: any = {}) => {
 
   useEffect(() => {
     //console.log(745,authInfo?.org?.additionalRequestFields);
+
+    setFormState({ ...formState, service: 'taksisroys' });
+
 
   }, [authInfo])
   //sgh
@@ -252,6 +258,7 @@ const PassengerServiceRequest = (props: any = {}) => {
       });
   };
 
+
   const handle_onInputChanged = (e: any) => {
     // if (e.target.name === 'datetime') {
     //   // Suppose e.target.value is an array of date strings, and you want to get the first one
@@ -273,6 +280,33 @@ const PassengerServiceRequest = (props: any = {}) => {
 
     // }
     // else {
+    console.log(200, [e.target.name], e.target.value);
+
+    if (e.target.name === 'cost_center' && (e.target.value !== undefined || e.target.value !== '')) {
+      setClassNameForShowCostAndProject({
+        proj_code: false,
+        cost_center: true
+      })
+    }
+    if (e.target.name === 'proj_code' && (e.target.value !== undefined || e.target.value !== '')) {
+      setClassNameForShowCostAndProject({
+        proj_code: true,
+        cost_center: false
+      })
+    }
+    if (e.target.name === 'cost_center' && (e.target.value === undefined || e.target.value === '')) {
+      setClassNameForShowCostAndProject({
+        proj_code: true,
+        cost_center: true
+      })
+    }
+    if (e.target.name === 'proj_code' && (e.target.value === undefined || e.target.value === '')) {
+      setClassNameForShowCostAndProject({
+        proj_code: true,
+        cost_center: true
+      })
+    }
+
     setFormState({ ...formState, [e.target.name]: e.target.value });
     //}
 
@@ -295,9 +329,9 @@ const PassengerServiceRequest = (props: any = {}) => {
       <div className={`main-div ${type === 'update' ? className : ''}`}>
 
         {/* sgh map */}
-         
-          <MapContainer mapRef={mapRef as { current: MapRefType }} />
-         
+
+        <MapContainer mapRef={mapRef as { current: MapRefType }} />
+
 
 
         <img className="absolute bottom-2/4 left-2/4 w-8 -translate-x-2/4"
@@ -367,67 +401,68 @@ const PassengerServiceRequest = (props: any = {}) => {
                 }
               )}
             >
-               
-                <BiCheck
-                  className={classNames('absolute p-0.5 text-white duration-200')}
-                  size={40}
-                />
-               
+
+              <BiCheck
+                className={classNames('absolute p-0.5 text-white duration-200')}
+                size={40}
+              />
+
 
             </button>
           </span>
         </div>
 
-         
-          <BottomSheetModal onCreate={onBottomSheetCreate}>
-            <div>
-              <form>
-                <div className="mb-2">
-                  <label className="inline-block py-2">{'سرویس'}</label>
-                  <select
-                    value={formState['service'] || NONE_KEY}
-                    onChange={handle_onInputChanged}
-                    name="service"
-                    className="select-box w-full flex-1"
-                  >
-                    <option
-                      disabled
-                      key={NONE_KEY}
-                      value={NONE_KEY}
-                    >{`--- سرویس مورد نظر را انتخاب کنید ---`}</option>
-                    {vehicleData?.services?.map((item: any) => {
-                      return (
-                        <option
-                          key={item.key}
-                          value={item.key}
-                        >{`${item.title}`}</option>
-                      );
-                    })}
-                  </select>
-                </div>
 
-                 
-                  <ModularForm
-                    formState={formState}
-                    fields={authInfo?.org?.additionalRequestFields}
-                    onInputChange={handle_onInputChanged}
-                    mode={componentMode}
-                  />
-                 
-
-              </form>
-               
-                <LoaderButton
-                  onClick={handle_submitRequest}
-                  className={'my-3 w-full'}
+        <BottomSheetModal onCreate={onBottomSheetCreate}>
+          <div>
+            <form>
+              <div className="mb-2 disable-select">
+                <label className="inline-block py-2">{'سرویس'}</label>
+                <select
+                  value={formState['service'] || NONE_KEY}
+                  onChange={handle_onInputChanged}
+                  name="service"
+                  className="select-box w-full flex-1"
                 >
-                  {props.overrideOnSubmit != null ? 'تایید' : type && type === 'update' ? 'بروزرسانی' : 'ثبت درخواست'}
-                </LoaderButton>
-               
+                  <option
+                    disabled
+                    key={NONE_KEY}
+                    value={NONE_KEY}
+                  >{`--- سرویس مورد نظر را انتخاب کنید ---`}</option>
+                  {vehicleData?.services?.map((item: any) => {
+                    return (
+                      <option
+                        key={item.key}
+                        value={item.key}
+                      >{`${item.title}`}</option>
+                    );
+                  })}
+                </select>
+              </div>
 
-            </div>
-          </BottomSheetModal>
-         
+
+              {classNameForShowCostAndProject && <ModularForm
+                formState={formState}
+                fields={authInfo?.org?.additionalRequestFields}
+                clsssName1={classNameForShowCostAndProject}
+                onInputChange={handle_onInputChanged}
+                mode={componentMode}
+              />
+              }
+
+            </form>
+
+            <LoaderButton
+              onClick={handle_submitRequest}
+              className={'my-3 w-full'}
+            >
+              {props.overrideOnSubmit != null ? 'تایید' : type && type === 'update' ? 'بروزرسانی' : 'ثبت درخواست'}
+            </LoaderButton>
+
+
+          </div>
+        </BottomSheetModal>
+
 
       </div >
     </div>

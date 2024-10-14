@@ -43,29 +43,29 @@ const AmarMissons = () => {
     const [statusMission, setStatusMission] = useState<any>()
 
     const showAmarMissions = () => {
-        const statusType = ["DRAFT", "PUBLISHED", /*"READY",*/ "ON_ROUTE", "DONE"]//, "HIDDEN"]
-        const titles = ["سفر در انتظار", "سفر اختصاص داده شده", /*"سفر در انتظار شروع", */ "سفر در حال انجام", "سفر انجام شده"]
-        const icons = ["fas fa-user-check", "fas fa-taxi", "fas fa-road", "fas fa-check-circle"]
+        const statusType = ["DRAFT", "PUBLISHED", '', "ON_ROUTE", "DONE", '']//, "HIDDEN"]
+        const titles = ["سفر در انتظار شروع", "سفر اختصاص داده شده", "سفر لغو شده -مدیر", "سفر در حال انجام", "سفر پایان یافته ", "سفر پیش نویس"]
+        const icons = ["fas fa-user-check", "fas fa-taxi", "fas fa-user-times", "fas fa-road", "fas fa-check-circle", "fas fa-eye"]
 
         const result = statusType.map((status: any, index: any) => {
 
             const items = missions && isArray(missions?.data) ? missions?.data?.filter((r: any) => r.status === status) : []
             console.log(44, status, items);
 
-            if (index < 4) {
-                return (<div key={index} className="col-6 col-md-3">
-                    <div className="row">
-                        <div className="box" onClick={() => showMission(status)}>
-                            <div className="col-4 right-div">
-                                <i className={` ${icons[index]} icon icon${(index % 4) + 1}`} />
-                            </div>
-                            <div className="col-8 left-div">
-                                <div className="count">{items?.length ? items?.length : 0}</div>
-                                <div className="title">{titles[index]}</div></div>
+            //    if (index < 4) {
+            return (<div key={index} className="col-6 col-md-3">
+                <div className="row">
+                    <div className="box" onClick={() => showMission(status)}>
+                        <div className="col-4 right-div">
+                            <i className={` ${icons[index]} icon icon${(index % 4) + 1}`} />
                         </div>
+                        <div className="col-8 left-div">
+                            <div className="count">{items?.length ? items?.length : 0}</div>
+                            <div className="title">{titles[index]}</div></div>
                     </div>
-                </div>)
-            }
+                </div>
+            </div>)
+            //    }
         })
 
         return result

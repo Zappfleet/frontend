@@ -31,7 +31,7 @@ function SuggestionTextInput(
     >
 ) {
 
-  console.log(758, props);
+ // console.log(758, props);
 
   const [state, setState] = useState<SuggestionTextInputState>({
     suggestionList: [],

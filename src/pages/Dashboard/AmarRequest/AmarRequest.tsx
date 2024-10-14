@@ -17,7 +17,7 @@ const AmarRequest = () => {
 
     useEffect(() => {
         // console.log(4, requests);
-        requests && isArray(requests) &&  updatedArr(requests)
+        requests && isArray(requests) && updatedArr(requests)
         showAmarRequests()
     }, [requests])
 
@@ -46,9 +46,9 @@ const AmarRequest = () => {
     }
 
     const showAmarRequests = () => {
-        const statusType = ["PENDING", "REJECT", "CONFIRM", "ASSIGNED_TO_MISSION"]//, "HIDDEN"]
-        const titles = ["درخواست در انتظار", "درخواست رد شده", "درخواست تایید شده", "درخواست دیده شده"]
-        const icons = ["fas fa-exchange-alt", "fas fa-user-times", "fas fa-file-edit", "fas fa-eye"]
+        const statusType = ["PENDING", "REJECT", "CONFIRM", "ASSIGNED_TO_MISSION", '', '', '', '', '', '']//, "HIDDEN"]
+        const titles = ["درخواست در انتظار", "درخواست رد شده - مدیر پروژه", "درخواست تایید شده - مدیر پروژه", "درخواست دیده شده - توزیع کننده", "درخواست دیده شده -  مدیر پروژه", "درخواست در پیش نویس سفر", "درخواست در سفر", "درخواست انجام شده", "درخواست ثبت شده", "درخواست لغو شده"]
+        const icons = ["fas fa-exchange-alt", "fas fa-user-times", "fas fa-file-edit", "fas fa-eye", "fas fa-eye", "fas fa-eye", "fas fa-road", "fas fa-check-circle","fas fa-user-check","fas fa-user-times"]
 
         const result = statusType.map((status: any, index: any) => {
             const items = isArray(requests) ? requests?.filter((r: any) => r.status === status) : []
@@ -91,14 +91,14 @@ const AmarRequest = () => {
                             <i className='fa fa-remove close-fa' onClick={() => setShowDivDetailsRequest(false)}></i>
                             <div className="datagrid-div">
                                 {requests?.filter((request: any) => request.status === statusRequest)?.length > 0 &&
-                                     
-                                        <DataGrid
-                                            pagesize={optionsRequest[0].value}
-                                            items={UpdatedRequests?.filter((request: any) => request.status === statusRequest)}
-                                            options={optionsRequest}
-                                            thead={theadRequest}
-                                        />
-                                     
+
+                                    <DataGrid
+                                        pagesize={optionsRequest[0].value}
+                                        items={UpdatedRequests?.filter((request: any) => request.status === statusRequest)}
+                                        options={optionsRequest}
+                                        thead={theadRequest}
+                                    />
+
                                 }
                                 {requests?.filter((request: any) => request.status === statusRequest)?.length === 0 && <p>موردی برای نمایش وجود ندارد</p>}
 

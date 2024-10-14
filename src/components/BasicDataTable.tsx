@@ -47,6 +47,8 @@ const BasicDataTable = (props: any) => {
     const newRowFormRef = useRef<any>();
 
     const handle_cancelNewRow = () => {
+       // console.log(520);
+        
         setState({ ...state, activeNewRow: false })
     }
 

@@ -74,7 +74,7 @@ const validationRules: any = {
     },
     mobasherCodeMelli: {
         pattern: /^[0-9]{10}$/, // فقط 10 رقم
-        showName: ''
+        showName: '',
     },
     "address.postalCode": {
         required: true,
@@ -316,14 +316,14 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
         setInsertOrUpdate('insert')
     }
 
-   
+
 
     const handleChangeStartActivityDate = (date: any) => {
         console.log(4);
-        
+
         setStartActivityDateDatePicker(date);
         setStartActivityDate(date.format('YYYY/MM/DD', { calendar: 'persian', locale: 'fa' }))
-        console.log(88,date);
+        console.log(88, date);
         setFields({ ...fields, StartActivityDate: convertDateToISO(persianDateToGregorian(date.format('YYYY/MM/DD', { calendar: 'persian', locale: 'fa' }))) })
     }
 
@@ -394,6 +394,8 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
     }
 
     useEffect(() => {
+        console.log(7, Object.keys(validateErrors), fields['mobasherCodeMelli']);
+
     }, [fields])
 
     const showAttachImage = (name: any) => {
@@ -437,15 +439,15 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
 
             <div style={{ display: `${selectedTab === 'list' ? '' : 'none'}` }} className="row">
                 <div className="col-12">
-                     
-                        <DataGrid
-                            clickOnRow={clickOnRowDataGrid}
-                            pagesize={options[0].value}
-                            items={ItemsList}
-                            options={options}
-                            thead={thead}
-                        />
-                     
+
+                    <DataGrid
+                        clickOnRow={clickOnRowDataGrid}
+                        pagesize={options[0].value}
+                        items={ItemsList}
+                        options={options}
+                        thead={thead}
+                    />
+
                 </div>
             </div>
 
@@ -475,17 +477,17 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
                             <div className="col-6">
                                 <div className="form-group">
                                     <p>تاریخ شروع فعالیت </p>
-                                     
-                                        <DatePicker
-                                            onChange={(date) => handleChangeStartActivityDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
-                                            calendar={persian}
-                                            locale={persian_fa}
-                                            className="datetime-picker"
-                                            inputClass="datetime-input !text-center !text-lg !p-4"
-                                            value={StartActivityDateDatePicker}
-                                            placeholder='از تاریخ'
-                                        />
-                                     
+
+                                    <DatePicker
+                                        onChange={(date) => handleChangeStartActivityDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
+                                        calendar={persian}
+                                        locale={persian_fa}
+                                        className="datetime-picker"
+                                        inputClass="datetime-input !text-center !text-lg !p-4"
+                                        value={StartActivityDateDatePicker}
+                                        placeholder='از تاریخ'
+                                    />
+
                                     {validateErrors?.StartActivityDate?.length > 0 &&
                                         <>
                                             <div className='validate'>
@@ -648,13 +650,13 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p>بارگزاری تصویر پروانه نمایندگی  </p>
                                     <div className="file-upload-div">
-                                         
-                                            <FileUpload
-                                                ref={fileUploadRef_parvaneNamayandegi}
-                                                name={'parvaneNamayandegi'}
-                                                id={objectId.toString()}
-                                                handleGetBase64={handleGetBase64} />
-                                         
+
+                                        <FileUpload
+                                            ref={fileUploadRef_parvaneNamayandegi}
+                                            name={'parvaneNamayandegi'}
+                                            id={objectId.toString()}
+                                            handleGetBase64={handleGetBase64} />
+
 
                                         {fields?.attachFile?.parvaneNamayandegi &&
                                             <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('parvaneNamayandegi')}></i>}
@@ -668,11 +670,11 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p> تصویر مدیر یا مباشر آژانس </p>
                                     <div className="file-upload-div">
-                                         
-                                            <FileUpload
-                                                ref={fileUploadRef_modirOrmobasherPic}
-                                                name={'modirOrmobasherPic'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
-                                         
+
+                                        <FileUpload
+                                            ref={fileUploadRef_modirOrmobasherPic}
+                                            name={'modirOrmobasherPic'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
                                         {fields?.attachFile?.modirOrmobasherPic && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('modirOrmobasherPic')}></i>}
                                     </div>
                                     {validateErrors['attachFile.modirOrmobasherPic']?.length > 0 &&
@@ -690,11 +692,11 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p> تصویر مجوز اداره اماکن </p>
                                     <div className="file-upload-div">
-                                         
-                                            <FileUpload
-                                                ref={fileUploadRef_amaken}
-                                                name={'amaken'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
-                                         
+
+                                        <FileUpload
+                                            ref={fileUploadRef_amaken}
+                                            name={'amaken'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
                                         {fields?.attachFile?.amaken && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('amaken')}></i>}
                                     </div>
                                     {validateErrors['attachFile.amaken']?.length > 0 &&
@@ -712,11 +714,11 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p> بارگزاری استعلامات 3 گانه و فرم تعهد قوانین حمل و نقل </p>
                                     <div className="file-upload-div">
-                                         
-                                            <FileUpload
-                                                ref={fileUploadRef_estelamat3Gane}
-                                                name={'estelamat3Gane'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
-                                         
+
+                                        <FileUpload
+                                            ref={fileUploadRef_estelamat3Gane}
+                                            name={'estelamat3Gane'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
                                         {fields?.attachFile?.estelamat3Gane && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('estelamat3Gane')}></i>}
                                     </div>
                                     {validateErrors['attachFile.estelamat3Gane']?.length > 0 &&
@@ -763,7 +765,9 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
 
                             <div className="col-12">
                                 <div className="form-group">
-                                    <button onClick={() => handleClick(InsertOrUpdate === 'insert' ? 'insert' : 'update')}
+                                    <button
+                                        disabled={Object.keys(validateErrors).length === 0 ? false : true}
+                                        onClick={() => handleClick(InsertOrUpdate === 'insert' ? 'insert' : 'update')}
                                         className={`my-btn ${Object.keys(validateErrors).length === 0 ? '' : 'my-btn-inactive'}`}
                                     >
                                         {InsertOrUpdate === 'insert' ? 'ثبت' : 'بروز رسانی'}</button>

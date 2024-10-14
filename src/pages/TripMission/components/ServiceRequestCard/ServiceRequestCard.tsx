@@ -86,16 +86,16 @@ const ServiceRequestCard = (props: any) => {
 
 
     const handle_updateRequestStatus = (request: any, status: string) => {
-        console.log(13,request.id,status);
-        
+        console.log(13, request.id, status);
+
         showConfirm({
             title: "تغییر وضعیت درخواست",
             desc: `از ${status == STATUS_ACCEPT ? "تایید" : "رد"} درخواست اطمینان دارید؟`,
             label_confirm: `${status == STATUS_ACCEPT ? "تایید کن" : "رد کن"}`,
             label_cancel: "خیر",
             onConfirm: () => {
-               
-                
+
+
                 getApiClient().updateRequestStatus(request._id, status)
                     .then(({ data }) => {
                         if (status != STATUS_ACCEPT)
@@ -117,111 +117,114 @@ const ServiceRequestCard = (props: any) => {
         <>
             {ModalUi}
             {FullScreenModalUi}
-            {requests?.docs?.map((item: any) => {
-                //sgh filter request based restriction show reaquest
-                let date = new Date(item.gmt_for_date);
+            {/* {requests?.docs?.map((item: any) => { */}
+            {requests?.docs?.sort((a: any, b: any) => {
+                    return new Date(a.gmt_for_date).getTime() - new Date(b.gmt_for_date).getTime();
+                })?.map((item: any) => {
+                    //sgh filter request based restriction show reaquest
+                    let date = new Date(item.gmt_for_date);
 
-             //   console.log(7, date, currentDate, endDate);
+                    //   console.log(7, date, currentDate, endDate);
 
 
-                if (!(date >= setStartOfDay(currentDate) && date <= setEndOfDay(endDate))) {
-                    return null
-                }
+                    if (!(date >= setStartOfDay(currentDate) && date <= setEndOfDay(endDate))) {
+                        return null
+                    }
 
-                //////////////
-                const existsInDraft = props.draftMission?.contains(item);
+                    //////////////
+                    const existsInDraft = props.draftMission?.contains(item);
 
-                return <div key={item._id}
-                    className={`ServiceRequestCard-component ${item.removed ? '!pointer-events-none' : ''} ${existsInDraft ? 'selected-border' : ''} `} >
+                    return <div key={item._id}
+                        className={`ServiceRequestCard-component ${item.removed ? '!pointer-events-none' : ''} ${existsInDraft ? 'selected-border' : ''} `} >
 
-                    <div className="row">
-                        <div className="col-3">
-                            <p className='title1'>درخواست دهنده</p>
-                            <p>{item.submitted_by?.full_name}</p>
-                        </div>
-                        <div className="col-3">
-                            <p className='title1'>زمان مورد درخواست </p>
-                            <p>{getLocalDatetime(item.gmt_for_date)}</p>
-                        </div>
-
-                        {authInfo?.org?.requestsDetailsDisplayColumns?.map(({ key, title }: any) => {
-                            return <div className="col-3" key={key}>
-                                <p className='title1'> {title}  </p>
-                                <p>{item.details[key]}</p>
+                        <div className="row">
+                            <div className="col-3">
+                                <p className='title1'>درخواست دهنده</p>
+                                <p>{item.submitted_by?.full_name}</p>
                             </div>
-                        })}
-
-                    </div>
-
-                    <div className="row">
-                        <div className="col-12">
-                            <div className='location-div'>
-                                {item.locations?.map((loc: any, index: number) => {
-
-                                    return <div className="loc">
-                                        <span className='loc-title'>{`ایستگاه ${getLocationIndexTitle(item.locations.length, index)}`}</span>
-                                        <p>{loc.meta.address}</p>
-                                    </div>
-                                })}
+                            <div className="col-3">
+                                <p className='title1'>زمان مورد درخواست </p>
+                                <p>{getLocalDatetime(item.gmt_for_date)}</p>
                             </div>
+
+                            {authInfo?.org?.requestsDetailsDisplayColumns?.map(({ key, title }: any) => {
+                                return <div className="col-3" key={key}>
+                                    <p className='title1'> {title}  </p>
+                                    <p>{item.details[key]}</p>
+                                </div>
+                            })}
+
                         </div>
-                    </div>
 
+                        <div className="row">
+                            <div className="col-12">
+                                <div className='location-div'>
+                                    {item.locations?.map((loc: any, index: number) => {
 
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="buttons">
-                                {item.status != "PENDING" &&
-                                    <span>{requestStatus[item.status]}</span>
-                                }
-
-                                {permission_EDIT === true &&
-                                    <button onClick={() => handle_editRequest(item)} className="my-btn">
-                                        {"ویرایش"}
-                                    </button>
-                                }
-                                {permission_EDIT === false &&
-                                    <button disabled={true} className="my-btn NoPermission">
-                                        {"ویرایش"}
-                                    </button>
-                                }
-
-
-                                {!existsInDraft && item.status == "CONFIRM" &&
-                                    <button onClick={() => handle_assignRequestToDraft(item)} className="my-btn">
-                                        {"افزودن به پیش نویس"}
-                                    </button>
-                                }
-
-                                {item.status == "PENDING" &&
-                                    <>
-                                        {permission_EDIT === true &&
-                                            <>
-                                                <button onClick={() => handle_updateRequestStatus(item, STATUS_ACCEPT)} className="my-btn">
-                                                    {"تایید درخواست"}
-                                                </button>
-                                                <button onClick={() => handle_updateRequestStatus(item, STATUS_REJECT)} className="my-btn">
-                                                    {"رد درخواست"}
-                                                </button>
-                                            </>
-                                        }
-                                        {permission_EDIT === false &&
-                                            <>
-                                                <button disabled={true} className="my-btn NoPermission">
-                                                    {"تایید درخواست"}
-                                                </button>
-                                                <button disabled={true} className="my-btn NoPermission">
-                                                    {"رد درخواست"}
-                                                </button>
-                                            </>
-                                        }
-                                    </>
-                                }
+                                        return <div className="loc">
+                                            <span className='loc-title'>{`ایستگاه ${getLocationIndexTitle(item.locations.length, index)}`}</span>
+                                            <p>{loc.meta.address}</p>
+                                        </div>
+                                    })}
+                                </div>
                             </div>
                         </div>
+
+
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="buttons">
+                                    {item.status != "PENDING" &&
+                                        <span>{requestStatus[item.status]}</span>
+                                    }
+
+                                    {permission_EDIT === true &&
+                                        <button onClick={() => handle_editRequest(item)} className="my-btn">
+                                            {"ویرایش"}
+                                        </button>
+                                    }
+                                    {permission_EDIT === false &&
+                                        <button disabled={true} className="my-btn NoPermission">
+                                            {"ویرایش"}
+                                        </button>
+                                    }
+
+
+                                    {!existsInDraft && item.status == "CONFIRM" &&
+                                        <button onClick={() => handle_assignRequestToDraft(item)} className="my-btn">
+                                            {"افزودن به پیش نویس"}
+                                        </button>
+                                    }
+
+                                    {item.status == "PENDING" &&
+                                        <>
+                                            {permission_EDIT === true &&
+                                                <>
+                                                    <button onClick={() => handle_updateRequestStatus(item, STATUS_ACCEPT)} className="my-btn">
+                                                        {"تایید درخواست"}
+                                                    </button>
+                                                    <button onClick={() => handle_updateRequestStatus(item, STATUS_REJECT)} className="my-btn">
+                                                        {"رد درخواست"}
+                                                    </button>
+                                                </>
+                                            }
+                                            {permission_EDIT === false &&
+                                                <>
+                                                    <button disabled={true} className="my-btn NoPermission">
+                                                        {"تایید درخواست"}
+                                                    </button>
+                                                    <button disabled={true} className="my-btn NoPermission">
+                                                        {"رد درخواست"}
+                                                    </button>
+                                                </>
+                                            }
+                                        </>
+                                    }
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            })}
+                })}
 
         </>
     );

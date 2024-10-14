@@ -20,6 +20,7 @@ import { useEffect, useState } from 'react';
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 export function ModularInput(props: any) {
+  //console.log(40044,props);
 
   const { authInfo } = useAuthentication();
   const [minDate, setMinDate] = useState<any>(null)
@@ -39,7 +40,8 @@ export function ModularInput(props: any) {
     <div>
       <label>{props.title}</label>
       {renderUi(
-        <input className='form-control'
+        <input className='form-control sgh'
+          disabled={props.className1}
           {...props}
           name={props.inputKey}
         />
@@ -58,8 +60,8 @@ export function ModularInput(props: any) {
       {renderUi(
 
         <div>
-           
-              <DatePicker
+
+          <DatePicker
             {...props}
             onChange={(value: any) => {
               props.onChange({
@@ -77,26 +79,26 @@ export function ModularInput(props: any) {
             inputClass="datetime-input"
             minDate={minDate} // تنظیم تاریخ حداقل قابل انتخاب به امروز
             plugins={
-              props.hideTime ? [] : [ 
+              props.hideTime ? [] : [
                 <AnalogTimePicker hideSeconds={true} />
-               ]
+              ]
             }
           />
-           
-        
+
+
         </div>
       ).if(props.type == INPUT_TYPE_DATETIME)}
       {renderUi(
         <div>
-           
-            <UsersSuggestionInput
-              {...props}
-              name={props.inputKey}
-              freeInput={false}
-              permissions={['SERVICE.PERSONAL.SUBMIT']}
-              include_external_base={true}
-            />
-           
+
+          <UsersSuggestionInput
+            {...props}
+            name={props.inputKey}
+            freeInput={false}
+            permissions={['SERVICE.PERSONAL.SUBMIT']}
+            include_external_base={true}
+          />
+
         </div>
       ).if(props.type == INPUT_TYPE_USERLIST)}
     </div>

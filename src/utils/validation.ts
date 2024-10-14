@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 export function useValidateForm(validationRules: any, formData: any) {
 
-//console.log(102, validationRules, formData);
+    //console.log(102, validationRules, formData);
 
     const [errors, setErrors] = useState<any>({});
 
@@ -31,8 +31,10 @@ export function useValidateForm(validationRules: any, formData: any) {
                         }
                         break;
                     case 'pattern':
-                        if (rules.pattern && !rules.pattern.test(fieldValue)) {
-                            fieldErrors.push(`فرمت ${rules?.showName || field} صحیح نمی‌باشد`);
+                        if (fieldValue !== null && fieldValue !== undefined && fieldValue !== '') {
+                            if (rules.pattern && !rules.pattern.test(fieldValue)) {
+                                fieldErrors.push(`فرمت ${rules?.showName || field} صحیح نمی‌باشد`);
+                            }
                         }
                         break;
                     case 'match':
