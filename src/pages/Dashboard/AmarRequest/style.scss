@@ -1,13 +1,22 @@
-
 @import '../../../variable';
+
 .AmarRequest-component {
+
+
     .row-amar {
-        background-color: white;
+        background-color: whitesmoke;
         border-radius: 5px;
         margin: 10px 0px;
-        border: 2px solid #FFFFFF;
+       margin-bottom: 40px;
+
+        .div-box {
+            background-color: white;
+            height: 100px;
+            border-radius: 5px;
+        }
 
         .box {
+            height: 100%;
             width: 100%;
             color: black;
             margin: 15px;

@@ -60,12 +60,12 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="row">
+        {/* <div className="row">
 
           <ErrorBoundary>  <AmarMissons /></ErrorBoundary>
 
 
-        </div>
+        </div> */}
 
         <div className="row">
 

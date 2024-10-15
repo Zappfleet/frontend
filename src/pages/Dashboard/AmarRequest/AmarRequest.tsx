@@ -1,13 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import './style.scss'
-import { MODE_AREAL } from '../../../lib/constants.ts';
+import { DB_ROLE_ADMIN_TITLE, DB_ROLE_DISPATURE_TITLE, DB_ROLE_MODIR_PROJECT_TITLE, MODE_AREAL } from '../../../lib/constants.ts';
 import useRequests from '../../../hooks/data/useRequests.tsx';
 import DataGrid from '../../../components/DataGrid/DataGrid.tsx';
 import { isArray } from 'lodash';
 import { requestStatus } from '../../../lib/string.ts';
 import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary.tsx';
+import useMissions from '../../../hooks/data/useMissions.tsx';
+import useUsers from '../../../hooks/data/useUsers.tsx';
+import useRoles from '../../../hooks/data/useRoles.tsx';
 
 const AmarRequest = () => {
+
+
+    const { userList } = useUsers();
+    const { data: userRoles } = useRoles();
+
+
+    const { missions }: any = useMissions({
+        mode: MODE_AREAL,
+        status: '',
+        paging: false,
+    })
+
+    useEffect(() => {
+    }, [missions])
 
     const { requests }: any = useRequests({
         mode: MODE_AREAL,
@@ -16,10 +33,8 @@ const AmarRequest = () => {
     const [UpdatedRequests, setUpdatedRequests] = useState([]);
 
     useEffect(() => {
-        // console.log(4, requests);
-        requests && isArray(requests) && updatedArr(requests)
-        showAmarRequests()
-    }, [requests])
+        handleReports()
+    }, [requests, missions, userList, userRoles])
 
 
     let updatedArr = (requests: any) => {
@@ -27,50 +42,344 @@ const AmarRequest = () => {
         const statusMap = Object.fromEntries(requestStatus);
 
         const newRequest = requests?.map((item: any) => {
-            console.log(78, statusMap[item.status]);
+            //  console.log(78, statusMap[item.status]);
             return {
                 ...item,
                 Fr_status: statusMap[item.status] || item.status,  // جایگزینی مقدار status
             };
         });
 
-        setUpdatedRequests(newRequest)
+        return newRequest
+    }
+
+    const [showDivDetailsMission, setShowDivDetailsMission] = useState<boolean>(false)
+    const [statusMission, setStatusMission] = useState<any>()
+    const showMission = (statusMission: any) => {
+        setStatusMission(statusMission)
+        setShowDivDetailsMission(true)
     }
 
     const [showDivDetailsRequest, setShowDivDetailsRequest] = useState<boolean>(false)
-
-    const [statusRequest, setStatusRequest] = useState<any>()
-    const showRequest = (statusRequest: any) => {
-        setStatusRequest(statusRequest)
+    const [reportsDetails, setReportsDetails] = useState<any>()
+    const showRequest = (report: any) => {
+        console.log(21,report);
+        
+        const result = updatedArr(report?.result)
+        setReportsDetails(result)
         setShowDivDetailsRequest(true)
     }
 
-    const showAmarRequests = () => {
-        const statusType = ["PENDING", "REJECT", "CONFIRM", "ASSIGNED_TO_MISSION", '', '', '', '', '', '']//, "HIDDEN"]
-        const titles = ["درخواست در انتظار", "درخواست رد شده - مدیر پروژه", "درخواست تایید شده - مدیر پروژه", "درخواست دیده شده - توزیع کننده", "درخواست دیده شده -  مدیر پروژه", "درخواست در پیش نویس سفر", "درخواست در سفر", "درخواست انجام شده", "درخواست ثبت شده", "درخواست لغو شده"]
-        const icons = ["fas fa-exchange-alt", "fas fa-user-times", "fas fa-file-edit", "fas fa-eye", "fas fa-eye", "fas fa-eye", "fas fa-road", "fas fa-check-circle","fas fa-user-check","fas fa-user-times"]
+    const [reports, setReports] = useState([
+        { type: 'request', result: [], reportNum: 9, title: "درخواست ثبت شده", icon: 'icon3 fas fa-user-check' },
+        { type: 'request', result: [], reportNum: 1, title: 'درخواست در انتظار', icon: 'icon3 fas fa-exchange-alt' },
 
-        const result = statusType.map((status: any, index: any) => {
-            const items = isArray(requests) ? requests?.filter((r: any) => r.status === status) : []
+        // { type: 'request', result: [], reportNum: 2, title: 'درخواست رد شده', icon: 'icon2 fas fa-user-times' },
+        { type: 'request', result: [], reportNum: 16, title: 'درخواست رد شده - مدیر پروژه', icon: 'icon2 fas fa-user-times' },
+        { type: 'request', result: [], reportNum: 12, title: 'درخواست رد شده - توزیع کننده', icon: 'icon2 fas fa-user-times' },
+        { type: 'request', result: [], reportNum: 13, title: 'درخواست رد شده - مدیر سیستم', icon: 'icon2 fas fa-user-times' },
+
+        // { type: 'request', result: [], reportNum: 3, title: 'درخواست تایید شده ', icon: 'icon1 fas fa-file-edit' },
+        { type: 'request', result: [], reportNum: 17, title: 'درخواست تایید شده - مدیر پروژه', icon: 'icon1 fas fa-file-edit' },
+        { type: 'request', result: [], reportNum: 14, title: 'درخواست تایید شده - توزیع کننده ', icon: 'icon1 fas fa-file-edit' },
+        { type: 'request', result: [], reportNum: 15, title: 'درخواست تایید شده - مدیر سیستم', icon: 'icon1 fas fa-file-edit' },
+
+        { type: 'request', result: [], reportNum: 6, title: "درخواست در پیش نویس سفر", icon: 'icon4 fas fa-eye' },
+        { type: 'request', result: [], reportNum: 11, title: "درخواست در انتظار شروع   ", icon: 'icon1 fas fa-user-check' },
+        { type: 'request', result: [], reportNum: 7, title: "درخواست در سفر", icon: 'icon1 fas fa-road' },
+        { type: 'request', result: [], reportNum: 8, title: "درخواست انجام شده", icon: 'icon1 fas fa-check-circle' },
+
+        { type: 'request', result: [], reportNum: 10, title: "درخواست لغو شده", icon: 'icon2 fas fa-user-times' },
+        // { type: 'request', result: [], reportNum: 4, title: "درخواست دیده شده - توزیع کننده", icon: 'icon4 fas fa-eye' },
+        // { type: 'request', result: [], reportNum: 5, title: "درخواست دیده شده - مدیر پروژه", icon: 'icon4 fas fa-eye' },
+
+    ]);
 
 
-            //  if (index < 4) {
-            return (<div key={index} className="col-6 col-md-3">
-                <div className="row">
-                    <div className="box" onClick={() => showRequest(status)}>
+    const handleReports = () => {
+        const updatedReports = reports.map((report: any) => {
+            let requestFilter: any = [];
+            let requestIds: any = [];
+            let missionsFilter: any = [];
+            let roleId: any = []
+
+            switch (report.reportNum) {
+                case 1:
+                    requestFilter = requests?.filter((r: any) => r.status === 'PENDING');
+                    report.result = requestFilter;
+                    break;
+                case 2:
+                    requestFilter = requests?.filter((r: any) => r.status === 'REJECT');
+                    report.result = requestFilter;
+                    break;
+
+                case 12:
+                    //  console.log(58554111, userRoles, userList);
+                    roleId = userRoles?.roles?.filter((r: any) => r.title === DB_ROLE_DISPATURE_TITLE)
+                    // بررسی اینکه آیا هر کاربر در userList نقش 'مدیر سیستم' را دارد
+                    if (roleId && roleId[0]) {
+
+                        let moderProjects = userList?.map((user: any) => ({
+                            ...user,
+                            hasSystemManagerRole: user.roles?.includes(roleId[0]?._id) // بررسی نقش در آرایه roles
+                        }));
+
+                        // نگهداری شناسه‌های کاربرانی که نقش 'مدیر سیستم' را دارند
+                        let moderProjectsIds = moderProjects?.filter((user: any) => user.hasSystemManagerRole).map((user: any) => user._id);
+
+                        //let moderProjects = userList?.roles?.includes(roleId?._id);
+                        //let moderProjectsIds = moderProjects?.map((r: any) => r._id);
+                        console.log(58554111, roleId, moderProjects, moderProjectsIds);
+
+                        requestFilter = requests?.filter((r: any) => {
+                            if (r.status === 'REJECT' && r.rejected_by &&
+                                moderProjectsIds?.includes(r.rejected_by)) {
+                                return true
+                            }
+                            return false
+                        })
+                    }
+                    report.result = requestFilter;
+                    break;
+
+                case 13:
+                    //  console.log(58554111, userRoles, userList);
+                    roleId = userRoles?.roles?.filter((r: any) => r.title === DB_ROLE_ADMIN_TITLE)
+                    // بررسی اینکه آیا هر کاربر در userList نقش 'مدیر سیستم' را دارد
+                    if (roleId && roleId[0]) {
+
+                        let moderProjects = userList?.map((user: any) => ({
+                            ...user,
+                            hasSystemManagerRole: user.roles?.includes(roleId[0]?._id) // بررسی نقش در آرایه roles
+                        }));
+
+                        // نگهداری شناسه‌های کاربرانی که نقش 'مدیر سیستم' را دارند
+                        let moderProjectsIds = moderProjects?.filter((user: any) => user.hasSystemManagerRole).map((user: any) => user._id);
+
+                        //let moderProjects = userList?.roles?.includes(roleId?._id);
+                        //let moderProjectsIds = moderProjects?.map((r: any) => r._id);
+                        console.log(58554111, roleId, moderProjects, moderProjectsIds);
+
+                        requestFilter = requests?.filter((r: any) => {
+                            if (r.status === 'REJECT' && r.rejected_by &&
+                                moderProjectsIds?.includes(r.rejected_by)) {
+                                return true
+                            }
+                            return false
+                        })
+                    }
+                    report.result = requestFilter;
+                    break;
+
+                case 16:
+                    //  console.log(58554111, userRoles, userList);
+                    roleId = userRoles?.roles?.filter((r: any) => r.title === DB_ROLE_MODIR_PROJECT_TITLE)
+                    // بررسی اینکه آیا هر کاربر در userList نقش 'مدیر سیستم' را دارد
+                    if (roleId && roleId[0]) {
+
+                        let moderProjects = userList?.map((user: any) => ({
+                            ...user,
+                            hasSystemManagerRole: user.roles?.includes(roleId[0]?._id) // بررسی نقش در آرایه roles
+                        }));
+
+                        // نگهداری شناسه‌های کاربرانی که نقش 'مدیر سیستم' را دارند
+                        let moderProjectsIds = moderProjects?.filter((user: any) => user.hasSystemManagerRole).map((user: any) => user._id);
+
+                        //let moderProjects = userList?.roles?.includes(roleId?._id);
+                        //let moderProjectsIds = moderProjects?.map((r: any) => r._id);
+                        console.log(58554111, roleId, moderProjects, moderProjectsIds);
+
+                        requestFilter = requests?.filter((r: any) => {
+                            if (r.status === 'REJECT' && r.rejected_by &&
+                                moderProjectsIds?.includes(r.rejected_by)) {
+                                return true
+                            }
+                            return false
+                        })
+                    }
+                    report.result = requestFilter;
+                    break;
+
+
+                case 3:
+                    requestFilter = requests?.filter((r: any) => r.status === 'CONFIRM');
+                    report.result = requestFilter;
+                    break;
+
+                case 14:
+                    //  console.log(58554111, userRoles, userList);
+                    roleId = userRoles?.roles?.filter((r: any) => r.title === DB_ROLE_DISPATURE_TITLE)
+                    // بررسی اینکه آیا هر کاربر در userList نقش 'مدیر سیستم' را دارد
+                    if (roleId && roleId[0]) {
+
+                        let moderProjects = userList?.map((user: any) => ({
+                            ...user,
+                            hasSystemManagerRole: user.roles?.includes(roleId[0]?._id) // بررسی نقش در آرایه roles
+                        }));
+
+                        // نگهداری شناسه‌های کاربرانی که نقش 'مدیر سیستم' را دارند
+                        let moderProjectsIds = moderProjects?.filter((user: any) => user.hasSystemManagerRole).map((user: any) => user._id);
+
+                        //let moderProjects = userList?.roles?.includes(roleId?._id);
+                        //let moderProjectsIds = moderProjects?.map((r: any) => r._id);
+                        console.log(58554111, roleId, moderProjects, moderProjectsIds);
+
+                        requestFilter = requests?.filter((r: any) => {
+                            if (r.status === 'CONFIRM' && r.confirmed_by &&
+                                moderProjectsIds?.includes(r.confirmed_by)) {
+                                return true
+                            }
+                            return false
+                        })
+                    }
+                    report.result = requestFilter;
+                    break;
+
+                case 15:
+                    //  console.log(58554111, userRoles, userList);
+                    roleId = userRoles?.roles?.filter((r: any) => r.title === DB_ROLE_ADMIN_TITLE)
+                    // بررسی اینکه آیا هر کاربر در userList نقش 'مدیر سیستم' را دارد
+                    if (roleId && roleId[0]) {
+
+                        let moderProjects = userList?.map((user: any) => ({
+                            ...user,
+                            hasSystemManagerRole: user.roles?.includes(roleId[0]?._id) // بررسی نقش در آرایه roles
+                        }));
+
+                        // نگهداری شناسه‌های کاربرانی که نقش 'مدیر سیستم' را دارند
+                        let moderProjectsIds = moderProjects?.filter((user: any) => user.hasSystemManagerRole).map((user: any) => user._id);
+
+                        //let moderProjects = userList?.roles?.includes(roleId?._id);
+                        //let moderProjectsIds = moderProjects?.map((r: any) => r._id);
+                        console.log(58554111, roleId, moderProjects, moderProjectsIds);
+
+                        requestFilter = requests?.filter((r: any) => {
+                            if (r.status === 'CONFIRM' && r.confirmed_by &&
+                                moderProjectsIds?.includes(r.confirmed_by)) {
+                                return true
+                            }
+                            return false
+                        })
+                    }
+                    report.result = requestFilter;
+                    break;
+
+                case 17:
+                    //  console.log(58554111, userRoles, userList);
+                    roleId = userRoles?.roles?.filter((r: any) => r.title === DB_ROLE_MODIR_PROJECT_TITLE)
+                    // بررسی اینکه آیا هر کاربر در userList نقش 'مدیر سیستم' را دارد
+                    if (roleId && roleId[0]) {
+
+                        let moderProjects = userList?.map((user: any) => ({
+                            ...user,
+                            hasSystemManagerRole: user.roles?.includes(roleId[0]?._id) // بررسی نقش در آرایه roles
+                        }));
+
+                        // نگهداری شناسه‌های کاربرانی که نقش 'مدیر سیستم' را دارند
+                        let moderProjectsIds = moderProjects?.filter((user: any) => user.hasSystemManagerRole).map((user: any) => user._id);
+
+                        //let moderProjects = userList?.roles?.includes(roleId?._id);
+                        //let moderProjectsIds = moderProjects?.map((r: any) => r._id);
+                        console.log(58554111, roleId, moderProjects, moderProjectsIds);
+
+                        requestFilter = requests?.filter((r: any) => {
+                            if (r.status === 'CONFIRM' && r.confirmed_by &&
+                                moderProjectsIds?.includes(r.confirmed_by)) {
+                                return true
+                            }
+                            return false
+                        })
+                    }
+                    report.result = requestFilter;
+                    break;
+
+
+
+                case 6:
+                    requestFilter = requests?.filter((r: any) => r.status === 'ASSIGNED_TO_MISSION');
+                    requestIds = requestFilter?.map((r: any) => r._id);
+                    missionsFilter = missions?.data?.filter((r: any) => {
+                        if (r.status === 'DRAFT' && r.service_requests &&
+                            requestIds?.includes(r.service_requests[0]?.request_id)) {
+                            return true
+                        }
+                        return false
+
+                    })
+                    report.result = missionsFilter;
+                    break;
+                case 7:
+                    requestFilter = requests?.filter((r: any) => r.status === 'ASSIGNED_TO_MISSION');
+                    requestIds = requestFilter?.map((r: any) => r._id);
+                    missionsFilter = missions?.data?.filter((r: any) => {
+                        if (r.status === 'ON_ROUTE') {
+                            return true
+                        }
+                        return false
+
+                    })
+                    report.result = missionsFilter;
+                    break;
+                case 8:
+                    requestFilter = requests?.filter((r: any) => r.status === 'ASSIGNED_TO_MISSION');
+                    requestIds = requestFilter?.map((r: any) => r._id);
+                    missionsFilter = missions?.data?.filter((r: any) => {
+                        if (r.status === 'DONE') {
+                            return true
+                        }
+                        return false
+
+                    })
+                    report.result = missionsFilter;
+                    break;
+                case 9:
+                    requestFilter = requests;
+                    report.result = requestFilter;
+                    break;
+                case 10:
+                    requestFilter = requests?.filter((r: any) => r.status === 'CANCEL_USER');
+                    report.result = requestFilter;
+                    break;
+                    
+                case 11:
+                    requestFilter = requests?.filter((r: any) => r.status === 'ASSIGNED_TO_MISSION');
+                    requestIds = requestFilter?.map((r: any) => r._id);
+                    missionsFilter = missions?.data?.filter((r: any) => {
+                        if (r.status === 'READY'
+                            // && r.service_requests
+                            // && requestIds?.includes(r.service_requests[0]?.request_id)
+                        ) {
+                            return true
+                        }
+                        return false
+
+                    })
+                    report.result = missionsFilter;
+                    break;
+            }
+            return report;
+        });
+
+        // به‌روزرسانی state با داده‌های جدید
+        setReports(updatedReports);
+    };
+
+
+    const showAmar = () => {
+        return reports.map((report: any, index: any) => (
+            <div key={index} className="col-6 col-md-4">
+                <div className="div-box">
+                    <div className="box" onClick={() => report.type === 'request' ? showRequest(report) : showMission(report)}>
                         <div className="col-4 right-div">
-                            <i className={` ${icons[index]} icon icon${(index % 4) + 1}`} />
+                            <i className={`icon ${report?.icon}`} />
                         </div>
                         <div className="col-8 left-div">
-                            <div className="count">{items?.length ? items?.length : 0}</div>
-                            <div className="title">{titles[index]}</div></div>
+                            <div className="count">{report?.result?.length ? report?.result?.length : 0}</div>
+                            <div className="title">{report?.title}</div>
+                        </div>
                     </div>
                 </div>
-            </div>)
-            //   }
-        })
-
-        return result
+            </div>
+        ))
     }
 
     const optionsRequest = [{ id: 1, value: 5 }, { id: 2, value: 10 }, { id: 3, value: 15 }]
@@ -90,17 +399,17 @@ const AmarRequest = () => {
                         <div className="details-div">
                             <i className='fa fa-remove close-fa' onClick={() => setShowDivDetailsRequest(false)}></i>
                             <div className="datagrid-div">
-                                {requests?.filter((request: any) => request.status === statusRequest)?.length > 0 &&
+                                {reportsDetails?.length > 0 &&
 
                                     <DataGrid
                                         pagesize={optionsRequest[0].value}
-                                        items={UpdatedRequests?.filter((request: any) => request.status === statusRequest)}
+                                        items={reportsDetails}
                                         options={optionsRequest}
                                         thead={theadRequest}
                                     />
 
                                 }
-                                {requests?.filter((request: any) => request.status === statusRequest)?.length === 0 && <p>موردی برای نمایش وجود ندارد</p>}
+                                {reportsDetails?.length === 0 && <p>موردی برای نمایش وجود ندارد</p>}
 
                             </div>
 
@@ -109,7 +418,10 @@ const AmarRequest = () => {
                 </div>
             </div>
             <div className="row row-amar">
-                {showAmarRequests()}
+                <div className="row">
+                    {showAmar()}
+                </div>
+
             </div>
         </div>
     );

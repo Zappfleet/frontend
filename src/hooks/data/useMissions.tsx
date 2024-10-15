@@ -24,7 +24,7 @@ export default function useMissions(props: any = {}) {
         if (apiName == null) throw "apiName is not set"
         
         getApiClient()[apiName](status, dateFilter, paging).then(({ data }) => {
-            // console.log(54,data);
+            console.log(54,data);
 
             setMissions({ ...missions, data })
         }).catch(console.log)

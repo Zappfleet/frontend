@@ -143,3 +143,6 @@ export const VEHICLE_TYPE_ORG = 'org';
 
 export const DB_ROLE_DRIVER_TITLE='راننده'
 export const DB_ROLE_MOSAFER_TITLE='مسافر'
+export const DB_ROLE_ADMIN_TITLE='مدیر سیستم'
+export const DB_ROLE_DISPATURE_TITLE='دیسپاچر'
+export const DB_ROLE_MODIR_PROJECT_TITLE='مدیر پروژه'

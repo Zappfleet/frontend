@@ -28,6 +28,8 @@ export const serviceUnits = [
 ]
 
 export const requestStatus = [
+    ["DONE","انجام شده"],
+    ["ON_ROUTE","در مسیر "],
     ["PENDING", "در انتظار"],
     ["CANCEL_USER", "لغو کاربر"],
     ["REJECT", "رد شده"],
