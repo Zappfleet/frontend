@@ -62,14 +62,16 @@ const AmarRequest = () => {
     const [showDivDetailsRequest, setShowDivDetailsRequest] = useState<boolean>(false)
     const [reportsDetails, setReportsDetails] = useState<any>()
     const showRequest = (report: any) => {
-        console.log(21,report);
-        
+        console.log(21, report);
+
         const result = updatedArr(report?.result)
         setReportsDetails(result)
         setShowDivDetailsRequest(true)
     }
 
     const [reports, setReports] = useState([
+        { type: 'mission', result: [], reportNum: 18, title: "سفرهای ثبت شده", icon: 'icon3 fas fa-user-check' },
+
         { type: 'request', result: [], reportNum: 9, title: "درخواست ثبت شده", icon: 'icon3 fas fa-user-check' },
         { type: 'request', result: [], reportNum: 1, title: 'درخواست در انتظار', icon: 'icon3 fas fa-exchange-alt' },
 
@@ -84,9 +86,9 @@ const AmarRequest = () => {
         { type: 'request', result: [], reportNum: 15, title: 'درخواست تایید شده - مدیر سیستم', icon: 'icon1 fas fa-file-edit' },
 
         { type: 'request', result: [], reportNum: 6, title: "درخواست در پیش نویس سفر", icon: 'icon4 fas fa-eye' },
-        { type: 'request', result: [], reportNum: 11, title: "درخواست در انتظار شروع   ", icon: 'icon1 fas fa-user-check' },
-        { type: 'request', result: [], reportNum: 7, title: "درخواست در سفر", icon: 'icon1 fas fa-road' },
-        { type: 'request', result: [], reportNum: 8, title: "درخواست انجام شده", icon: 'icon1 fas fa-check-circle' },
+        { type: 'request', result: [], reportNum: 11, title: "(درخواست/سفر) در انتظار شروع   ", icon: 'icon1 fas fa-user-check' },
+        { type: 'request', result: [], reportNum: 7, title: "(درخواست/سفر) در مسیر", icon: 'icon1 fas fa-road' },
+        { type: 'request', result: [], reportNum: 8, title: "(درخواست/سفر) انجام شده", icon: 'icon1 fas fa-check-circle' },
 
         { type: 'request', result: [], reportNum: 10, title: "درخواست لغو شده", icon: 'icon2 fas fa-user-times' },
         // { type: 'request', result: [], reportNum: 4, title: "درخواست دیده شده - توزیع کننده", icon: 'icon4 fas fa-eye' },
@@ -335,11 +337,18 @@ const AmarRequest = () => {
                     requestFilter = requests;
                     report.result = requestFilter;
                     break;
+
+                case 18:
+                    
+                    missionsFilter = missions?.data;
+                    report.result = missionsFilter;
+                    break;
+
                 case 10:
                     requestFilter = requests?.filter((r: any) => r.status === 'CANCEL_USER');
                     report.result = requestFilter;
                     break;
-                    
+
                 case 11:
                     requestFilter = requests?.filter((r: any) => r.status === 'ASSIGNED_TO_MISSION');
                     requestIds = requestFilter?.map((r: any) => r._id);
@@ -368,7 +377,7 @@ const AmarRequest = () => {
         return reports.map((report: any, index: any) => (
             <div key={index} className="col-6 col-md-4">
                 <div className="div-box">
-                    <div className="box" onClick={() => report.type === 'request' ? showRequest(report) : showMission(report)}>
+                    <div className="box" onClick={() => report.type === 'request' ? showRequest(report) : showRequest(report)}>
                         <div className="col-4 right-div">
                             <i className={`icon ${report?.icon}`} />
                         </div>
