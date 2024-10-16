@@ -9,6 +9,10 @@
         overflow: auto;
     }
 
+    a {
+        cursor: pointer;
+    }
+
     .row-delete,
     .row-edit {
         cursor: pointer;
@@ -74,6 +78,12 @@
 
             .page-link {
                 border: none;
+            }
+
+            .page-link-active {
+                background-color: $color-base;
+                color: white;
+                border-radius: 5px;
             }
 
             .flex-center {

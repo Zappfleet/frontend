@@ -76,7 +76,7 @@ const DataGrid = (props: any) => {
             <th>
                 <div className={`tr-thead`} >
                     {item.name}
-                    <a href='#' onMouseDown={(e) => { setcountForSort(countForSort + 1); handleSort(e, item.key, countForSort) }}><i className='fa fa-sort sort-i'></i></a>
+                    <a onMouseDown={(e) => { setcountForSort(countForSort + 1); handleSort(e, item.key, countForSort) }}><i className='fa fa-sort sort-i'></i></a>
                     {item.type === 'caleadar' &&
                         <>
                             <div style={{ position: 'relative' }}>
@@ -294,10 +294,10 @@ const DataGrid = (props: any) => {
             for (let index = 1; index <= numOfshow && index <= totalPages; index++) {
                 itemList.push(<li key={`page${index}`} className="page-item">
                     <a
-                        onClick={(e) => clickPage(index)}
-                        className={`page-link ${currentPage === index ? 'active' : ''}`}
+                        onClick={(e:any) => clickPage(index)}
+                        className={`page-link ${currentPage === index ? 'active page-link-active' : ''}`}
                         aria-current={currentPage === index ? 'page' : undefined}
-                        href='#'>
+                        >
                         {index}</a>
                 </li>)
             }
@@ -306,9 +306,9 @@ const DataGrid = (props: any) => {
             for (let index = currentPage - (Math.ceil(numOfshow / 2)) + 1; index < currentPage - (numOfshow / 2) + numOfshow && index <= totalPages; index++) {
                 itemList.push(<li key={`page${index}`} className="page-item">
                     <a onClick={(e) => clickPage(index)}
-                        className={`page-link ${currentPage === index ? 'active' : ''}`}
+                        className={`page-link ${currentPage === index ? 'active page-link-active' : ''}`}
                         aria-current={currentPage === index ? 'page' : undefined}
-                        href='#'>{index}</a>
+                        >{index}</a>
                 </li>)
             }
         }

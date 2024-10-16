@@ -442,8 +442,8 @@ const RequestManagment = () => {
             }
             {countOfPassengerInDraft > 3 &&
               <div className='alert alert-warning'>حداکثر تعداد مسافر 3 نفر است
-              <br/>
-              <p> تعداد مسافر شما {countOfPassengerInDraft} نفر است</p>
+                <br />
+                <p> تعداد مسافر شما {countOfPassengerInDraft} نفر است</p>
               </div>
             }
 
@@ -469,7 +469,7 @@ const RequestManagment = () => {
               {'تایید نهایی'}
             </SimpleButton>
           </div>
-        ).if(draftMission?.data?.service_requests?.length > 0)}
+        ).if(draftMission?.data?.service_requests?.length > 0 && countOfPassengerInDraft <= 3)}
       </FloatingButtonWithModal>
     </div>
   );

@@ -26,8 +26,10 @@ export function useValidateForm(validationRules: any, formData: any) {
                         }
                         break;
                     case 'min':
-                        if (parseInt(fieldValue) < rules?.min) {
-                            fieldErrors.push(`مقدار ${rules?.showName || field} نباید کمتر از ${rules?.min} باشد`);
+                        if (fieldValue !== null && fieldValue !== undefined && fieldValue !== '') {
+                            if (fieldValue.length < rules?.min) {
+                                fieldErrors.push(`مقدار ${rules?.showName || field} نباید کمتر از ${rules?.min} باشد`);
+                            }
                         }
                         break;
                     case 'pattern':
@@ -38,8 +40,10 @@ export function useValidateForm(validationRules: any, formData: any) {
                         }
                         break;
                     case 'match':
-                        if (fieldValue !== getNestedValue(formData, rules?.matchField)) {
-                            fieldErrors.push(`فیلد ${rules?.showName || field} باید با ${rules?.matchField} مطابقت داشته باشد`);
+                        if (fieldValue !== null && fieldValue !== undefined && fieldValue !== '') {
+                            if (fieldValue !== getNestedValue(formData, rules?.matchField)) {
+                                fieldErrors.push(`فیلد ${rules?.showName || field} باید با ${rules?.matchField} مطابقت داشته باشد`);
+                            }
                         }
                         break;
                     // Add other validation cases here
