@@ -13,15 +13,15 @@ import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 export default function Reports() {
   console.log(55);
-  
+
   const [isReportOpen, setIsReportOpen] = useState<boolean>(false);
   const [reportTitle, setReportTitle] = useState<any>('');
   const [reportcomponentName, setReportcomponentName] = useState<any>('');
 
   const reports = [
     { Title: 'گزارش هزینه آژانس ها', componentName: 'AgencyReport', icon: 'fas fa-money-bill-alt' },
-    { Title: 'گزارش روزانه رانندگان', componentName: 'DriverReport', icon: 'fas fa-calendar-alt' },
-    { Title: 'ریز گزارش رانندگان', componentName: 'DriverReportDetails', icon: 'fas fa-history' },
+    // { Title: 'گزارش روزانه رانندگان', componentName: 'DriverReport', icon: 'fas fa-calendar-alt' },
+    // { Title: 'ریز گزارش رانندگان', componentName: 'DriverReportDetails', icon: 'fas fa-history' },
     { Title: 'گزارش مدت زمان هر سرویس', componentName: 'TimeOfServices', icon: 'fas fa-hourglass-end' },
     { Title: 'دسترسی به تعداد سرویس های انجام شده توسط رانندگان در بازه زمانی مشخص', componentName: 'CountOfServicesOfDrivers', icon: 'fas fa-filter' },
     { Title: 'گزارش میزان استراحت هر راننده بین سرویس ها', componentName: 'RestOfDriverBetweenServises', icon: 'fas fa-hotel' },
@@ -30,6 +30,7 @@ export default function Reports() {
 
   ]
   const handleButtonClick = (item: any) => {
+    setShowDivDetailsRequest(true)
     setIsReportOpen(true);
     setReportTitle(item.Title)
     setReportcomponentName(item.componentName)
@@ -45,29 +46,73 @@ export default function Reports() {
 
     switch (reportcomponentName) {
       case 'AgencyReport':
-        return  <AgencyReport handleBackClick={handleBackClick} title={reportTitle} /> 
+        return <AgencyReport handleBackClick={handleBackClick} title={reportTitle} />
       case 'DriverReport':
-        return  <DriverReport handleBackClick={handleBackClick} title={reportTitle} /> 
+        return <DriverReport handleBackClick={handleBackClick} title={reportTitle} />
       case 'DriverReportDetails':
-        return  <DriverReportDetails handleBackClick={handleBackClick} title={reportTitle} /> 
+        return <DriverReportDetails handleBackClick={handleBackClick} title={reportTitle} />
       case 'TimeOfServices':
-        return  <TimeOfServices handleBackClick={handleBackClick} title={reportTitle} /> 
+        return <TimeOfServices handleBackClick={handleBackClick} title={reportTitle} />
       case 'CountOfServicesOfDrivers':
-        return  <CountOfServicesOfDrivers handleBackClick={handleBackClick} title={reportTitle} /> 
+        return <CountOfServicesOfDrivers handleBackClick={handleBackClick} title={reportTitle} />
       case 'RestOfDriverBetweenServises':
-        return  <RestOfDriverBetweenServises handleBackClick={handleBackClick} title={reportTitle} /> 
+        return <RestOfDriverBetweenServises handleBackClick={handleBackClick} title={reportTitle} />
       case 'DriverList_By_LastServiceAdnDistanse':
-        return  <DriverList_By_LastServiceAdnDistanse handleBackClick={handleBackClick} title={reportTitle} /> 
+        return <DriverList_By_LastServiceAdnDistanse handleBackClick={handleBackClick} title={reportTitle} />
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(5);
-    
+
   })
+
+  const [showDivDetailsRequest, setShowDivDetailsRequest] = useState<boolean>(false)
+
   return (
     <>
+
       <div className="reports-component">
+        <div className="row">
+          <div className="col-12">
+            {showDivDetailsRequest &&
+              <div className="details-div">
+                <i className='fa fa-remove close-fa' onClick={() => setShowDivDetailsRequest(false)}></i>
+                <div className="datagrid-div">
+                  {renderReport()}
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+        <div className="row row-amar">
+          <div className="row">
+            <>
+              <div className="row row-amar">
+                {reports.map((item: any, index: any) => {
+                  return (<div className="col-6 col-md-4">
+                    <div className="box" onClick={() => handleButtonClick(item)}>
+                      <div className="col-2 right-div">
+                        <i className={`${item.icon}`} />
+                      </div>
+                      <div className="col-10 left-div">
+                        <div className="title">{item?.Title}</div></div>
+                    </div>
+                  </div>)
+                  // return <div className='item'>
+                  //   رسشل
+                  //   <button onClick={() => handleButtonClick(item)}> {item.Title} </button>
+                  // </div>
+                })}
+              </div>
+            </>
+          </div>
+
+        </div>
+      </div>
+      {/* <div className="reports-component">
+
+
         {isReportOpen ? (
           renderReport()
         ) : (
@@ -98,7 +143,7 @@ export default function Reports() {
             <div> <p>'هزینه آژانس ها' </p></div>
           </div>
         </div> */}
-        {/* <div className="">
+      {/* <div className="">
         <TabbedPanel
           tabs={[
             {
@@ -132,7 +177,7 @@ export default function Reports() {
         />
       </div> */}
 
-      </div>
+      {/* </div>  */}
     </>
   );
 }

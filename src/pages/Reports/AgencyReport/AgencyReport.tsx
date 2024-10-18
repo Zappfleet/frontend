@@ -33,23 +33,27 @@ export default function AgencyReport({ handleBackClick, title }: any) {
 
   const options = [{ id: 1, value: 5 }, { id: 2, value: 10 }, { id: 3, value: 15 }]
   const thead = [
-    { key: 'project_Code', name: 'کد پروژه' },
-    { key: 'proj_desc', name: 'توضیح پروژه' },
-    { key: 'manager_emp_num', name: 'شناسه مدیر' },
-    { key: 'cost_center', name: 'مرکز هزینه' },
-    { key: 'desc', name: 'توضیحات' },
-    { key: 'cost', name: 'هزینه' },
-    { key: 'mission_date', name: 'تاریخ سفر' },
+    { key: 'agency_name', name: 'نام آژانس' },
+     { key: 'confirmed_by', name: 'ثبت کننده' },
+    // { key: 'proj_desc', name: 'توضیح پروژه' },
+    // { key: 'manager_emp_num', name: 'شناسه مدیر' },
+    // { key: 'cost_center', name: 'مرکز هزینه' },
+    { key: 'bill_number', name: 'شماره فاکتور' },
+    { key: 'cost_agance', name: 'هزینه' },
+    { key: 'mission_date', name: 'تاریخ سفر' ,key2:'fromdate',type:'caleadar'},
     { key: 'created_by', name: 'مسافر' },
+   
     { key: 'distance', name: 'مسافت' },
-    { key: 'mission_start', name: 'شروع سفر' },
-    { key: 'mission_end', name: 'پایان سفر' },
+    { key: 'distance_dasti', name: ' مسافت دستی' },
+    // { key: 'mission_start', name: 'شروع سفر' },
+    // { key: 'mission_end', name: 'پایان سفر' },
+    { key: 'proj_desc', name: 'توضیحات' },
     // { key: 'endBeforeService', name: 'پایان سرویس قبلی', type: 'caleadar', key2: 'todate' },
   ]
 
 
   return <div className='AgencyReport-component'>
-    <i className=' fa fa-arrow-left back-icon' onClick={handleBackClick}></i>
+    {/* <i className=' fa fa-arrow-left back-icon' onClick={handleBackClick}></i> */}
     <p>{title}</p>
 
     <div className="flex items-center px-4">

@@ -6,9 +6,9 @@ import useAganceDriver from '../../../hooks/data/Agance/useAganceDriver';
 import WordProcessor from '../../../components/Exports/WordProcessor/WordProcessor';
 import wordFile from '../../../lib/zarghan/estelameAmaken.docx';
 
-import htmlFile from '../../../lib/zarghan/estelameAmaken.htm';
+// import htmlFile from '../../../lib/zarghan/estelameAmaken.htm';
 import { FileUploadHandles } from '../../../components/FileUpload/FileUpload';
-import { getBase64WithFileName } from '../../../utils/utils';
+import { convertToJalaliDateTiem, getBase64WithFileName } from '../../../utils/utils';
 
 import useAuthentication from '../../../hooks/data/useAuthentication';
 import * as permitConstant from '../../../lib/constants'
@@ -16,6 +16,16 @@ import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 import HTMLProcessor from '../../../components/Exports/HTMLProcessor/HTMLProcessor';
 
 const EstelamAmaken = ({ handleBackClick, title }: any) => {
+
+    const [htmlFile, sethtmlFile] = useState<any>(null)
+    useEffect(() => {
+        fetch('/zarghanFiles/estelameAmaken.htm')
+            .then(response => response.text())
+            .then(data => {
+                sethtmlFile(data)
+            })
+            .catch(err => console.error(err));
+    }, []);
 
     title = 'استعلام اداره اماکن'
 
@@ -62,6 +72,8 @@ const EstelamAmaken = ({ handleBackClick, title }: any) => {
 
     useEffect(() => {
         if (resulAgancetDriver) {
+            console.log(441,resulAgancetDriver);
+            
             setAganceDriversList(resulAgancetDriver?.data?.data)
         }
     }, [resulAgancetDriver])
@@ -126,33 +138,83 @@ const EstelamAmaken = ({ handleBackClick, title }: any) => {
                         <select onChange={async (e) => {
                             const driver = aganceDriversList.filter((ite: any) => ite?.details?.nat_num === e.target.value && ite?.details?.nat_num !== null && ite?.details?.nat_num !== undefined)[0]
 
-                            console.log(141);
 
+                            //</div> 
 
-
-                            const fatherName = driver?.details?.fatherName || ""; // نام پدر
-                            let newFields: any = {};
-
-                            console.log(74,fatherName.length);
-                            
+                            const nat_num = driver?.details?.nat_num || ' '; // نام پدر
+                            let natNum_slice: any = {};
                             // اضافه کردن کاراکترهای نام پدر به فیلدهای ni1 تا ni10
-                            for (let i = 0; i < 10; i++) {
-                                if (i < fatherName.length) {
-                                    newFields[`n${i + 1}`] = fatherName[i];
+                            for (let i = 0; i < 30; i++) {
+                                if (i < nat_num?.length) {
+                                    natNum_slice[`n${i + 1}`] = nat_num[i];
                                 } else {
-                                    newFields[`n${i + 1}`] = ""; // اگر تعداد کاراکترها کمتر از 10 باشد، با "" پر می‌شود
+                                    natNum_slice[`n${i + 1}`] = ' '; // اگر تعداد کاراکترها کمتر از 10 باشد، با "" پر می‌شود
                                 }
                             }
 
+
+                            const name = driver?.details?.name || ' '; // نام پدر
+                            let name_slice: any = {};
+                            // اضافه کردن کاراکترهای نام پدر به فیلدهای ni1 تا ni10
+                            for (let i = 0; i < 30; i++) {
+                                if (i < name?.length) {
+                                    name_slice[`nn${i + 1}`] = name[i];
+                                } else {
+                                    name_slice[`nn${i + 1}`] = ' '; // اگر تعداد کاراکترها کمتر از 10 باشد، با "" پر می‌شود
+                                }
+                            }
+
+
+                            const family = driver?.details?.family || ' '; // نام پدر
+                            let familly_slice: any = {};
+                            // اضافه کردن کاراکترهای نام پدر به فیلدهای ni1 تا ni10
+                            for (let i = 0; i < 30; i++) {
+                                if (i < family?.length) {
+                                    familly_slice[`ln${i + 1}`] = family[i];
+                                } else {
+                                    familly_slice[`ln${i + 1}`] = ' '; // اگر تعداد کاراکترها کمتر از 10 باشد، با "" پر می‌شود
+                                }
+                            }
+
+                            const pic = await getBase64WithFileName(driver?.details?.attachFile?.driverPic)
                             // استفاده از setFields برای تنظیم فیلدها
+
+                            console.log(45, pic);
+
                             setFields({
-                                full_name: driver?.full_name,
-                                father_name: fatherName,
-                                nat_num: driver?.details?.nat_num,
-                                sh_sh: driver?.details?.shomare_shenasname,
-                                sadere: driver?.details?.sadere,
-                                pic1: await getBase64WithFileName(driver?.details?.attachFile?.driverPic),
-                                ...newFields // اضافه کردن فیلدهای جدید ni1 تا ni10
+                                full_name: driver?.full_name || '',
+                                name: name || '',
+                                familly: family || '',
+                                din: driver?.details?.din || '',
+                                taahol: driver?.details?.taahol || '',
+                                cell_phone: driver?.details?.cellPhone || '',
+                                code_posti: driver?.details?.postalCode || '',
+                                nic_name: driver?.details?.nikName || '',
+                                phone: driver?.details?.homePhone || '',
+                                b_d: driver?.details?.birthDate ? (convertToJalaliDateTiem(driver?.details?.birthDate))?.split(" ")[0] : '',
+                                sh_seri: driver?.details?.shomare_shenasname || '',
+                                gender: driver?.details?.gender || '',
+                                madrak: driver?.details?.madrakeTahsili || '',
+                                shomare_cart: driver?.details?.shomareKartePayanKhedmat || '',
+                                nezame_vazife: driver?.details?.shomareKartePayanKhedmat ? 'پایان خدمت' : '---',
+                                father_name: driver?.details?.fatherName || ' ',
+                                address: driver?.details?.address || ' ',
+                                mahale_tavallod: '---',
+                                pelake_khodro: driver?.vehicles[0]?.plaque,
+                                factor_num: '---',
+                                factor_date: '---',
+                                isMiss: driver?.details?.gender === 'زن' ? 'خانم' : 'آقای',
+                                // address: driver?.details?.address || ' ',
+                                // address: driver?.details?.address || ' ',
+                                //  address: driver?.details?.address || ' ',
+                                nat_num: nat_num || ' ',
+                                sh_sh: driver?.details?.shomare_shenasname || ' ',
+                                sadere: driver?.details?.sadere || ' ',
+                                pic: `<img src='${pic}' width="100px" height='100px'/>`,
+                                pic1: await getBase64WithFileName(driver?.details?.attachFile?.driverPic) || ' ',
+                                ...natNum_slice, // اضافه کردن فیلدهای جدید ni1 تا ni10
+                                ...name_slice,
+                                ...familly_slice
                             });
 
 
@@ -171,19 +233,16 @@ const EstelamAmaken = ({ handleBackClick, title }: any) => {
 
                 <div className="row">
                     <div className="col-12">
-                        {fields?.nat_num
-                            && <>
-
+                        {fields?.nat_num && htmlFile !== null &&
+                            <>
                                 <HTMLProcessor autoReadFile={true} HTMLFile={htmlFile}
-                                    fields={fields}
-                                />
-
+                                    fields={fields} />
                             </>
                         }
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

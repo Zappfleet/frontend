@@ -33,7 +33,7 @@ export default function DriverReportDetails({ handleBackClick, title }: any) {
   return (
     <div className='AgencyReport-component'>
 
-      <i className=' fa fa-arrow-left back-icon' onClick={handleBackClick}></i>
+      {/* <i className=' fa fa-arrow-left back-icon' onClick={handleBackClick}></i> */}
       <p>{title}</p>
       <div className="flex items-center px-4">
         <div className="flex-1 px-4 ">

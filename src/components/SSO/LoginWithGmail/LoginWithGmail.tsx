@@ -1,9 +1,9 @@
 import { GoogleOAuthProvider, GoogleLogin, CredentialResponse } from '@react-oauth/google';
 
 import axios from 'axios';
-import { NotificationController } from '../../lib/notificationController';
-import { storeTokens } from '../../pages/Authentication/utils';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import { NotificationController } from '../../../lib/notificationController';
+import { storeTokens } from '../../../pages/Authentication/utils';
+import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary';
 
 const LoginWithGmail: React.FC = () => {
 

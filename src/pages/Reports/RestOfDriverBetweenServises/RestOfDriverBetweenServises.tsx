@@ -134,7 +134,7 @@ export default function RestOfDriverBetweenServises({ handleBackClick, title }: 
             {forbidden === false &&
                 <div className='report-component'>
 
-                    <i className='fa fa-arrow-left back-icon' onClick={handleBackClick}></i>
+                    {/* <i className='fa fa-arrow-left back-icon' onClick={handleBackClick}></i> */}
                     {/* {loading === false && <p>Loading ...</p>} */}
                     {/* {loading === true && <div className="datagrid-component"> */}
                     <div dir="rtl" className="container-fluid">

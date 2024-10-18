@@ -193,6 +193,8 @@ const AganceVehicle = ({ refresh, disabled, driverID }: any) => {
     const objectId = objectIdRef.current
 
     useEffect(() => {
+        console.log(7865678,driverID);
+        
         setFields({
             ...fields,
             _id: objectId.toString(),
@@ -202,7 +204,7 @@ const AganceVehicle = ({ refresh, disabled, driverID }: any) => {
             extra: { ...fields.extra, driver: { ...fields?.extra?.driver, driver_id: driverID ? driverID : null } },
             services: [{ service: 'taksisroys', capacity: 2 }]
         })
-    }, [objectId])
+    }, [objectId,driverID])
 
 
 

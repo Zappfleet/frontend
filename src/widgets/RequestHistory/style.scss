@@ -4,18 +4,54 @@
 
     margin-top: 30px;
 
+    .pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination-button {
+        background-color: white;
+        border: 1px solid #ccc;
+        color: #337ab7;
+        padding: 8px 12px;
+        margin: 0 5px;
+        cursor: pointer;
+        transition: background-color 0.2s, color 0.2s;
+        border-radius: 4px;
+    }
+
+    .pagination-button:hover:not(:disabled) {
+        background-color: #f1f1f1;
+    }
+
+    .pagination-button.active {
+        background-color: #337ab7;
+        color: white;
+        border: 1px solid #337ab7;
+    }
+
+    .pagination-button:disabled {
+        color: #ccc;
+        cursor: not-allowed;
+        background-color: white;
+        border: 1px solid #ddd;
+    }
+
     .expand {
         transition-duration: 300ms;
     }
-    .Comments-component{
+
+    .Comments-component {
         position: relative !important;
     }
 
     .request-mycomment {
         margin-top: 30px;
-.com0{
-    
-}
+
+        .com0 {}
+
         .title {
             color: #0d6efd;
         }

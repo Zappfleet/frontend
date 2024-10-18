@@ -10,8 +10,8 @@ import { getApiClient } from '../../apis/client';
 import { NotificationController } from '../../lib/notificationController';
 import { storeTokens } from './utils';
 import { LOGIN_TITLE } from '../../CustomForCustomer/constatns';
-import LoginWithGmail from '../../components/LoginWithGmail/LoginWithGmail';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
+import LoginWithIrisa from '../../components/SSO/LoginWithMyIRISA/LoginWithMyIRISA';
 
 
 const validationRules = {
@@ -167,6 +167,9 @@ const SignIn = () => {
                     {'ورود به حساب'}
                   </LoaderButton>
 
+                  {import.meta.env.VITE_CUSTOMER_NAME !== 'zarghan' &&
+                    <LoginWithIrisa />
+                  }
 
                   {/* <LoginWithGmail /> */}
 

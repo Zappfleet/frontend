@@ -125,7 +125,7 @@ export default function TimeOfServices({ handleBackClick, title }: any) {
             {forbidden === true &&  <Page403 /> }
             {forbidden === false &&
                 <div className='report-component'>
-                    <i className='fa fa-arrow-left back-icon' onClick={handleBackClick}></i>
+                    {/* <i className='fa fa-arrow-left back-icon' onClick={handleBackClick}></i> */}
 
                     {/* {loading === false && <p>Loading ...</p>} */}
                     {/* {loading === true && <div className="datagrid-component"> */}

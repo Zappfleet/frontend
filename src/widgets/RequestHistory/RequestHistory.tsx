@@ -17,6 +17,7 @@ import useComments from '../../hooks/data/Comments/useComments';
 import { NotificationController } from '../../lib/notificationController';
 import { DB_ROLE_DRIVER_TITLE, DB_ROLE_MOSAFER_TITLE } from '../../lib/constants';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
+import DataGrid from '../../components/DataGrid/DataGrid';
 
 
 
@@ -36,15 +37,27 @@ export default function RequestHistory(props: any = {}) {
     const { authInfo } = useAuthentication();
     const { result: resultComment, refreshData: refreshDataComment } = useComments(refreshHook, actionType, mission_id, userComment)
 
+
+    const [currentPage, setCurrentPage] = useState(1);  // حالت برای نگه داشتن صفحه فعلی
+    const itemsPerPage = 30;  // تعداد آیتم‌ها در هر صفحه
+    const [indexOfLastItem, setindexOfLastItem] = useState(30);
+    const [indexOfFirstItem, setindexOfFirstItem] = useState(0)
+    // محاسبه آیتم‌های صفحه فعلی
+    // const indexOfLastItem = currentPage * itemsPerPage;
+    // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+
+    const [currentItems, setCurrentItems] = useState<any>([])
+
     useEffect(() => {
         if (authInfo) {
-            if (authInfo.auth.roles[0].title === DB_ROLE_DRIVER_TITLE) {
+            if (authInfo?.auth?.roles[0]?.title === DB_ROLE_DRIVER_TITLE) {
                 setRole('driver')
-                setID(authInfo.auth._id)
+                setID(authInfo?.auth._id)
             }
-            if (authInfo.auth.roles[0].title === DB_ROLE_MOSAFER_TITLE) {
+            if (authInfo?.auth?.roles[0]?.title === DB_ROLE_MOSAFER_TITLE) {
                 setRole('passenger')
-                setID(authInfo.auth._id)
+                setID(authInfo?.auth._id)
             }
 
         }
@@ -53,7 +66,8 @@ export default function RequestHistory(props: any = {}) {
     const navigate = useNavigate();
     const { mode } = props;
     const status = ""
-    const { requests }: any = useRequests({ mode, initialParams: { status } });
+    // const { requests }: any = useRequests({ mode, initialParams: { status } });
+    const { requests }: any = useRequests({ mode: mode, initialParams: { status: '', paging: false } })
     const {
         items: expandedRows,
         toggleItem: toggleExpandedRows,
@@ -62,159 +76,201 @@ export default function RequestHistory(props: any = {}) {
     const { missionList } = useMissions_by_StatusAndDriverID("DRAFT", null);
     const { missionList: missionListDONEStatus } = useMissions_by_StatusAndDriverID("", null);
 
+    useEffect(() => {
+        console.log(74, mode, requests);
+        setindexOfLastItem(currentPage * itemsPerPage)
+        setindexOfFirstItem((currentPage * itemsPerPage) - itemsPerPage)
+    // محاسبه آیتم‌های صفحه فعلی
+    // const indexOfLastItem = currentPage * itemsPerPage;
+    // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    requests?.length > 0 && setCurrentItems(requests?.slice(indexOfFirstItem, indexOfLastItem))
 
-    // return <div>
-    //     {requests?.docs?.map((request: any) => {
-    //         const isExpanded = expandedRows.includes(request._id);
-    //         return <RequestListItem key={request._id} request={request} >
-    //             <>
-    //                 <div onClick={() => toggleExpandedRows(request._id)}>
-    //                     <i className={`fa ${isExpanded ? 'fa-angle-down' : 'fa-angle-up'}`}></i>
-    //                 </div>
+}, [requests, currentPage])
 
-    //                 <div
-    //                     className='expand'>
-    //                     <div>
-    //                         <RequestDetailsBox request={request} />
-    //                     </div>
-    //                 </div>
+// return <div>
+//     {requests?.docs?.map((request: any) => {
+//         const isExpanded = expandedRows.includes(request._id);
+//         return <RequestListItem key={request._id} request={request} >
+//             <>
+//                 <div onClick={() => toggleExpandedRows(request._id)}>
+//                     <i className={`fa ${isExpanded ? 'fa-angle-down' : 'fa-angle-up'}`}></i>
+//                 </div>
 
-    //             </>
-    //         </RequestListItem>
-    //     })}
-    // </div>
+//                 <div
+//                     className='expand'>
+//                     <div>
+//                         <RequestDetailsBox request={request} />
+//                     </div>
+//                 </div>
+
+//             </>
+//         </RequestListItem>
+//     })}
+// </div>
 
 
-    const handleNavigation = (data: any) => {
-        const initialLocations = data.locations.map((locationItem: any) => {
-            return {
-                lat: locationItem.coordinates[0],
-                lng: locationItem.coordinates[1],
-                ...locationItem.meta,
-            };
-        });
-
-        const initialValues = {
-            _id: data._id,
-            service: data.service,
-            datetime: [data.gmt_for_date],
-            ...data.details,
+const handleNavigation = (data: any) => {
+    const initialLocations = data.locations.map((locationItem: any) => {
+        return {
+            lat: locationItem.coordinates[0],
+            lng: locationItem.coordinates[1],
+            ...locationItem.meta,
         };
+    });
 
-        navigate('/passenger/new', {
-            state: {
-                type: 'update',
-                mode: 'user-only',
-                initialLocations: initialLocations,
-                initialValues: initialValues,
-                className: "!top-12",
-                submitted_by: data.submitted_by
-            }
-        });
+    const initialValues = {
+        _id: data._id,
+        service: data.service,
+        datetime: [data.gmt_for_date],
+        ...data.details,
     };
 
-    const handleIsEditPossible = (requestID: any) => {
-        missionList.map((item: any) => {
-            if (!item.driver_id &&
-                item.service_requests && item.service_requests.length > 0 &&
-                item.service_requests.some((req: any) => req.request_id === requestID)) {
-                return true
-            }
-        })
-        return false
-    }
-
-    const saveComment = (comment: any, missionID: any) => {
-        setShowCommentComponent(false)
-        setUserComment(comment)
-        setActionType('insert')
-        setRefreshHook(true)
-    }
-
-
-    useEffect(() => {
-        //  console.log(7, resultComment);
-
-        if (resultComment) {
-            if (actionType === 'insert') {
-                if (resultComment.status === 200) {
-                    NotificationController.showSuccess('نظرات ثبت شد');
-                    setShowBtnRegistComment(false)
-                }
-                else {
-                    NotificationController.showError('اطلاعات ثبت نشد');
-                }
-            }
-            if (actionType === 'select') {
-                //  console.log(23, resultComment.data);
-
-                let registedCommentbefore = true
-                resultComment?.data?.data?.map((item: any) => {
-                    //   console.log(5, item.registerID, ID);
-                    if (item.registerID === ID) {
-                        registedCommentbefore = false
-                    }
-                })
-                setShowBtnRegistComment(registedCommentbefore)
-            }
-            setRefreshHook(false)
+    navigate('/passenger/new', {
+        state: {
+            type: 'update',
+            mode: 'user-only',
+            initialLocations: initialLocations,
+            initialValues: initialValues,
+            className: "!top-12",
+            submitted_by: data.submitted_by
         }
-    }, [resultComment])
+    });
+};
 
-    const showComment = (request_id: any) => {
+const handleIsEditPossible = (requestID: any) => {
+    missionList.map((item: any) => {
+        if (!item.driver_id &&
+            item.service_requests && item?.service_requests?.length > 0 &&
+            item.service_requests.some((req: any) => req.request_id === requestID)) {
+            return true
+        }
+    })
+    return false
+}
 
-        const myMissions = missionListDONEStatus?.filter((item: any) =>
-            item.service_requests && item.service_requests[0]?.request_id === request_id
-        );
-
-        const myComments = myMissions && myMissions[0]?.extra?.comments ? myMissions[0].extra.comments : undefined;
-
-        const result = myComments?.map((item: any) => {
-            return <>
-                <div className='com0'>
-                    <span className='title'>{`نظر ${item.role === 'driver' ? 'راننده' : 'مسافر'}`}</span>
-                </div>
-                <div className='com1'>
-                    <i style={{ color: emojiLib.find(ite => ite.key === item.emojiID)?.color }}
-                        className={emojiLib.find(ite => ite.key === item.emojiID)?.icon}></i>
-                    <span>{(emojiLib.find(ite => ite.key === item.emojiID))?.value}</span>
-                </div>
-                <div className='com2'>
-                    <p>{item.customComment}</p>
-                </div>
-                <div className='com3'>
-                    {item.comments?.map((ite: any) => {
-                        return <span className={ite.type}>{ite.value}</span>
-                    })}
-                </div>
-            </>
-        })
-
-        // setShowBtnRegistComment(true)
+const saveComment = (comment: any, missionID: any) => {
+    setShowCommentComponent(false)
+    setUserComment(comment)
+    setActionType('insert')
+    setRefreshHook(true)
+}
 
 
-        return result ? <div className='request-mycomment'>
-            <div className="row">
-                <div className="col-2 title">
-                    {'نظرات'}
-                </div>
-                <div className="col-10">
-                    {result}
-                </div>
+useEffect(() => {
+    //  console.log(7, resultComment);
+
+    if (resultComment) {
+        if (actionType === 'insert') {
+            if (resultComment.status === 200) {
+                NotificationController.showSuccess('نظرات ثبت شد');
+                setShowBtnRegistComment(false)
+            }
+            else {
+                NotificationController.showError('اطلاعات ثبت نشد');
+            }
+        }
+        if (actionType === 'select') {
+            //  console.log(23, resultComment.data);
+
+            let registedCommentbefore = true
+            resultComment?.data?.data?.map((item: any) => {
+                //   console.log(5, item.registerID, ID);
+                if (item.registerID === ID) {
+                    registedCommentbefore = false
+                }
+            })
+            setShowBtnRegistComment(registedCommentbefore)
+        }
+        setRefreshHook(false)
+    }
+}, [resultComment])
+
+const showComment = (request_id: any) => {
+
+    const myMissions = missionListDONEStatus?.filter((item: any) =>
+        item.service_requests && item.service_requests[0]?.request_id === request_id
+    );
+
+    const myComments = myMissions && myMissions[0]?.extra?.comments ? myMissions[0].extra.comments : undefined;
+
+    const result = myComments?.map((item: any) => {
+        return <>
+            <div className='com0'>
+                <span className='title'>{`نظر ${item.role === 'driver' ? 'راننده' : 'مسافر'}`}</span>
+            </div>
+            <div className='com1'>
+                <i style={{ color: emojiLib.find(ite => ite.key === item.emojiID)?.color }}
+                    className={emojiLib.find(ite => ite.key === item.emojiID)?.icon}></i>
+                <span>{(emojiLib.find(ite => ite.key === item.emojiID))?.value}</span>
+            </div>
+            <div className='com2'>
+                <p>{item.customComment}</p>
+            </div>
+            <div className='com3'>
+                {item.comments?.map((ite: any) => {
+                    return <span className={ite.type}>{ite.value}</span>
+                })}
+            </div>
+        </>
+    })
+
+    // setShowBtnRegistComment(true)
+
+
+    return result ? <div className='request-mycomment'>
+        <div className="row">
+            <div className="col-2 title">
+                {'نظرات'}
+            </div>
+            <div className="col-10">
+                {result}
             </div>
         </div>
-            :
-            null
+    </div>
+        :
+        null
 
-    }
+}
 
-    const handleClickBtnComment = (missionID: any) => {
-        setMissionID(missionID)
-        setShowCommentComponent(true)
-    }
+const handleClickBtnComment = (missionID: any) => {
+    setMissionID(missionID)
+    setShowCommentComponent(true)
+}
 
-    return <div className="RequestHistory-component">
-        <div className="row">
+const options = [{ id: 1, value: 10 }, { id: 2, value: 30 }, { id: 3, value: 50 }]
+const thead = [
+    // { key: 'id', name: 'شناسه' },
+    //{ key: '', name: theadCRUD },
+    { key: 'gmt_for_date', name: 'تاریخ و ساعت', img: false },
+    { key: 'request.submitted_by?.full_name', name: 'مسافر', img: false },
+    { key: 'request.confirmed_by?.full_name', name: 'تایید توسط', img: false },
+    { key: 'request.status', name: 'وضعیت', img: false },
+    { key: 'driver.fullname', name: 'راننده', img: false },
+    { key: 'request.details?.desc', name: 'توضیحات', img: false },
+]
+
+
+
+// تغییر صفحه
+const handlePageChange = (pageNumber: any) => {
+    setCurrentPage(pageNumber);
+};
+
+// محاسبه تعداد کل صفحات
+const totalPages = requests?.length > 0 ? Math.ceil(requests.length / itemsPerPage) : 1;
+const pageNumbers = Array.from({ length: Math.min(totalPages, 9) }, (_, i) => i + 1);
+
+
+return <div className="RequestHistory-component">
+    <div className="row">
+        {/* {requests?.length > 0 && <DataGrid
+                pagesize={options[0].value}
+                items={requests}
+                options={options}
+                thead={thead}
+            /> */}
+
+        {currentItems?.length > 0 &&
             <div className="col-12 have-table">
                 <table className='table table-hover'>
                     <thead>
@@ -229,7 +285,7 @@ export default function RequestHistory(props: any = {}) {
                         </tr>
                     </thead>
                     <tbody>
-                        {missionList && requests?.docs?.filter((request: any) => {
+                        {missionList && currentItems?.filter((request: any) => {
                             return props.requestID ? request._id === props.requestID : true;
                         }).map((request: any) => {
                             let isEditPossible =
@@ -238,10 +294,10 @@ export default function RequestHistory(props: any = {}) {
 
                             const myMissions = missionListDONEStatus?.filter((item: any) =>
                                 item.service_requests && item.service_requests[0]?.request_id === request._id
-                              //  && item.status === 'DONE'
+                                //  && item.status === 'DONE'
                             )
 
-                                console.log(4444,request,myMissions);
+                            //console.log(4444, request, myMissions);
 
                             const myComments = myMissions && myMissions[0]?.extra?.comments ? myMissions[0].extra.comments : undefined;
 
@@ -304,9 +360,40 @@ export default function RequestHistory(props: any = {}) {
                         })}
                     </tbody>
                 </table>
+
+                {/* ساخت دکمه‌های صفحه‌بندی با فلش */}
+                {/* Pagination */}
+                <div className="pagination">
+                    <button
+                        className="pagination-button"
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                    >
+                        &lt;
+                    </button>
+                    {pageNumbers.map((number) => (
+                        <button
+                            key={number}
+                            className={`pagination-button ${number === currentPage ? 'active' : ''}`}
+                            onClick={() => handlePageChange(number)}
+                        >
+                            {number}
+                        </button>
+                    ))}
+                    <button
+                        className="pagination-button"
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                    >
+                        &gt;
+                    </button>
+                </div>
+
+
             </div>
-        </div>
+        }
     </div>
+</div>
 
 }
 

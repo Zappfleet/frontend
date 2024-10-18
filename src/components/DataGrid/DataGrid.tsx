@@ -53,6 +53,8 @@ const DataGrid = (props: any) => {
 
 
     const handleDateChange = (date: any, headerKey: any, key2: any) => {
+        console.log(5878878);
+
         if (key2 === 'fromdate') {
             setFromDateate(date);
             const formattedDate = date ? date.format('YYYY/MM/DD') : '';
@@ -80,19 +82,19 @@ const DataGrid = (props: any) => {
                     {item.type === 'caleadar' &&
                         <>
                             <div style={{ position: 'relative' }}>
-                                 
-                                    <DatePicker
-                                        onFocusedDateChange={(date) => handleDateChange(date !== null ? (Array.isArray(date) ? date[0] : date) : null, item.key, item.key2)}
-                                        calendar={persian}
-                                        locale={persian_fa}
-                                        className="datetime-picker iscalendar"
-                                        inputClass="datetime-input !text-center !text-lg !p-4"
-                                        value={item.key2 === 'fromdate' ? fromdate : todate}
-                                        placeholder='تاریخ'
-                                        editable={false}  // Ensure the input is not editable directly
 
-                                    />
-                                 
+                                <DatePicker
+                                    onFocusedDateChange={(date) => handleDateChange(date !== null ? (Array.isArray(date) ? date[0] : date) : null, item.key, item.key2)}
+                                    calendar={persian}
+                                    locale={persian_fa}
+                                    className="datetime-picker iscalendar"
+                                    inputClass="datetime-input !text-center !text-lg !p-4"
+                                    value={item.key2 === 'fromdate' ? fromdate : todate}
+                                    placeholder='تاریخ'
+                                    editable={false}  // Ensure the input is not editable directly
+
+                                />
+
 
                                 {fromdate && <i className='fa fa-remove calendar-close' onClick={() => clearDate(item.key, item.key2)}></i>}
                             </div>
@@ -142,6 +144,15 @@ const DataGrid = (props: any) => {
                         </td>
                     );
                 }
+                if (hitem.type == 'caleadar') {
+                    try {
+                        return <td key={index}>{convertToJalaliDateTiem(item[hitem.key])}</td>;
+                    }
+                    catch {
+                        console.log(563, 'error in convertToJalaliDateTiem');
+                    }
+                }
+
                 return <td key={index}>{item[hitem.key]}</td>;
             })}
             {/* Uncomment or add more <td> elements as needed */}
@@ -294,10 +305,10 @@ const DataGrid = (props: any) => {
             for (let index = 1; index <= numOfshow && index <= totalPages; index++) {
                 itemList.push(<li key={`page${index}`} className="page-item">
                     <a
-                        onClick={(e:any) => clickPage(index)}
+                        onClick={(e: any) => clickPage(index)}
                         className={`page-link ${currentPage === index ? 'active page-link-active' : ''}`}
                         aria-current={currentPage === index ? 'page' : undefined}
-                        >
+                    >
                         {index}</a>
                 </li>)
             }
@@ -308,7 +319,7 @@ const DataGrid = (props: any) => {
                     <a onClick={(e) => clickPage(index)}
                         className={`page-link ${currentPage === index ? 'active page-link-active' : ''}`}
                         aria-current={currentPage === index ? 'page' : undefined}
-                        >{index}</a>
+                    >{index}</a>
                 </li>)
             }
         }
