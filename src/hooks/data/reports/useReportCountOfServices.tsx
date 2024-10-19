@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getApiClient } from '../../../apis/client';
 
-export default function useReportCountOfServices(status: string, fromdate: any, todate: any) {
+export default function useReportCountOfServices(status: string, fromdate: any, todate: any, type: any) {
 
     //console.log(89,status);
 
@@ -12,9 +12,9 @@ export default function useReportCountOfServices(status: string, fromdate: any, 
 
     function refreshData() {
         setState({ ...state, in_progress: true })
-        getApiClient().getCountOfServices(status, fromdate, todate)
+        getApiClient().getCountOfServices(status, fromdate, todate,type)
             .then(resp => {
-            //    console.log(6000, resp);
+                //    console.log(6000, resp);
                 setMissionList(resp.data);
             })
             .catch(error => {
@@ -22,7 +22,7 @@ export default function useReportCountOfServices(status: string, fromdate: any, 
                 // Handle the error, e.g., show a message to the user
             })
             .finally(() => {
-               // console.log(7000);
+                // console.log(7000);
                 setState({ ...state, in_progress: false });
             });
     }

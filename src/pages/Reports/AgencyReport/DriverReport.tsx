@@ -1,171 +1,281 @@
-import DatePicker from 'react-multi-date-picker';
-import UsersSuggestionInput from '../../../widgets/UsersSuggestionInput/UsersSuggestionInput';
+
 import { useEffect, useState } from 'react';
+import '../TimeOfServices/Style.scss';
+
+import DatePicker from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
-import moment from 'jalali-moment';
-import SimpleButton from '../../../components/SimpleButton';
-import { RiFileExcel2Line } from 'react-icons/ri';
-import useReportDriverDaily from '../../../hooks/data/reports/useReportDriverDaily';
-import { getLocalDatetime } from '../../../lib/string';
-import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
+import moment from 'jalali-moment'
+
+import useReportCountOfServices from '../../../hooks/data/reports/useReportCountOfServices.js';
+import Page403 from '../../../components/Page403/Page403';
+import DataGrid from '../../../components/DataGrid/DataGrid';
+
+
+import {
+  persianDateToGregorian,
+  secondsToHMS,
+  convertToJalaliDateTiem,
+  convertPersianToEnglishDigits
+} from '../../../utils/utils.js';
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary.js';
 
 export default function DriverReport({ handleBackClick, title }: any) {
-  const [selectedUsersState, setSelectedUsersState] = useState<any>([]);
-  const [dateRage, setDateRage] = useState<any>([
-    moment().subtract(7, 'days').toDate().getTime(),
-    moment.now(),
-  ]);
+
+
+  const [showDetails, setShowDetails] = useState<any>(false)
+  const [itemDetails, setItemDetails] = useState<any>(null)
+
+  const [forbidden, setForbidden] = useState<any>(false)
+  const [searchIsClecked, setSearchIsClecked] = useState<boolean>(false)
+  const [items, setItems] = useState<any[]>([])
+  const [fromDateDatePicker, setFromDateDatePicker] = useState<any>(moment(new Date()).format('jYYYY/jMM/jDD'));
+  const [toDateDatePicker, setToDateDatePicker] = useState<any>(moment(new Date()).format('jYYYY/jMM/jDD'));
+
+  const [fromDate, setFromDate] = useState<any>(moment(new Date()).format('jYYYY/jMM/jDD'));
+  const [toDate, setToDate] = useState<any>(moment(new Date()).format('jYYYY/jMM/jDD'));
+  const { missionList, state, refreshData } = useReportCountOfServices("DONE", persianDateToGregorian(fromDate), persianDateToGregorian(toDate), 'Daily');
+
+
+  let TotalCount = ''
+  let report_Title = title
+
+
+  // interface MyItem {
+  //     id: number;
+  //     img: string;
+  //     name: string;
+  //     startDate: string;
+  //     endDate: string;
+  //     countOfServices: number;
+  // }
+
+  const handleChangeDatePickerFromDate = (date: any) => {
+    setFromDateDatePicker(date);
+    setFromDate(date.format('YYYY/MM/DD', { calendar: 'persian', locale: 'fa' }))
+  };
+
+  const handleChangeDatePickerTodate = (date: any) => {
+    setToDateDatePicker(date);
+    setToDate(date.format('YYYY/MM/DD', { calendar: 'persian', locale: 'fa' }))
+  };
+
+  const createReport = () => {
+    setSearchIsClecked(true)
+    refreshData()
+  };
+
+
+  // const [copyItems, setCopyItems] = useState(items.slice(0, 2))
+
+  const thead = [
+    // { key: 'id', name: 'شناسه' },
+    { key: 'name', name: 'راننده' },
+    { key: 'date', name: 'تاریخ', type: 'caleadar', key2: 'fromdate', onlyDate: true },
+    { key: 'countOfServices', name: 'تعداد سرویس' },
+    { key: 'distance', name: 'مسافت طی شده' },
+
+    // { key: 'endDate', name: 'تاریخ پایان', type: 'caleadar', key2: 'todate' },
+
+  ]
+
+  const footerItems = thead && thead.map((item, index) => {
+    if (item.key === 'countOfServices') {
+      return <td key={index}>{TotalCount}</td>
+    }
+    return <td key={index}></td>
+  })
+
+
+  const options = [{ id: 1, value: 10 }, { id: 2, value: 30 }, { id: 3, value: 50 }]
 
   useEffect(() => {
-    //console.log(200,dateRage);
+    if (missionList) {
+      console.log(63, missionList?.data);
 
-  }, [dateRage])
-  const { state: dailyReport } = useReportDriverDaily({
-    driver_id: selectedUsersState?.[0]?._id,
-    date_filter: {
-      gmt_from: dateRage[0],
-      gmt_to: dateRage[1],
-    },
-  });
+      if (missionList.status === 200) {
+        fetchData()
+      }
+      if (missionList.status === 403) {
+        setForbidden(true)
+      }
+    }
+  }, [missionList, forbidden])
 
-  function handle_setSelectedUsers(value: any) {
-    setSelectedUsersState(value?.length > 0 ? [value[1] || value[0]] : []);
+
+  const fetchData = () => {
+    let k: any = []
+    // console.log(111, missionList.data);
+    missionList.data && missionList.data.map((item: any) => {
+      let record: any = {}
+      const date1: any = new Date(item.mission_end)
+      const date2: any = new Date(item.mission_start);
+
+      let distance_calculate: number = 0
+      item?.missions?.map((ite: any) => {
+        distance_calculate += ite?.extra?.distance ? ite?.extra?.distance : 0
+      })
+
+      //console.log(53, distance_calculate);
+
+      let distance_calculate_show = ''
+
+      if (distance_calculate < 1000) {
+        if (distance_calculate === 0) {
+          distance_calculate_show = '---'
+        }
+        else {
+          distance_calculate_show = `${distance_calculate} متر`
+        }
+      }
+      if (distance_calculate > 1000) {
+        distance_calculate_show = `${Math.round(distance_calculate / 1000)} کیلومتر و ${distance_calculate % 1000} متر`
+      }
+
+      const differenceInSeconds = Math.round((date1 - date2) / 1000);  //second
+      console.log(79, item);
+      record = {
+        item: item,
+        img: 'data:image/jpeg;base64,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',
+        name: item?.userInfo === null ? item?.vehicleInfo?.extra?.agency_name : `${item.name}`,
+        date: item.date,
+        // endDate: convertToJalaliDateTiem(item.mission_end),
+        countOfServices: (item.countOfServices).toString(),
+        distance: distance_calculate_show
+
+      }
+
+      record?.name && k.push(record)
+    })
+    //  console.log(500, items, items.slice(0, 2));
+    setItems(k)
   }
+
+  const clickOnRow = (item: any, type: any) => {
+    console.log(66, item);
+    setShowDetails(true)
+    setItemDetails(item)
+
+  }
+
   return (
-    <div className='AgencyReport-component'>
+    <>
+      {forbidden === true && <Page403 />}
+      {forbidden === false &&
+        <div className='report-component'>
 
-      {/* <i className='fa fa-arrow-left back-icon' onClick={handleBackClick}></i> */}
-      <p>{title}</p>
-      <div className="flex items-center px-4">
-        <div className="flex-1 px-4 ">
-           
-            <UsersSuggestionInput
-              hideChips={true}
-              showListOnTop={false}
-              externalState={[selectedUsersState, handle_setSelectedUsers]}
-              permissions={['DRIVER']}
-            />
-           
 
-        </div>
-        <div>
-           
-            <DatePicker
-              onChange={setDateRage}
-              range
-              calendar={persian}
-              locale={persian_fa}
-              className="datetime-picker"
-              inputClass="datetime-input !text-center !text-lg !p-4 "
-              value={dateRage}
-            />
-           
+          {/* <i className='fa fa-arrow-left back-icon' onClick={handleBackClick}></i> */}
+          {/* {loading === false && <p>Loading ...</p>} */}
+          {/* {loading === true && <div className="datagrid-component"> */}
+          <div dir="rtl" className="container-fluid">
+            <div className="datagrid">
 
-        </div>
-      </div>
-      <div className="ml-3 mr-8 flex ">
-        <div className="w-94">
-          {selectedUsersState?.[0] && (
-            <div>
-              <div>
-                <div className="p-2">
-                  <label>{'نام : '}</label>
-                  <label>{selectedUsersState?.[0]?.full_name}</label>
-                </div>
-                <div className="p-2">
-                  <label>{'شماره  : '}</label>
-                  <label>{selectedUsersState?.[0]?.phone}</label>
+              <div className="row">
+                <div className="col-12">
+                  <div className="page-title">
+                    <i>{report_Title}</i>
+                  </div>
                 </div>
               </div>
-              <div className="ml-6 mt-6  rounded bg-white p-2 shadow">
-                <label>{'جمع هزینه : '}</label>
+              <div className="filter-items">
+                <div className="row">
+                  <div className="col-12 col-md-3">
+                    از تاریخ
+
+
+                    <DatePicker
+                      onChange={(date) => handleChangeDatePickerFromDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
+                      calendar={persian}
+                      locale={persian_fa}
+                      className="datetime-picker"
+                      inputClass="datetime-input !text-center !text-lg !p-4"
+                      value={fromDateDatePicker}
+                      placeholder='از تاریخ'
+                    />
+
+
+
+                    {/* <input type="text" className="form-control" id="fromdate" placeholder='از تاریخ' /> */}
+                  </div>
+                  <div className="col-12 col-md-3">
+                    تا تاریخ
+
+                    <DatePicker
+                      onChange={handleChangeDatePickerTodate}
+                      calendar={persian}
+                      locale={persian_fa}
+                      className="datetime-picker"
+                      inputClass="datetime-input !text-center !text-lg !p-4"
+                      value={toDateDatePicker}
+                      placeholder='تا تاریخ'
+                    />
+
+
+                  </div>
+                  <div className="col-12 col-md-3">
+                    <br />
+                    <button onClick={() => createReport()} className="btn btn-search" type="submit"><i className="fa fa-search"></i>جستجو</button>
+                  </div>
+                </div>
+              </div>
+
+              <hr />
+              <div className="row">
+                <div className="col-12 details-divReport">
+
+                  {showDetails === true && <>
+                    <div className="detailsReport">
+                      <i onClick={() => { setShowDetails(false); setItemDetails(null) }} className='fa fa-remove close'></i>
+                      <div className="">
+                        <div className="row">
+                          <div className="col-12">
+                            <p>{itemDetails?.name || ''}</p>
+                            <p>{itemDetails?.item?.userInfo?.phone || ''}</p>
+                            <p>{itemDetails?.item?.userInfo?.details?.nat_num || ''}</p>
+                            <p>{`${itemDetails?.item?.vehicleInfo?.extra?.name || ''} ${itemDetails?.item?.vehicleInfo?.extra?.color || ''} ${itemDetails?.item?.vehicleInfo?.extra?.plaque || ''}`}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </>}
+                  {/* {showModal === true && <CRUDModal Type={Type} Tb_Relation={Tb_Relation} Tb_schema={Tb_schema} EndPointAPI={EndPointAPI} API_BaseURL={API_BaseURL} tableName={tableName} closeModal={closeModal} item={modalItem} manageName={'insert'} headerFields={headerFields} headerFields_Name={headerFields_Name} />} */}
+                  {/* {showModal === false && bodyFields.length <= 0 && noData === false && <p>loadind...</p>} */}
+                  {/* {showModal === false && bodyFields.length <= 0 && noData === true &&
+                                    <>
+                                        <div>
+                                              <br />
+                                            <br />
+                                        </div>
+
+                                        <p>NO Data For Showing...</p>
+                                        <a href='#' onClick={() => handleInsert()} > <i className='fa fa-plus plus-Grid'></i></a>
+                                    </>
+                                } */}
+                  {searchIsClecked === true && items.length === 0 &&
+                    <p> موردی برای نمایش وجود ندارد</p>
+                  }
+                  {searchIsClecked === true && items.length > 0 &&
+
+                    <DataGrid
+                      clickOnRow={clickOnRow}
+                      pagesize={options[0].value}
+                      items={items}
+                      options={options}
+                      thead={thead}
+                    />
+
+
+                  }
+                </div>
               </div>
             </div>
-          )}
-        </div>
-        <div className="flex-1">
-          <div>
-            <span className="mb-4 inline-block">
-               
-                <SimpleButton className="bg-success">
-                  <span className="ml-4">{'دانلود فایل اکسل'}</span>
-                   
-                    <RiFileExcel2Line
-                      className={
-                        'cursor-pointer rounded text-white hover:bg-gray-4'
-                      }
-                      size={24}
-                    />
-                   
-
-                </SimpleButton>
-               
-
-            </span>
           </div>
-          <table className="w-full border border-gray-5 text-right">
-            <thead className=" border-b bg-gray-4">
-              <tr>
-                <th className="p-1">تاریخ</th>
-                <th className="p-1">تعداد سفر</th>
-                <th className="p-1">زمان در سفر</th>
-                <th className="p-1">مسیر طی شده</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.entries(dailyReport?.trip_report || {}).map(
-                ([key, value]: any) => {
-                  return (
-                    <tr className="border-b border-gray-4">
-                      <td className="p-2">{getLocalDatetime(key)}</td>
-                      <td className="p-2">2</td>
-                      <td className="p-2">
-                        {moment
-                          .utc(moment(value?.mission_duration * 100000))
-                          .format('HH:mm:ss')}
-                      </td>
-                      <td className="p-2">-</td>
-                    </tr>
-                  );
-                }
-              )}
-              {Object.entries(dailyReport?.trip_report || {}).map(
-                ([key, value]: any) => {
-                  return (
-                    <tr className="border-b border-gray-4">
-                      <td className="p-2">{getLocalDatetime(key)}</td>
-                      <td className="p-2">2</td>
-                      <td className="p-2">
-                        {moment
-                          .utc(moment(value?.mission_duration * 100000))
-                          .format('HH:mm:ss')}
-                      </td>
-                      <td className="p-2">-</td>
-                    </tr>
-                  );
-                }
-              )}
-              {Object.entries(dailyReport?.trip_report || {}).map(
-                ([key, value]: any) => {
-                  return (
-                    <tr className="border-b border-gray-4">
-                      <td className="p-2">{getLocalDatetime(key)}</td>
-                      <td className="p-2">2</td>
-                      <td className="p-2">
-                        {moment
-                          .utc(moment(value?.mission_duration * 100000))
-                          .format('HH:mm:ss')}
-                      </td>
-                      <td className="p-2">-</td>
-                    </tr>
-                  );
-                }
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+          {/* </div> */}
+          {/* } */}
+        </div >
+      }
+    </>
   );
-}
+};

@@ -109,6 +109,9 @@ class ApiClient {
     include_external_base?: boolean,
     search_all?: boolean
   ) {
+
+    console.log(4588888);
+    
     return this.axiosInstance.get('/api/v2/users/permission-filter', {
       params: {
         include_external_base,
@@ -213,12 +216,13 @@ class ApiClient {
 
 
 
-  async getCountOfServices(status: string, fromDate: any, toDate: any) {
+  async getCountOfServices(status: string, fromDate: any, toDate: any,type:any) {
   
     const params = {
       status: status,
       fromdate: fromDate,
-      todate: toDate
+      todate: toDate,
+      type:type
     }
 
     return this.axiosInstance.get(

@@ -23,7 +23,7 @@ export default function AgencyReport({ handleBackClick, title }: any) {
   const { result } = useReportAgency()
   const [items, setItems] = useState<any>(null)
   useEffect(() => {
-    //console.log(5007, result);
+    console.log(5007, result);
     result?.data?.length > 0 && setItems(result.data)
   }, [result])
 

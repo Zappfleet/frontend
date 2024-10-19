@@ -1,9 +1,37 @@
-
 @import '../../../variable';
+
 .report-component {
 
     font-size: 14px;
     position: relative;
+
+    .details-divReport {
+        /* z-index: 2; */
+        /* min-width: 300px; */
+        /* min-height: 200px; */
+
+        position: relative;
+        top: 10px;
+        /* background-color: whitesmoke; */
+        /* left: 15px; */
+
+
+        .detailsReport {
+            position: relative;
+            top: 10px;
+            left: 15px;
+            padding: 25px;
+            border: 1px solid whitesmoke;
+
+            .close {
+                position: absolute;
+                top: 10px;
+                left: 15px;
+                color: $color-base;
+                cursor: pointer;
+            }
+        }
+    }
 
     .form-select:focus {
         box-shadow: none;

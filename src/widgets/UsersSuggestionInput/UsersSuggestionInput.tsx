@@ -29,6 +29,12 @@ export default function UsersSuggestionInput(props: any) {
     search_all,
   });
 
+
+  useEffect(() => {
+    console.log(56200,fetchUserData);
+
+  }, [fetchUserData])
+
   const innerState = useState<any>(props.value || []);
 
   const selectedUsers =
@@ -85,7 +91,7 @@ export default function UsersSuggestionInput(props: any) {
   return (
     <div className='UsersSuggestionInput-component'>
       <div className="search-users">
-        {/* {freeInput===true && (
+        {freeInput===true && (
           <MdAdd
             onClick={suggestionTextInputRef.current?.triggerConfirm}
             className={
@@ -93,7 +99,7 @@ export default function UsersSuggestionInput(props: any) {
             }
             size={36}
           />
-        )} */}
+        )} 
 
          
           <SuggestionTextInput

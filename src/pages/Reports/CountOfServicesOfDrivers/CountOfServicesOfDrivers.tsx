@@ -30,7 +30,7 @@ export default function CountOfServicesOfDrivers({ handleBackClick, title }: any
 
     const [fromDate, setFromDate] = useState<any>(moment(new Date()).format('jYYYY/jMM/jDD'));
     const [toDate, setToDate] = useState<any>(moment(new Date()).format('jYYYY/jMM/jDD'));
-    const { missionList, state, refreshData } = useReportCountOfServices("DONE", persianDateToGregorian(fromDate), persianDateToGregorian(toDate));
+    const { missionList, state, refreshData } = useReportCountOfServices("DONE", persianDateToGregorian(fromDate), persianDateToGregorian(toDate),'All');
 
 
     let TotalCount = ''

@@ -10,6 +10,9 @@ export default function usePermittedUsers({
   include_external_base: boolean;
   search_all?: boolean;
 }) {
+
+  console.log(8798,permissions,search_all);
+  
   const [userList, setUserList] = useState<any>(null);
   const [state, setState] = useState({
     in_progress: false,

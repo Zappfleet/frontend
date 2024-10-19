@@ -8,7 +8,8 @@ import {
     persianDateToGregorian,
     secondsToHMS,
     convertToJalaliDateTiem,
-    convertPersianToEnglishDigits
+    convertPersianToEnglishDigits,
+    convertEnglishToPersianDigits
 } from '../../utils/utils.js';
 import Alert from '../Alert/Alert.js';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary.js';
@@ -118,7 +119,7 @@ const DataGrid = (props: any) => {
     }
 
     const showbody = copyItems.map(item => {
-        return <tr key={item.id}>
+        return <tr onClick={() => props.clickOnRow(item, 'view')} key={item.id}>
             {props.thead.map((hitem: any, index: number) => {
                 if (hitem.key === '') {
                     return (
@@ -146,7 +147,9 @@ const DataGrid = (props: any) => {
                 }
                 if (hitem.type == 'caleadar') {
                     try {
-                        return <td key={index}>{convertToJalaliDateTiem(item[hitem.key])}</td>;
+                        return <td key={index}>{
+                            hitem.onlyDate === true ? convertEnglishToPersianDigits(convertToJalaliDateTiem(item[hitem.key]).split(" ")[0]) : convertEnglishToPersianDigits(convertToJalaliDateTiem(item[hitem.key]))
+                        }</td>;
                     }
                     catch {
                         console.log(563, 'error in convertToJalaliDateTiem');

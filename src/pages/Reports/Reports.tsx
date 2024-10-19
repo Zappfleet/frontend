@@ -20,8 +20,8 @@ export default function Reports() {
 
   const reports = [
     { Title: 'گزارش هزینه آژانس ها', componentName: 'AgencyReport', icon: 'fas fa-money-bill-alt' },
-    // { Title: 'گزارش روزانه رانندگان', componentName: 'DriverReport', icon: 'fas fa-calendar-alt' },
-    // { Title: 'ریز گزارش رانندگان', componentName: 'DriverReportDetails', icon: 'fas fa-history' },
+    { Title: 'گزارش روزانه رانندگان', componentName: 'DriverReport', icon: 'fas fa-calendar-alt' },
+   // { Title: 'ریز گزارش رانندگان', componentName: 'DriverReportDetails', icon: 'fas fa-history' },
     { Title: 'گزارش مدت زمان هر سرویس', componentName: 'TimeOfServices', icon: 'fas fa-hourglass-end' },
     { Title: 'دسترسی به تعداد سرویس های انجام شده توسط رانندگان در بازه زمانی مشخص', componentName: 'CountOfServicesOfDrivers', icon: 'fas fa-filter' },
     { Title: 'گزارش میزان استراحت هر راننده بین سرویس ها', componentName: 'RestOfDriverBetweenServises', icon: 'fas fa-hotel' },

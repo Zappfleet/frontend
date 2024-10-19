@@ -93,6 +93,7 @@ const VehicleManager = () => {
   const { refreshData: fetchUserData }: any = usePermittedUsers({
     permissions: [PERMIT_DRIVER],
     include_external_base: false,
+    search_all:true
   });
 
   const tabsRef = useRef<any>();
