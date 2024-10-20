@@ -575,7 +575,7 @@ const CardSalahiyat = ({ handleBackClick, title }: any) => {
                                     }
                                         className='form-control' value={fields?.driverNatNum as string || "1"}>
                                         <option value="1">---انتخاب کنید---</option>
-                                        {aganceDriversList.map((driver: any) => {
+                                        {aganceDriversList?.map((driver: any) => {
                                             if (driver.status === 'ACTIVE') {
                                                 return <option value={driver?.details?.nat_num}>{driver?.full_name}</option>
                                             }

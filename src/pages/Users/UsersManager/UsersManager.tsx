@@ -93,7 +93,7 @@ const UsersManager = () => {
   const { userList, refreshData } = useUsers();
 
   const processUserList = (userList: any[], roleData: any) => {
-    return userList.map(user => {
+    return userList?.map(user => {
       // Map roles to get an array of role titles
       const rolesTitlesArray = user.roles.map((role: any) => {
         const roleTitle = roleData?.roles?.find((item: any) => item._id === role)?.title;

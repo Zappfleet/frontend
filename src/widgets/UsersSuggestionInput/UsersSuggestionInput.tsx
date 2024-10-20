@@ -31,7 +31,7 @@ export default function UsersSuggestionInput(props: any) {
 
 
   useEffect(() => {
-    console.log(56200,fetchUserData);
+    console.log(56200, fetchUserData);
 
   }, [fetchUserData])
 
@@ -91,7 +91,7 @@ export default function UsersSuggestionInput(props: any) {
   return (
     <div className='UsersSuggestionInput-component'>
       <div className="search-users">
-        {freeInput===true && (
+        {freeInput === true && (
           <MdAdd
             onClick={suggestionTextInputRef.current?.triggerConfirm}
             className={
@@ -99,32 +99,32 @@ export default function UsersSuggestionInput(props: any) {
             }
             size={36}
           />
-        )} 
+        )}
 
-         
-          <SuggestionTextInput
-            componentRef={suggestionTextInputRef}
-            wrapperClassName={'flex-1'}
-            showListOnTop={showListOnTop}
-            onSuggestionSelected={handle_userSelected}
-            onFreeConfirm={handle_onFreeConfirm}
-            placeholder="جستجو ..."
-            readFromDataSource={readPermittedUsers}
-            suggestionRenderer={(item) => (
-              <div>{item.full_name}</div>
-            )}
-          />
-         
+
+        <SuggestionTextInput
+          componentRef={suggestionTextInputRef}
+          wrapperClassName={'flex-1'}
+          showListOnTop={showListOnTop}
+          onSuggestionSelected={handle_userSelected}
+          onFreeConfirm={handle_onFreeConfirm}
+          placeholder="جستجو ..."
+          readFromDataSource={readPermittedUsers}
+          suggestionRenderer={(item) => (
+            <div>{item.full_name}</div>
+          )}
+        />
+
       </div>
       <div className={classNames({ hidden: props.hideChips })}>
-         
-          <UserSelectionRender
-            smallChips={props.smallChips}
-            list={props.value || selectedUsers}
-            onChipsItemClick={props.onChipsItemClick}
-            handleRemove={props.handle_remove || handle_remove}
-          />
-         
+
+        <UserSelectionRender
+          smallChips={props.smallChips}
+          list={props.value || selectedUsers}
+          onChipsItemClick={props.onChipsItemClick}
+          handleRemove={props.handle_remove || handle_remove}
+        />
+
       </div>
     </div>
   );
@@ -137,11 +137,14 @@ export function UserSelectionRender({
   smallChips,
   highlights,
 }: any) {
+
+  const ListLast: any = list ? Array.isArray(list) && list.length > 0 ? list : [{}] : []
   return (
     <>
       <div className="UsersSuggestionInput-component">
         <div className='selected-user'>
-          {list.map((user: any) => {
+          {console.log(102, ListLast)}
+          {ListLast?.map((user: any) => {
             return (
               <Chips
                 className={classNames('duration-300', {

@@ -311,7 +311,7 @@ const RegisterTarefeAvarez = ({ handleBackClick, title }: any) => {
                                         <option value="1402">1402</option>
                                         <option value="1403">1403</option>
                                         <option value="1404">1404</option>
-                                        {/* {ItemsList.map((item: any) => {
+                                        {/* {ItemsList?.map((item: any) => {
                                     if (item?.year) {
                                         return <option value={item?.year}>{item?.year}</option>
                                     }

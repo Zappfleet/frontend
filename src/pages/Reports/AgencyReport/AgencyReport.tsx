@@ -34,15 +34,15 @@ export default function AgencyReport({ handleBackClick, title }: any) {
   const options = [{ id: 1, value: 5 }, { id: 2, value: 10 }, { id: 3, value: 15 }]
   const thead = [
     { key: 'agency_name', name: 'نام آژانس' },
-     { key: 'confirmed_by', name: 'ثبت کننده' },
+    { key: 'confirmed_by', name: 'ثبت کننده' },
     // { key: 'proj_desc', name: 'توضیح پروژه' },
     // { key: 'manager_emp_num', name: 'شناسه مدیر' },
     // { key: 'cost_center', name: 'مرکز هزینه' },
     { key: 'bill_number', name: 'شماره فاکتور' },
     { key: 'cost_agance', name: 'هزینه' },
-    { key: 'mission_date', name: 'تاریخ سفر' ,key2:'fromdate',type:'caleadar'},
+    { key: 'mission_date', name: 'تاریخ سفر', key2: 'fromdate', type: 'caleadar' },
     { key: 'created_by', name: 'مسافر' },
-   
+
     { key: 'distance', name: 'مسافت' },
     { key: 'distance_dasti', name: ' مسافت دستی' },
     // { key: 'mission_start', name: 'شروع سفر' },
@@ -51,17 +51,24 @@ export default function AgencyReport({ handleBackClick, title }: any) {
     // { key: 'endBeforeService', name: 'پایان سرویس قبلی', type: 'caleadar', key2: 'todate' },
   ]
 
+  const clickOnRow = (item: any, type: any) => {
+    console.log(77, item);
 
-  return <div className='AgencyReport-component'>
-    {/* <i className=' fa fa-arrow-left back-icon' onClick={handleBackClick}></i> */}
-    <p>{title}</p>
+  }
 
-    <div className="flex items-center px-4">
-      <div className="flex-1 px-4 ">
-        {/* <AgencySuggestionInput onAgencySelected={setSelectedAgency} /> */}
-      </div>
-      <div>
-        {/* <DatePicker
+  return <>
+    {!items && <p>Loading</p>}
+    {items &&
+      <div className='AgencyReport-component'>
+        {/* <i className=' fa fa-arrow-left back-icon' onClick={handleBackClick}></i> */}
+        <p>{title}</p>
+
+        <div className="flex items-center px-4">
+          <div className="flex-1 px-4 ">
+            {/* <AgencySuggestionInput onAgencySelected={setSelectedAgency} /> */}
+          </div>
+          <div>
+            {/* <DatePicker
           onChange={setDateRage}
           range
           calendar={persian}
@@ -70,20 +77,24 @@ export default function AgencyReport({ handleBackClick, title }: any) {
           inputClass="datetime-input !text-center !text-lg !p-4 "
           value={dateRage}
         /> */}
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-12">
+            {items &&
+              <DataGrid
+                clickOnRow={clickOnRow}
+                pagesize={options[0].value}
+                items={items}
+                options={options}
+                thead={thead}
+              />
+
+            }
+          </div>
+        </div>
       </div>
-    </div>
-    <div className="row">
-      <div className="col-12">
-        {items &&  
-          <DataGrid
-            pagesize={options[0].value}
-            items={items}
-            options={options}
-            thead={thead}
-          />
-         
-        }
-      </div>
-    </div>
-  </div>
+    }
+  </>
+
 }

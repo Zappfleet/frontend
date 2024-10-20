@@ -20,7 +20,7 @@ const DataGrid = (props: any) => {
     //  console.log(66666666, props.thead);
 
     const [currentPage, setcurrentPage] = useState(1)
-    const [pagesize, setpagesize] = useState(props.pagesize)
+    const [pagesize, setpagesize] = useState(10)//props.pagesize)
     const numOfshow = 10
     const totalPages = ((props.items.length) / pagesize) > (Math.ceil((props.items.length) / pagesize)) ? Math.ceil((props.items.length) / pagesize) + 1 : Math.ceil((props.items.length) / pagesize)
     const [Flag, setFlag] = useState(false)
@@ -32,19 +32,19 @@ const DataGrid = (props: any) => {
     const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false)
     const [deleteItem, setDeleteItem] = useState<any>(null)
 
-
-    const showOptions = props.options.map((item: any) => {
+    const options = [{ id: 1, value: 10 }, { id: 2, value: 30 }, { id: 3, value: 50 }]
+    const showOptions = options.map((item: any) => {
         return <option key={item.id} value={item.value}>
             {item.value}
         </option>
     })
 
-    const [fromdate, setFromDateate] = useState(null);
+    const [fromdate, setFromDate] = useState(null);
     const [todate, setTodate] = useState(null);
 
     const clearDate = (headerKey: any, key2: any) => {
         if (key2 === 'fromdate') {
-            setFromDateate(null);
+            setFromDate(null);
         }
         if (key2 === 'todate') {
             setTodate(null)
@@ -54,20 +54,32 @@ const DataGrid = (props: any) => {
 
 
     const handleDateChange = (date: any, headerKey: any, key2: any) => {
-        console.log(5878878);
+        console.log(5878878, key2);
 
         if (key2 === 'fromdate') {
-            setFromDateate(date);
+            setFromDate(date);
             const formattedDate = date ? date.format('YYYY/MM/DD') : '';
-            console.log(1452, formattedDate, headerKey);
+            console.log(1452, formattedDate, persianDateToGregorian(formattedDate))
 
-            handleHeaderSearch(convertPersianToEnglishDigits(formattedDate), headerKey); // Replace 'dateKey' with the actual key you want to filter by
+            // جدا کردن ماه، روز و سال
+            const [month, day, year] = persianDateToGregorian(formattedDate).split('/').map(Number);
+            // تبدیل به فرمت YYYY-MM-DD
+            const formattedDateLast = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+
+            handleHeaderSearch(formattedDateLast, headerKey); // Replace 'dateKey' with the actual key you want to filter by
 
         }
         if (key2 === 'todate') {
             setTodate(date)
             const formattedDate = date ? date.format('YYYY/MM/DD') : '';
-            handleHeaderSearch(convertPersianToEnglishDigits(formattedDate), headerKey); // Replace 'dateKey' with the actual key you want to filter by
+
+            // جدا کردن ماه، روز و سال
+            const [month, day, year] = persianDateToGregorian(formattedDate).split('/').map(Number);
+            // تبدیل به فرمت YYYY-MM-DD
+            const formattedDateLast = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+            handleHeaderSearch(formattedDateLast, headerKey); // Replace 'dateKey' with the actual key you want to filter by
 
         }
 
@@ -97,7 +109,7 @@ const DataGrid = (props: any) => {
                                 />
 
 
-                                {fromdate && <i className='fa fa-remove calendar-close' onClick={() => clearDate(item.key, item.key2)}></i>}
+                                {(fromdate || todate) && <i className='fa fa-remove calendar-close' onClick={() => clearDate(item.key, item.key2)}></i>}
                             </div>
                         </>
                     }
@@ -148,7 +160,7 @@ const DataGrid = (props: any) => {
                 if (hitem.type == 'caleadar') {
                     try {
                         return <td key={index}>{
-                            hitem.onlyDate === true ? convertEnglishToPersianDigits(convertToJalaliDateTiem(item[hitem.key]).split(" ")[0]) : convertEnglishToPersianDigits(convertToJalaliDateTiem(item[hitem.key]))
+                            hitem.onlyDate === true ? convertEnglishToPersianDigits(convertToJalaliDateTiem(item[hitem.key])?.split(" ")[0]) : convertEnglishToPersianDigits(convertToJalaliDateTiem(item[hitem.key]))
                         }</td>;
                     }
                     catch {
@@ -167,7 +179,7 @@ const DataGrid = (props: any) => {
 
 
     useEffect(() => {
-        setCopyItems(props.items.slice(0, props.pagesize))
+        setCopyItems(props.items.slice(0,pagesize))// props.pagesize))
     }, [props.items])
     useEffect(() => {
         //  console.log(96, copyItems);
@@ -211,17 +223,19 @@ const DataGrid = (props: any) => {
                     return true; // No filter, include the item
                 }
                 const itemValue = item[key] as string; // Assuming all values are strings
-                if (itemValue === undefined) {
-                    return true; // Field doesn't exist in item, include it
-                }
+                // if (itemValue === undefined) {
+                //     return true; // Field doesn't exist in item, include it
+                // }
                 const filterValue = value as string; // Assuming filter value is a string
-                const lowerCaseItemValue = itemValue.toLowerCase();
-                const lowerCaseFilterValue = filterValue.toLowerCase();
+                const lowerCaseItemValue = itemValue?.toLowerCase();
+                const lowerCaseFilterValue = filterValue?.toLowerCase();
                 const lowerCaseSearchGrid = (searchGrid ?? '').toLowerCase();
                 if (searchGrid !== '' && searchGrid !== undefined) {
-                    return lowerCaseItemValue.includes(lowerCaseFilterValue) && lowerCaseItemValue.includes(lowerCaseSearchGrid);
+                    return lowerCaseItemValue?.includes(lowerCaseFilterValue) && lowerCaseItemValue?.includes(lowerCaseSearchGrid);
                 }
-                return lowerCaseItemValue.includes(lowerCaseFilterValue);
+                console.log(53, lowerCaseFilterValue);
+
+                return lowerCaseItemValue?.includes(lowerCaseFilterValue);
             });
         });
 
@@ -237,10 +251,14 @@ const DataGrid = (props: any) => {
         setCopyItems(props.items)
         //  e.preventDefault()
         //  e.stopPropagation()
+        console.log(45200, filterCriteria, props.items);
         setFilterCriteria({
             ...filterCriteria,
             [headerKey]: value,
         });
+
+        console.log(453, filterCriteria);
+
         setFlag(true)
         setChangeFlag(!changeFlag)
         // setSearchGrid(e.target.value)

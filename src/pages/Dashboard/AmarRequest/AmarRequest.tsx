@@ -70,27 +70,27 @@ const AmarRequest = () => {
     }
 
     const [reports, setReports] = useState([
-        { type: 'mission', result: [], reportNum: 18, title: "سفرهای ثبت شده", icon: 'icon3 fas fa-user-check' },
+        { type: 'mission', result: undefined, reportNum: 18, title: "سفرهای ثبت شده", icon: 'icon3 fas fa-user-check' },
 
-        { type: 'request', result: [], reportNum: 9, title: "درخواست ثبت شده", icon: 'icon3 fas fa-user-check' },
-        { type: 'request', result: [], reportNum: 1, title: 'درخواست در انتظار', icon: 'icon3 fas fa-exchange-alt' },
+        { type: 'request', result: undefined, reportNum: 9, title: "درخواست ثبت شده", icon: 'icon3 fas fa-user-check' },
+        { type: 'request', result: undefined, reportNum: 1, title: 'درخواست در انتظار', icon: 'icon3 fas fa-exchange-alt' },
 
         // { type: 'request', result: [], reportNum: 2, title: 'درخواست رد شده', icon: 'icon2 fas fa-user-times' },
-        { type: 'request', result: [], reportNum: 16, title: 'درخواست رد شده - مدیر پروژه', icon: 'icon2 fas fa-user-times' },
-        { type: 'request', result: [], reportNum: 12, title: 'درخواست رد شده - توزیع کننده', icon: 'icon2 fas fa-user-times' },
-        { type: 'request', result: [], reportNum: 13, title: 'درخواست رد شده - مدیر سیستم', icon: 'icon2 fas fa-user-times' },
+        { type: 'request', result: undefined, reportNum: 16, title: 'درخواست رد شده - مدیر پروژه', icon: 'icon2 fas fa-user-times' },
+        { type: 'request', result: undefined, reportNum: 12, title: 'درخواست رد شده - توزیع کننده', icon: 'icon2 fas fa-user-times' },
+        { type: 'request', result: undefined, reportNum: 13, title: 'درخواست رد شده - مدیر سیستم', icon: 'icon2 fas fa-user-times' },
 
         // { type: 'request', result: [], reportNum: 3, title: 'درخواست تایید شده ', icon: 'icon1 fas fa-file-edit' },
-        { type: 'request', result: [], reportNum: 17, title: 'درخواست تایید شده - مدیر پروژه', icon: 'icon1 fas fa-file-edit' },
-        { type: 'request', result: [], reportNum: 14, title: 'درخواست تایید شده - توزیع کننده ', icon: 'icon1 fas fa-file-edit' },
-        { type: 'request', result: [], reportNum: 15, title: 'درخواست تایید شده - مدیر سیستم', icon: 'icon1 fas fa-file-edit' },
+        { type: 'request', result: undefined, reportNum: 17, title: 'درخواست تایید شده - مدیر پروژه', icon: 'icon1 fas fa-file-edit' },
+        { type: 'request', result: undefined, reportNum: 14, title: 'درخواست تایید شده - توزیع کننده ', icon: 'icon1 fas fa-file-edit' },
+        { type: 'request', result: undefined, reportNum: 15, title: 'درخواست تایید شده - مدیر سیستم', icon: 'icon1 fas fa-file-edit' },
 
-        { type: 'request', result: [], reportNum: 6, title: "درخواست در پیش نویس سفر", icon: 'icon4 fas fa-eye' },
-        { type: 'request', result: [], reportNum: 11, title: "(درخواست/سفر) در انتظار شروع   ", icon: 'icon1 fas fa-user-check' },
-        { type: 'request', result: [], reportNum: 7, title: "(درخواست/سفر) در مسیر", icon: 'icon1 fas fa-road' },
-        { type: 'request', result: [], reportNum: 8, title: "(درخواست/سفر) انجام شده", icon: 'icon1 fas fa-check-circle' },
+        { type: 'request', result: undefined, reportNum: 6, title: "درخواست در پیش نویس سفر", icon: 'icon4 fas fa-eye' },
+        { type: 'request', result: undefined, reportNum: 11, title: "(درخواست/سفر) در انتظار شروع   ", icon: 'icon1 fas fa-user-check' },
+        { type: 'request', result: undefined, reportNum: 7, title: "(درخواست/سفر) در مسیر", icon: 'icon1 fas fa-road' },
+        { type: 'request', result: undefined, reportNum: 8, title: "(درخواست/سفر) انجام شده", icon: 'icon1 fas fa-check-circle' },
 
-        { type: 'request', result: [], reportNum: 10, title: "درخواست لغو شده", icon: 'icon2 fas fa-user-times' },
+        { type: 'request', result: undefined, reportNum: 10, title: "درخواست لغو شده", icon: 'icon2 fas fa-user-times' },
         // { type: 'request', result: [], reportNum: 4, title: "درخواست دیده شده - توزیع کننده", icon: 'icon4 fas fa-eye' },
         // { type: 'request', result: [], reportNum: 5, title: "درخواست دیده شده - مدیر پروژه", icon: 'icon4 fas fa-eye' },
 
@@ -107,11 +107,11 @@ const AmarRequest = () => {
             switch (report.reportNum) {
                 case 1:
                     requestFilter = requests?.filter((r: any) => r.status === 'PENDING');
-                    report.result = requestFilter;
+                    report.result = requestFilter ? requestFilter : [];
                     break;
                 case 2:
                     requestFilter = requests?.filter((r: any) => r.status === 'REJECT');
-                    report.result = requestFilter;
+                    report.result = requestFilter ? requestFilter : [];
                     break;
 
                 case 12:
@@ -140,7 +140,7 @@ const AmarRequest = () => {
                             return false
                         })
                     }
-                    report.result = requestFilter;
+                    report.result = requestFilter ? requestFilter : [];
                     break;
 
                 case 13:
@@ -169,7 +169,7 @@ const AmarRequest = () => {
                             return false
                         })
                     }
-                    report.result = requestFilter;
+                    report.result = requestFilter ? requestFilter : [];
                     break;
 
                 case 16:
@@ -198,13 +198,13 @@ const AmarRequest = () => {
                             return false
                         })
                     }
-                    report.result = requestFilter;
+                    report.result = requestFilter ? requestFilter : [];
                     break;
 
 
                 case 3:
                     requestFilter = requests?.filter((r: any) => r.status === 'CONFIRM');
-                    report.result = requestFilter;
+                    report.result = requestFilter ? requestFilter : [];
                     break;
 
                 case 14:
@@ -233,7 +233,7 @@ const AmarRequest = () => {
                             return false
                         })
                     }
-                    report.result = requestFilter;
+                    report.result = requestFilter ? requestFilter : [];
                     break;
 
                 case 15:
@@ -262,7 +262,7 @@ const AmarRequest = () => {
                             return false
                         })
                     }
-                    report.result = requestFilter;
+                    report.result = requestFilter ? requestFilter : [];
                     break;
 
                 case 17:
@@ -291,7 +291,7 @@ const AmarRequest = () => {
                             return false
                         })
                     }
-                    report.result = requestFilter;
+                    report.result = requestFilter ? requestFilter : [];
                     break;
 
 
@@ -335,18 +335,18 @@ const AmarRequest = () => {
                     break;
                 case 9:
                     requestFilter = requests;
-                    report.result = requestFilter;
+                    report.result = requestFilter ? requestFilter : [];
                     break;
 
                 case 18:
-                    
+
                     missionsFilter = missions?.data;
                     report.result = missionsFilter;
                     break;
 
                 case 10:
                     requestFilter = requests?.filter((r: any) => r.status === 'CANCEL_USER');
-                    report.result = requestFilter;
+                    report.result = requestFilter ? requestFilter : [];
                     break;
 
                 case 11:
@@ -374,7 +374,7 @@ const AmarRequest = () => {
 
 
     const showAmar = () => {
-        return reports.map((report: any, index: any) => (
+        return reports?.map((report: any, index: any) => (
             <div key={index} className="col-6 col-md-4">
                 <div className="div-box">
                     <div className="box" onClick={() => report.type === 'request' ? showRequest(report) : showRequest(report)}>
@@ -382,7 +382,13 @@ const AmarRequest = () => {
                             <i className={`icon ${report?.icon}`} />
                         </div>
                         <div className="col-8 left-div">
-                            <div className="count">{report?.result?.length ? report?.result?.length : 0}</div>
+                            <div className="count">
+                                {(!report?.result) || (!requests || !missions) ? (
+                                    <p>Loading...</p>
+                                ) : (
+                                    report?.result?.length ? report.result.length : 0
+                                )}
+                            </div>
                             <div className="title">{report?.title}</div>
                         </div>
                     </div>
@@ -400,39 +406,42 @@ const AmarRequest = () => {
     ]
 
     return (
+        <>
+            <div className="AmarRequest-component">
+                <div className="row">
+                    <div className="col-12">
+                        {showDivDetailsRequest &&
+                            <div className="details-div">
+                                <i className='fa fa-remove close-fa' onClick={() => setShowDivDetailsRequest(false)}></i>
+                                <div className="datagrid-div">
+                                    {reportsDetails?.length > 0 &&
 
-        <div className="AmarRequest-component">
-            <div className="row">
-                <div className="col-12">
-                    {showDivDetailsRequest &&
-                        <div className="details-div">
-                            <i className='fa fa-remove close-fa' onClick={() => setShowDivDetailsRequest(false)}></i>
-                            <div className="datagrid-div">
-                                {reportsDetails?.length > 0 &&
+                                        <DataGrid
+                                            pagesize={optionsRequest[0].value}
+                                            items={reportsDetails}
+                                            options={optionsRequest}
+                                            thead={theadRequest}
+                                        />
 
-                                    <DataGrid
-                                        pagesize={optionsRequest[0].value}
-                                        items={reportsDetails}
-                                        options={optionsRequest}
-                                        thead={theadRequest}
-                                    />
+                                    }
+                                    {reportsDetails?.length === 0 && <p>موردی برای نمایش وجود ندارد</p>}
 
-                                }
-                                {reportsDetails?.length === 0 && <p>موردی برای نمایش وجود ندارد</p>}
+                                </div>
 
                             </div>
+                        }
+                    </div>
+                </div>
+                <div className="row row-amar">
+                    <div className="row">
+                        {showAmar()}
+                    </div>
 
-                        </div>
-                    }
                 </div>
             </div>
-            <div className="row row-amar">
-                <div className="row">
-                    {showAmar()}
-                </div>
 
-            </div>
-        </div>
+        </>
+
     );
 };
 

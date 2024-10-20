@@ -707,7 +707,7 @@ function convertErrorToList(error) {
       </ThemeIcon>
     }
   >
-    {errorList.map((e) => {
+    {errorList?.map((e) => {
       return <List.Item>{e}</List.Item>
     })}
   </List>

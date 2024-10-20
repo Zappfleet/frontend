@@ -45,15 +45,17 @@ export default function MissionHistory(props: any = {}) {
     const screen = useScreen();
 
     useEffect(() => {
+        console.log(65678,missions);
+        
         setindexOfLastItem(currentPage * itemsPerPage)
         setindexOfFirstItem((currentPage * itemsPerPage) - itemsPerPage)
-    // محاسبه آیتم‌های صفحه فعلی
-    // const indexOfLastItem = currentPage * itemsPerPage;
-    // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    missions?.data?.length > 0 && setCurrentItems(missions?.data?.slice(indexOfFirstItem, indexOfLastItem))
+        // محاسبه آیتم‌های صفحه فعلی
+        // const indexOfLastItem = currentPage * itemsPerPage;
+        // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+        missions?.data?.length > 0 && setCurrentItems(missions?.data?.slice(indexOfFirstItem, indexOfLastItem))
 
-}, [missions, currentPage])
- 
+    }, [missions, currentPage])
+
     // if (!screen) return <div></div>
 
     // if (screen.width < SCREEN_LG) return <div>
@@ -144,106 +146,112 @@ export default function MissionHistory(props: any = {}) {
     const totalPages = missions?.data?.length > 0 ? Math.ceil(missions?.data?.length / itemsPerPage) : 1;
     const pageNumbers = Array.from({ length: Math.min(totalPages, 9) }, (_, i) => i + 1);
 
-    return <div className="MissionHistory-component">
-        <div className="row">
-            <div className="col-12 have-table">
-                {/* {missions?.data?.length > 0 &&
-                    <DataGrid
-                        pagesize={optionsMission[0].value}
-                        items={missions?.data}
-                        options={optionsMission}
-                        thead={theadMission}
-                    />
-                } */}
+    return <>
+        {!missions?.data && <p>Loading...</p>}
+        {missions?.data &&
+            <div className="MissionHistory-component">
+                <div className="row">
+                    <div className="col-12 have-table">
+                        {/* {missions?.data?.length > 0 &&
+                 <DataGrid
+                     pagesize={optionsMission[0].value}
+                     items={missions?.data}
+                     options={optionsMission}
+                     thead={theadMission}
+                 />
+             } */}
 
-                {currentItems?.length > 0 &&
-                    <>
-                        <table className='table table-hover'>
-                            <thead>
-                                <tr>
-                                    <th>تاریخ و ساعت</th>
-                                    <th>ایجاد توسط</th>
-                                    <th>توزیع توسط</th>
-                                    <th>مسافت </th>
-                                    <th>وضعیت</th>
-                                    {renderUi(<th></th>).if(showAsDriver)}
-                                    <th>{""}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {isArray(currentItems) && currentItems?.map((mission: any) => {
-                                    const statusItem = missionStatus.find(item => item[0] === mission.status);
-                                    const isExpanded = expandedRows.includes(mission._id);
-                                    return <>
-                                        <tr key={mission._id}>
-                                            <td>{mission.mission_date && getLocalDatetime(mission.mission_date)}</td>
-                                            <td>{mission.created_by}</td>
-                                            <td>{mission.dispature}</td>
-                                            <td>{mission.distance}</td>
-                                            <td>{statusItem ? statusItem[1] : 'نا مشخص'}</td>
-                                            {renderUi(
-                                                <td >
-                                                    <div>
-                                                        <a href={`/driver/active?mission_id=${mission._id}`}>
-                                                            <i className="fa fa-eye icon-view"></i>
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            ).if(showAsDriver)}
-                                            <td onClick={() => toggleExpandedRows(mission._id)}>
-                                                <i className={` angle-icon fa ${isExpanded ? 'fa-angle-down' : 'fa-angle-up'}`}></i>
-                                            </td>
+                        {currentItems?.length > 0 &&
+                            <>
+                                <table className='table table-hover'>
+                                    <thead>
+                                        <tr>
+                                            <th>تاریخ و ساعت</th>
+                                            <th>ایجاد توسط</th>
+                                            <th>توزیع توسط</th>
+                                            <th>مسافت </th>
+                                            <th>وضعیت</th>
+                                            {renderUi(<th></th>).if(showAsDriver)}
+                                            <th>{""}</th>
                                         </tr>
-                                        <tr style={{ display: isExpanded ? 'contents' : 'none' }}>
-                                            <td colSpan={6}>
-                                                <div className='expand'>
-                                                    <div>
+                                    </thead>
+                                    <tbody>
+                                        {isArray(currentItems) && currentItems?.map((mission: any) => {
+                                            const statusItem = missionStatus.find(item => item[0] === mission.status);
+                                            const isExpanded = expandedRows.includes(mission._id);
+                                            return <>
+                                                <tr key={mission._id}>
+                                                    <td>{mission.mission_date && getLocalDatetime(mission.mission_date)}</td>
+                                                    <td>{mission.created_by}</td>
+                                                    <td>{mission.dispature}</td>
+                                                    <td>{mission.distance}</td>
+                                                    <td>{statusItem ? statusItem[1] : 'نا مشخص'}</td>
+                                                    {renderUi(
+                                                        <td >
+                                                            <div>
+                                                                <a href={`/driver/active?mission_id=${mission._id}`}>
+                                                                    <i className="fa fa-eye icon-view"></i>
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    ).if(showAsDriver)}
+                                                    <td onClick={() => toggleExpandedRows(mission._id)}>
+                                                        <i className={` angle-icon fa ${isExpanded ? 'fa-angle-down' : 'fa-angle-up'}`}></i>
+                                                    </td>
+                                                </tr>
+                                                <tr style={{ display: isExpanded ? 'contents' : 'none' }}>
+                                                    <td colSpan={6}>
+                                                        <div className='expand'>
+                                                            <div>
 
-                                                        <MissionDetailsBox mission={mission} />
+                                                                <MissionDetailsBox mission={mission} />
 
 
-                                                        {showComment(mission)}
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </>
-                                })}
-                            </tbody>
-                        </table>
+                                                                {showComment(mission)}
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </>
+                                        })}
+                                    </tbody>
+                                </table>
 
-                        {/* ساخت دکمه‌های صفحه‌بندی با فلش */}
-                        {/* Pagination */}
-                        <div className="pagination">
-                            <button
-                                className="pagination-button"
-                                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                                disabled={currentPage === 1}
-                            >
-                                &lt;
-                            </button>
-                            {pageNumbers.map((number: any) => (
-                                <button
-                                    key={number}
-                                    className={`pagination-button ${number === currentPage ? 'active' : ''}`}
-                                    onClick={() => handlePageChange(number)}
-                                >
-                                    {number}
-                                </button>
-                            ))}
-                            <button
-                                className="pagination-button"
-                                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                                disabled={currentPage === totalPages}
-                            >
-                                &gt;
-                            </button>
-                        </div>
-                    </>
-                }
+                                {/* ساخت دکمه‌های صفحه‌بندی با فلش */}
+                                {/* Pagination */}
+                                <div className="pagination">
+                                    <button
+                                        className="pagination-button"
+                                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                        disabled={currentPage === 1}
+                                    >
+                                        &lt;
+                                    </button>
+                                    {pageNumbers.map((number: any) => (
+                                        <button
+                                            key={number}
+                                            className={`pagination-button ${number === currentPage ? 'active' : ''}`}
+                                            onClick={() => handlePageChange(number)}
+                                        >
+                                            {number}
+                                        </button>
+                                    ))}
+                                    <button
+                                        className="pagination-button"
+                                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                        disabled={currentPage === totalPages}
+                                    >
+                                        &gt;
+                                    </button>
+                                </div>
+                            </>
+                        }
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+        }
+    </>
+
 }
 
 

@@ -80,320 +80,325 @@ export default function RequestHistory(props: any = {}) {
         console.log(74, mode, requests);
         setindexOfLastItem(currentPage * itemsPerPage)
         setindexOfFirstItem((currentPage * itemsPerPage) - itemsPerPage)
-    // محاسبه آیتم‌های صفحه فعلی
-    // const indexOfLastItem = currentPage * itemsPerPage;
-    // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    requests?.length > 0 && setCurrentItems(requests?.slice(indexOfFirstItem, indexOfLastItem))
+        // محاسبه آیتم‌های صفحه فعلی
+        // const indexOfLastItem = currentPage * itemsPerPage;
+        // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+        requests?.length > 0 && setCurrentItems(requests?.slice(indexOfFirstItem, indexOfLastItem))
 
-}, [requests, currentPage])
+    }, [requests, currentPage])
 
-// return <div>
-//     {requests?.docs?.map((request: any) => {
-//         const isExpanded = expandedRows.includes(request._id);
-//         return <RequestListItem key={request._id} request={request} >
-//             <>
-//                 <div onClick={() => toggleExpandedRows(request._id)}>
-//                     <i className={`fa ${isExpanded ? 'fa-angle-down' : 'fa-angle-up'}`}></i>
-//                 </div>
+    // return <div>
+    //     {requests?.docs?.map((request: any) => {
+    //         const isExpanded = expandedRows.includes(request._id);
+    //         return <RequestListItem key={request._id} request={request} >
+    //             <>
+    //                 <div onClick={() => toggleExpandedRows(request._id)}>
+    //                     <i className={`fa ${isExpanded ? 'fa-angle-down' : 'fa-angle-up'}`}></i>
+    //                 </div>
 
-//                 <div
-//                     className='expand'>
-//                     <div>
-//                         <RequestDetailsBox request={request} />
-//                     </div>
-//                 </div>
+    //                 <div
+    //                     className='expand'>
+    //                     <div>
+    //                         <RequestDetailsBox request={request} />
+    //                     </div>
+    //                 </div>
 
-//             </>
-//         </RequestListItem>
-//     })}
-// </div>
+    //             </>
+    //         </RequestListItem>
+    //     })}
+    // </div>
 
 
-const handleNavigation = (data: any) => {
-    const initialLocations = data.locations.map((locationItem: any) => {
-        return {
-            lat: locationItem.coordinates[0],
-            lng: locationItem.coordinates[1],
-            ...locationItem.meta,
+    const handleNavigation = (data: any) => {
+        const initialLocations = data.locations.map((locationItem: any) => {
+            return {
+                lat: locationItem.coordinates[0],
+                lng: locationItem.coordinates[1],
+                ...locationItem.meta,
+            };
+        });
+
+        const initialValues = {
+            _id: data._id,
+            service: data.service,
+            datetime: [data.gmt_for_date],
+            ...data.details,
         };
-    });
 
-    const initialValues = {
-        _id: data._id,
-        service: data.service,
-        datetime: [data.gmt_for_date],
-        ...data.details,
+        navigate('/passenger/new', {
+            state: {
+                type: 'update',
+                mode: 'user-only',
+                initialLocations: initialLocations,
+                initialValues: initialValues,
+                className: "!top-12",
+                submitted_by: data.submitted_by
+            }
+        });
     };
 
-    navigate('/passenger/new', {
-        state: {
-            type: 'update',
-            mode: 'user-only',
-            initialLocations: initialLocations,
-            initialValues: initialValues,
-            className: "!top-12",
-            submitted_by: data.submitted_by
-        }
-    });
-};
-
-const handleIsEditPossible = (requestID: any) => {
-    missionList.map((item: any) => {
-        if (!item.driver_id &&
-            item.service_requests && item?.service_requests?.length > 0 &&
-            item.service_requests.some((req: any) => req.request_id === requestID)) {
-            return true
-        }
-    })
-    return false
-}
-
-const saveComment = (comment: any, missionID: any) => {
-    setShowCommentComponent(false)
-    setUserComment(comment)
-    setActionType('insert')
-    setRefreshHook(true)
-}
-
-
-useEffect(() => {
-    //  console.log(7, resultComment);
-
-    if (resultComment) {
-        if (actionType === 'insert') {
-            if (resultComment.status === 200) {
-                NotificationController.showSuccess('نظرات ثبت شد');
-                setShowBtnRegistComment(false)
+    const handleIsEditPossible = (requestID: any) => {
+        missionList?.map((item: any) => {
+            if (!item.driver_id &&
+                item.service_requests && item?.service_requests?.length > 0 &&
+                item.service_requests.some((req: any) => req.request_id === requestID)) {
+                return true
             }
-            else {
-                NotificationController.showError('اطلاعات ثبت نشد');
-            }
-        }
-        if (actionType === 'select') {
-            //  console.log(23, resultComment.data);
-
-            let registedCommentbefore = true
-            resultComment?.data?.data?.map((item: any) => {
-                //   console.log(5, item.registerID, ID);
-                if (item.registerID === ID) {
-                    registedCommentbefore = false
-                }
-            })
-            setShowBtnRegistComment(registedCommentbefore)
-        }
-        setRefreshHook(false)
+        })
+        return false
     }
-}, [resultComment])
 
-const showComment = (request_id: any) => {
-
-    const myMissions = missionListDONEStatus?.filter((item: any) =>
-        item.service_requests && item.service_requests[0]?.request_id === request_id
-    );
-
-    const myComments = myMissions && myMissions[0]?.extra?.comments ? myMissions[0].extra.comments : undefined;
-
-    const result = myComments?.map((item: any) => {
-        return <>
-            <div className='com0'>
-                <span className='title'>{`نظر ${item.role === 'driver' ? 'راننده' : 'مسافر'}`}</span>
-            </div>
-            <div className='com1'>
-                <i style={{ color: emojiLib.find(ite => ite.key === item.emojiID)?.color }}
-                    className={emojiLib.find(ite => ite.key === item.emojiID)?.icon}></i>
-                <span>{(emojiLib.find(ite => ite.key === item.emojiID))?.value}</span>
-            </div>
-            <div className='com2'>
-                <p>{item.customComment}</p>
-            </div>
-            <div className='com3'>
-                {item.comments?.map((ite: any) => {
-                    return <span className={ite.type}>{ite.value}</span>
-                })}
-            </div>
-        </>
-    })
-
-    // setShowBtnRegistComment(true)
+    const saveComment = (comment: any, missionID: any) => {
+        setShowCommentComponent(false)
+        setUserComment(comment)
+        setActionType('insert')
+        setRefreshHook(true)
+    }
 
 
-    return result ? <div className='request-mycomment'>
-        <div className="row">
-            <div className="col-2 title">
-                {'نظرات'}
-            </div>
-            <div className="col-10">
-                {result}
+    useEffect(() => {
+        //  console.log(7, resultComment);
+
+        if (resultComment) {
+            if (actionType === 'insert') {
+                if (resultComment.status === 200) {
+                    NotificationController.showSuccess('نظرات ثبت شد');
+                    setShowBtnRegistComment(false)
+                }
+                else {
+                    NotificationController.showError('اطلاعات ثبت نشد');
+                }
+            }
+            if (actionType === 'select') {
+                //  console.log(23, resultComment.data);
+
+                let registedCommentbefore = true
+                resultComment?.data?.data?.map((item: any) => {
+                    //   console.log(5, item.registerID, ID);
+                    if (item.registerID === ID) {
+                        registedCommentbefore = false
+                    }
+                })
+                setShowBtnRegistComment(registedCommentbefore)
+            }
+            setRefreshHook(false)
+        }
+    }, [resultComment])
+
+    const showComment = (request_id: any) => {
+
+        const myMissions = missionListDONEStatus?.filter((item: any) =>
+            item.service_requests && item.service_requests[0]?.request_id === request_id
+        );
+
+        const myComments = myMissions && myMissions[0]?.extra?.comments ? myMissions[0].extra.comments : undefined;
+
+        const result = myComments?.map((item: any) => {
+            return <>
+                <div className='com0'>
+                    <span className='title'>{`نظر ${item.role === 'driver' ? 'راننده' : 'مسافر'}`}</span>
+                </div>
+                <div className='com1'>
+                    <i style={{ color: emojiLib.find(ite => ite.key === item.emojiID)?.color }}
+                        className={emojiLib.find(ite => ite.key === item.emojiID)?.icon}></i>
+                    <span>{(emojiLib.find(ite => ite.key === item.emojiID))?.value}</span>
+                </div>
+                <div className='com2'>
+                    <p>{item.customComment}</p>
+                </div>
+                <div className='com3'>
+                    {item.comments?.map((ite: any) => {
+                        return <span className={ite.type}>{ite.value}</span>
+                    })}
+                </div>
+            </>
+        })
+
+        // setShowBtnRegistComment(true)
+
+
+        return result ? <div className='request-mycomment'>
+            <div className="row">
+                <div className="col-2 title">
+                    {'نظرات'}
+                </div>
+                <div className="col-10">
+                    {result}
+                </div>
             </div>
         </div>
-    </div>
-        :
-        null
+            :
+            null
 
-}
+    }
 
-const handleClickBtnComment = (missionID: any) => {
-    setMissionID(missionID)
-    setShowCommentComponent(true)
-}
+    const handleClickBtnComment = (missionID: any) => {
+        setMissionID(missionID)
+        setShowCommentComponent(true)
+    }
 
-const options = [{ id: 1, value: 10 }, { id: 2, value: 30 }, { id: 3, value: 50 }]
-const thead = [
-    // { key: 'id', name: 'شناسه' },
-    //{ key: '', name: theadCRUD },
-    { key: 'gmt_for_date', name: 'تاریخ و ساعت', img: false },
-    { key: 'request.submitted_by?.full_name', name: 'مسافر', img: false },
-    { key: 'request.confirmed_by?.full_name', name: 'تایید توسط', img: false },
-    { key: 'request.status', name: 'وضعیت', img: false },
-    { key: 'driver.fullname', name: 'راننده', img: false },
-    { key: 'request.details?.desc', name: 'توضیحات', img: false },
-]
-
+    const options = [{ id: 1, value: 10 }, { id: 2, value: 30 }, { id: 3, value: 50 }]
+    const thead = [
+        // { key: 'id', name: 'شناسه' },
+        //{ key: '', name: theadCRUD },
+        { key: 'gmt_for_date', name: 'تاریخ و ساعت', img: false },
+        { key: 'request.submitted_by?.full_name', name: 'مسافر', img: false },
+        { key: 'request.confirmed_by?.full_name', name: 'تایید توسط', img: false },
+        { key: 'request.status', name: 'وضعیت', img: false },
+        { key: 'driver.fullname', name: 'راننده', img: false },
+        { key: 'request.details?.desc', name: 'توضیحات', img: false },
+    ]
 
 
-// تغییر صفحه
-const handlePageChange = (pageNumber: any) => {
-    setCurrentPage(pageNumber);
-};
 
-// محاسبه تعداد کل صفحات
-const totalPages = requests?.length > 0 ? Math.ceil(requests.length / itemsPerPage) : 1;
-const pageNumbers = Array.from({ length: Math.min(totalPages, 9) }, (_, i) => i + 1);
+    // تغییر صفحه
+    const handlePageChange = (pageNumber: any) => {
+        setCurrentPage(pageNumber);
+    };
 
-
-return <div className="RequestHistory-component">
-    <div className="row">
-        {/* {requests?.length > 0 && <DataGrid
-                pagesize={options[0].value}
-                items={requests}
-                options={options}
-                thead={thead}
-            /> */}
-
-        {currentItems?.length > 0 &&
-            <div className="col-12 have-table">
-                <table className='table table-hover'>
-                    <thead>
-                        <tr>
-                            <th>{TEXT_DATE_TIME}</th>
-                            <th>{TEXT_CREATED_BY}</th>
-                            <th>{TEXT_CONFIRMED_BY}</th>
-                            <th>{TEXT_STATUS}</th>
-                            <th>{TEXT_DRIVER}</th>
-                            <th>{TEXT_DESC}</th>
-                            <th>{""}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {missionList && currentItems?.filter((request: any) => {
-                            return props.requestID ? request._id === props.requestID : true;
-                        }).map((request: any) => {
-                            let isEditPossible =
-                                request.status === 'PENDING' || request.status === 'CONFIRM' ? true :
-                                    request.status === 'ASSIGNED_TO_MISSION' ? handleIsEditPossible(request._id) : false
-
-                            const myMissions = missionListDONEStatus?.filter((item: any) =>
-                                item.service_requests && item.service_requests[0]?.request_id === request._id
-                                //  && item.status === 'DONE'
-                            )
-
-                            //console.log(4444, request, myMissions);
-
-                            const myComments = myMissions && myMissions[0]?.extra?.comments ? myMissions[0].extra.comments : undefined;
-
-                            let x = true
-                            //console.log(50, myComments, ID);
-
-                            myComments?.map((ite: any) => {
-                                if (ite.registerID === ID) {
-                                    x = false
-                                }
-                            })
+    // محاسبه تعداد کل صفحات
+    const totalPages = requests?.length > 0 ? Math.ceil(requests.length / itemsPerPage) : 1;
+    const pageNumbers = Array.from({ length: Math.min(totalPages, 9) }, (_, i) => i + 1);
 
 
-                            const isExpanded = expandedRows.includes(request._id);
-                            return <React.Fragment key={request._id}>
-                                <tr>
-                                    <td>{getLocalDatetime(request.gmt_for_date)}
-                                        {isEditPossible === true &&
-                                            <i onClick={() => handleNavigation(request)} className="fa fa-pencil pencil "></i>
-                                        }
-                                        {x === true && myMissions && myMissions[0] && myMissions[0]?.status === 'DONE' &&
-                                            <i onClick={() => handleClickBtnComment(myMissions[0]._id)} className="fa fa-comment pencil "></i>}
+    return <>
+        {!requests && <p>Loading...</p>}
+        {requests &&
+            <div className="RequestHistory-component">
+                <div className="row">
+                    {/* {requests?.length > 0 && <DataGrid
+             pagesize={options[0].value}
+             items={requests}
+             options={options}
+             thead={thead}
+         /> */}
 
-                                        {showCommentComponent && mission_id === myMissions[0]?._id &&
-                                            <div className="div-comments">
-                                                <i onClick={() => setShowCommentComponent(false)} className='close-icon fa fa-remove'></i>
+                    {currentItems?.length > 0 &&
+                        <div className="col-12 have-table">
+                            <table className='table table-hover'>
+                                <thead>
+                                    <tr>
+                                        <th>{TEXT_DATE_TIME}</th>
+                                        <th>{TEXT_CREATED_BY}</th>
+                                        <th>{TEXT_CONFIRMED_BY}</th>
+                                        <th>{TEXT_STATUS}</th>
+                                        <th>{TEXT_DRIVER}</th>
+                                        <th>{TEXT_DESC}</th>
+                                        <th>{""}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {missionList && currentItems?.filter((request: any) => {
+                                        return props.requestID ? request._id === props.requestID : true;
+                                    }).map((request: any) => {
+                                        let isEditPossible =
+                                            request.status === 'PENDING' || request.status === 'CONFIRM' ? true :
+                                                request.status === 'ASSIGNED_TO_MISSION' ? handleIsEditPossible(request._id) : false
 
-                                                <Comments registerID={ID} registerRole={role} saveComment={saveComment} />
+                                        const myMissions = missionListDONEStatus?.filter((item: any) =>
+                                            item.service_requests && item.service_requests[0]?.request_id === request._id
+                                            //  && item.status === 'DONE'
+                                        )
+
+                                        //console.log(4444, request, myMissions);
+
+                                        const myComments = myMissions && myMissions[0]?.extra?.comments ? myMissions[0].extra.comments : undefined;
+
+                                        let x = true
+                                        //console.log(50, myComments, ID);
+
+                                        myComments?.map((ite: any) => {
+                                            if (ite.registerID === ID) {
+                                                x = false
+                                            }
+                                        })
 
 
-                                            </div>}
+                                        const isExpanded = expandedRows.includes(request._id);
+                                        return <React.Fragment key={request._id}>
+                                            <tr>
+                                                <td>{getLocalDatetime(request.gmt_for_date)}
+                                                    {isEditPossible === true &&
+                                                        <i onClick={() => handleNavigation(request)} className="fa fa-pencil pencil "></i>
+                                                    }
+                                                    {x === true && myMissions && myMissions[0] && myMissions[0]?.status === 'DONE' &&
+                                                        <i onClick={() => handleClickBtnComment(myMissions[0]._id)} className="fa fa-comment pencil "></i>}
 
-                                    </td>
-                                    <td>{request.submitted_by?.full_name || request.submitted_by?.username}</td>
-                                    <td>{request.confirmed_by?.full_name || request.confirmed_by?.username}</td>
-                                    {/* <td>{Object.fromEntries(requestStatus)[request.status]}</td> */}
-                                    <td>{myMissions && myMissions[0] ? Object.fromEntries(missionStatus)[myMissions[0].status] : Object.fromEntries(requestStatus)[request.status]}</td>
-                                    <td>{myMissions && myMissions[0] && myMissions[0].driver_full_name}</td>
-                                    <td>{request.details?.desc && request.details?.desc}</td>
-                                    <td onClick={() => toggleExpandedRows(request._id)}>
-                                        <i className={`fa ${isExpanded ? 'fa-angle-down' : 'fa-angle-up'}`}></i>
-                                    </td>
-                                </tr>
-                                <tr style={{ display: isExpanded ? 'contents' : 'none' }}>
-                                    <td colSpan={6}>
+                                                    {showCommentComponent && mission_id === myMissions[0]?._id &&
+                                                        <div className="div-comments">
+                                                            <i onClick={() => setShowCommentComponent(false)} className='close-icon fa fa-remove'></i>
 
-                                        <div
-                                            className='expand'>
-                                            <div>
-
-                                                <RequestDetailsBox request={request} />
+                                                            <Comments registerID={ID} registerRole={role} saveComment={saveComment} />
 
 
-                                                {showComment(request._id)}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </React.Fragment >
-                        })}
-                    </tbody>
-                </table>
+                                                        </div>}
 
-                {/* ساخت دکمه‌های صفحه‌بندی با فلش */}
-                {/* Pagination */}
-                <div className="pagination">
-                    <button
-                        className="pagination-button"
-                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                        disabled={currentPage === 1}
-                    >
-                        &lt;
-                    </button>
-                    {pageNumbers.map((number) => (
-                        <button
-                            key={number}
-                            className={`pagination-button ${number === currentPage ? 'active' : ''}`}
-                            onClick={() => handlePageChange(number)}
-                        >
-                            {number}
-                        </button>
-                    ))}
-                    <button
-                        className="pagination-button"
-                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                        disabled={currentPage === totalPages}
-                    >
-                        &gt;
-                    </button>
+                                                </td>
+                                                <td>{request.submitted_by?.full_name || request.submitted_by?.username}</td>
+                                                <td>{request.confirmed_by?.full_name || request.confirmed_by?.username}</td>
+                                                {/* <td>{Object.fromEntries(requestStatus)[request.status]}</td> */}
+                                                <td>{myMissions && myMissions[0] ? Object.fromEntries(missionStatus)[myMissions[0].status] : Object.fromEntries(requestStatus)[request.status]}</td>
+                                                <td>{myMissions && myMissions[0] && myMissions[0].driver_full_name}</td>
+                                                <td>{request.details?.desc && request.details?.desc}</td>
+                                                <td onClick={() => toggleExpandedRows(request._id)}>
+                                                    <i className={`fa ${isExpanded ? 'fa-angle-down' : 'fa-angle-up'}`}></i>
+                                                </td>
+                                            </tr>
+                                            <tr style={{ display: isExpanded ? 'contents' : 'none' }}>
+                                                <td colSpan={6}>
+
+                                                    <div
+                                                        className='expand'>
+                                                        <div>
+
+                                                            <RequestDetailsBox request={request} />
+
+
+                                                            {showComment(request._id)}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </React.Fragment >
+                                    })}
+                                </tbody>
+                            </table>
+
+                            {/* ساخت دکمه‌های صفحه‌بندی با فلش */}
+                            {/* Pagination */}
+                            <div className="pagination">
+                                <button
+                                    className="pagination-button"
+                                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                    disabled={currentPage === 1}
+                                >
+                                    &lt;
+                                </button>
+                                {pageNumbers.map((number) => (
+                                    <button
+                                        key={number}
+                                        className={`pagination-button ${number === currentPage ? 'active' : ''}`}
+                                        onClick={() => handlePageChange(number)}
+                                    >
+                                        {number}
+                                    </button>
+                                ))}
+                                <button
+                                    className="pagination-button"
+                                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                    disabled={currentPage === totalPages}
+                                >
+                                    &gt;
+                                </button>
+                            </div>
+
+
+                        </div>
+                    }
                 </div>
+            </div>}
+    </>
 
-
-            </div>
-        }
-    </div>
-</div>
 
 }
 

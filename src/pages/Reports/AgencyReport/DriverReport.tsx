@@ -34,7 +34,7 @@ export default function DriverReport({ handleBackClick, title }: any) {
 
   const [fromDate, setFromDate] = useState<any>(moment(new Date()).format('jYYYY/jMM/jDD'));
   const [toDate, setToDate] = useState<any>(moment(new Date()).format('jYYYY/jMM/jDD'));
-  const { missionList, state, refreshData } = useReportCountOfServices("DONE", persianDateToGregorian(fromDate), persianDateToGregorian(toDate), 'Daily');
+  const { missionList, state: loadingState, refreshData } = useReportCountOfServices("DONE", persianDateToGregorian(fromDate), persianDateToGregorian(toDate), 'Daily');
 
 
   let TotalCount = ''
@@ -161,7 +161,8 @@ export default function DriverReport({ handleBackClick, title }: any) {
   return (
     <>
       {forbidden === true && <Page403 />}
-      {forbidden === false &&
+      {forbidden === false && loadingState?.in_progress === true && <p>Loading...</p>}
+      {forbidden === false && loadingState?.in_progress === false &&
         <div className='report-component'>
 
 

@@ -67,6 +67,7 @@ const convertToJalali = (jalaliYear: any, jalaliMonth: any, jalaliDay: any) => {
   return gregorianDate;
 };
 
+
 const convertJalaliToGregorian = (jalaliDateStr: any) => {
   // Parse the Jalali date string and convert it to a Gregorian date
   const gregorianDate = moment(jalaliDateStr, 'jYYYY-jMM-jDDTHH:mm:ss.SSSZ').format('YYYY-MM-DDTHH:mm:ss.SSSZ');
@@ -96,7 +97,9 @@ export default function secondsToHMS(seconds: any) {
 
 function convertToJalaliDateTiem(datetime: any) {
   // Convert to Persian (Jalali) date format
-  return moment(datetime).format('jYYYY/jMM/jDD HH:mm:ss');
+  console.log(632, datetime, moment(datetime).format('jYYYY/jMM/jDD HH:mm:ss'));
+
+  return datetime ? moment(datetime).format('jYYYY/jMM/jDD HH:mm:ss') : undefined;
 }
 
 
