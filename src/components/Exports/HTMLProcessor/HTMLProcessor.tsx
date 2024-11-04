@@ -5,11 +5,12 @@ import '../WordProcessor/style.scss';
 
 const HTMLProcessor = ({ autoReadFile, HTMLFile, fileUrl, fields }: any) => {
 
+console.log(100,fields);
 
     const [content, setContent] = useState('');
     const [showPrintContent, setShowPrintContent] = useState<boolean>(false);
 
-    const html = HTMLFile
+    const html = HTMLFile.replace(/{{<span[\s\S]*?>/g, '{{').replace(/<\/span>}}/g, '}}')
     useEffect(() => {
 
         const fetchFile = async () => {

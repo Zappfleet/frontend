@@ -259,7 +259,8 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
         let newPermit = {
             CREATE: false,
             EDIT: false,
-            DELETE: false
+            DELETE: false,
+            LIST: false
         }
         let thead_crud = ''
         authInfo?.auth?.roles?.map((role: any) => {
@@ -275,6 +276,10 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                     newPermit.DELETE = true
                     thead_crud += '- delete -'
                 }
+                // if (permission === permitConstant.PERMIT_AGANCE_DRIVER_LIST) {
+                //     newPermit.LIST = true
+                //     thead_crud += '- view -'
+                // }
             })
         })
         setPermit(newPermit)
@@ -319,13 +324,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
     // Create a ref to store the ObjectId, ensuring it only gets generated once
     const objectIdRef = useRef(new ObjectId());
     const objectId = objectIdRef.current;
-    useEffect(() => {
-        setFields({
-            ...fields, _id: objectId.toString(),
-            details: { ...fields.details, step: realStep },
-            reg_key: 'AGANCE'
-        })
-    }, [objectId])
+
 
 
     const [showAttchImage, setShowAttchImage] = useState<any>(false)
@@ -343,6 +342,15 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
     const [showAlert, setShowAlert] = useState<any>(false)
     const [imagesBase64, setImagesBase64] = useState<any>({});
     const [fields, setFields] = useState<Partial<Driver>>(initialValue);
+
+
+    useEffect(() => {
+        setFields({
+            ...fields, _id: InsertOrUpdate === 'insert' ? objectId?.toString() : fields?._id,
+            details: { ...fields.details, step: realStep },
+            reg_key: 'AGANCE'
+        })
+    }, [objectId, InsertOrUpdate])
 
     //validate
     const { errors: validateErrors, refreshData: validateRefreshData } = useValidateForm(validationRules, fields)
@@ -550,12 +558,15 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
 
     const clickOnRowDataGrid = (item: Driver, type: any) => {
 
+        console.log(53, type);
+
         if (type === 'delete') {
             setFields(item)
             setActionName('delete')
         }
-        if (type === 'update') {
+        if (type === 'update' || type === 'view') {
 
+            SteStep(1)
             clearAllUplodedFile()
 
             const updateItem: Driver = (OriginalItems.filter((e: any) => e._id === item._id))[0]
@@ -584,7 +595,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
 
             setFields(updateItem)
             SteRealStep(updateItem?.details?.step)
-            setInsertOrUpdate('update')
+            setInsertOrUpdate(type)//update or view
         }
     }
 
@@ -640,7 +651,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                         <i onClick={() => { setSelectedTab('list'); setShowAlert(false) }} className={selectedTab === 'list' ? 'active' : ''}>{'لیست راننده ها'}</i>
                     </div>
                     <div className="page-title">
-                        <i onClick={() => { setSelectedTab('insert'); InsertOrUpdate === 'insert' ? setShowAlert(true) : setShowAlert(false) }} className={selectedTab === 'insert' ? 'active' : ''}>{InsertOrUpdate === 'insert' ? title : 'بروزرسانی راننده'}</i>
+                        <i onClick={() => { setSelectedTab('insert'); InsertOrUpdate === 'insert' ? setShowAlert(true) : setShowAlert(false) }} className={selectedTab === 'insert' ? 'active' : ''}>{InsertOrUpdate === 'insert' ? title : InsertOrUpdate === 'update' ? 'بروزرسانی راننده' : 'مشاهده راننده'}</i>
                     </div>
                 </div>
             </div>
@@ -675,7 +686,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                     <>
                         <div className="row upRow">
                             <div className="col-12">
-                                {InsertOrUpdate === 'update' && <button onClick={() => { clearFormInputs(); SteRealStep(1); setInsertOrUpdate('insert') }} className='my-btn'>{title}</button>}
+                                {InsertOrUpdate === 'update' && <button onClick={() => { clearFormInputs(); SteRealStep(1); setInsertOrUpdate('insert') }} className='my-btn'>{`ثبت راننده جدید`}</button>}
                                 {InsertOrUpdate === 'update' && isPermitForApprove === true && realStep <= 4 &&
                                     < button
                                         onClick={() => handleApprove()}
@@ -1033,7 +1044,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                         <FileUpload
                                             disabled={realStep === 1 ? false : true}
                                             ref={fileUploadRef_cartMelli}
-                                            name={'cartMelli'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+                                            name={'cartMelli'} id={fields?._id || ''} handleGetBase64={handleGetBase64} />
 
                                         {fields?.details?.attachFile?.cartMelli && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('cartMelli')}></i>}
                                     </div>
@@ -1056,7 +1067,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                         <FileUpload
                                             disabled={realStep === 1 ? false : true}
                                             ref={fileUploadRef_shenasname}
-                                            name={'shenasname'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+                                            name={'shenasname'} id={fields?._id || ''} handleGetBase64={handleGetBase64} />
 
                                         {fields?.details?.attachFile?.shenasname && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('shenasname')}></i>}
                                     </div>
@@ -1079,7 +1090,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                         <FileUpload
                                             disabled={realStep === 1 ? false : true}
                                             ref={fileUploadRef_payanekhedmat}
-                                            name={'payanekhedmat'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+                                            name={'payanekhedmat'} id={fields?._id || ''} handleGetBase64={handleGetBase64} />
 
                                         {fields?.details?.attachFile?.payanekhedmat && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('payanekhedmat')}></i>}
                                     </div>
@@ -1102,7 +1113,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                         <FileUpload
                                             disabled={realStep === 1 ? false : true}
                                             ref={fileUploadRef_rooyeGovahiname}
-                                            name={'rooyeGovahiname'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+                                            name={'rooyeGovahiname'} id={fields?._id || ''} handleGetBase64={handleGetBase64} />
 
                                         {fields?.details?.attachFile?.rooyeGovahiname && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('rooyeGovahiname')}></i>}
                                     </div>
@@ -1126,7 +1137,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                         <FileUpload
                                             disabled={realStep === 1 ? false : true}
                                             ref={fileUploadRef_poshteGovahiname}
-                                            name={'poshteGovahiname'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+                                            name={'poshteGovahiname'} id={fields?._id || ''} handleGetBase64={handleGetBase64} />
 
                                         {fields?.details?.attachFile?.poshteGovahiname && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('poshteGovahiname')}></i>}
                                     </div>
@@ -1149,7 +1160,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                         <FileUpload
                                             disabled={realStep === 1 ? false : true}
                                             ref={fileUploadRef_driverPic}
-                                            name={'driverPic'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+                                            name={'driverPic'} id={fields?._id || ''} handleGetBase64={handleGetBase64} />
 
                                         {fields?.details?.attachFile?.driverPic && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('driverPic')}></i>}
                                     </div>
@@ -1266,7 +1277,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                         <FileUpload
                                             disabled={realStep === 2 ? false : true}
                                             ref={fileUploadRef_estelameGovahiname}
-                                            name={'estelameGovahiname'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+                                            name={'estelameGovahiname'} id={fields?._id || ''} handleGetBase64={handleGetBase64} />
 
                                         {fields?.details?.attachFile?.estelameGovahiname && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('estelameGovahiname')}></i>}
                                     </div>
@@ -1290,7 +1301,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                         <FileUpload
                                             disabled={realStep === 2 ? false : true}
                                             ref={fileUploadRef_tashkhisHoviyat}
-                                            name={'tashkhisHoviyat'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+                                            name={'tashkhisHoviyat'} id={fields?._id || ''} handleGetBase64={handleGetBase64} />
 
                                         {fields?.details?.attachFile?.tashkhisHoviyat && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('tashkhisHoviyat')}></i>}
                                     </div>
@@ -1313,7 +1324,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                         <FileUpload
                                             disabled={realStep === 2 ? false : true}
                                             ref={fileUploadRef_markazeBehdasht}
-                                            name={'markazeBehdasht'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+                                            name={'markazeBehdasht'} id={fields?._id || ''} handleGetBase64={handleGetBase64} />
 
                                         {fields?.details?.attachFile?.markazeBehdasht && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('markazeBehdasht')}></i>}
                                     </div>
@@ -1336,7 +1347,7 @@ const AganceDriver = ({ handleBackClick, title }: any) => {
                                         <FileUpload
                                             disabled={realStep === 2 ? false : true}
                                             ref={fileUploadRef_mojavezeAmaken}
-                                            name={'mojavezeAmaken'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+                                            name={'mojavezeAmaken'} id={fields?._id || ''} handleGetBase64={handleGetBase64} />
 
                                         {fields?.details?.attachFile?.mojavezeAmaken && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('mojavezeAmaken')}></i>}
                                     </div>

@@ -78,9 +78,7 @@ const RegisterTarefeAvarez = ({ handleBackClick, title }: any) => {
     // Extract the ObjectId from the ref
     const objectId = objectIdRef.current;
 
-    useEffect(() => {
-        setFields({ ...fields, _id: objectId.toString() })
-    }, [objectId])
+
 
 
     const [showAttchImage, setShowAttchImage] = useState<any>(false)
@@ -92,6 +90,9 @@ const RegisterTarefeAvarez = ({ handleBackClick, title }: any) => {
     const [imagesBase64, setImagesBase64] = useState<any>({});
     const [fields, setFields] = useState<Partial<TarefeAvarez>>({});
 
+    useEffect(() => {
+        setFields({ ...fields, _id: InsertOrUpdate === 'insert' ? objectId?.toString() : fields?._id })
+    }, [objectId, InsertOrUpdate])
 
     const options = [{ id: 1, value: 10 }, { id: 2, value: 30 }, { id: 3, value: 50 }]
     const thead = [
@@ -273,16 +274,16 @@ const RegisterTarefeAvarez = ({ handleBackClick, title }: any) => {
             <div style={{ display: `${selectedTab === 'list' ? '' : 'none'}` }} className="row">
                 <div className="col-12">
                     {ItemsList?.length > 0 &&
-                     
-                         <DataGrid
+
+                        <DataGrid
                             clickOnRow={clickOnRowDataGrid}
                             pagesize={options[0].value}
                             items={ItemsList}
                             options={options}
                             thead={thead}
                         />
-                     
-                       
+
+
                     }
                     {ItemsList?.length <= 0 && <p style={{ marginTop: '40px' }}> {'موردی برای نمایش وجود ندارد'}</p>}
                 </div>
@@ -360,14 +361,14 @@ const RegisterTarefeAvarez = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p> بارگزاری مدارک مصوب نرخ</p>
                                     <div className="file-upload-div">
-                                         
-                                            <FileUpload
+
+                                        <FileUpload
                                             ref={fileUploadRef_madarek}
                                             name={'madarek'}
-                                            id={objectId.toString()}
-                                            handleGetBase64={handleGetBase64} /> 
-                                         
-                                       
+                                            id={fields?._id || ''}
+                                            handleGetBase64={handleGetBase64} />
+
+
                                         {fields?.attachFile?.madarek &&
                                             <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('madarek')}></i>}
                                     </div>

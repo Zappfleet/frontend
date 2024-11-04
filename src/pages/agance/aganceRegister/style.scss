@@ -5,6 +5,61 @@
     margin-bottom: 40px;
     margin-top: 40px;
 
+    .show-map-div {
+
+        z-index: 3;
+        background-color: rgb(0, 0, 0, 0.8);
+        color: white;
+        height: 100vh;
+
+
+        .my-btn {
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+
+        .location-div {
+            position: absolute;
+            width: 100%;
+            z-index: 3;
+            background-color: rgb(0, 0, 0, 0.8);
+            padding: 20px;
+            padding-top: 40px;
+
+            .address-div {
+                position: absolute;
+                top: 85px;
+                color: whitesmoke;
+                background-color: gray;
+                right: 40px;
+                padding: 10px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            .close-icon {
+                position: absolute;
+                top: 10px;
+                cursor: pointer;
+                left: 15px;
+            }
+
+            .map-btn {
+                position: absolute;
+                top: 45px;
+                width: 90%;
+            }
+
+            .marker-div {
+                position: absolute;
+                top: 50%;
+                right: 50%;
+                color: red;
+            }
+        }
+    }
+
+
     .form-group {
         position: relative;
     }
@@ -126,6 +181,7 @@
 
         .form-group {
             padding: 10px 15px;
+            position: relative;
 
             p {
                 font-size: 14px;

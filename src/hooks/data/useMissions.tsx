@@ -21,6 +21,9 @@ export default function useMissions(props: any = {}) {
                 case MODE_PASSENGER: return "getListOfConcerningMissionsAsPassenger";
             }
         }()
+
+        console.log(200,apiName);
+        
         if (apiName == null) throw "apiName is not set"
         
         getApiClient()[apiName](status, dateFilter, paging).then(({ data }) => {

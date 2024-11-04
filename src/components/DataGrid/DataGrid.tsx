@@ -17,7 +17,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary.js';
 
 const DataGrid = (props: any) => {
 
-    //  console.log(66666666, props.thead);
+      console.log(66666666, props.items);
 
     const [currentPage, setcurrentPage] = useState(1)
     const [pagesize, setpagesize] = useState(10)//props.pagesize)
@@ -131,7 +131,7 @@ const DataGrid = (props: any) => {
     }
 
     const showbody = copyItems.map(item => {
-        return <tr onClick={() => props.clickOnRow(item, 'view')} key={item.id}>
+        return <tr onClick={() => props.clickOnRow(item, 'clickOnRow')} key={item.id}>
             {props.thead.map((hitem: any, index: number) => {
                 if (hitem.key === '') {
                     return (

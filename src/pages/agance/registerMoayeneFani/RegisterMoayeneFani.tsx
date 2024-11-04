@@ -173,9 +173,9 @@ const RegisterMoayeneFani = ({ handleBackClick, title }: any) => {
     // Extract the ObjectId from the ref
     const objectId = objectIdRef.current;
 
-    useEffect(() => {
-        setFields({ ...fields, _id: objectId.toString() })
-    }, [objectId])
+ 
+
+  
 
 
     const [showAttchImage, setShowAttchImage] = useState<any>(false)
@@ -188,6 +188,10 @@ const RegisterMoayeneFani = ({ handleBackClick, title }: any) => {
     const [showAlert, setShowAlert] = useState<any>(false)
     const [imagesBase64, setImagesBase64] = useState<any>({});
     const [fields, setFields] = useState<Partial<MoayeneFani>>(initialValue);
+
+    useEffect(() => {
+        setFields({ ...fields, _id: InsertOrUpdate === 'insert' ? objectId?.toString() : fields?._id })
+    }, [objectId,InsertOrUpdate])
 
     //validate
     const { errors: validateErrors, refreshData: validateRefreshData } = useValidateForm(validationRules, fields)
@@ -575,7 +579,7 @@ const RegisterMoayeneFani = ({ handleBackClick, title }: any) => {
                                         <FileUpload
                                             ref={fileUploadRef_parvaneNamayandegi}
                                             name={'parvaneNamayandegi'}
-                                            id={objectId.toString()}
+                                            id={fields?._id || ''}
                                             handleGetBase64={handleGetBase64} />
 
 
@@ -592,7 +596,7 @@ const RegisterMoayeneFani = ({ handleBackClick, title }: any) => {
 
                                         <FileUpload
                                             ref={fileUploadRef_modirPic}
-                                            name={'modirPic'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+                                            name={'modirPic'} id={fields?._id || ''} handleGetBase64={handleGetBase64} />
 
 
                                         {fields?.attachFile?.modirPic && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('modirPic')}></i>}
@@ -615,7 +619,7 @@ const RegisterMoayeneFani = ({ handleBackClick, title }: any) => {
 
                                         <FileUpload
                                             ref={fileUploadRef_mojavezSazmanHamlVaNaghl}
-                                            name={'mojavezSazmanHamlVaNaghl'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+                                            name={'mojavezSazmanHamlVaNaghl'} id={fields?._id || ''} handleGetBase64={handleGetBase64} />
 
                                         {fields?.attachFile?.mojavezSazmanHamlVaNaghl && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('mojavezSazmanHamlVaNaghl')}></i>}
                                     </div>

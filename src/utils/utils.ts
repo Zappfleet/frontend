@@ -141,6 +141,12 @@ function translateAction(key: string) {
       return 'تمدید کارت صلاحیت  ';
     case 'ESTELAMHAYE_SE_GANE':
       return 'استعلام های سه گانه ';
+    case 'MOAREFI_NAME_TAMIN_EJTEMAEI':
+      return 'معرفی نامه اداره تامین  اجتماعی';
+    case 'MOAREFI_NAME_VAM':
+      return 'معرفی نامه وام';
+    case 'FAALIYATE_DRIVER':
+      return 'گواهی فعالیت راننده';
     case 'ESTELAM_AMAKEN':
       return 'استعلام اماکن ';
     case 'MOAYENE_FANI':
@@ -148,7 +154,7 @@ function translateAction(key: string) {
     case 'TAREFE_AVAREZ':
       return 'تعرفه عوارض ';
     case 'DABIRKHANE':
-      return 'دبیرخانه ';
+      return 'بایگانی';
     case 'PERSONAL':
       return 'فردی';
     case 'ORG':

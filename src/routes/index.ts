@@ -61,6 +61,9 @@ const aganceMoayeneFani = lazy(() => import('../pages/agance/registerMoayeneFani
 const aganceProfile = lazy(() => import('../pages/agance/aganceProfile/AganceProfile'));
 const aganceDabirkhane = lazy(() => import('../pages/agance/dabirkhane/Dabirkhane'));
 const aganceEstelameSeGane = lazy(() => import('../pages/agance/estehamhaye3gane/Estehamhaye3gane'));
+const aganceFaaliyateDriver = lazy(() => import('../pages/agance/FaaliyateDriver/FaaliyateDriver'));
+const aganceMoarefinameVam = lazy(() => import('../pages/agance/moarefiNameVam/MoarefiNameVam'));
+const aganceMoarefinameTaminEjtemaei = lazy(() => import('../pages/agance/bimeNameTaminEjtemaei/BimeNameTaminEjtemaei'));
 const aganceCarteSalahiyat = lazy(() => import('../pages/agance/cardSalahiyat/CardSalahiyat'));
 const aganceDriver = lazy(() => import('../pages/agance/aganceDriver/AganceDriver'));
 const aganceSodureParvane = lazy(() => import('../pages/agance/sodureParvane/SodureParvane'));
@@ -258,47 +261,62 @@ const coreRoutes = [
   {
     path: '/aganceAmaken',
     title: 'aganceAmaken',
-    component:aganceAmaken ,
+    component: aganceAmaken,
   },
   {
     path: '/aganceAvarez',
     title: 'aganceAvarez',
-    component:aganceAvarez ,
+    component: aganceAvarez,
   },
   {
     path: '/aganceMoayeneFani',
     title: 'aganceMoayeneFani',
-    component:aganceMoayeneFani ,
+    component: aganceMoayeneFani,
   },
   {
     path: '/aganceProfile',
     title: 'aganceProfile',
-    component:aganceProfile ,
+    component: aganceProfile,
   },
   {
     path: '/aganceDabirkhane',
     title: 'aganceDabirkhane',
-    component:aganceDabirkhane ,
+    component: aganceDabirkhane,
+  },
+  {
+    path: '/aganceMoarefinameVam',
+    title: 'aganceMoarefinameVam',
+    component: aganceMoarefinameVam,
+  },
+  {
+    path: '/aganceMoarefinameTaminEjtemaei',
+    title: 'aganceMoarefinameTaminEjtemaei',
+    component: aganceMoarefinameTaminEjtemaei,
+  },
+  {
+    path: '/aganceFaaliyateDriver',
+    title: 'aganceFaaliyateDriver',
+    component: aganceFaaliyateDriver,
   },
   {
     path: '/aganceEstelameSeGane',
     title: 'aganceEstelameSeGane',
-    component:aganceEstelameSeGane ,
+    component: aganceEstelameSeGane,
   },
   {
     path: '/aganceCarteSalahiyat',
     title: 'aganceCarteSalahiyat',
-    component:aganceCarteSalahiyat ,
+    component: aganceCarteSalahiyat,
   },
   {
     path: '/aganceDriver',
     title: 'aganceDriver',
-    component:aganceDriver ,
+    component: aganceDriver,
   },
   {
     path: '/aganceSodureParvane',
     title: 'aganceSodureParvane',
-    component:aganceSodureParvane ,
+    component: aganceSodureParvane,
   },
 
 ];

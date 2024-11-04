@@ -17,13 +17,16 @@ import useAuthentication from '../../../hooks/data/useAuthentication';
 import * as permitConstant from '../../../lib/constants'
 import Page403 from '../../../components/Page403/Page403';
 import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
+import MapContainer, { MapRefType } from '../../../widgets/map/MapContainer';
+import useNeshanApi from '../../../hooks/data/useNeshanApi';
+import LocationSearch from '../../../widgets/LocationSearch/LocationSearch';
 
-interface Agance {
+export interface Agance {
     _id: string,
     id: string,
     address: {
         locations?: {
-            coordinates: [number];
+            coordinates: [number, number];
             wait: number;
             meta?: object;
         }[];
@@ -35,7 +38,10 @@ interface Agance {
         modirOrmobasherPic?: string;
         parvaneNamayandegi?: string;
         amaken?: string;
-        estelamat3Gane?: string;
+        estelameAngoshNegari?: string;
+        formeTaahod?: string;
+        taeidiyeRahnamaeiRanandegi?: string;
+        estelameAzmayesheKhoon?: string;
     };
     status?: string;
     managerPhone?: string;
@@ -47,6 +53,8 @@ interface Agance {
     StartActivityDate?: string;
     name?: string;
     activityContext?: string;
+    gharardad_num?: string;
+    gharardad_date?: string;
     submitted_by?: string; // Assuming ObjectId is represented as string in frontend
 }
 
@@ -56,6 +64,14 @@ const validationRules: any = {
         showName: ''
     },
     StartActivityDate: {
+        required: true,
+        showName: ''
+    },
+    gharardad_num: {
+        required: true,
+        showName: ''
+    },
+    gharardad_date: {
         required: true,
         showName: ''
     },
@@ -103,7 +119,19 @@ const validationRules: any = {
         required: true,
         showName: ''
     },
-    "attachFile.estelamat3Gane": {
+    "attachFile.estelameAngoshNegari": {
+        required: true,
+        showName: ''
+    },
+    "attachFile.formeTaahod": {
+        required: true,
+        showName: ''
+    },
+    "attachFile.taeidiyeRahnamaeiRanandegi": {
+        required: true,
+        showName: ''
+    },
+    "attachFile.estelameAzmayesheKhoon": {
         required: true,
         showName: ''
     },
@@ -118,15 +146,20 @@ const initialValue: any = {
     activityContext: "بار",
     StartActivityDate: '',// moment(new Date()).format('jYYYY/jMM/jDD'),
     name: '',
+    gharardad_date: '',// moment(new Date()).format('jYYYY/jMM/jDD'),
+    gharardad_num: '',
     managerFullName: '',
     managerCodeMelli: '',
-    address: { address: '', postalCode: '' },
+    address: { address: '', postalCode: '', locations: [] },
     managerPhone: '',
     phone: '',
     attachFile: {
         modirOrmobasherPic: '',
         amaken: '',
-        estelamat3Gane: ''
+        estelameAngoshNegari: '',
+        formeTaahod: '',
+        taeidiyeRahnamaeiRanandegi: '',
+        estelameAzmayesheKhoon: ''
     }
 }
 
@@ -172,8 +205,10 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
     const fileUploadRef_modirOrmobasherPic = useRef<FileUploadHandles>(null);
     const fileUploadRef_parvaneNamayandegi = useRef<FileUploadHandles>(null);
     const fileUploadRef_amaken = useRef<FileUploadHandles>(null);
-    const fileUploadRef_estelamat3Gane = useRef<FileUploadHandles>(null);
-
+    const fileUploadRef_estelameAngoshNegari = useRef<FileUploadHandles>(null);
+    const fileUploadRef_formeTaahod = useRef<FileUploadHandles>(null);
+    const fileUploadRef_taeidiyeRahnamaeiRanandegi = useRef<FileUploadHandles>(null);
+    const fileUploadRef_estelameAzmayesheKhoon = useRef<FileUploadHandles>(null);
 
     const clearFileUpload_modirOrmobasherPic = () => {
         if (fileUploadRef_modirOrmobasherPic.current) {
@@ -193,22 +228,32 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
         }
     }
 
-    const clearFileUpload_estelamat3Gane = () => {
-        if (fileUploadRef_estelamat3Gane.current) {
-            fileUploadRef_estelamat3Gane.current.clearFileInput();
+    const clearFileUpload_estelameAngoshNegari = () => {
+        if (fileUploadRef_estelameAngoshNegari.current) {
+            fileUploadRef_estelameAngoshNegari.current.clearFileInput();
+        }
+    }
+
+    const clearFileUpload_formeTaahod = () => {
+        if (fileUploadRef_formeTaahod.current) {
+            fileUploadRef_formeTaahod.current.clearFileInput();
+        }
+    }
+
+    const clearFileUpload_taeidiyeRahnamaeiRanandegi = () => {
+        if (fileUploadRef_taeidiyeRahnamaeiRanandegi.current) {
+            fileUploadRef_taeidiyeRahnamaeiRanandegi.current.clearFileInput();
+        }
+    }
+
+    const clearFileUpload_estelameAzmayesheKhoon = () => {
+        if (fileUploadRef_estelameAzmayesheKhoon.current) {
+            fileUploadRef_estelameAzmayesheKhoon.current.clearFileInput();
         }
     }
 
 
-    // Create a ref to store the ObjectId, ensuring it only gets generated once
-    const objectIdRef = useRef(new ObjectId());
 
-    // Extract the ObjectId from the ref
-    const objectId = objectIdRef.current;
-
-    useEffect(() => {
-        setFields({ ...fields, _id: objectId.toString() })
-    }, [objectId])
 
 
     const [showAttchImage, setShowAttchImage] = useState<any>(false)
@@ -217,10 +262,26 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
     const [InsertOrUpdate, setInsertOrUpdate] = useState<any>('insert')
     const [selectedTab, setSelectedTab] = useState<any>('list')
     const [StartActivityDateDatePicker, setStartActivityDateDatePicker] = useState<any>(null)//moment(new Date()).format('jYYYY/jMM/jDD'));
+    const [gharardad_DateDatePicker, setGharardad_DateDatePicker] = useState<any>(null)//moment(new Date()).format('jYYYY/jMM/jDD'));
+
     const [StartActivityDate, setStartActivityDate] = useState<any>(null)//moment(new Date()).format('jYYYY/jMM/jDD'));
+    const [gharardad_date, setGharardad_date] = useState<any>(null)//moment(new Date()).format('jYYYY/jMM/jDD'));
+
     const [showAlert, setShowAlert] = useState<any>(false)
     const [imagesBase64, setImagesBase64] = useState<any>({});
     const [fields, setFields] = useState<Partial<Agance>>(initialValue);
+
+    // Create a ref to store the ObjectId, ensuring it only gets generated once
+    const objectIdRef = useRef(new ObjectId());
+
+    // Extract the ObjectId from the ref
+    const objectId = objectIdRef.current
+
+    useEffect(() => {
+        console.log(52, InsertOrUpdate === 'insert' ? objectId?.toString() : fields?._id);
+
+        setFields({ ...fields, _id: InsertOrUpdate === 'insert' ? objectId?.toString() : fields?._id })
+    }, [objectId, InsertOrUpdate])
 
     //validate
     const { errors: validateErrors, refreshData: validateRefreshData } = useValidateForm(validationRules, fields)
@@ -290,6 +351,7 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
             return data.map((ite: any) => ({
                 ...ite,
                 StartActivityDate: convertGregorianToJalali(ite.StartActivityDate),
+                gharardad_date: convertGregorianToJalali(ite.gharardad_date),
             }));
         });
 
@@ -303,8 +365,14 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
         setStartActivityDateDatePicker(null)//moment(new Date()).format('jYYYY/jMM/jDD'));
         setStartActivityDate(null)//moment(new Date()).format('jYYYY/jMM/jDD'));
 
+        setGharardad_DateDatePicker(null)//moment(new Date()).format('jYYYY/jMM/jDD'));
+        setGharardad_date(null)//moment(new Date()).format('jYYYY/jMM/jDD'));
+
         clearFileUpload_amaken()
-        clearFileUpload_estelamat3Gane()
+        clearFileUpload_estelameAngoshNegari()
+        clearFileUpload_formeTaahod()
+        clearFileUpload_taeidiyeRahnamaeiRanandegi()
+        clearFileUpload_estelameAzmayesheKhoon()
         clearFileUpload_modirOrmobasherPic()
         clearFileUpload_parvaneNamayandegi()
         setShowAttchImage(false)
@@ -325,6 +393,12 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
         setStartActivityDate(date.format('YYYY/MM/DD', { calendar: 'persian', locale: 'fa' }))
         console.log(88, date);
         setFields({ ...fields, StartActivityDate: convertDateToISO(persianDateToGregorian(date.format('YYYY/MM/DD', { calendar: 'persian', locale: 'fa' }))) })
+    }
+
+    const handleChangeGharardad_Date = (date: any) => {
+        setGharardad_DateDatePicker(date);
+        setGharardad_date(date.format('YYYY/MM/DD', { calendar: 'persian', locale: 'fa' }))
+        setFields({ ...fields, gharardad_date: convertDateToISO(persianDateToGregorian(date.format('YYYY/MM/DD', { calendar: 'persian', locale: 'fa' }))) })
     }
 
     useEffect(() => {
@@ -372,7 +446,11 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
         if (type === 'update') {
 
             clearFileUpload_amaken()
-            clearFileUpload_estelamat3Gane()
+
+            clearFileUpload_estelameAngoshNegari()
+            clearFileUpload_formeTaahod()
+            clearFileUpload_taeidiyeRahnamaeiRanandegi()
+            clearFileUpload_estelameAzmayesheKhoon()
             clearFileUpload_modirOrmobasherPic()
             clearFileUpload_parvaneNamayandegi()
 
@@ -380,13 +458,17 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
 
             updateItem?.attachFile?.modirOrmobasherPic && fileUploadRef_modirOrmobasherPic.current?.setFileInput(updateItem?.attachFile?.modirOrmobasherPic)
             updateItem?.attachFile?.amaken && fileUploadRef_amaken.current?.setFileInput(updateItem?.attachFile?.amaken)
-            updateItem?.attachFile?.estelamat3Gane && fileUploadRef_estelamat3Gane.current?.setFileInput(updateItem?.attachFile?.estelamat3Gane)
+
+
+            updateItem?.attachFile?.estelameAngoshNegari && fileUploadRef_estelameAngoshNegari.current?.setFileInput(updateItem?.attachFile?.estelameAngoshNegari)
+            updateItem?.attachFile?.formeTaahod && fileUploadRef_formeTaahod.current?.setFileInput(updateItem?.attachFile?.formeTaahod)
+            updateItem?.attachFile?.taeidiyeRahnamaeiRanandegi && fileUploadRef_taeidiyeRahnamaeiRanandegi.current?.setFileInput(updateItem?.attachFile?.taeidiyeRahnamaeiRanandegi)
+            updateItem?.attachFile?.estelameAzmayesheKhoon && fileUploadRef_estelameAzmayesheKhoon.current?.setFileInput(updateItem?.attachFile?.estelameAzmayesheKhoon)
             updateItem?.attachFile?.parvaneNamayandegi && fileUploadRef_parvaneNamayandegi.current?.setFileInput(updateItem?.attachFile?.parvaneNamayandegi)
 
 
-            console.log(65689, updateItem.StartActivityDate);
-
             setStartActivityDateDatePicker(moment(updateItem.StartActivityDate).format('jYYYY/jMM/jDD'));
+            setGharardad_DateDatePicker(moment(updateItem.gharardad_date).format('jYYYY/jMM/jDD'));
 
             setFields(updateItem)
             setInsertOrUpdate('update')
@@ -394,7 +476,7 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
     }
 
     useEffect(() => {
-        console.log(7, Object.keys(validateErrors), fields['mobasherCodeMelli']);
+        console.log(7, fields['address']);
 
     }, [fields])
 
@@ -404,9 +486,94 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
         setShowAttchImage(true)
     }
 
+    const [showMap, setShowMap] = useState<boolean>(false)
+    const mapRef = useRef<MapRefType>();
+    const { searchState, reverseGeocoding } = useNeshanApi();
+    const [coordinates, setCoordinates] = useState<any>()
+
+    const handle_insertLocation = () => {
+        if (searchState.inProgress || mapRef.current == null) return;
+        const coordinates = mapRef.current.getCenterLonLat();
+        if (coordinates == null) return;
+        console.log(74, coordinates);
+        reverseGeocoding(coordinates[1], coordinates[0])
+            .then((result) => {
+                console.log(44, result.formatted_address);
+                setFields({
+                    ...fields,
+                    address: {
+                        ...fields.address,
+                        locations: [{
+                            coordinates: coordinates,
+                            wait: 10,  // مقدار wait باید اضافه شود
+                            meta: {}   // در صورت نیاز می‌توانید meta را نیز اضافه کنید
+                        }]
+                        , address: result.formatted_address
+                    }
+                });
+
+            })
+            .catch((e) => {
+                console.log(88);
+
+            });
+
+
+        //  setFields({ ...fields, address: { ...fields.address?.locations, locations: { ...fields.address?.locations, coordinates: coordinates } } })
+        // setCoordinates(coordinates)
+        //NotificationController.showSuccess('موقعیت مکانی ثبت شد')
+        setShowMap(false)
+    }
+
+    const handleShowMap = () => {
+        console.log(22, fields?.address?.locations);
+        setShowMap(true)
+
+    }
+
+    const showCurrentLocation = () => {
+        const cor = fields?.address?.locations && fields?.address?.locations[0]?.coordinates || undefined
+        if (cor) {
+            console.log(112, cor);
+
+            const [lng, lat] = cor
+            console.log(112, cor, lng, lat, mapRef.current);
+            mapRef?.current?.viewCoordinates(lng, lat, 16)
+        }
+    }
     return (
 
         <div className='agance-component'>
+            {showMap === true && <>
+                <div className="show-map-div">
+
+                    <div className="location-div">
+                        <i className='fa fa-remove close-icon' onClick={() => setShowMap(false)}></i>
+                        <MapContainer mapRef={mapRef as { current: MapRefType }} />
+
+
+                        <div className="marker-div">
+                            <i className='fa fa-map-marker marker-icon'></i>
+
+                            {/* <span>منتخب</span> */}
+                        </div>
+                        <div className="address-div">
+                            <span onClick={showCurrentLocation} >{fields?.address?.address}</span>
+                        </div>
+
+                        <LocationSearch
+                            mapRef={mapRef}
+                            className="loc-search"
+                        />
+
+
+                        <button className='my-btn check-icon' onClick={handle_insertLocation}>ثبت موقعیت مکانی</button>
+                        <button className='my-btn check-icon' onClick={() => { setShowMap(false) }}>  انصراف</button>
+
+                    </div>
+                </div>
+
+            </>}
             {handleBackClick && <i className='fa fa-arrow-left back-icon' onClick={handleBackClick}></i>}
 
             {showAlert && permit.CREATE === true && <div className="myalert">
@@ -576,7 +743,7 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
 
                             <div className="col-6">
                                 <div className="form-group">
-                                    <p> آدرس و موقعیت مکانی </p>
+                                    <p>  آدرس</p>
                                     <input
                                         onChange={(e) => setFields({ ...fields, address: { ...fields.address, address: e.target.value } })}
                                         value={fields?.address?.address || ''}
@@ -589,6 +756,25 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
                                             </div>
                                         </>
                                     }
+                                </div>
+                            </div>
+
+                            <div className="col-6">
+                                <div className="form-group">
+                                    <p>  موقعیت مکانی</p>
+                                    <button className='my-btn' onClick={() => handleShowMap()}>مشاهده نقشه</button>
+                                    {/* <input
+                                        onChange={(e) => setFields({ ...fields, address: { ...fields.address, locations: [] } })}
+                                        value={fields?.address?. || ''}
+                                        type="text" className="form-control" /> */}
+                                    {/* {validateErrors['address.address']?.length > 0 &&
+                                        <>
+                                            <div className='validate'>
+                                                <i className='fa fa-exclamation-triangle'></i>
+                                                <div className='error-msg'> {validateErrors['address.address']?.map((error: any) => { return <p>{error}</p> })} </div>
+                                            </div>
+                                        </>
+                                    } */}
                                 </div>
                             </div>
 
@@ -654,7 +840,7 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
                                         <FileUpload
                                             ref={fileUploadRef_parvaneNamayandegi}
                                             name={'parvaneNamayandegi'}
-                                            id={objectId.toString()}
+                                            id={fields?._id || ''}
                                             handleGetBase64={handleGetBase64} />
 
 
@@ -673,7 +859,7 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
 
                                         <FileUpload
                                             ref={fileUploadRef_modirOrmobasherPic}
-                                            name={'modirOrmobasherPic'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+                                            name={'modirOrmobasherPic'} id={fields?._id || ''} handleGetBase64={handleGetBase64} />
 
                                         {fields?.attachFile?.modirOrmobasherPic && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('modirOrmobasherPic')}></i>}
                                     </div>
@@ -695,7 +881,7 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
 
                                         <FileUpload
                                             ref={fileUploadRef_amaken}
-                                            name={'amaken'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+                                            name={'amaken'} id={fields?._id || ''} handleGetBase64={handleGetBase64} />
 
                                         {fields?.attachFile?.amaken && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('amaken')}></i>}
                                     </div>
@@ -712,20 +898,86 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
 
                             <div className="col-6">
                                 <div className="form-group">
-                                    <p> بارگزاری استعلامات 3 گانه و فرم تعهد قوانین حمل و نقل </p>
+                                    <p> بارگزاری استعلام انگشت نگاری</p>
                                     <div className="file-upload-div">
 
                                         <FileUpload
-                                            ref={fileUploadRef_estelamat3Gane}
-                                            name={'estelamat3Gane'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+                                            ref={fileUploadRef_estelameAngoshNegari}
+                                            name={'estelameAngoshNegari'} id={fields?._id || ''} handleGetBase64={handleGetBase64} />
 
-                                        {fields?.attachFile?.estelamat3Gane && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('estelamat3Gane')}></i>}
+                                        {fields?.attachFile?.estelameAngoshNegari && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('estelameAngoshNegari')}></i>}
                                     </div>
-                                    {validateErrors['attachFile.estelamat3Gane']?.length > 0 &&
+                                    {validateErrors['attachFile.estelameAngoshNegari']?.length > 0 &&
                                         <>
                                             <div className='validate'>
                                                 <i className='fa fa-exclamation-triangle'></i>
-                                                <div className='error-msg'> {validateErrors['attachFile.estelamat3Gane']?.map((error: any) => { return <p>{error}</p> })} </div>
+                                                <div className='error-msg'> {validateErrors['attachFile.estelameAngoshNegari']?.map((error: any) => { return <p>{error}</p> })} </div>
+                                            </div>
+                                        </>
+                                    }
+                                </div>
+                            </div>
+
+                            <div className="col-6">
+                                <div className="form-group">
+                                    <p>بارگزاری فرم تعهد</p>
+                                    <div className="file-upload-div">
+
+                                        <FileUpload
+                                            ref={fileUploadRef_formeTaahod}
+                                            name={'formeTaahod'} id={fields?._id || ''} handleGetBase64={handleGetBase64} />
+
+                                        {fields?.attachFile?.formeTaahod && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('formeTaahod')}></i>}
+                                    </div>
+                                    {validateErrors['attachFile.formeTaahod']?.length > 0 &&
+                                        <>
+                                            <div className='validate'>
+                                                <i className='fa fa-exclamation-triangle'></i>
+                                                <div className='error-msg'> {validateErrors['attachFile.formeTaahod']?.map((error: any) => { return <p>{error}</p> })} </div>
+                                            </div>
+                                        </>
+                                    }
+                                </div>
+                            </div>
+
+                            <div className="col-6">
+                                <div className="form-group">
+                                    <p> بارگزاری تاییدیه راهنمایی رانندگی</p>
+                                    <div className="file-upload-div">
+
+                                        <FileUpload
+                                            ref={fileUploadRef_taeidiyeRahnamaeiRanandegi}
+                                            name={'taeidiyeRahnamaeiRanandegi'} id={fields?._id || ''} handleGetBase64={handleGetBase64} />
+
+                                        {fields?.attachFile?.taeidiyeRahnamaeiRanandegi && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('taeidiyeRahnamaeiRanandegi')}></i>}
+                                    </div>
+                                    {validateErrors['attachFile.taeidiyeRahnamaeiRanandegi']?.length > 0 &&
+                                        <>
+                                            <div className='validate'>
+                                                <i className='fa fa-exclamation-triangle'></i>
+                                                <div className='error-msg'> {validateErrors['attachFile.taeidiyeRahnamaeiRanandegi']?.map((error: any) => { return <p>{error}</p> })} </div>
+                                            </div>
+                                        </>
+                                    }
+                                </div>
+                            </div>
+
+                            <div className="col-6">
+                                <div className="form-group">
+                                    <p>بارگزاری استعلام آزمایش خون</p>
+                                    <div className="file-upload-div">
+
+                                        <FileUpload
+                                            ref={fileUploadRef_estelameAzmayesheKhoon}
+                                            name={'estelameAzmayesheKhoon'} id={fields?._id || ''} handleGetBase64={handleGetBase64} />
+
+                                        {fields?.attachFile?.estelameAzmayesheKhoon && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('estelameAzmayesheKhoon')}></i>}
+                                    </div>
+                                    {validateErrors['attachFile.estelameAzmayesheKhoon']?.length > 0 &&
+                                        <>
+                                            <div className='validate'>
+                                                <i className='fa fa-exclamation-triangle'></i>
+                                                <div className='error-msg'> {validateErrors['attachFile.estelameAzmayesheKhoon']?.map((error: any) => { return <p>{error}</p> })} </div>
                                             </div>
                                         </>
                                     }
@@ -763,6 +1015,46 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
                             </div>
 
 
+                            <div className="col-6">
+                                <div className="form-group">
+                                    <p>شماره قرارداد </p>
+                                    <input onChange={(e) => setFields({ ...fields, gharardad_num: e.target.value })} value={fields?.gharardad_num || ''} type="text" className="form-control" />
+                                    {validateErrors?.gharardad_num?.length > 0 &&
+                                        <>
+                                            <div className='validate'>
+                                                <i className='fa fa-exclamation-triangle'></i>
+                                                <div className='error-msg'> {validateErrors?.gharardad_num?.map((error: any) => { return <p>{error}</p> })} </div>
+                                            </div>
+                                        </>
+                                    }
+                                </div>
+                            </div>
+
+                            <div className="col-6">
+                                <div className="form-group">
+                                    <p>تاریخ قرارداد  </p>
+
+                                    <DatePicker
+                                        onChange={(date) => handleChangeGharardad_Date(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
+                                        calendar={persian}
+                                        locale={persian_fa}
+                                        className="datetime-picker"
+                                        inputClass="datetime-input !text-center !text-lg !p-4"
+                                        value={gharardad_DateDatePicker}
+                                        placeholder='تاریخ'
+                                    />
+
+                                    {validateErrors?.gharardad_date?.length > 0 &&
+                                        <>
+                                            <div className='validate'>
+                                                <i className='fa fa-exclamation-triangle'></i>
+                                                <div className='error-msg'> {validateErrors?.gharardad_date?.map((error: any) => { return <p>{error}</p> })} </div>
+                                            </div>
+                                        </>
+                                    }
+                                </div>
+                            </div>
+
                             <div className="col-12">
                                 <div className="form-group">
                                     <button
@@ -779,7 +1071,7 @@ const AganceRegister = ({ handleBackClick, title }: any) => {
                     </>
                 }
             </div>
-        </div>
+        </div >
     );
 };
 

@@ -92,7 +92,7 @@ const AganceProfile = ({ handleBackClick, title }: any) => {
         // { key: 'id', name: 'شناسه' },
         // { key: '', name: '' },
         { key: 'name', name: 'عنوان', img: false },
-        { key: 'date', name: 'تاریخ', type: 'caleadar', key2: 'fromdate' },
+        { key: 'date', name: 'تاریخ', type: 'caleadar', key2: 'fromdate', onlyDate: true },
         // { key: 'shomareParvane', name: ' تاریخ شروع  فعالیت', type: 'caleadar', key2: 'fromdate' },
     ]
 
@@ -106,6 +106,11 @@ const AganceProfile = ({ handleBackClick, title }: any) => {
             customizeAndSetAganceDrivers(result?.data?.data)
         }
     }, [result])
+
+    useEffect(() => {
+       console.log(45,aganceProfile);
+       
+    }, [aganceProfile])
 
 
     useEffect(() => {
@@ -131,11 +136,13 @@ const AganceProfile = ({ handleBackClick, title }: any) => {
 
 
     const customizeAndSetAganceProfile = async (data: any) => {
+        console.log(500, data);
+
         setAganceProfile(() => {
             return data.map((ite: any) => ({
-                ...ite, allActivity: ite.allActivity.map((prev: any) => ({
+                ...ite, allActivity: [...ite.allActivity, ...ite?.driverInfo[0]?.details?.activityArchive].map((prev: any) => ({
                     ...prev,
-                    date: convertGregorianToJalali(prev.date)
+                    date: prev?.date
                 }))
                 // StartActivityDate: convertGregorianToJalali(ite.StartActivityDate),
             }));
@@ -167,8 +174,8 @@ const AganceProfile = ({ handleBackClick, title }: any) => {
         console.log(100, item, type);
 
         if (type === 'view') {
-            console.log(8, item?._id,driverId);
-
+            console.log(4);
+            
             setDriverId(item?._id)
         }
     }
@@ -289,6 +296,7 @@ const AganceProfile = ({ handleBackClick, title }: any) => {
                     </div>
                     <div className="row items">
                         <div className="col-12">
+
                             {aganceProfile[0]?.allActivity &&
 
                                 <DataGrid

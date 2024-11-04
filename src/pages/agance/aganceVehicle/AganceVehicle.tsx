@@ -69,6 +69,7 @@ const Agance_VehicleRules: any = {
     },
     "extra.VIN": {
         required: true,
+        pattern: /^[0-9]{17}$/, // فقط 10 رقم
         showName: ''
     },
     "extra.color": {
@@ -130,7 +131,7 @@ const initialValue: any = {
 
 const AganceVehicle = ({ refresh, disabled, driverID }: any) => {
 
-     console.log(100, driverID);
+    console.log(104480, driverID);
 
     const { authInfo } = useAuthentication();
     const [theadCRUD, setTheadCRUD] = useState<any>('')
@@ -193,9 +194,10 @@ const AganceVehicle = ({ refresh, disabled, driverID }: any) => {
     const objectId = objectIdRef.current
 
     useEffect(() => {
-        console.log(7865678,driverID);
-        
-        setFields({
+        console.log(7865678, driverID);
+
+        !driverID && setFields(initialValue)
+        driverID && setFields({
             ...fields,
             _id: objectId.toString(),
             group: 'نامشخص',
@@ -204,7 +206,7 @@ const AganceVehicle = ({ refresh, disabled, driverID }: any) => {
             extra: { ...fields.extra, driver: { ...fields?.extra?.driver, driver_id: driverID ? driverID : null } },
             services: [{ service: 'taksisroys', capacity: 2 }]
         })
-    }, [objectId,driverID])
+    }, [objectId, driverID])
 
 
 
@@ -342,7 +344,7 @@ const AganceVehicle = ({ refresh, disabled, driverID }: any) => {
 
 
     const handleClick = (type: any) => {
-          console.log(120,type);
+        console.log(120, type);
 
         switch (type) {
             case 'insert':
@@ -426,7 +428,7 @@ const AganceVehicle = ({ refresh, disabled, driverID }: any) => {
     const handle_plaqueChange = (value: any) => {
         // console.log(401, `${value.twoDigit},${value.threeDigit},${value.serial},${value.character}`, value);
 
-        setFields({ ...fields, plaque: `${value.twoDigit},${value.threeDigit},${value.character},${value.serial}` });
+        setFields({ ...fields, plaque: `${value.twoDigit},${value.threeDigit},${value?.character ? value?.character : 'الف'},${value.serial}` });
     };
 
 
@@ -557,15 +559,15 @@ const AganceVehicle = ({ refresh, disabled, driverID }: any) => {
                                 <p>پلاک خودرو   </p>
 
 
-                                 
-                                    <PlaqueInput
-                                        disabled={disabled}
-                                        inputRef={plaqueRef}
-                                        small={true}
-                                        onChange={handle_plaqueChange}
-                                        value={convertStringToPlaque(fields?.plaque ? fields?.plaque : '')}
-                                    />
-                                 
+
+                                <PlaqueInput
+                                    disabled={disabled}
+                                    inputRef={plaqueRef}
+                                    small={true}
+                                    onChange={handle_plaqueChange}
+                                    value={convertStringToPlaque(fields?.plaque ? fields?.plaque : '')}
+                                />
+
                                 {validateErrors['plaque']?.length > 0 &&
                                     <>
                                         <div className='validate'>
@@ -581,12 +583,12 @@ const AganceVehicle = ({ refresh, disabled, driverID }: any) => {
                             <div className="form-group">
                                 <p>تصویر روی کارت خودرو   </p>
                                 <div className="file-upload-div">
-                                     
-                                        <FileUpload
-                                            disabled={disabled}
-                                            ref={fileUploadRef_rooyeCartKhodro}
-                                            name={'rooyeCartKhodro'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
-                                     
+
+                                    <FileUpload
+                                        disabled={disabled}
+                                        ref={fileUploadRef_rooyeCartKhodro}
+                                        name={'rooyeCartKhodro'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
 
                                     {fields?.extra?.attachFile?.rooyeCartKhodro && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('rooyeCartKhodro')}></i>}
                                 </div>
@@ -604,12 +606,12 @@ const AganceVehicle = ({ refresh, disabled, driverID }: any) => {
                             <div className="form-group">
                                 <p>تصویر پشت کارت خودرو   </p>
                                 <div className="file-upload-div">
-                                     
-                                        <FileUpload
-                                            disabled={disabled}
-                                            ref={fileUploadRef_poshtCartKhodro}
-                                            name={'poshtCartKhodro'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
-                                     
+
+                                    <FileUpload
+                                        disabled={disabled}
+                                        ref={fileUploadRef_poshtCartKhodro}
+                                        name={'poshtCartKhodro'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
                                     {fields?.extra?.attachFile?.poshtCartKhodro && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('poshtCartKhodro')}></i>}
                                 </div>
                                 {validateErrors['extra.attachFile.poshtCartKhodro']?.length > 0 &&
@@ -626,12 +628,12 @@ const AganceVehicle = ({ refresh, disabled, driverID }: any) => {
                             <div className="form-group">
                                 <p>تصویر برگ سبز    </p>
                                 <div className="file-upload-div">
-                                     
-                                        <FileUpload
-                                            disabled={disabled}
-                                            ref={fileUploadRef_bargeSabz}
-                                            name={'bargeSabz'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
-                                     
+
+                                    <FileUpload
+                                        disabled={disabled}
+                                        ref={fileUploadRef_bargeSabz}
+                                        name={'bargeSabz'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
                                     {fields?.extra?.attachFile?.bargeSabz && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('bargeSabz')}></i>}
                                 </div>
                                 {validateErrors['extra.attachFile.bargeSabz']?.length > 0 &&
@@ -648,12 +650,12 @@ const AganceVehicle = ({ refresh, disabled, driverID }: any) => {
                             <div className="form-group">
                                 <p>تصویر بیمه   </p>
                                 <div className="file-upload-div">
-                                     
-                                        <FileUpload
-                                            disabled={disabled}
-                                            ref={fileUploadRef_bime}
-                                            name={'bime'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
-                                     
+
+                                    <FileUpload
+                                        disabled={disabled}
+                                        ref={fileUploadRef_bime}
+                                        name={'bime'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
                                     {fields?.extra?.attachFile?.bime && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('bime')}></i>}
                                 </div>
                                 {validateErrors['extra.attachFile.bime']?.length > 0 &&
@@ -670,12 +672,12 @@ const AganceVehicle = ({ refresh, disabled, driverID }: any) => {
                             <div className="form-group">
                                 <p>تصویر معاینه فنی   </p>
                                 <div className="file-upload-div">
-                                     
-                                        <FileUpload
-                                            disabled={disabled}
-                                            ref={fileUploadRef_moayeneFanni}
-                                            name={'moayeneFanni'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
-                                     
+
+                                    <FileUpload
+                                        disabled={disabled}
+                                        ref={fileUploadRef_moayeneFanni}
+                                        name={'moayeneFanni'} id={objectId.toString()} handleGetBase64={handleGetBase64} />
+
                                     {fields?.extra?.attachFile?.moayeneFanni && <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('moayeneFanni')}></i>}
                                 </div>
                                 {validateErrors['extra.attachFile.moayeneFanni']?.length > 0 &&

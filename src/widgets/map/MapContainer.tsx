@@ -208,6 +208,8 @@ const MapContainer = forwardRef<MapRefType, MapContainerProps>((props, ref) => {
     }
 
     function viewCoordinates(lng: number, lat: number, zoom = 12) {
+        console.log(777777,lng,lat,zoom);
+        
         if (!mapRef.current) return;
         const { ol, map } = mapRef.current;
         const view = map.getView();

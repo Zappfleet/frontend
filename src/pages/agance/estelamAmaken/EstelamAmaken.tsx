@@ -19,7 +19,7 @@ const EstelamAmaken = ({ handleBackClick, title }: any) => {
 
     const [htmlFile, sethtmlFile] = useState<any>(null)
     useEffect(() => {
-        fetch('/zarghanFiles/estelameAmaken.htm')
+        fetch('/zarghanFiles/estelameAmaken/estelameAmaken.htm')
             .then(response => response.text())
             .then(data => {
                 sethtmlFile(data)
@@ -179,7 +179,7 @@ const EstelamAmaken = ({ handleBackClick, title }: any) => {
                             const pic = await getBase64WithFileName(driver?.details?.attachFile?.driverPic)
                             // استفاده از setFields برای تنظیم فیلدها
 
-                            console.log(45, pic);
+                         //   console.log(45, pic);
 
                             setFields({
                                 full_name: driver?.full_name || '',

@@ -44,9 +44,10 @@ export default function MissionHistory(props: any = {}) {
     } = useItemSetToggle({ onlyOne: true });
     const screen = useScreen();
 
+
     useEffect(() => {
-        console.log(65678,missions);
-        
+        console.log(65678, missions);
+
         setindexOfLastItem(currentPage * itemsPerPage)
         setindexOfFirstItem((currentPage * itemsPerPage) - itemsPerPage)
         // محاسبه آیتم‌های صفحه فعلی
@@ -55,6 +56,7 @@ export default function MissionHistory(props: any = {}) {
         missions?.data?.length > 0 && setCurrentItems(missions?.data?.slice(indexOfFirstItem, indexOfLastItem))
 
     }, [missions, currentPage])
+
 
     // if (!screen) return <div></div>
 
@@ -121,7 +123,7 @@ export default function MissionHistory(props: any = {}) {
     }
 
 
-
+    console.log('hgjhgjhgjhg100');
     const optionsMission = [{ id: 1, value: 5 }, { id: 2, value: 10 }, { id: 3, value: 15 }]
     const theadMission = [
         // { key: 'id', name: 'شناسه' },
@@ -148,7 +150,9 @@ export default function MissionHistory(props: any = {}) {
 
     return <>
         {!missions?.data && <p>Loading...</p>}
-        {missions?.data &&
+        {console.log(33,!isArray(missions?.data), missions, missions?.data?.length)}
+        {(!isArray(missions?.data) || missions?.data?.length === 0) && <p>موردی برای نمایش وجود ندارد</p>}
+        {isArray(missions?.data) && missions?.data?.length > 0 &&
             <div className="MissionHistory-component">
                 <div className="row">
                     <div className="col-12 have-table">

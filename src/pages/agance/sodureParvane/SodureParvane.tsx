@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './style.scss';
+import '../aganceRegister/style.scss'
 import ObjectId from 'bson-objectid';
 import DatePicker from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
@@ -11,18 +12,86 @@ import { NotificationController } from '../../../lib/notificationController';
 import DataGrid from '../../../components/DataGrid/DataGrid';
 import { MdOutlinePlaylistAddCheckCircle } from 'react-icons/md';
 import useSodureParvane from '../../../hooks/data/Agance/useSodureParvane';
-import { convertEnglishToPersianDigits, convertGregorianToJalali, convertPersianToEnglishDigits, persianDateToGregorian } from '../../../utils/utils';
+import { convertEnglishToPersianDigits, convertGregorianToJalali, convertPersianToEnglishDigits, getBase64WithFileName, persianDateToGregorian } from '../../../utils/utils';
 import { convertDateToISO, jalaliToIso } from '../../../utils/dateTools';
 import useAuthentication from '../../../hooks/data/useAuthentication';
 import * as permitConstant from '../../../lib/constants'
 import Page403 from '../../../components/Page403/Page403';
-import WordProcessor from '../../../components/Exports/WordProcessor/WordProcessor';
-import wordFile_sodureParvaneAgance from '../../../lib/zarghan/sodureParvaneAgance.docx';
-import wordFile_sodureParvaneBar from '../../../lib/zarghan/sodureParvaneBar.docx';
-import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
+import HTMLProcessor from '../../../components/Exports/HTMLProcessor/HTMLProcessor';
+
+import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
+import { useValidateForm } from '../../../utils/validation';
+
+interface SodureParvaneSchame {
+    _id: string,
+    id: string,
+    fishNumber?: string,
+    fishPrice?: string,
+    fishDate?: string,
+    year?: string,
+    fromDate?: string,
+    toDate?: string,
+    aganceID?: string,
+    attachFile?: {
+        fishPic?: string;
+    };
+    aganceInfo: {
+        activityContext?: string,
+        name?: string,
+        managerCodeMelli?: string,
+        gharardad_num?: string,
+        gharardad_date?: string,
+        address: {
+            address?: string
+        },
+        attachFile?: {
+            modirOrmobasherPic?: string;
+        };
+    }
+}
+
+const validationRules: any = {
+    "fishNumber": {
+        required: true,
+        showName: ''
+    },
+    "fishPrice": {
+        required: true,
+        showName: ''
+    },
+    "fishDate": {
+        required: true,
+        showName: ''
+    },
+}
 
 const SodureParvane = ({ handleBackClick, title }: any) => {
+
+
+
+
+    const [htmlFileSodureParvaneAgance, sethtmlFileSodureParvaneAgance] = useState<any>(null)
+    useEffect(() => {
+        fetch('/zarghanFiles/parvaneBarAgance/parvaneAgance.htm')
+            .then(response => response.text())
+            .then(data => {
+                sethtmlFileSodureParvaneAgance(data)
+            })
+            .catch(err => console.error(err));
+    }, []);
+
+    const [htmlFileSodureParvaneBar, sethtmlFileSodureParvaneBar] = useState<any>(null)
+    useEffect(() => {
+        fetch('/zarghanFiles/parvaneBarAgance/parvaneBar.htm')
+            .then(response => response.text())
+            .then(data => {
+                sethtmlFileSodureParvaneBar(data.replace('{{<span class=SpellE>', '{{').replace('</span>}}', '}}'))
+            })
+            .catch(err => console.error(err));
+    }, []);
+
+
     title = 'صدور و تمدید پروانه آژانس'
     const { authInfo } = useAuthentication();
     const [theadCRUD, setTheadCRUD] = useState<any>('')
@@ -69,20 +138,7 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
         }
     }
 
-    interface SodureParvaneSchame {
-        _id: string,
-        id: string,
-        fishNumber?: string,
-        fishPrice?: string,
-        fishDate?: string,
-        year?: string,
-        fromDate?: string,
-        toDate?: string,
-        aganceID?: string,
-        attachFile?: {
-            fishPic?: string;
-        };
-    }
+
 
     // Create a ref to store the ObjectId, ensuring it only gets generated once
     const objectIdRef = useRef(new ObjectId());
@@ -113,9 +169,29 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
         toDate: toDate,
     });
 
+    //validate
+    const { errors: validateErrors, refreshData: validateRefreshData } = useValidateForm(validationRules, fields)
     useEffect(() => {
-        setFields({ ...fields, _id: objectId.toString() })
-    }, [objectId])
+        console.log(100, Object.keys(validateErrors));
+
+    }, [validateErrors])
+
+    const [fieldsForHtml, setFieldsForHtml] = useState<any>(fields)
+    useEffect(() => {
+        setFields({ ...fields, _id: InsertOrUpdate === 'insert' ? objectId?.toString() : fields?._id })
+    }, [objectId, InsertOrUpdate])
+
+    useEffect(() => {
+        console.log(45, fields);
+
+        fields?.aganceInfo && handleShowHtmlFile()
+    }, [fields])
+
+
+    useEffect(() => {
+        console.log(455, fieldsForHtml)
+    }, [fields, fieldsForHtml])
+
 
 
     const options = [{ id: 1, value: 10 }, { id: 2, value: 30 }, { id: 3, value: 50 }]
@@ -137,6 +213,11 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
     const { result, type: respType, state, refreshData } = useSodureParvane(action_name, fields)
 
     useEffect(() => {
+        console.log(21, aganceList);
+
+    }, [aganceList])
+
+    useEffect(() => {
         if (resultAgance?.status)
             setAganceList(resultAgance?.data?.data)
     }, [resultAgance])
@@ -148,6 +229,7 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
                     if (result?.status === 200) {
                         NotificationController.showSuccess(' صدور پروانه ثبت شد')
                         setActionName('select')
+                        setShowSodureParvaneAgance(true)
                     }
                     else {
                         NotificationController.showError('صدور پروانه ثبت نشد')
@@ -174,19 +256,59 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
                 case 'select':
                     setOriginalItems(result?.data?.data)
                     customizeAndSetItems(result?.data?.data)
-                    clearFormInputs()
+                    // clearFormInputs()
                     break;
             }
         }
     }, [result])
+
+
+    const handleShowHtmlFile = async () => {
+        const pic = fields?.aganceInfo?.attachFile?.modirOrmobasherPic && await getBase64WithFileName(fields?.aganceInfo?.attachFile?.modirOrmobasherPic) || ''
+        console.log(4511, pic);
+        if (fields?.aganceInfo && fields?.aganceInfo?.activityContext === 'مسافر') {
+            setFieldsForHtml({
+                name: fields?.aganceInfo?.name || '---',
+                gender: '---',
+                fatherName: '---',
+                b_d: '---',
+                sh_sh: '---',
+                sadere: '---',
+                nat_num: fields?.aganceInfo?.managerCodeMelli || '---',
+                year: fields?.year || '---',
+                factor_num: fields?.aganceInfo?.gharardad_num || '---',
+                factor_date: (fields?.aganceInfo?.gharardad_date && convertGregorianToJalali(fields?.aganceInfo?.gharardad_date)) || '---',
+
+                pic: `<img src='${pic}' width="100px" height='100px'/>` || '---',
+            })
+        }
+        if (fields?.aganceInfo && fields?.aganceInfo?.activityContext === 'بار') {
+            setFieldsForHtml({
+                name: fields?.aganceInfo?.name || '---',
+                gender: '---',
+                fatherName: '---',
+                b_d: '---',
+                sh_sh: '---',
+                sadere: '---',
+                address: fields?.aganceInfo?.address?.address,
+                nat_num: fields?.aganceInfo?.managerCodeMelli || '---',
+                year: fields?.year || '---',
+                factor_num: fields?.aganceInfo?.gharardad_num || '---',
+                factor_date: (fields?.aganceInfo?.gharardad_date && convertGregorianToJalali(fields?.aganceInfo?.gharardad_date)) || '---',
+                pic: `<img src='${pic}' width="100px" height='100px'/>` || '---',
+            })
+        }
+
+
+    }
 
     useEffect(() => {
 
     }, [fishDate, fromDate, toDate])
 
     const customizeAndSetItems = (data: any) => {
-        console.log(23,data,aganceList);
-        
+        console.log(23, data, aganceList);
+
         setItemsList(() => {
             return data.map((ite: any) => ({
                 ...ite,
@@ -341,43 +463,57 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
 
             <div className="row">
                 <div className="col-12">
-                    <button onClick={() => setShowSodureParvaneAgance(true)} className='my-btn'>صدور پروانه آژانس</button>
 
-                    {ShowSodureParvaneAgance === true
-                        && <>
-                             
-                                <WordProcessor autoReadFile={true} wordFile={wordFile_sodureParvaneAgance}
-                                    fields={fields}
-                                />
-                             
+                    <button
+                        disabled={fields?.aganceInfo?.activityContext === 'مسافر' && Object.keys(validateErrors).length === 0 ? false : true}
+                        onClick={() => handleClick(InsertOrUpdate === 'insert' ? 'insert' : 'update')}
+                        className={`my-btn ${fields?.aganceInfo?.activityContext === 'مسافر' && Object.keys(validateErrors).length === 0 ? '' : `my-btn-inactive`}`}
+
+                    >صدور پروانه آژانس</button>
+
+                    {fields?.aganceID && fields?.aganceInfo?.activityContext === 'مسافر' && htmlFileSodureParvaneAgance !== null &&
+                        <>
+                            <HTMLProcessor autoReadFile={true} HTMLFile={htmlFileSodureParvaneAgance}
+                                fields={fieldsForHtml} />
                         </>
                     }
-                    <button onClick={() => setShowSodureParvaneBar(true)} className='my-btn'>صدور پروانه بار</button>
-
-                    {ShowSodureParvaneBar === true
+                    {/* {ShowSodureParvaneAgance === true
                         && <>
-                             
-                                <WordProcessor autoReadFile={true} wordFile={wordFile_sodureParvaneBar}
-                                    fields={fields}
-                                />
-                             
+
+                            <WordProcessor autoReadFile={true} wordFile={wordFile_sodureParvaneAgance}
+                                fields={fields}
+                            />
 
                         </>
+                    } */}
+
+                    <button
+                        disabled={fields?.aganceInfo?.activityContext === 'بار' && Object.keys(validateErrors).length === 0 ? false : true}
+                        onClick={() => handleClick(InsertOrUpdate === 'insert' ? 'insert' : 'update')}
+                        className={`my-btn ${fields?.aganceInfo?.activityContext === 'بار' && Object.keys(validateErrors).length === 0 ? '' : `my-btn-inactive`}`}
+                    >صدور پروانه بار</button>
+
+                    {fields?.aganceID && fields?.aganceInfo?.activityContext === 'بار' && htmlFileSodureParvaneBar !== null &&
+                        <>
+                            <HTMLProcessor autoReadFile={true} HTMLFile={htmlFileSodureParvaneBar}
+                                fields={fieldsForHtml} />
+                        </>
                     }
+                    <button onClick={() => clearFormInputs()} className='my-btn'>خالی کردن فرم</button>
                 </div>
             </div>
 
             <div style={{ display: `${selectedTab === 'list' ? '' : 'none'}` }} className="row">
                 <div className="col-12">
-                     
-                        <DataGrid
-                            clickOnRow={clickOnRowDataGrid}
-                            pagesize={options[0].value}
-                            items={ItemsList}
-                            options={options}
-                            thead={thead}
-                        />
-                     
+
+                    <DataGrid
+                        clickOnRow={clickOnRowDataGrid}
+                        pagesize={options[0].value}
+                        items={ItemsList}
+                        options={options}
+                        thead={thead}
+                    />
+
 
                 </div>
             </div>
@@ -394,6 +530,15 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
                                     <p>شماره فیش واریزی </p>
                                     <input onChange={(e) => setFields({ ...fields, fishNumber: e.target.value })}
                                         value={fields?.fishNumber || ''} type="text" className="form-control" />
+
+                                    {validateErrors['fishNumber']?.length > 0 &&
+                                        <>
+                                            <div className='validate'>
+                                                <i className='fa fa-exclamation-triangle'></i>
+                                                <div className='error-msg'> {validateErrors['fishNumber']?.map((error: any) => { return <p>{error}</p> })} </div>
+                                            </div>
+                                        </>
+                                    }
                                 </div>
                             </div>
 
@@ -402,23 +547,39 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
                                     <p> مبلغ (ریال)</p>
                                     <input onChange={(e) => setFields({ ...fields, fishPrice: e.target.value.replace(/,/g, '') })}
                                         value={fields?.fishPrice?.replace(/\B(?=(\d{3})+(?!\d))/g, ",") || ''} type="text" className="form-control" />
+                                    {validateErrors['fishPrice']?.length > 0 &&
+                                        <>
+                                            <div className='validate'>
+                                                <i className='fa fa-exclamation-triangle'></i>
+                                                <div className='error-msg'> {validateErrors['fishPrice']?.map((error: any) => { return <p>{error}</p> })} </div>
+                                            </div>
+                                        </>
+                                    }
                                 </div>
                             </div>
 
                             <div className="col-6">
                                 <div className="form-group">
                                     <p>تاریخ   </p>
-                                     
-                                        <DatePicker
-                                            onChange={(date) => handleChangefishDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
-                                            calendar={persian}
-                                            locale={persian_fa}
-                                            className="datetime-picker"
-                                            inputClass="datetime-input !text-center !text-lg !p-4"
-                                            value={fishDateDatePicker}
-                                            placeholder='از تاریخ'
-                                        />
-                                     
+
+
+                                    <DatePicker
+                                        onChange={(date) => handleChangefishDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
+                                        calendar={persian}
+                                        locale={persian_fa}
+                                        className="datetime-picker"
+                                        inputClass="datetime-input !text-center !text-lg !p-4"
+                                        value={fishDateDatePicker}
+                                        placeholder='از تاریخ'
+                                    />
+                                    {validateErrors['fishDateDatePicker']?.length > 0 &&
+                                        <>
+                                            <div className='validate'>
+                                                <i className='fa fa-exclamation-triangle'></i>
+                                                <div className='error-msg'> {validateErrors['fishDateDatePicker']?.map((error: any) => { return <p>{error}</p> })} </div>
+                                            </div>
+                                        </>
+                                    }
 
                                 </div>
                             </div>
@@ -428,13 +589,13 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p> تصویر فیش   </p>
                                     <div className="file-upload-div">
-                                         
-                                            <FileUpload
-                                                ref={fileUploadRef_fishPic}
-                                                name={'fishPic'}
-                                                id={objectId.toString()}
-                                                handleGetBase64={handleGetBase64} />
-                                         
+
+                                        <FileUpload
+                                            ref={fileUploadRef_fishPic}
+                                            name={'fishPic'}
+                                            id={fields?._id || ''}
+                                            handleGetBase64={handleGetBase64} />
+
 
 
                                         {fields?.attachFile?.fishPic &&
@@ -449,7 +610,14 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
                                     <span>صدور پروانه نمایندگی آژانس   </span>
 
                                     <select
-                                        onChange={(e) => setFields({ ...fields, aganceID: e.target.value })}
+                                        onChange={(e) => {
+                                            setFields({
+                                                ...fields, aganceID: e.target.value,
+                                                aganceInfo: aganceList
+                                                    ?.filter((item: any) => item._id === e.target.value)[0]
+                                            });
+                                        }
+                                        }
                                         className='form-control' value={fields?.aganceID || '-1'}>
                                         {aganceList
                                             ?.filter((item: any) => item.status === '1') // فیلتر کردن آیتم‌هایی که مقدار status آنها 1 است
@@ -463,40 +631,40 @@ const SodureParvane = ({ handleBackClick, title }: any) => {
 
                                     از تاریخ
 
-                                     
-                                        <DatePicker
-                                            onChange={(date) => handleChangefromDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
-                                            calendar={persian}
-                                            locale={persian_fa}
-                                            className="datetime-picker"
-                                            inputClass="datetime-input !text-center !text-lg !p-4"
-                                            value={fromDateDatePicker}
-                                            placeholder='از تاریخ'
-                                        />
-                                     
+
+                                    <DatePicker
+                                        onChange={(date) => handleChangefromDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
+                                        calendar={persian}
+                                        locale={persian_fa}
+                                        className="datetime-picker"
+                                        inputClass="datetime-input !text-center !text-lg !p-4"
+                                        value={fromDateDatePicker}
+                                        placeholder='از تاریخ'
+                                    />
+
                                     الی
-                                     
-                                        <DatePicker
-                                            onChange={(date) => handleChangetoDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
-                                            calendar={persian}
-                                            locale={persian_fa}
-                                            className="datetime-picker"
-                                            inputClass="datetime-input !text-center !text-lg !p-4"
-                                            value={toDateDatePicker}
-                                            placeholder='تا تاریخ'
-                                        />
-                                     
+
+                                    <DatePicker
+                                        onChange={(date) => handleChangetoDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
+                                        calendar={persian}
+                                        locale={persian_fa}
+                                        className="datetime-picker"
+                                        inputClass="datetime-input !text-center !text-lg !p-4"
+                                        value={toDateDatePicker}
+                                        placeholder='تا تاریخ'
+                                    />
+
                                     بلامانع است.
                                 </div>
                             </div>
 
-                            <div className="col-12">
+                            {/* <div className="col-12">
                                 <div className="form-group">
                                     <button onClick={() => handleClick(InsertOrUpdate === 'insert' ? 'insert' : 'update')} className='my-btn'>
                                         {InsertOrUpdate === 'insert' ? 'ثبت' : 'بروز رسانی'}</button>
                                     <button onClick={() => clearFormInputs()} className='my-btn'>انصراف</button>
                                 </div>
-                            </div>
+                            </div> */}
 
                         </div>
                     </>

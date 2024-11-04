@@ -10,16 +10,17 @@ import useAganceCarteSalahiyat from '../../../hooks/data/Agance/useCarteSalahiya
 import { NotificationController } from '../../../lib/notificationController';
 import DataGrid from '../../../components/DataGrid/DataGrid';
 import { MdOutlinePlaylistAddCheckCircle } from 'react-icons/md';
-import { convertEnglishToPersianDigits, convertGregorianToJalali, persianDateToGregorian } from '../../../utils/utils';
+import { convertEnglishToPersianDigits, convertGregorianToJalali, getBase64WithFileName, persianDateToGregorian } from '../../../utils/utils';
 import { convertDateToISO } from '../../../utils/dateTools';
 import useAganceDriver from '../../../hooks/data/Agance/useAganceDriver';
-import WordProcessor from '../../../components/Exports/WordProcessor/WordProcessor';
 import wordFile from '../../../lib/zarghan/carteSalahiyat.docx';
 import { useValidateForm } from '../../../utils/validation';
 import useAuthentication from '../../../hooks/data/useAuthentication';
 import * as permitConstant from '../../../lib/constants'
 import Page403 from '../../../components/Page403/Page403';
 import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
+import HTMLProcessor from '../../../components/Exports/HTMLProcessor/HTMLProcessor';
+
 
 interface carte_salahiyat {
     _id: string,
@@ -41,7 +42,7 @@ interface carte_salahiyat {
     toDate?: string
     etebarHistory?: [
         { status?: string, year?: string, fromDate?: string, toDate?: string }
-    ]
+    ],
 }
 const validationRules: any = {
     fishNumber: {
@@ -50,7 +51,6 @@ const validationRules: any = {
     },
     fishPrice: {
         required: true,
-        min: 100,
         showName: 'مبلغ فیش'
     },
     fishDate: {
@@ -90,6 +90,20 @@ const initialValue = {
     attachFile: undefined
 }
 const CardSalahiyat = ({ handleBackClick, title }: any) => {
+
+    const [selectedDriver, setSelectedDriver] = useState<any>(null)
+    const [fieldsForHtml, setFieldsForHtml] = useState<any>({})
+    const [htmlFile, sethtmlFile] = useState<any>(null)
+    useEffect(() => {
+        handleHtmlFields()
+        fetch('/zarghanFiles/carteSalahiyat/carteSalahiyat.htm')
+            .then(response => response.text())
+            .then(data => {
+                sethtmlFile(data)
+            })
+            .catch(err => console.error(err));
+    }, []);
+
     title = 'صدور کارت صلاحیت'
 
     const [ShowSodurecartSalahiyat, setShowSodurecartSalahiyat] = useState<boolean>(false)
@@ -143,9 +157,7 @@ const CardSalahiyat = ({ handleBackClick, title }: any) => {
     // Extract the ObjectId from the ref
     const objectId = objectIdRef.current;
 
-    useEffect(() => {
-        setFields({ ...fields, _id: objectId.toString() })
-    }, [objectId])
+
 
 
     const [showAttchImage, setShowAttchImage] = useState<any>(false)
@@ -165,6 +177,9 @@ const CardSalahiyat = ({ handleBackClick, title }: any) => {
     const [imagesBase64, setImagesBase64] = useState<any>({});
     const [fields, setFields] = useState<Partial<carte_salahiyat>>(initialValue);
 
+    useEffect(() => {
+        setFields({ ...fields, _id: InsertOrUpdate === 'insert' ? objectId?.toString() : fields?._id })
+    }, [objectId, InsertOrUpdate])
 
     const options = [{ id: 1, value: 10 }, { id: 2, value: 30 }, { id: 3, value: 50 }]
     const thead = [
@@ -358,6 +373,34 @@ const CardSalahiyat = ({ handleBackClick, title }: any) => {
     }
 
     useEffect(() => {
+        console.log(75,selectedDriver);
+        
+        handleHtmlFields()
+    }, [selectedDriver])
+
+
+    useEffect(() => {
+    }, [fieldsForHtml])
+
+    const handleHtmlFields = async () => {
+
+        console.log(10, selectedDriver);
+
+        const pic = await getBase64WithFileName(selectedDriver?.details?.attachFile?.driverPic)
+
+        setFieldsForHtml({
+            pic: `<img src='${pic}' width="100px" height='100px'/>` || '---',
+            full_name: selectedDriver?.full_name || '---',
+            father_name: selectedDriver?.details?.fatherName || '---',
+            nat_num: selectedDriver?.details?.nat_num || '---',
+            plak: (selectedDriver?.vehicles && selectedDriver?.vehicles[0]?.plaque) || '---',
+            parvane_type: (selectedDriver?.details?.activityContext && selectedDriver?.details?.activityContext[0]) || '---',
+            shomare_parvane: selectedDriver?.details?.shomareParvane || '---',
+            expire_date: convertGregorianToJalali(selectedDriver?.toDate) || '---',
+        })
+    }
+
+    useEffect(() => {
     }, [fields])
 
 
@@ -376,7 +419,7 @@ const CardSalahiyat = ({ handleBackClick, title }: any) => {
 
     return (
 
-        <div className='agance-component'>
+        <div className='agance-component carteSlahiyat-component'>
             {handleBackClick && <i className='fa fa-arrow-left back-icon' onClick={handleBackClick}></i>}
 
             {/* {showAlert && <div className="myalert">
@@ -414,11 +457,10 @@ const CardSalahiyat = ({ handleBackClick, title }: any) => {
 
                     {ShowSodurecartSalahiyat === true
                         && <>
-                             
-                                <WordProcessor autoReadFile={true} wordFile={wordFile}
-                                    fields={fields}
-                                />
-                             
+
+                            <HTMLProcessor autoReadFile={true} HTMLFile={htmlFile}
+                                fields={fieldsForHtml} />
+
                         </>
                     }
                 </div>
@@ -428,15 +470,15 @@ const CardSalahiyat = ({ handleBackClick, title }: any) => {
             <div style={{ display: `${selectedTab === 'list' ? '' : 'none'}` }} className="row">
                 <div className="col-12">
                     {ItemsList?.length > 0 &&
-                         
-                            <DataGrid
-                                clickOnRow={clickOnRowDataGrid}
-                                pagesize={options[0].value}
-                                items={ItemsList}
-                                options={options}
-                                thead={thead}
-                            />
-                         
+
+                        <DataGrid
+                            clickOnRow={clickOnRowDataGrid}
+                            pagesize={options[0].value}
+                            items={ItemsList}
+                            options={options}
+                            thead={thead}
+                        />
+
                     }
                     {ItemsList?.length <= 0 && <p style={{ marginTop: '40px' }}> {'موردی برای نمایش وجود ندارد'}</p>}
                 </div>
@@ -451,11 +493,10 @@ const CardSalahiyat = ({ handleBackClick, title }: any) => {
                         {InsertOrUpdate === 'update'
                             && <>
                                 <button onClick={() => { clearFormInputs(); setInsertOrUpdate('insert') }} className='my-btn'>{title}</button>
-                                 
-                                    <WordProcessor autoReadFile={true} wordFile={wordFile}
-                                        fields={{ nat_num: fields?.driverNatNum }}
-                                    />
-                                 
+
+                                <HTMLProcessor autoReadFile={true} HTMLFile={htmlFile}
+                                    fields={fieldsForHtml} />
+
                             </>
                         }
                         <div className="row">
@@ -493,17 +534,17 @@ const CardSalahiyat = ({ handleBackClick, title }: any) => {
                             <div className="col-6">
                                 <div className="form-group">
                                     <p>   تاریخ فیش</p>
-                                     
-                                        <DatePicker
-                                            onChange={(date) => handleChangeFishDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
-                                            calendar={persian}
-                                            locale={persian_fa}
-                                            className="datetime-picker"
-                                            inputClass="datetime-input !text-center !text-lg !p-4"
-                                            value={fishDateDatePicker}
-                                            placeholder={convertEnglishToPersianDigits(moment(new Date()).format('jYYYY/jMM/jDD'))}
-                                        />
-                                     
+
+                                    <DatePicker
+                                        onChange={(date) => handleChangeFishDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
+                                        calendar={persian}
+                                        locale={persian_fa}
+                                        className="datetime-picker"
+                                        inputClass="datetime-input !text-center !text-lg !p-4"
+                                        value={fishDateDatePicker}
+                                        placeholder={convertEnglishToPersianDigits(moment(new Date()).format('jYYYY/jMM/jDD'))}
+                                    />
+
 
                                     {validateErrors?.fishDate?.length > 0 &&
                                         <>
@@ -521,13 +562,13 @@ const CardSalahiyat = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p>بارگزاری تصویر فیش   </p>
                                     <div className="file-upload-div">
-                                         
-                                            <FileUpload
-                                                ref={fileUploadRef_fishPic}
-                                                name={'fishPic'}
-                                                id={objectId.toString()}
-                                                handleGetBase64={handleGetBase64} />
-                                         
+
+                                        <FileUpload
+                                            ref={fileUploadRef_fishPic}
+                                            name={'fishPic'}
+                                            id={fields?._id || ''}
+                                            handleGetBase64={handleGetBase64} />
+
                                         {fields?.attachFile?.fishPic &&
                                             <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('fishPic')}></i>}
                                     </div>
@@ -538,13 +579,13 @@ const CardSalahiyat = ({ handleBackClick, title }: any) => {
                                 <div className="form-group">
                                     <p>   تصویر درخواست تمدید یا معرفی نامه محل فعالیت   </p>
                                     <div className="file-upload-div">
-                                         
-                                            <FileUpload
-                                                ref={fileUploadRef_moarrefiNameMahaleFaaliyat}
-                                                name={'moarrefiNameMahaleFaaliyat'}
-                                                id={objectId.toString()}
-                                                handleGetBase64={handleGetBase64} />
-                                         
+
+                                        <FileUpload
+                                            ref={fileUploadRef_moarrefiNameMahaleFaaliyat}
+                                            name={'moarrefiNameMahaleFaaliyat'}
+                                            id={fields?._id || ''}
+                                            handleGetBase64={handleGetBase64} />
+
                                         {fields?.attachFile?.moarrefiNameMahaleFaaliyat &&
                                             <i className='fa fa-eye my-eye-icon' onClick={() => showAttachImage('moarrefiNameMahaleFaaliyat')}></i>}
                                     </div>
@@ -564,7 +605,11 @@ const CardSalahiyat = ({ handleBackClick, title }: any) => {
                                     <span>صدور کارت صلاحیت راننده به کد ملی </span>
 
                                     <select onChange={(e) => {
+
+
                                         const driver = aganceDriversList.filter((ite: any) => ite?.details?.nat_num === e.target.value && ite?.details?.nat_num !== null && ite?.details?.nat_num !== undefined)[0]
+                                        driver && setSelectedDriver(driver)
+
                                         setFields({
                                             ...fields, driverNatNum: e.target.value,
                                             shomareParvane: driver?.details?.shomareParvane,
@@ -588,30 +633,30 @@ const CardSalahiyat = ({ handleBackClick, title }: any) => {
                                     <input onChange={(e) => setFields({ ...fields, year: e.target.value })} value={fields?.year || ''} type="text" className="form-control" />
 
                                     از تاریخ
-                                     
-                                        <DatePicker
-                                            onChange={(date) => handleChangeFromDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
-                                            calendar={persian}
-                                            locale={persian_fa}
-                                            className="datetime-picker"
-                                            inputClass="datetime-input !text-center !text-lg !p-4"
-                                            value={fromDateDatePicker}
-                                            placeholder=' تاریخ'
-                                        />
-                                     
+
+                                    <DatePicker
+                                        onChange={(date) => handleChangeFromDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
+                                        calendar={persian}
+                                        locale={persian_fa}
+                                        className="datetime-picker"
+                                        inputClass="datetime-input !text-center !text-lg !p-4"
+                                        value={fromDateDatePicker}
+                                        placeholder=' تاریخ'
+                                    />
+
 
                                     الی
-                                     
-                                        <DatePicker
-                                            onChange={(date) => handleChangeToDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
-                                            calendar={persian}
-                                            locale={persian_fa}
-                                            className="datetime-picker"
-                                            inputClass="datetime-input !text-center !text-lg !p-4"
-                                            value={toDateDatePicker}
-                                            placeholder=' تاریخ'
-                                        />
-                                     
+
+                                    <DatePicker
+                                        onChange={(date) => handleChangeToDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
+                                        calendar={persian}
+                                        locale={persian_fa}
+                                        className="datetime-picker"
+                                        inputClass="datetime-input !text-center !text-lg !p-4"
+                                        value={toDateDatePicker}
+                                        placeholder=' تاریخ'
+                                    />
+
                                     بلامانع است.
                                 </div>
                             </div>
