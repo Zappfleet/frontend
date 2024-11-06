@@ -30,7 +30,7 @@ export default function CountOfServicesOfDrivers({ handleBackClick, title }: any
 
     const [fromDate, setFromDate] = useState<any>(moment(new Date()).format('jYYYY/jMM/jDD'));
     const [toDate, setToDate] = useState<any>(moment(new Date()).format('jYYYY/jMM/jDD'));
-    const { missionList, state, refreshData } = useReportCountOfServices("DONE", persianDateToGregorian(fromDate), persianDateToGregorian(toDate),'All');
+    const { missionList, state, refreshData } = useReportCountOfServices("DONE", persianDateToGregorian(fromDate), persianDateToGregorian(toDate), 'All');
 
 
     let TotalCount = ''
@@ -116,7 +116,7 @@ export default function CountOfServicesOfDrivers({ handleBackClick, title }: any
                 countOfServices: (item.countOfServices).toString()
             }
 
-            k.push(record)
+            item?.name && k.push(record)
         })
         //  console.log(500, items, items.slice(0, 2));
         setItems(k)
@@ -146,34 +146,34 @@ export default function CountOfServicesOfDrivers({ handleBackClick, title }: any
                                     <div className="col-12 col-md-3">
                                         از تاریخ
 
-                                         
-                                            <DatePicker
-                                                onChange={(date) => handleChangeDatePickerFromDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
-                                                calendar={persian}
-                                                locale={persian_fa}
-                                                className="datetime-picker"
-                                                inputClass="datetime-input !text-center !text-lg !p-4"
-                                                value={fromDateDatePicker}
-                                                placeholder='از تاریخ'
-                                            />
-                                         
+
+                                        <DatePicker
+                                            onChange={(date) => handleChangeDatePickerFromDate(date !== null ? (Array.isArray(date) ? date[0] : date) : null)}
+                                            calendar={persian}
+                                            locale={persian_fa}
+                                            className="datetime-picker"
+                                            inputClass="datetime-input !text-center !text-lg !p-4"
+                                            value={fromDateDatePicker}
+                                            placeholder='از تاریخ'
+                                        />
+
 
 
                                         {/* <input type="text" className="form-control" id="fromdate" placeholder='از تاریخ' /> */}
                                     </div>
                                     <div className="col-12 col-md-3">
                                         تا تاریخ
-                                         
-                                            <DatePicker
-                                                onChange={handleChangeDatePickerTodate}
-                                                calendar={persian}
-                                                locale={persian_fa}
-                                                className="datetime-picker"
-                                                inputClass="datetime-input !text-center !text-lg !p-4"
-                                                value={toDateDatePicker}
-                                                placeholder='تا تاریخ'
-                                            />
-                                         
+
+                                        <DatePicker
+                                            onChange={handleChangeDatePickerTodate}
+                                            calendar={persian}
+                                            locale={persian_fa}
+                                            className="datetime-picker"
+                                            inputClass="datetime-input !text-center !text-lg !p-4"
+                                            value={toDateDatePicker}
+                                            placeholder='تا تاریخ'
+                                        />
+
 
                                     </div>
                                     <div className="col-12 col-md-3">
@@ -204,14 +204,14 @@ export default function CountOfServicesOfDrivers({ handleBackClick, title }: any
                                         <p> موردی برای نمایش وجود ندارد</p>
                                     }
                                     {searchIsClecked === true && items.length > 0 &&
-                                         
-                                            <DataGrid
-                                                pagesize={options[0].value}
-                                                items={items}
-                                                options={options}
-                                                thead={thead}
-                                            />
-                                         
+
+                                        <DataGrid
+                                            pagesize={options[0].value}
+                                            items={items}
+                                            options={options}
+                                            thead={thead}
+                                        />
+
 
                                     }
                                 </div>

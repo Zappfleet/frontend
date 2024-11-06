@@ -75,45 +75,35 @@ const Dashboard = () => {
         </div>
 
         <div className="row">
-          <div className="col-5">
-            <div className="row">
-              <div className="col-12">
-
-                <ErrorBoundary>   <DispatureReport count={5} handleShowMore={handleShowMore} /></ErrorBoundary>
-
-
-              </div>
-              <div className="col-12">
-
-                <ErrorBoundary>   <DarkhasthayeTafkikShode /></ErrorBoundary>
-
-
-              </div>
-            </div>
-          </div>
-          <div className="col-7">
-            <div className="col-12">
-
-              <ErrorBoundary> <ReportDriverTrips /></ErrorBoundary>
-
-            </div>
+          <div className="col-12">
+            <ErrorBoundary>   <DispatureReport count={10} handleShowMore={handleShowMore} /></ErrorBoundary>
           </div>
         </div>
-
 
         <div className="row">
           <div className="col-12">
-
-            <ErrorBoundary>  <MonthRequest /></ErrorBoundary>
-
-
+            <ErrorBoundary>   <DarkhasthayeTafkikShode /></ErrorBoundary>
           </div>
         </div>
 
-      </div>
+        <div className="row">
+          <div className="col-12">
+            <ErrorBoundary> <ReportDriverTrips /></ErrorBoundary>
+          </div>
+        </div >
+
+        <div className="row">
+          <div className="col-12">
+            <ErrorBoundary>  <MonthRequest /></ErrorBoundary>
+          </div>
+        </div>
+
+      </div >
     }
-    {role === true && import.meta.env.VITE_SHOW_DASHBOARD === 'false' &&
-      <p>خوش آمدید</p>}
+    {
+      role === true && import.meta.env.VITE_SHOW_DASHBOARD === 'false' &&
+      <p>خوش آمدید</p>
+    }
   </>
 };
 

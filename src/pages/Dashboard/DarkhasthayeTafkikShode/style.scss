@@ -1,7 +1,7 @@
 .DarkhasthayeTafkikShode-component {
     background-color: white;
     margin-bottom: 30px;
-padding: 15px;
+    padding: 15px;
     border-radius: 5px;
 
     .list {
@@ -19,7 +19,7 @@ padding: 15px;
 
         .active {
             background-color: #EEEFF1;
-            border:1px solid #EEEFF1;
+            border: 1px solid #EEEFF1;
         }
     }
 
@@ -34,7 +34,7 @@ padding: 15px;
     }
 
     .piechart {
-        width: 300px;
+        width: 100%;
         height: 300px;
     }
 }

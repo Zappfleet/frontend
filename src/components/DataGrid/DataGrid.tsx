@@ -17,7 +17,7 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary.js';
 
 const DataGrid = (props: any) => {
 
-      console.log(66666666, props.items);
+     // console.log(66666666, props.items);
 
     const [currentPage, setcurrentPage] = useState(1)
     const [pagesize, setpagesize] = useState(10)//props.pagesize)
@@ -86,9 +86,9 @@ const DataGrid = (props: any) => {
     };
 
 
-    const showThead = props.thead.map((item: any) => {
-        return item.key === '' ? <th></th> :
-            <th>
+    const showThead = props.thead.map((item: any,index:any) => {
+        return item.key === '' ? <th  key={index}></th> :
+            <th key={index}>
                 <div className={`tr-thead`} >
                     {item.name}
                     <a onMouseDown={(e) => { setcountForSort(countForSort + 1); handleSort(e, item.key, countForSort) }}><i className='fa fa-sort sort-i'></i></a>
@@ -248,16 +248,16 @@ const DataGrid = (props: any) => {
     }, [filterCriteria, searchGrid])
 
     const handleHeaderSearch = async (value: any, headerKey: any) => {
+        setcurrentPage(1)
         setCopyItems(props.items)
         //  e.preventDefault()
         //  e.stopPropagation()
-        console.log(45200, filterCriteria, props.items);
         setFilterCriteria({
             ...filterCriteria,
             [headerKey]: value,
         });
 
-        console.log(453, filterCriteria);
+       // console.log(453, filterCriteria);
 
         setFlag(true)
         setChangeFlag(!changeFlag)

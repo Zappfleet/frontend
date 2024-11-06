@@ -45,7 +45,17 @@ const AmarRequest = () => {
             //  console.log(78, statusMap[item.status]);
             return {
                 ...item,
-                Fr_status: statusMap[item.status] || item.status,  // جایگزینی مقدار status
+                mosafer: item?.created_by || item?.details?.userlist?.full_name || item?.submitted_by?.full_name || '---',
+                driver: item?.driverName || '---',
+                dispature: item?.dispature || '---',
+                confirmedBy: item?.confirmed_by?.full_name || null,
+                rejectedBy: item?.rejected_by?.full_name || null,
+                Fr_status: statusMap[item.status] || (item?.status === 'DRAFT' && 'پیش نویس') || (item?.status === 'READY' && 'آماده سفر') || item.status,  // جایگزینی مقدار status
+                fromPlace: (item?.locations[0] && item?.locations[0]?.meta?.address && item?.locations[0]?.meta?.address) ||
+                    (item?.locations[0] && item?.locations[0]?.meta?.adr && item?.locations[0]?.meta?.adr) || '---',
+                toPlace: (item?.locations?.length > 1 && item?.locations[item?.locations?.length - 1]?.meta?.address && item?.locations[item?.locations?.length - 1]?.meta?.address) ||
+                    (item?.locations?.length > 1 && item?.locations[item?.locations?.length - 1]?.meta?.adr && item?.locations[item?.locations?.length - 1]?.meta?.adr) || '---',
+                date: item?.mission_date || item?.request?.gmt_for_date || item?.gmt_for_date || '---',
             };
         });
 
@@ -61,10 +71,13 @@ const AmarRequest = () => {
 
     const [showDivDetailsRequest, setShowDivDetailsRequest] = useState<boolean>(false)
     const [reportsDetails, setReportsDetails] = useState<any>()
+    const [reportNum, setReportNum] = useState<any>(null)
+
     const showRequest = (report: any) => {
         console.log(21, report);
 
         const result = updatedArr(report?.result)
+        setReportNum(report.reportNum)
         setReportsDetails(result)
         setShowDivDetailsRequest(true)
     }
@@ -75,12 +88,12 @@ const AmarRequest = () => {
         { type: 'request', result: undefined, reportNum: 9, title: "درخواست ثبت شده", icon: 'icon3 fas fa-user-check' },
         { type: 'request', result: undefined, reportNum: 1, title: 'درخواست در انتظار', icon: 'icon3 fas fa-exchange-alt' },
 
-        // { type: 'request', result: [], reportNum: 2, title: 'درخواست رد شده', icon: 'icon2 fas fa-user-times' },
+        { type: 'request', result: [], reportNum: 2, title: 'درخواست رد شده', icon: 'icon2 fas fa-user-times' },
         { type: 'request', result: undefined, reportNum: 16, title: 'درخواست رد شده - مدیر پروژه', icon: 'icon2 fas fa-user-times' },
         { type: 'request', result: undefined, reportNum: 12, title: 'درخواست رد شده - توزیع کننده', icon: 'icon2 fas fa-user-times' },
         { type: 'request', result: undefined, reportNum: 13, title: 'درخواست رد شده - مدیر سیستم', icon: 'icon2 fas fa-user-times' },
 
-        // { type: 'request', result: [], reportNum: 3, title: 'درخواست تایید شده ', icon: 'icon1 fas fa-file-edit' },
+        { type: 'request', result: [], reportNum: 3, title: 'درخواست تایید شده ', icon: 'icon1 fas fa-file-edit' },
         { type: 'request', result: undefined, reportNum: 17, title: 'درخواست تایید شده - مدیر پروژه', icon: 'icon1 fas fa-file-edit' },
         { type: 'request', result: undefined, reportNum: 14, title: 'درخواست تایید شده - توزیع کننده ', icon: 'icon1 fas fa-file-edit' },
         { type: 'request', result: undefined, reportNum: 15, title: 'درخواست تایید شده - مدیر سیستم', icon: 'icon1 fas fa-file-edit' },
@@ -90,7 +103,7 @@ const AmarRequest = () => {
         { type: 'request', result: undefined, reportNum: 7, title: "(درخواست/سفر) در مسیر", icon: 'icon1 fas fa-road' },
         { type: 'request', result: undefined, reportNum: 8, title: "(درخواست/سفر) انجام شده", icon: 'icon1 fas fa-check-circle' },
 
-        { type: 'request', result: undefined, reportNum: 10, title: "درخواست لغو شده", icon: 'icon2 fas fa-user-times' },
+        { type: 'request', result: undefined, reportNum: 10, title: " درخواست لغو شده توسط کاربر", icon: 'icon2 fas fa-user-times' },
         // { type: 'request', result: [], reportNum: 4, title: "درخواست دیده شده - توزیع کننده", icon: 'icon4 fas fa-eye' },
         // { type: 'request', result: [], reportNum: 5, title: "درخواست دیده شده - مدیر پروژه", icon: 'icon4 fas fa-eye' },
 
@@ -130,11 +143,11 @@ const AmarRequest = () => {
 
                         //let moderProjects = userList?.roles?.includes(roleId?._id);
                         //let moderProjectsIds = moderProjects?.map((r: any) => r._id);
-                        console.log(58554111, roleId, moderProjects, moderProjectsIds);
+                        //   console.log(58554111, roleId, moderProjects, moderProjectsIds);
 
                         requestFilter = requests?.filter((r: any) => {
                             if (r.status === 'REJECT' && r.rejected_by &&
-                                moderProjectsIds?.includes(r.rejected_by)) {
+                                moderProjectsIds?.includes(r.rejected_by?._id)) {
                                 return true
                             }
                             return false
@@ -146,6 +159,8 @@ const AmarRequest = () => {
                 case 13:
                     //  console.log(58554111, userRoles, userList);
                     roleId = userRoles?.roles?.filter((r: any) => r.title === DB_ROLE_ADMIN_TITLE)
+                    console.log(44, roleId);
+
                     // بررسی اینکه آیا هر کاربر در userList نقش 'مدیر سیستم' را دارد
                     if (roleId && roleId[0]) {
 
@@ -159,11 +174,11 @@ const AmarRequest = () => {
 
                         //let moderProjects = userList?.roles?.includes(roleId?._id);
                         //let moderProjectsIds = moderProjects?.map((r: any) => r._id);
-                        console.log(58554111, roleId, moderProjects, moderProjectsIds);
+                        // console.log(58554111, roleId, moderProjects, moderProjectsIds);
 
                         requestFilter = requests?.filter((r: any) => {
                             if (r.status === 'REJECT' && r.rejected_by &&
-                                moderProjectsIds?.includes(r.rejected_by)) {
+                                moderProjectsIds?.includes(r.rejected_by?._id)) {
                                 return true
                             }
                             return false
@@ -188,11 +203,11 @@ const AmarRequest = () => {
 
                         //let moderProjects = userList?.roles?.includes(roleId?._id);
                         //let moderProjectsIds = moderProjects?.map((r: any) => r._id);
-                        console.log(58554111, roleId, moderProjects, moderProjectsIds);
+                        //  console.log(58554111, roleId, moderProjects, moderProjectsIds);
 
                         requestFilter = requests?.filter((r: any) => {
                             if (r.status === 'REJECT' && r.rejected_by &&
-                                moderProjectsIds?.includes(r.rejected_by)) {
+                                moderProjectsIds?.includes(r.rejected_by?._id)) {
                                 return true
                             }
                             return false
@@ -223,11 +238,11 @@ const AmarRequest = () => {
 
                         //let moderProjects = userList?.roles?.includes(roleId?._id);
                         //let moderProjectsIds = moderProjects?.map((r: any) => r._id);
-                        console.log(58554111, roleId, moderProjects, moderProjectsIds);
+                        //  console.log(58554111, roleId, moderProjects, moderProjectsIds);
 
                         requestFilter = requests?.filter((r: any) => {
                             if (r.status === 'CONFIRM' && r.confirmed_by &&
-                                moderProjectsIds?.includes(r.confirmed_by)) {
+                                moderProjectsIds?.includes(r.confirmed_by?._id)) {
                                 return true
                             }
                             return false
@@ -252,11 +267,11 @@ const AmarRequest = () => {
 
                         //let moderProjects = userList?.roles?.includes(roleId?._id);
                         //let moderProjectsIds = moderProjects?.map((r: any) => r._id);
-                        console.log(58554111, roleId, moderProjects, moderProjectsIds);
+                        //  console.log(58554111, roleId, moderProjects, moderProjectsIds);
 
                         requestFilter = requests?.filter((r: any) => {
                             if (r.status === 'CONFIRM' && r.confirmed_by &&
-                                moderProjectsIds?.includes(r.confirmed_by)) {
+                                moderProjectsIds?.includes(r.confirmed_by?._id)) {
                                 return true
                             }
                             return false
@@ -281,11 +296,11 @@ const AmarRequest = () => {
 
                         //let moderProjects = userList?.roles?.includes(roleId?._id);
                         //let moderProjectsIds = moderProjects?.map((r: any) => r._id);
-                        console.log(58554111, roleId, moderProjects, moderProjectsIds);
+                        //  console.log(58554111, roleId, moderProjects, moderProjectsIds);
 
                         requestFilter = requests?.filter((r: any) => {
                             if (r.status === 'CONFIRM' && r.confirmed_by &&
-                                moderProjectsIds?.includes(r.confirmed_by)) {
+                                moderProjectsIds?.includes(r.confirmed_by?._id)) {
                                 return true
                             }
                             return false
@@ -398,12 +413,29 @@ const AmarRequest = () => {
     }
 
     const optionsRequest = [{ id: 1, value: 5 }, { id: 2, value: 10 }, { id: 3, value: 15 }]
+
     const theadRequest = [
-        // { key: 'id', name: 'شناسه' },
-        { key: '_id', name: 'شناسه' },
+
+        { key: 'id', name: 'شناسه' },
+        { key: 'mosafer', name: 'مسافر' },
+        ...([1, 2, 3, 9, 10, 16, 12, 13].includes(reportNum) ? [] : [{ key: 'driver', name: 'راننده' }]),
+
+        ...([18, 9, 1, 2, 16, 12, 13, 6, 11, 8, 10].includes(reportNum) ? [] : [{ key: 'confirmedBy', name: 'تایید توسط' }]),
+
+        ...([18, 9, 1, 3, 6, 11, 8, 10].includes(reportNum) ? [] : [{ key: 'rejectedBy', name: 'رد توسط' }]),
+
+        ...([18, 9, 1, 2, 3, 16, 10, 12, 13].includes(reportNum) ? [] : [{ key: 'dispature', name: 'توزیع کننده' }]),
+
+        { key: 'date', name: 'تاریخ', key2: 'fromdate', type: 'caleadar' },
+        { key: 'fromPlace', name: 'مبدا' },
+        { key: 'toPlace', name: 'مقصد' },
         { key: 'Fr_status', name: 'وضعیت' },
         // { key: 'endBeforeService', name: 'پایان سرویس قبلی', type: 'caleadar', key2: 'todate' },
     ]
+
+    const clickOnRow = (item: any, type: any) => {
+        console.log(20, item, type);
+    }
 
     return (
         <>
@@ -417,6 +449,7 @@ const AmarRequest = () => {
                                     {reportsDetails?.length > 0 &&
 
                                         <DataGrid
+                                            clickOnRow={clickOnRow}
                                             pagesize={optionsRequest[0].value}
                                             items={reportsDetails}
                                             options={optionsRequest}

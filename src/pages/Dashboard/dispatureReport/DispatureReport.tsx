@@ -8,6 +8,7 @@ import useUsers from '../../../hooks/data/useUsers';
 import useRoles from '../../../hooks/data/useRoles';
 import { isArray } from 'lodash';
 import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
+import useMissions from '../../../hooks/data/useMissions';
 
 interface Dispatcher {
     full_name: string;
@@ -40,8 +41,13 @@ const DispatureReport = ({ count, handleShowMore }: any) => {
         initialParams: { status: '', paging: false },
     });
 
-    const { regions }: { regions: Region[] } = useRegions();
-    const { userList }: { userList: User[] } = useUsers();
+    const { missions }: any = useMissions({
+        mode: MODE_AREAL,
+        initialParams: { status: '', paging: false },
+    });
+
+    // const { regions }: { regions: Region[] } = useRegions();
+    const { userList }: { userList: any[] } = useUsers();
 
     useEffect(() => {
 
@@ -54,37 +60,43 @@ const DispatureReport = ({ count, handleShowMore }: any) => {
         let tripCountOfDispature: Record<string, number> = {};
 
         isArray(requests) && requests?.forEach((request: Request) => {
-            let area = request?.area;
-            let submitted_by = request?.submitted_by;
+            // let area = request?.area;
+            let submitted_by: any = request?.submitted_by;
 
-            let isDispature = false;
-            if (submitted_by) {
-                userList?.forEach((user: User) => {
-                    user?.roles?.forEach((role: string) => {
-                        if (user._id === submitted_by && role === '663f7ec2665933a1316d2697') {
-                            isDispature = true;
-                        }
-                    });
-                });
-            }
+            // let isDispature = false;
+            //  if (submitted_by) {
+            //     userList?.forEach((user: User) => {
+            //         user?.roles?.forEach((role: string) => {
+            //             if (user._id === submitted_by && role === '663f7ec2665933a1316d2697') {
+            //                 isDispature = true;
+            //             }
+            //         });
+            //     });
+            // }
 
-            if (isDispature && submitted_by) {
-                tripCountOfDispature[submitted_by] = (tripCountOfDispature[submitted_by] || 0) + 1;
-            }
+            //   if (isDispature && submitted_by) {
+            requestCountForDispature[submitted_by] = (requestCountForDispature[submitted_by] || 0) + 1;
+            //  }
 
-            if (area) {
-                let area_id = area;
-                requestCountForDispature[area_id] = (requestCountForDispature[area_id] || 0) + 1;
-            }
+            // if (area) {
+            //     let area_id = area;
+            //     requestCountForDispature[area_id] = (requestCountForDispature[area_id] || 0) + 1;
+            // }
         });
+
+        isArray(requests) && requests?.forEach((request: Request) => {
+            let submitted_by: any = request?.submitted_by;
+            tripCountOfDispature[submitted_by] = (tripCountOfDispature[submitted_by] || 0) + 1;
+        })
+
 
         let myLable: string[] = [];
         let myData_tripCountOfDispature: number[] = [];
         let myData_requestCountForDispature: number[] = [];
 
         Object.keys(tripCountOfDispature)?.forEach((ite: string) => {
-            let area = regions.find((r: Region) => r._id === ite);
-            let dispatureName = area?.dispatcher?.full_name;
+            let user = userList.find((r: any) => r._id === ite);
+            let dispatureName = user?.full_name;
 
             if (dispatureName && !myLable.includes(dispatureName)) {
                 myLable.push(dispatureName);
@@ -93,8 +105,8 @@ const DispatureReport = ({ count, handleShowMore }: any) => {
         });
 
         Object.keys(requestCountForDispature)?.forEach((ite: string) => {
-            let area = regions.find((r: Region) => r._id === ite);
-            let dispatureName = area?.dispatcher?.full_name;
+            let user = userList.find((r: any) => r._id === ite);
+            let dispatureName = user?.full_name;
 
             if (dispatureName && !myLable.includes(dispatureName)) {
                 myLable.push(dispatureName);
@@ -108,7 +120,7 @@ const DispatureReport = ({ count, handleShowMore }: any) => {
         setChartDataRequest(count && myData_requestCountForDispature.length > count ? myData_requestCountForDispature.slice(0, count) : myData_requestCountForDispature);
         setChartLable(count && myLable.length > count ? myLable.slice(0, count) : myLable);
 
-    }, [requests, regions, userList]);
+    }, [requests, missions, userList]);
 
     const data = {
         labels: chartLable,
@@ -145,10 +157,7 @@ const DispatureReport = ({ count, handleShowMore }: any) => {
             <div className="chart">
                 <div className="row">
                     <div className="col-12">
-                         
-                            <BarChart data={data} />
-                         
-
+                        <BarChart data={data} />
                     </div>
                 </div>
             </div>

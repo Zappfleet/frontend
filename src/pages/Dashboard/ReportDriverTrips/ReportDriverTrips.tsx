@@ -12,7 +12,7 @@ const ReportDriverTrips = () => {
     const [items, setItems] = useState<any[]>([])
     const [fromDate, setFromDate] = useState<any>(moment(new Date()).format('jYYYY/jMM/jDD'));
     const [toDate, setToDate] = useState<any>(moment(new Date()).format('jYYYY/jMM/jDD'));
-    const { missionList, state, refreshData } = useReportCountOfServices("DONE", null, null,'All');
+    const { missionList, state, refreshData } = useReportCountOfServices("DONE", null, null, 'All');
     const options = [{ id: 1, value: 10 }, { id: 2, value: 30 }, { id: 3, value: 50 }]
 
     useEffect(() => {
@@ -31,7 +31,7 @@ const ReportDriverTrips = () => {
 
     const fetchData = () => {
         let k: any = []
-        // console.log(111, missionList.data);
+        //console.log(111, missionList.data);
         missionList.data && missionList.data.map((item: any) => {
             let record = {}
             const date1: any = new Date(item.mission_end)
@@ -59,11 +59,11 @@ const ReportDriverTrips = () => {
                 name: `${item.name}`,
                 // startDate: convertToJalaliDateTiem(item.mission_start),
                 // endDate: convertToJalaliDateTiem(item.mission_end),
-                countOfServices: convertEnglishToPersianDigits((item.countOfServices).toString()),
+                countOfServices: (item.countOfServices).toString(),
                 star: convertEnglishToPersianDigits(commentcount > 0 ? `${commentRate / commentcount} از 5 (${commentcount})` : '--')
             }
 
-            k.push(record)
+            item?.name && k.push(record)
         })
         //  console.log(500, items, items.slice(0, 2));
         setItems(k)
@@ -71,10 +71,15 @@ const ReportDriverTrips = () => {
 
 
     const thead = [
+
         { key: 'name', name: 'راننده' },
         { key: 'countOfServices', name: 'مجموع سفرها' },
         { key: 'star', name: 'میزان رضایت از راننده' },
     ]
+
+    const clickOnRow = (item: any, type: any) => {
+        console.log(20, item, type);
+    }
 
     return (
         <div className='ReportDriverTrips-component'>
@@ -87,14 +92,15 @@ const ReportDriverTrips = () => {
             </div>
             <div className="row">
                 <div className="col-12">
-                     
-                        <DataGrid
-                            pagesize={options[0].value}
-                            items={items}
-                            options={options}
-                            thead={thead}
-                        />
-                     
+
+                    <DataGrid
+                        clickOnRow={clickOnRow}
+                        pagesize={options[0].value}
+                        items={items}
+                        options={options}
+                        thead={thead}
+                    />
+
 
                 </div>
             </div>

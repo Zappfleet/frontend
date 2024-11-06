@@ -29,7 +29,7 @@ const BarChart = ({ title, data }: any) => {
 
     const options: any = {
         responsive: true,
-        indexAxis: 'y', // جابجایی محور X و Y برای ایجاد نمودار افقی
+        indexAxis: 'x', // جابجایی محور X و Y برای ایجاد نمودار افقی
         plugins: {
             legend: {
                 position: 'bottom',

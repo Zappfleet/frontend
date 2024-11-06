@@ -4,7 +4,7 @@ import PieChart from '../../../components/Charts/PieChart/PieChart';
 import { MODE_AREAL } from '../../../lib/constants';
 import useRequests from '../../../hooks/data/useRequests';
 import useRegions from '../../../hooks/data/useRegions';
-import { isArray } from 'lodash';
+import { concat, isArray } from 'lodash';
 import ErrorBoundary from '../../../components/ErrorBoundary/ErrorBoundary';
 
 
@@ -24,7 +24,7 @@ const DarkhasthayeTafkikShode = () => {
 
     useEffect(() => {
 
-        console.log(75, activeItem);
+        // console.log(75, activeItem);
 
         let resCount: any = {}
 
@@ -38,10 +38,14 @@ const DarkhasthayeTafkikShode = () => {
             })
         }
         if (activeItem === 'مرکز هزینه') {
+            console.log(7888);
+            
             isArray(requests) && requests?.map((request: any) => {
-                let date: any = request?.details?.costCenter
+                let date: any = request?.details?.cost_center_desc
                 if (date) {
-                    let id: any = date?.DES_CC
+                    console.log(45,date);
+                    
+                    let id: any = date
                     resCount[id] = resCount[id] ? resCount[id] + 1 : 1
                 }
             })
@@ -52,7 +56,7 @@ const DarkhasthayeTafkikShode = () => {
         Object.keys(resCount).map((ite: any) => {
             if (activeItem === 'محدوده') {
                 let p: any = regions?.filter((r: any) => r._id === ite)[0]
-                myLable.push(p?.name)
+                myLable.push((p?.name) ? p?.name : 'نامشخص')
             }
             else {
                 myLable.push(ite)
@@ -60,12 +64,26 @@ const DarkhasthayeTafkikShode = () => {
             myData.push(resCount[ite])
         })
 
+        console.log(41, myData, myLable);
+
         setChartData(myData)
         setChartLable(myLable)
     }, [requests, activeItem, regions])
 
 
+    function getRandomColor() {
+        // تولید یک رنگ تصادفی در فرمت hex
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+    const backgroundColors = concat(['#8C72DD', '#52C8FD',], chartLable.map(() => getRandomColor())); // تولید رنگ‌های تصادفی برای هر فیلد
+    const borderColors = backgroundColors; // استفاده از همان رنگ‌ها برای حاشیه
 
+    console.log(backgroundColors);
 
     const data: any = {
         labels: chartLable,//['فولاد مبارکه', 'اصفهان'],
@@ -73,14 +91,17 @@ const DarkhasthayeTafkikShode = () => {
             {
                 label: 'تعداد',
                 data: chartData,//[23, 100],
-                backgroundColor: [
-                    '#8C72DD',
-                    '#52C8FD',
-                ],
-                borderColor: [
-                    '#8C72DD',
-                    '#52C8FD',
-                ],
+                backgroundColor: backgroundColors, // رنگ‌های پس‌زمینه برای هر فیلد
+                borderColor: borderColors, // رنگ‌های حاشیه برای هر فیلد
+                // backgroundColor: [
+                //     '#8C72DD',
+                //     '#52C8FD',
+
+                // ],
+                // borderColor: [
+                //     '#8C72DD',
+                //     '#52C8FD',
+                // ],
                 borderWidth: 1,
             },
         ],
@@ -89,8 +110,8 @@ const DarkhasthayeTafkikShode = () => {
 
 
     const listItems = () => {
-        let result = items.map((item: any) => {
-            return <span onClick={() => setActiveItem(item)} className={`my-span ${activeItem === item ? 'active' : ''}`}>{item}</span>
+        let result = items.map((item: any, index: any) => {
+            return <span key={index} onClick={() => setActiveItem(item)} className={`my-span ${activeItem === item ? 'active' : ''}`}>{item}</span>
         })
         return result
     }
@@ -115,10 +136,10 @@ const DarkhasthayeTafkikShode = () => {
                 <div className="row">
                     <div className="col-12">
                         <div className="piechart">
-                             
-                                 <PieChart data={data} />
-                             
-                           
+
+                            <PieChart data={data} />
+
+
                         </div>
 
                     </div>
