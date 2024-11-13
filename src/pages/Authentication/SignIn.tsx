@@ -24,6 +24,7 @@ const validationRules = {
 };
 
 const SignIn = () => {
+
   const signinFormRef = useRef<any>();
 
   const { validate, errors }: any = useValidation(validationRules);
@@ -51,13 +52,13 @@ const SignIn = () => {
 
     if (isInvalid) return;
 
-    console.log(8);
+    //console.log(8);
 
     setUi({ isLoading: true });
     getApiClient()
       .login(formData)
       .then(({ data }) => {
-        console.log(99, data);
+     //   console.log(99, data);
 
         storeTokens(data);
         NotificationController.showSuccess(data.message);
@@ -71,7 +72,7 @@ const SignIn = () => {
       });
   }
 
-  console.log(22, LOGIN_TITLE);
+  //console.log(22, LOGIN_TITLE);
 
   return (
     <>

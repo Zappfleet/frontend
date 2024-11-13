@@ -73,6 +73,12 @@ class ApiClient {
     return this.axiosInstance.get(`/api/v2/roles/permissions`);
   }
 
+
+  async loginWithIrisaSSO(body: any) {
+     console.log('sso 2', body);
+    return this.axiosInstance.post(`/api/v2/users/SSO_Irisa_Auth`, body);
+  }
+
   async login(body: any) {
     // console.log(1000, "/api/v2/users/sign-in");
 

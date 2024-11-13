@@ -159,7 +159,7 @@ const AmarRequest = () => {
                 case 13:
                     //  console.log(58554111, userRoles, userList);
                     roleId = userRoles?.roles?.filter((r: any) => r.title === DB_ROLE_ADMIN_TITLE)
-                    console.log(44, roleId);
+                  //  console.log(44, roleId);
 
                     // بررسی اینکه آیا هر کاربر در userList نقش 'مدیر سیستم' را دارد
                     if (roleId && roleId[0]) {

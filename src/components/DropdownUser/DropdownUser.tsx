@@ -23,7 +23,7 @@ const DropdownUser = () => {
   useEffect(() => {
     if (authInfo && userList) {
       const user = userList?.filter((ite: any) => ite._id === authInfo?.auth?._id)
-      console.log(44, user);
+      //console.log(44, user);
       setFullName(user[0]?.full_name)
     }
   }, [authInfo])

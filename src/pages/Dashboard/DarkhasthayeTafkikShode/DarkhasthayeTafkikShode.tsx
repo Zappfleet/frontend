@@ -64,7 +64,7 @@ const DarkhasthayeTafkikShode = () => {
             myData.push(resCount[ite])
         })
 
-        console.log(41, myData, myLable);
+       // console.log(41, myData, myLable);
 
         setChartData(myData)
         setChartLable(myLable)
@@ -83,7 +83,7 @@ const DarkhasthayeTafkikShode = () => {
     const backgroundColors = concat(['#8C72DD', '#52C8FD',], chartLable.map(() => getRandomColor())); // تولید رنگ‌های تصادفی برای هر فیلد
     const borderColors = backgroundColors; // استفاده از همان رنگ‌ها برای حاشیه
 
-    console.log(backgroundColors);
+   // console.log(backgroundColors);
 
     const data: any = {
         labels: chartLable,//['فولاد مبارکه', 'اصفهان'],

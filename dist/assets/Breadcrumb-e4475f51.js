@@ -1,1 +1,0 @@
-import{c}from"./index-4b638fea.js";const s=({pageName:e})=>c("div",{className:"Breadcrumb-component",children:c("div",{className:"row",children:c("div",{className:"col-12 col-md-12",children:c("span",{className:"page-title",children:c("i",{children:e})})})})});export{s as B};

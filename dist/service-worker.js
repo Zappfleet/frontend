@@ -9,6 +9,7 @@ self.addEventListener('install', (event) => {
   });
   
   self.addEventListener('fetch', (event) => {
-    console.log('Fetching:', event.request.url);
+    //sgh
+    //console.log('Fetching:', event.request.url);
   });
   

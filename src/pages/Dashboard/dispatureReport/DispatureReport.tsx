@@ -95,7 +95,7 @@ const DispatureReport = ({ count, handleShowMore }: any) => {
         let myData_requestCountForDispature: number[] = [];
 
         Object.keys(tripCountOfDispature)?.forEach((ite: string) => {
-            let user = userList.find((r: any) => r._id === ite);
+            let user = userList?.find((r: any) => r._id === ite);
             let dispatureName = user?.full_name;
 
             if (dispatureName && !myLable.includes(dispatureName)) {
@@ -105,7 +105,7 @@ const DispatureReport = ({ count, handleShowMore }: any) => {
         });
 
         Object.keys(requestCountForDispature)?.forEach((ite: string) => {
-            let user = userList.find((r: any) => r._id === ite);
+            let user = userList?.find((r: any) => r._id === ite);
             let dispatureName = user?.full_name;
 
             if (dispatureName && !myLable.includes(dispatureName)) {

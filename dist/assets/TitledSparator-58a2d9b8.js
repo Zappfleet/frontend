@@ -1,0 +1,1 @@
+import{j as a,c as n}from"./index-0b0339af.js";const i=s=>a("div",{children:[n("span",{}),a("span",{children:[n("span",{children:s.title}),n("span",{children:s.icon})]}),n("span",{})]});export{i as T};

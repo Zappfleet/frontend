@@ -1,1 +1,0 @@
-import{c as t,a4 as r}from"./index-4b638fea.js";import{R as o}from"./RequestHistory-82d85458.js";import"./useItemSetToggle-3f1f039f.js";import"./comments-4f6f4135.js";import"./Comments-e27f0d40.js";import"./useComments-8eb5e44a.js";function n(){return t("div",{children:t(o,{mode:r})})}export{n as default};

@@ -7,6 +7,8 @@ export function AndroidClientExists() {
 }
 
 export function storeTokens(data: any) {
+    console.log(300, data.bearer_token);
+
     localStorage.setItem(KEY_BEARER_TOKEN, data.bearer_token);
     localStorage.setItem(KEY_REFRESH_TOKEN, data.refresh_token);
 
