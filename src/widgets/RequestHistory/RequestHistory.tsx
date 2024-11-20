@@ -77,16 +77,16 @@ export default function RequestHistory(props: any = {}) {
     const { missionList: missionListDONEStatus } = useMissions_by_StatusAndDriverID("", null);
 
     useEffect(() => {
-        console.log(74, mode, requests);
+        console.log(74, mode,requests?.docs?.length, requests);
         setindexOfLastItem(currentPage * itemsPerPage)
         setindexOfFirstItem((currentPage * itemsPerPage) - itemsPerPage)
         // محاسبه آیتم‌های صفحه فعلی
         // const indexOfLastItem = currentPage * itemsPerPage;
         // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-        requests?.docs?.length > 0 &&
+        requests?.docs?.length && requests?.docs?.length > 0 ?
             setCurrentItems(requests?.docs?.slice(indexOfFirstItem, indexOfLastItem))
-        // :
-        //  setCurrentItems(requests?.slice(indexOfFirstItem, indexOfLastItem))
+         :
+          setCurrentItems(requests?.slice(indexOfFirstItem, indexOfLastItem))
 
     }, [requests, currentPage])
 
@@ -275,6 +275,7 @@ export default function RequestHistory(props: any = {}) {
              options={options}
              thead={thead}
          /> */}
+                    {/* {currentItems && console.log(1020,requests,currentItems) } */}
                     {currentItems?.length == 0 && <p> موردی برای نمایش وجود ندارد</p>}
                     {currentItems?.length > 0 &&
                         <div className="col-12 have-table">
