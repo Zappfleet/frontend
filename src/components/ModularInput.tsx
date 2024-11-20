@@ -20,7 +20,7 @@ import { useEffect, useState } from 'react';
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 export function ModularInput(props: any) {
-  //console.log(40044,props);
+ // console.log(40044,props);
 
   const { authInfo } = useAuthentication();
   const [minDate, setMinDate] = useState<any>(null)

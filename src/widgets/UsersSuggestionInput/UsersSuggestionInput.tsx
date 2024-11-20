@@ -31,8 +31,7 @@ export default function UsersSuggestionInput(props: any) {
 
 
   useEffect(() => {
-    console.log(56200, fetchUserData);
-
+    //  console.log(56200, fetchUserData);
   }, [fetchUserData])
 
   const innerState = useState<any>(props.value || []);
@@ -138,13 +137,13 @@ export function UserSelectionRender({
   highlights,
 }: any) {
 
-  const ListLast: any = list ? Array.isArray(list) && list.length > 0 ? list : [{}] : []
+  const ListLast: any = list ? Array.isArray(list) && list.length > 0 ? list : [] : []
   return (
     <>
       <div className="UsersSuggestionInput-component">
         <div className='selected-user'>
-          {console.log(102, ListLast)}
-          {ListLast?.map((user: any) => {
+          {console.log(102, ListLast?.length)}
+          {ListLast?.length > 0 && ListLast?.map((user: any) => {
             return (
               <Chips
                 className={classNames('duration-300', {

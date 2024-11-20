@@ -244,7 +244,7 @@ export default function useCreateTripModal() {
   };
 
   const handle_submitOverride = (requestBody: any, requestId: any) => {
-    console.log(5);
+   // console.log(5);
 
     //take no action
   };

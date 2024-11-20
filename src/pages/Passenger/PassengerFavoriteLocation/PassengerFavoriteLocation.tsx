@@ -176,7 +176,15 @@ const PassengerFavoriteLocation = () => {
         setIs_Update(true)
     }
 
+    const handleEyeFavorite = (item: any) => {
 
+        setActionType('select')
+        setRefresh(!refresh)
+        const [lng, lat] = item?.location?.coordinates
+        mapRef.current?.viewCoordinates(lng, lat, 16)
+        console.log(3, lng, item);
+
+    }
 
     return (
         <div className="PassengerFavoriteLocation-component">
@@ -187,6 +195,7 @@ const PassengerFavoriteLocation = () => {
                             favoriteLocationList?.map((item: any) => {
                                 return <div className='favorite-name'>
                                     {item.name}
+                                    <i onClick={(e) => handleEyeFavorite(item)} className='fa fa-eye eye-icon'></i>
                                     <i onClick={(e) => handleRemoveFavorite(item)} className='fa fa-remove remove-icon'></i>
                                     <i onClick={(e) => handleEditFavorite(item)} className='fa fa-edit edit-icon'></i>
                                 </div>
@@ -201,21 +210,21 @@ const PassengerFavoriteLocation = () => {
                         <div className="row">
                             <div className="col-12">
                                 <div className="location-div">
-                                     
-                                        <MapContainer mapRef={mapRef as { current: MapRefType }} />
 
-                                     
+                                    <MapContainer mapRef={mapRef as { current: MapRefType }} />
+
+
                                     <div className="marker-div">
                                         <i className='fa fa-map-marker marker-icon'></i>
                                         <span>منتخب</span>
                                     </div>
 
-                                     
-                                        <LocationSearch
-                                            mapRef={mapRef}
-                                            className="loc-search"
-                                        />
-                                     
+
+                                    <LocationSearch
+                                        mapRef={mapRef}
+                                        className="loc-search"
+                                    />
+
 
 
                                     <i onClick={handle_clickPin} className='fa fa-check check-icon'></i>

@@ -128,7 +128,7 @@ const RequestManagment = () => {
     let count = 0
     draftMission?.data?.service_requests?.map((item: any) => {
       console.log(20, item, item?.request?.details?.userlist?.length);
-      count += item?.request?.details?.userlist?.length;
+      count += item?.request?.details?.userlist?.length + 1;
     })
     setCountOfPassengerInDraft(count)
     /// console.log(230, count);
@@ -356,8 +356,14 @@ const RequestManagment = () => {
                   <div className="relative flex items-center border-b border-gray-2">
                     <div className="flex flex-col">
                       <span className="text-primary">
-                        {request.submitted_by?.full_name}
+                        {request.submitted_by?.full_name && console.log(41, request)}
+                        <i> {request.submitted_by?.full_name}</i>
+                        {request?.details?.userlist?.map((user: any) => {
+                          return <><br /><i> {user?.full_name}</i></>
+                        })}
+
                       </span>
+                      <br />
                       <span className="text-xs">
                         {findText(request.service, vehicleBasicData.services)}
                       </span>

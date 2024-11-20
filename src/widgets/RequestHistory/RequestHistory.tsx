@@ -83,7 +83,10 @@ export default function RequestHistory(props: any = {}) {
         // محاسبه آیتم‌های صفحه فعلی
         // const indexOfLastItem = currentPage * itemsPerPage;
         // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-        requests?.length > 0 && setCurrentItems(requests?.slice(indexOfFirstItem, indexOfLastItem))
+        requests?.docs?.length > 0 &&
+            setCurrentItems(requests?.docs?.slice(indexOfFirstItem, indexOfLastItem))
+        // :
+        //  setCurrentItems(requests?.slice(indexOfFirstItem, indexOfLastItem))
 
     }, [requests, currentPage])
 
@@ -272,7 +275,7 @@ export default function RequestHistory(props: any = {}) {
              options={options}
              thead={thead}
          /> */}
-
+                    {currentItems?.length == 0 && <p> موردی برای نمایش وجود ندارد</p>}
                     {currentItems?.length > 0 &&
                         <div className="col-12 have-table">
                             <table className='table table-hover'>

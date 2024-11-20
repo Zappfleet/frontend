@@ -1,7 +1,7 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import ECommerce from './pages/Dashboard/Dashboard';
+import DefaultPage from './pages/TripMission/TripMission';
 import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
 import Loader from './common/Loader';
@@ -35,7 +35,7 @@ function App() {
             <Route path="/auth/signin" element={<ErrorBoundary><SignIn /></ErrorBoundary>} />
             <Route path="/auth/signup" element={<ErrorBoundary><SignUp /></ErrorBoundary>} />
             <Route element={<DefaultLayout />}>
-              <Route index element={<ErrorBoundary><ECommerce /></ErrorBoundary>} />
+              <Route index element={<ErrorBoundary><DefaultPage /></ErrorBoundary>} />
               {routes
                 .filter(({ path }) => {
                   return navigatioMenu?.find(({ href }: any) => {

@@ -62,10 +62,7 @@ export default function Reports() {
     }
   };
 
-  useEffect(() => {
-    console.log(5);
-
-  })
+  
 
   const [showDivDetailsRequest, setShowDivDetailsRequest] = useState<boolean>(false)
 

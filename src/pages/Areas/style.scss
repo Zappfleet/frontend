@@ -20,9 +20,25 @@
         padding: 10px;
     }
 
-    .areas-list-div{
+    .area-btn {
+        top: 91px;
         position: absolute;
-        top: 10px;
+        padding: 15px;
+
+        .icon-remove {
+            font-size: 14px;
+            color: black;
+        }
+    }
+
+    .area-btn-trash {
+        top: 137px;
+    }
+
+
+    .areas-list-div {
+        position: absolute;
+        top: 80px;
         left: 10px;
         min-width: 200px;
         min-height: 250px;

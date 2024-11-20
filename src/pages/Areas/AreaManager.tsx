@@ -152,6 +152,9 @@ const AreaManager = () => {
     }
 
     const handle_listItemClick = (region: any) => {
+
+       // console.log(101,region);
+        
         clearActiveAreaGeo();
         setState({ ...state, displayAreaList: false });
         fillFormInputs(formRef, {
@@ -232,6 +235,9 @@ const AreaManager = () => {
     }
 
     function updateActivePolygon() {
+
+        console.log(102,activeAreaRef.current.markers[0].coordinates[0]);
+        
         if (activeAreaRef.current.polygonLayer != null) {
             mapRef.current.remove(activeAreaRef.current.polygonLayer.polygon)
             activeAreaRef.current.polygonLayer = null;
@@ -240,6 +246,9 @@ const AreaManager = () => {
             const polygonLayer = mapRef.current.addPolygon(activeAreaRef.current.markers.map((m: any) => {
                 return m.coordinates
             }), true, "3, 252, 115");
+
+            mapRef.current?.viewCoordinates(activeAreaRef.current.markers[0].coordinates[0],
+                activeAreaRef.current.markers[0].coordinates[1],10)
             activeAreaRef.current.polygonLayer = polygonLayer;
         }
 
@@ -277,21 +286,21 @@ const AreaManager = () => {
                 <i onClick={handle_toggleDisplayList} className='fa fa-bars btn-bars'></i>
 
                 {renderUi(
-                    <button onClick={handle_clearEverything} className='fixed right-2 lg:right-75 top-40 shadow bg-white active:saturate-50 w-14 h-14 p-3 flex justify-center items-center text-white p-3 rounded-full'>
-                        <BiX className={"text-graydark "} size={40} />
+                    <button onClick={handle_clearEverything} className='area-btn shadow bg-white active:saturate-50 flex justify-center items-center rounded-full'>
+                        <i className='fa fa-remove icon-remove'></i>
                     </button>
                 ).if(data.region != null)}
 
                 {renderUi(
                     <>
                         {permission_DELETE === true &&
-                            <button onClick={handle_deleteSelection} className='fixed right-2 lg:right-75 top-60 shadow bg-white active:saturate-50 w-14 h-14 p-3 flex justify-center items-center text-white p-3 rounded-full'>
-                                <BiTrash className={"text-danger "} size={40} />
+                            <button onClick={handle_deleteSelection} className='area-btn area-btn-trash  shadow bg-white active:saturate-50 flex justify-center items-center rounded-full'>
+                                <i className='fa fa-trash text-danger'></i>
                             </button>
                         }
                         {permission_DELETE === false &&
-                            <button disabled={true} className='NoPermission fixed right-2 lg:right-75 top-60 shadow bg-white active:saturate-50 w-14 h-14 p-3 flex justify-center items-center text-white p-3 rounded-full'>
-                                <BiTrash className={"text-danger "} size={40} />
+                            <button disabled={true} className='NoPermission area-btn area-btn-trash  shadow bg-white active:saturate-50 flex justify-center items-center rounded-full'>
+                                <i className='fa fa-trash text-danger'></i>
                             </button>
                         }
                     </>
@@ -325,7 +334,7 @@ const AreaManager = () => {
                 </div>
 
 
-                <div className='fixed bottom-0 right-0 flex flex-col p-4 justify-between items-center lg:mr-72'>
+                <div className='absolute bottom-0 right-0 flex flex-col p-4 justify-between items-center'>
 
                     {permission_SUBMIT === true &&
                         <button onClick={handle_showBottomSheet} className={

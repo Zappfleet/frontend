@@ -116,7 +116,7 @@ class ApiClient {
     search_all?: boolean
   ) {
 
-    console.log(4588888);
+    //console.log(4588888);
     
     return this.axiosInstance.get('/api/v2/users/permission-filter', {
       params: {

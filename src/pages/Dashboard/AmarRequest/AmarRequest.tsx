@@ -159,7 +159,7 @@ const AmarRequest = () => {
                 case 13:
                     //  console.log(58554111, userRoles, userList);
                     roleId = userRoles?.roles?.filter((r: any) => r.title === DB_ROLE_ADMIN_TITLE)
-                  //  console.log(44, roleId);
+                    //  console.log(44, roleId);
 
                     // بررسی اینکه آیا هر کاربر در userList نقش 'مدیر سیستم' را دارد
                     if (roleId && roleId[0]) {
@@ -418,6 +418,7 @@ const AmarRequest = () => {
 
         { key: 'id', name: 'شناسه' },
         { key: 'mosafer', name: 'مسافر' },
+        { key: 'managerOfProject', name:'مدیر پروژه'},
         ...([1, 2, 3, 9, 10, 16, 12, 13].includes(reportNum) ? [] : [{ key: 'driver', name: 'راننده' }]),
 
         ...([18, 9, 1, 2, 16, 12, 13, 6, 11, 8, 10].includes(reportNum) ? [] : [{ key: 'confirmedBy', name: 'تایید توسط' }]),

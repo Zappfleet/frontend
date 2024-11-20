@@ -30,8 +30,8 @@ type MapContainerProps = {
 }
 
 const MapContainer = forwardRef<MapRefType, MapContainerProps>((props, ref) => {
-    console.log(6);
-    
+    // console.log(6);
+
     const [markers, setMarkers] = useState<Feature[]>([]);
     const mapRef = useRef<{ ol: Ol, map: OlMap } | null>(null);
 
@@ -208,8 +208,8 @@ const MapContainer = forwardRef<MapRefType, MapContainerProps>((props, ref) => {
     }
 
     function viewCoordinates(lng: number, lat: number, zoom = 12) {
-        console.log(777777,lng,lat,zoom);
-        
+        console.log(777777, lng, lat, zoom);
+
         if (!mapRef.current) return;
         const { ol, map } = mapRef.current;
         const view = map.getView();
@@ -250,17 +250,53 @@ const MapContainer = forwardRef<MapRefType, MapContainerProps>((props, ref) => {
         getCenterLonLat
     }), [mapRef.current]);
 
+    const [zoomLevel, setZoomLevel] = useState(16); // مقدار اولیه زوم
+
+    const increaseZoom = () => {
+        console.log(7777);
+
+        setZoomLevel(prevZoom => Math.min(prevZoom + 1, 18)); // محدودیت زوم به 18
+    };
+
+    const decreaseZoom = () => {
+        setZoomLevel(prevZoom => Math.max(prevZoom - 1, 1)); // محدودیت زوم به 1
+    };
+
+    useEffect(() => {
+        if (!mapRef.current) return;
+        const { ol, map } = mapRef.current;
+        const view = map.getView();
+        view.setZoom(zoomLevel); // به‌روزرسانی زوم با مقدار جدید
+    }, [zoomLevel]);
+
+
     return (
-         
+
+        <div className="map_first_div">
             <NeshanMap
                 style={{ zIndex: 1, height: "100%", width: "100%", pointerEvents: props.freeze ? "none" : 'all' }}
                 center={{ latitude: DEFAULT_LATITUDE, longitude: DEFAULT_LONGITUDE }}
-                zoom={16}
+                zoom={zoomLevel}
                 mapKey={NeshanMapKey}
                 onInit={onInit}
-            >
-            </NeshanMap>
-         
+            />
+
+            {/* دکمه‌های کنترل زوم */}
+            <div className="div_zoom">
+                <i  onClick={increaseZoom}>+</i>
+                <br/>
+                <i className="i2"  onClick={decreaseZoom}>-</i>
+            </div>
+        </div>
+        // <NeshanMap
+        //     style={{ zIndex: 1, height: "100%", width: "100%", pointerEvents: props.freeze ? "none" : 'all' }}
+        //     center={{ latitude: DEFAULT_LATITUDE, longitude: DEFAULT_LONGITUDE }}
+        //     zoom={16}
+        //     mapKey={NeshanMapKey}
+        //     onInit={onInit}
+        // >
+        // </NeshanMap>
+
     );
 });
 

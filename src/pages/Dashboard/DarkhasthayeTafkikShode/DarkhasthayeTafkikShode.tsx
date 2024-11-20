@@ -41,7 +41,7 @@ const DarkhasthayeTafkikShode = () => {
             console.log(7888);
             
             isArray(requests) && requests?.map((request: any) => {
-                let date: any = request?.details?.cost_center_desc
+                let date: any = request?.details?.costCenter?.DES_CC
                 if (date) {
                     console.log(45,date);
                     
